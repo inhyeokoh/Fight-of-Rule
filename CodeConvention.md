@@ -390,4 +390,10 @@
   
   **4. 한 개의 명령문(;)이 길어지면 줄바꿈**
   
+
+  **5. 모든 스크립트는 Assets/Scripts 폴더 산하에서 관리할 것**
+
+  **6. 모든 리소스(Animation, Animator, Prefab 등등)은 Assets/Resources 폴더 산하에서 관리할 것**
+
+  **7. 모든 쉐이더(.shader, .hlsl 등등)은 Assets/shader 폴더 산하에서 관리할 것**
   </details>
