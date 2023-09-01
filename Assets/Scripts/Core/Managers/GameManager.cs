@@ -67,8 +67,8 @@ public class GameManager : MonoBehaviour
         //등록하는 순서가 중요할 수 있음
         _managers = new List<SubClass<GameManager>>()
         {
-            _resources,
             _pool,
+            _resources,
             _networkManager,
         };
 
