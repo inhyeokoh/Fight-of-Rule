@@ -13,14 +13,24 @@ public class StateMachine<T> where T : class
         this.ownerEntity = ownerEntity;
         currentState = null;
         previousState = null;
-       
+        
         ChangeState(entryState);
     }
 
+    public void FixedStay()
+    {
+        if (currentState != null)
+        {
+            currentState.FixedStay(ownerEntity);
+        }
+    }
     public void Stay()
     {
         if (currentState != null)
+        {
             currentState.Stay(ownerEntity);
+        }
+           
     }
     
     public void ChangeState(State<T> newState)
@@ -30,10 +40,12 @@ public class StateMachine<T> where T : class
             return;
         }   
             
-        if (currentState.GetType() == typeof(WarriorOwnedState.Avoid))
+      /*  if (currentState != null && 
+            currentState.GetType() == typeof(WarriorOwnedState.Avoid))
         {
+            Debug.Log("이미 회피하는중");
             return;
-        }
+        }*/
 
         if (currentState != null)
         {
@@ -41,7 +53,8 @@ public class StateMachine<T> where T : class
             currentState.Exit(ownerEntity);
         }
 
-        currentState = newState;        
+        currentState = newState;
+        Debug.Log($"현재 상태 : {currentState}");
         currentState.Enter(ownerEntity);      
     }
 

@@ -14,6 +14,9 @@ public abstract class BaseGameEntity : MonoBehaviour
     }
 
 
+
+    public abstract void FixedUpdated();
+
     /// <summary>
     /// GameController에 있는 모든 클래스들 업데이트로 구동
     /// </summary>

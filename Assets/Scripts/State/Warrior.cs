@@ -18,8 +18,16 @@ public class Warrior : BaseGameEntity
     private int hp;
     private int damage;
     private int defense;
-    private int speed;
+    private int speed = 20;
     private Enum_WarriorState warriorState;
+
+    public Animator animator;
+
+    [SerializeField]
+    private Vector3 inputVec;
+
+    [SerializeField]
+    private Rigidbody rigid;
 
 
     public int HP
@@ -78,11 +86,26 @@ public class Warrior : BaseGameEntity
             warriorState = value;
         }
     }
+    public Vector3 InputVec
+    {
+        get
+        {
+            return inputVec;
+        }
+        set
+        {
+            inputVec = value;
+        }
+    }
+    public Rigidbody Rigid { get { return rigid; } set { rigid = value; } }
 
 
+  
 
     private State<Warrior>[] states;
     private StateMachine<Warrior> stateMachine;
+
+    
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -105,11 +128,12 @@ public class Warrior : BaseGameEntity
     {
         base.Setup(name);
 
-        states = new State<Warrior>[6];
+        states = new State<Warrior>[7];
         states[(int)Enum_WarriorState.Idle] = new WarriorOwnedState.Idle();
         states[(int)Enum_WarriorState.Move] = new WarriorOwnedState.Move();
         states[(int)Enum_WarriorState.SkillAction] = new WarriorOwnedState.SkillAction();
         states[(int)Enum_WarriorState.Avoid] = new WarriorOwnedState.Avoid();
+        states[(int)Enum_WarriorState.Hit] = new WarriorOwnedState.Hit();
         states[(int)Enum_WarriorState.Fall] = new WarriorOwnedState.Fall();
         states[(int)Enum_WarriorState.Die] = new WarriorOwnedState.Die();
 
@@ -118,8 +142,13 @@ public class Warrior : BaseGameEntity
         stateMachine.Setup(this, states[(int)Enum_WarriorState.Idle]);
     }
 
+    public override void FixedUpdated()
+    {
+        stateMachine.FixedStay();
+    }
     public override void Updated()
     {
+
         stateMachine.Stay();
     }
 
