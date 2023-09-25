@@ -30,6 +30,9 @@ public class Warrior : BaseGameEntity
     public Animator animator;
 
     [SerializeField]
+    private WarriorSkill warriorSkill;
+
+    [SerializeField]
     private Vector3 inputVec;
 
 
@@ -138,13 +141,11 @@ public class Warrior : BaseGameEntity
 
     private void OnCollisionEnter(Collision collision)
     {
-       /* if (collision.gameObject.tag == "Monster" || collision.gameObject.tag == "Boss")
-        {
-            ChangeState(Enum_WarriorState.Fall);
-        }*/
-            
-            
-
+        /* if (collision.gameObject.tag == "Monster" || collision.gameObject.tag == "Boss")
+         {
+             warriorSkill.StopAllCoroutines();
+             ChangeState(Enum_WarriorState.Fall);
+         }*/
     }
 
     private void OnTriggerEnter(Collider other)
@@ -170,7 +171,19 @@ public class Warrior : BaseGameEntity
         states[(int)Enum_WarriorState.Fall] = new WarriorOwnedState.Fall();
         states[(int)Enum_WarriorState.Die] = new WarriorOwnedState.Die();
 
+        WarriorOwnedState.SkillActionQ inputQ = (WarriorOwnedState.SkillActionQ)states[(int)Enum_WarriorState.SkillActionQ];
+        WarriorOwnedState.SkillActionW inputW = (WarriorOwnedState.SkillActionW)states[(int)Enum_WarriorState.SkillActionW];
+        WarriorOwnedState.SkillActionE inputE = (WarriorOwnedState.SkillActionE)states[(int)Enum_WarriorState.SkillActionE];
+        WarriorOwnedState.SkillActionR inputR = (WarriorOwnedState.SkillActionR)states[(int)Enum_WarriorState.SkillActionR];
+
+        inputQ.InputQ += warriorSkill.Skill0;
+        inputW.InputW += warriorSkill.Skill1;
+        inputE.InputE += warriorSkill.Skill2;
+        inputR.InputR += warriorSkill.Skill3;
+
         stateMachine = new StateMachine<Warrior>();
+
+        
 
         stateMachine.Setup(this, states[(int)Enum_WarriorState.Idle]);
     }

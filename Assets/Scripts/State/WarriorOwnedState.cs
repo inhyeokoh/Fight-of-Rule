@@ -110,13 +110,11 @@ namespace WarriorOwnedState
 
     public class SkillActionQ : State<Warrior>
     {
-        public event Action<Warrior> InputQ;
+        public event Action<Warrior> InputQ = null;
         
         public override void Enter(Warrior entity)
         {
-           //스킬 액션들을 넣을만 스킬들을 넣여야 하는데
-           //스킬 배열을 만들어서 거기에다 함수들을 저장해서 이벤트로 해야되나
-           //지금 매우 고민중 어떻게해야할지
+            InputQ?.Invoke(entity);
         }
 
         public override void Exit(Warrior entity)
@@ -136,13 +134,11 @@ namespace WarriorOwnedState
     }
     public class SkillActionW : State<Warrior>
     {
-        public event Action InputW;
+        public event Action<Warrior> InputW = null;
 
         public override void Enter(Warrior entity)
         {
-            //스킬 액션들을 넣을만 스킬들을 넣여야 하는데
-            //스킬 배열을 만들어서 거기에다 함수들을 저장해서 이벤트로 해야되나
-            //지금 매우 고민중 어떻게해야할지
+            InputW?.Invoke(entity);
         }
 
         public override void Exit(Warrior entity)
@@ -163,13 +159,11 @@ namespace WarriorOwnedState
     public class SkillActionE : State<Warrior>
     {
 
-        public event Action InputE;
+        public event Action<Warrior> InputE = null;
 
         public override void Enter(Warrior entity)
         {
-            //스킬 액션들을 넣을만 스킬들을 넣여야 하는데
-            //스킬 배열을 만들어서 거기에다 함수들을 저장해서 이벤트로 해야되나
-            //지금 매우 고민중 어떻게해야할지
+            InputE?.Invoke(entity);
         }
 
         public override void Exit(Warrior entity)
@@ -190,12 +184,11 @@ namespace WarriorOwnedState
     public class SkillActionR : State<Warrior>
     {
 
-        public event Action InputR;
+        public event Action<Warrior> InputR = null;
+
         public override void Enter(Warrior entity)
         {
-            //스킬 액션들을 넣을만 스킬들을 넣여야 하는데
-            //스킬 배열을 만들어서 거기에다 함수들을 저장해서 이벤트로 해야되나
-            //지금 매우 고민중 어떻게해야할지
+            InputR?.Invoke(entity);
         }
 
         public override void Exit(Warrior entity)

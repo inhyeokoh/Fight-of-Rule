@@ -108,22 +108,22 @@ public class PlayerController : MonoBehaviour
 
     public void OnSkillInputKeyQ()
     {
-
+        entitys[0].GetComponent<Warrior>().ChangeState(Enum_WarriorState.SkillActionQ);
     }
 
     public void OnSkillInputKeyW()
     {
-
+        entitys[0].GetComponent<Warrior>().ChangeState(Enum_WarriorState.SkillActionW);
     }
   
     public void OnSkillInputKeyE()
     {
-
+        entitys[0].GetComponent<Warrior>().ChangeState(Enum_WarriorState.SkillActionE);
     }
   
     public void OnSkillInputKeyR()
     {
-
+        entitys[0].GetComponent<Warrior>().ChangeState(Enum_WarriorState.SkillActionR);
     }
 
 
