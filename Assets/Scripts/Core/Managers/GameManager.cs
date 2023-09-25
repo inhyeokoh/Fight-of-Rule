@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static NetworkManager Network { get { return Instance._networkManager; } }
 
+    /// <summary>
+    /// ui
+    /// </summary>
+    UIManager _uiManager = new UIManager();
+    public static UIManager UI { get { return Instance._uiManager; } }
 
     /// <summary>
     /// invoke in GameManager.Update();
@@ -78,6 +83,8 @@ public class GameManager : MonoBehaviour
             _managers[i].Init();
         }
 
+        // Action 대리자에 대해 공부하면 쉽게 이해할 수 있음
+        // 추가적으로 필요하면 Func도 같이 공부하면 같이 이해하기 쉬움
         for(int i = 0; i < _managers.Count; i++)
             _onUpdate += _managers[i].GetAction();
     }
