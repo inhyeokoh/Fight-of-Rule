@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class State<T>  where T : class
+public abstract class State<T> where T : class
 {
     /// <summary>
     /// 이 클래스에 들어왔을때 한번 호출
@@ -24,4 +24,7 @@ public abstract class State<T>  where T : class
     /// 이 클래스에서 나왔을때 한번 호출
     /// </summary>
     public abstract void Exit(T entity);
+
+
+    //inputhandler() 함수를 나도 만들어서 여기다 애니메이션을 작동시킬까 생각중
 }

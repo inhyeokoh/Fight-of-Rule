@@ -39,14 +39,7 @@ public class StateMachine<T> where T : class
         {
             return;
         }   
-            
-      /*  if (currentState != null && 
-            currentState.GetType() == typeof(WarriorOwnedState.Avoid))
-        {
-            Debug.Log("이미 회피하는중");
-            return;
-        }*/
-
+           
         if (currentState != null)
         {
             previousState = currentState;

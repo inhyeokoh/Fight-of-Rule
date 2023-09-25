@@ -31,6 +31,51 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Avoid",
+                    "type": "Value",
+                    "id": "f5d980bc-4fc4-4a2f-b781-28feda44e85e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SkillQ",
+                    "type": "Value",
+                    "id": "b60e137b-e343-49c5-bc97-0e0ac654afe2",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SkillW",
+                    "type": "Value",
+                    "id": "a89cab30-37ac-4c8a-8a52-ca39d0ab3b58",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SkillE",
+                    "type": "Value",
+                    "id": "76cabce3-a79f-4efe-b167-8f5450acf446",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "SkillR",
+                    "type": "Value",
+                    "id": "7b505e4c-8f3a-4618-94d5-096ec1d7d417",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -215,9 +260,64 @@
                     "id": "9d2aa2cd-020c-4b27-9da1-018c9acdec10",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "NormalizeVector3",
                     "groups": "Keyboard&Mouse",
                     "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9dc89b2-28dd-40c8-91d5-2f4734f76e4d",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Avoid",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f6352f42-a2e1-41ef-acc9-3b83a150af29",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SkillQ",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1f531cf9-4402-4943-8e64-4f09de4e0afc",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SkillW",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e23c112a-f467-44cb-a808-6a266671e528",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SkillE",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fe939b3e-9b8b-40b3-81ae-00d589cb414a",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "SkillR",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

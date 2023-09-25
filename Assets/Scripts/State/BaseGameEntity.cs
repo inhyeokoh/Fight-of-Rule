@@ -4,13 +4,17 @@ using UnityEngine;
 
 public abstract class BaseGameEntity : MonoBehaviour
 {
+    //플레이어 닉네임
     private string ninkName;
+    //플레이어 고유 번호
+    private static int ID;
 
 
 
     public virtual void Setup(string name)
     {
         ninkName = name;
+        ++ID;
     }
 
 
@@ -27,7 +31,7 @@ public abstract class BaseGameEntity : MonoBehaviour
     /// </summary>
     public void Print(string text)
     {
-        print($"{name}는 : {text}");
+        print($"{name}는 : {text}  ");
     }
 
 }

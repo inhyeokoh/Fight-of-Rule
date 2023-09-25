@@ -7,7 +7,11 @@ public enum Enum_WarriorState
 {
     Idle,
     Move,
-    SkillAction,
+    Attack,
+    SkillActionQ,
+    SkillActionW,
+    SkillActionE,
+    SkillActionR,
     Avoid,
     Hit,
     Fall,
@@ -16,15 +20,18 @@ public enum Enum_WarriorState
 public class Warrior : BaseGameEntity
 {
     private int hp;
+    private int mp;
+    private float exp;
     private int damage;
     private int defense;
-    private int speed = 20;
+    private int speed = 10;
     private Enum_WarriorState warriorState;
 
     public Animator animator;
 
     [SerializeField]
     private Vector3 inputVec;
+
 
     [SerializeField]
     private Rigidbody rigid;
@@ -39,6 +46,28 @@ public class Warrior : BaseGameEntity
         set
         {
             hp = value < 0 ? 0 : value;
+        }
+    }
+
+    public int MP { 
+        get 
+        { 
+            return mp; 
+        } 
+        set 
+        {
+            hp = value < 0 ? 0 : value;
+        } 
+    }
+    public float EXP
+    {
+        get
+        {
+            return exp;
+        }
+        set
+        {
+            exp = value;
         }
     }
     public  int Damage
@@ -102,7 +131,7 @@ public class Warrior : BaseGameEntity
 
   
 
-    private State<Warrior>[] states;
+    public State<Warrior>[] states;
     private StateMachine<Warrior> stateMachine;
 
     
@@ -128,10 +157,14 @@ public class Warrior : BaseGameEntity
     {
         base.Setup(name);
 
-        states = new State<Warrior>[7];
+        states = new State<Warrior>[11];
         states[(int)Enum_WarriorState.Idle] = new WarriorOwnedState.Idle();
         states[(int)Enum_WarriorState.Move] = new WarriorOwnedState.Move();
-        states[(int)Enum_WarriorState.SkillAction] = new WarriorOwnedState.SkillAction();
+        states[(int)Enum_WarriorState.Attack] = new WarriorOwnedState.Attack();
+        states[(int)Enum_WarriorState.SkillActionQ] = new WarriorOwnedState.SkillActionQ();
+        states[(int)Enum_WarriorState.SkillActionW] = new WarriorOwnedState.SkillActionW();
+        states[(int)Enum_WarriorState.SkillActionE] = new WarriorOwnedState.SkillActionE();
+        states[(int)Enum_WarriorState.SkillActionR] = new WarriorOwnedState.SkillActionR();
         states[(int)Enum_WarriorState.Avoid] = new WarriorOwnedState.Avoid();
         states[(int)Enum_WarriorState.Hit] = new WarriorOwnedState.Hit();
         states[(int)Enum_WarriorState.Fall] = new WarriorOwnedState.Fall();
@@ -152,10 +185,21 @@ public class Warrior : BaseGameEntity
         stateMachine.Stay();
     }
 
+    public void LevelUp()
+    {
+
+    }
+
     public void ChangeState(Enum_WarriorState newState)
     {
         WarriorState = newState;
         stateMachine.ChangeState(states[(int)newState]);
+        
+    }
+
+    public void Coroutine()
+    {
+
     }
 
 
