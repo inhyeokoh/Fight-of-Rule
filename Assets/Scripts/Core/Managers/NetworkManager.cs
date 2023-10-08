@@ -2,7 +2,7 @@ using ServerCore;
 using System.Net;
 using System.Net.Sockets;
 
-public class NetworkManager : SubClass<GameManager>
+/*public class NetworkManager : SubClass<GameManager>
 {
     protected override void _Init()
     {
@@ -23,3 +23,4 @@ public class NetworkManager : SubClass<GameManager>
         //자원 정리
     }
 }
+*/
