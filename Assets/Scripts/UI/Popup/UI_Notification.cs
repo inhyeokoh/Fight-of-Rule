@@ -5,26 +5,26 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UI_Button : UI_Popup
+public class UI_Notification : UI_Popup
 {
     enum Enum_Buttons
     {
-        PointButton,
+        Accept,
+        Cancel
     }
 
     enum Enum_Texts
     {
-        PointText,
-        ScoreText,
+        TextContents
     }
 
     enum Enum_GameObjects
-    {        
+    {
+        Notification
     }
 
     enum Enum_Images
     {
-        ItemIcon,
     }
 
     private void Start()
@@ -41,23 +41,15 @@ public class UI_Button : UI_Popup
         Bind<TMP_Text>(typeof(Enum_Texts));
         Bind<Image>(typeof(Enum_Images));
         Bind<GameObject>(typeof(Enum_GameObjects));
-
-        // Text 변경 사용 예시
-        GetText((int)Enum_Texts.ScoreText).text = "Test";
+                
+        GetText((int)Enum_Texts.TextContents).text = "Do you want to proceed like this?";
 
         // Drag 사용 예시
-        GameObject go = GetImage((int)Enum_Images.ItemIcon).gameObject;
+        GameObject go = GetObject((int)Enum_GameObjects.Notification).gameObject;
         AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, UI_Define.Enum_UIEvent.Drag);
-
-        
     }
-
-
-    int score = 0;
 
     public void OnButtonClicked(PointerEventData data)
     {
-        score++;
-        GetText((int)Enum_Texts.ScoreText).text = $"Score : {score}";    
     }
 }
