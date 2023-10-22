@@ -8,8 +8,15 @@ public class UI_Test : MonoBehaviour
     void Start()
     {
         // 사용 예시
+        GameManager.UI.ShowSceneUI<UI_JobSelect>();
         GameManager.UI.ShowPopupUI<UI_Notification>();
-        // GameManager.UI.ClosePopupUI();
-        // GameManager.UI.ShowSceneUI<UI_Inven>();
+    }
+
+    private void Update()
+    {
+/*        if (Input.GetKey(KeyCode.A))
+        {
+            GameManager.UI.ShowPopupUI<UI_Notification>();
+        }*/
     }
 }

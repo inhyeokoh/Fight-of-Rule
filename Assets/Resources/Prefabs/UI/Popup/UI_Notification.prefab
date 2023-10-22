@@ -28,11 +28,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7437681980731020718}
   - {fileID: 7437681979195748631}
   - {fileID: 7437681981233356553}
   - {fileID: 7437681979304778708}
   - {fileID: 7437681979235038848}
+  - {fileID: 7437681980731020718}
   m_Father: {fileID: 7437681979343033473}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -53,7 +53,7 @@ GameObject:
   - component: {fileID: 7437681979195748629}
   - component: {fileID: 7437681979195748628}
   m_Layer: 5
-  m_Name: Blocker
+  m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -72,12 +72,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5207597136264919286}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.4997, y: 8.8578}
-  m_SizeDelta: {x: 180, y: 110}
+  m_AnchoredPosition: {x: -5.279, y: 14.0146}
+  m_SizeDelta: {x: 184.12, y: 120.3173}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7437681979195748629
 CanvasRenderer:
@@ -148,7 +148,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5207597136264919286}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -285,7 +285,7 @@ RectTransform:
   m_Children:
   - {fileID: 7437681981184757949}
   m_Father: {fileID: 5207597136264919286}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -622,7 +622,7 @@ GameObject:
   - component: {fileID: 7437681980731020716}
   - component: {fileID: 7437681980731020719}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -641,12 +641,12 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5207597136264919286}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -5.7022095, y: 14.362595}
-  m_SizeDelta: {x: 84.96588, y: 23.862091}
+  m_AnchoredPosition: {x: -4.8532, y: 68.0678}
+  m_SizeDelta: {x: 89.2114, y: -83.5481}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7437681980731020716
 CanvasRenderer:
@@ -669,7 +669,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.13016196, g: 0.14150941, b: 0.13804217, a: 0.392}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -854,7 +854,7 @@ RectTransform:
   m_Children:
   - {fileID: 7437681979465802412}
   m_Father: {fileID: 5207597136264919286}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

@@ -5,7 +5,7 @@ using UnityEngine;
 public class UI_Popup : UI_Base
 {
     // start 함수에서는 사용 불가하므로 Init으로 관리
-    public virtual void Init()
+    public override void Init()
     {
         GameManager.UI.SetCanvas(gameObject, true);
     }

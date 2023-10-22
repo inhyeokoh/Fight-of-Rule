@@ -6,11 +6,12 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class UI_Base : MonoBehaviour
+public abstract class UI_Base : MonoBehaviour
 {
     // Text,Button,Image 등 타입이 여러가지 필요하므로 Dictionary에 타입별로 저장
     protected Dictionary<Type, UnityEngine.Object[]> _objects = new Dictionary<Type, UnityEngine.Object[]>();
 
+    public abstract void Init();
 
     protected void Bind<T>(Type type) where T : UnityEngine.Object
     {
@@ -73,8 +74,6 @@ public class UI_Base : MonoBehaviour
             default:
                 break;
         }
-
-        evt.OnDragHandler += ((PointerEventData data) => { evt.gameObject.transform.position = data.position; });
 
     }
 }

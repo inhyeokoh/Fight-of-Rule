@@ -25,6 +25,7 @@ public class UI_Notification : UI_Popup
 
     enum Enum_Images
     {
+        Interactable
     }
 
     private void Start()
@@ -41,15 +42,16 @@ public class UI_Notification : UI_Popup
         Bind<TMP_Text>(typeof(Enum_Texts));
         Bind<Image>(typeof(Enum_Images));
         Bind<GameObject>(typeof(Enum_GameObjects));
-                
+        
+        // 메인 Text 내용 변경
         GetText((int)Enum_Texts.TextContents).text = "Do you want to proceed like this?";
 
-        // Drag 사용 예시
-        GameObject go = GetObject((int)Enum_GameObjects.Notification).gameObject;
-        AddUIEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, UI_Define.Enum_UIEvent.Drag);
-    }
+        // 드래그 기능
+        GameObject interact = GetImage((int)Enum_Images.Interactable).gameObject;
+        AddUIEvent(interact, (PointerEventData data) => { interact.transform.parent.position = data.position; }, UI_Define.Enum_UIEvent.Drag);
 
-    public void OnButtonClicked(PointerEventData data)
-    {
+        // 취소 버튼 클릭 시, 창 닫힘
+        GameObject cancel = GetButton((int)Enum_Buttons.Cancel).gameObject;
+        AddUIEvent(cancel, (PointerEventData data) => { GameManager.UI.ClosePopupUI(); }, UI_Define.Enum_UIEvent.Click);
     }
 }
