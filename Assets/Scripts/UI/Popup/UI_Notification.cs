@@ -42,9 +42,12 @@ public class UI_Notification : UI_Popup
         Bind<TMP_Text>(typeof(Enum_Texts));
         Bind<Image>(typeof(Enum_Images));
         Bind<GameObject>(typeof(Enum_GameObjects));
-        
-        // 메인 Text 내용 변경
+
+        // 메인 텍스트, 수락, 취소 내용 변경
         GetText((int)Enum_Texts.TextContents).text = "Do you want to proceed like this?";
+        /*GetText((int)Enum_Texts.AcceptText).text = "강화 진행";
+        GetText((int)Enum_Texts.CancelText).text = "강화 취소";*/
+
 
         // 드래그 기능
         GameObject interact = GetImage((int)Enum_Images.Interactable).gameObject;
@@ -53,5 +56,10 @@ public class UI_Notification : UI_Popup
         // 취소 버튼 클릭 시, 창 닫힘
         GameObject cancel = GetButton((int)Enum_Buttons.Cancel).gameObject;
         AddUIEvent(cancel, (PointerEventData data) => { GameManager.UI.ClosePopupUI(); }, UI_Define.Enum_UIEvent.Click);
+
+        // TODO : 수락버튼
+/*        GameObject accept = GetButton((int)Enum_Buttons.Accept).gameObject;
+        AddUIEvent(accept, (PointerEventData data) => { *//* 내용 적기 *//*}, *//* 이벤트 내용 적기*//* );*/
+
     }
 }

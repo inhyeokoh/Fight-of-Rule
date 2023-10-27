@@ -33,7 +33,7 @@ public abstract class UI_Base : MonoBehaviour
             if (objects[i] == null)
             {
 #if UNITY_EDITOR
-                Debug.Log($"Failed to bind{names[i]}");
+                Debug.Log($"Failed to bind {names[i]}");
 #endif
             }
         }
