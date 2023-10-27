@@ -16,8 +16,7 @@ namespace ServerCore
         // 문지기 역할 하는 소켓 생성
         public void Init(IPEndPoint endPoint, Action<Socket> _onAcceptHandler)
         {
-            listenSocket = new Socket
-                (endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp); // TCP 프로토콜로 설정
+            listenSocket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp); // TCP 프로토콜로 설정
             onAcceptHandler += _onAcceptHandler;
 
             listenSocket.Bind(endPoint); // 문지기한테 위치 등록
