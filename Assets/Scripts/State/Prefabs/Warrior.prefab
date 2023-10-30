@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -8941554254143527077}
   m_Layer: 0
   m_Name: Warrior
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1438403766083198593}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1e9aab37d6c9c041be8b6d085641489, type: 3}
+  m_Script: {fileID: 11500000, guid: 86c34b5bd8f7e03469477c4eb75c7285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: -8941554254143527077}
@@ -142,7 +142,7 @@ Animator:
   m_GameObject: {fileID: 1438403766083198593}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 8df1d66d28e3246499216458effcc1a9, type: 2}
+  m_Controller: {fileID: 22100000, guid: 708d714c97cfd2647a0c94c247d9eb72, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
