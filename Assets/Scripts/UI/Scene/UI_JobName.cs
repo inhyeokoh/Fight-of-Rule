@@ -15,7 +15,7 @@ public class UI_JobName : UI_Scene
 
     enum Enum_Texts
     {
-        JobNameText
+        JobNameText,
     }
 
     enum Enum_GameObjects
@@ -27,6 +27,7 @@ public class UI_JobName : UI_Scene
     }
 
     string _name;
+    string _jobDescription;
 
     private void Start()
     {
@@ -45,15 +46,31 @@ public class UI_JobName : UI_Scene
         GetButton((int)Enum_Buttons.JobName).name = _name; // 버튼 오브젝트명 변경
 
         Image jobimage = GameObject.Find("JobImage").GetComponent<Image>();
+        TMP_Text jobDescript = GameObject.Find("JobDescription").GetComponent<TMP_Text>();
 
-        // 버튼 클릭시 직업 별로 이미지 로드
+        // 버튼 클릭시 직업 별로 이미지와 설명을 로드할 수 있도록 등록
         GameObject jobName = GetButton((int)Enum_Buttons.JobName).gameObject;
-        AddUIEvent(jobName, (PointerEventData data) => { jobimage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{_name}"); }, UI_Define.Enum_UIEvent.Click);
+        AddUIEvent(jobName, (PointerEventData data) => { 
+            jobimage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{_name}"); // 직업 이미지 로드
+            jobDescript.text = _jobDescription; // 직업 설명 설정
+        }, UI_Define.Enum_UIEvent.Click);
     }
 
     // 직업 이름 등록 (UI_JobSelect에서 호출)
     public void SetInfo(string name)
     {
         _name = name;
+
+        switch (name)
+        {
+            case "Warrior":
+                _jobDescription = " Warriors have high defense and are strong in close combat. "; break;
+            case "Wizard":
+                _jobDescription = " Wizards have low health, but can deal powerful damage or help their teammates.  "; break;
+            case "Archer":
+                _jobDescription = " Archers can inflict powerful damage from long distances. "; break;
+            default:
+                break;
+        }
     }
 }
