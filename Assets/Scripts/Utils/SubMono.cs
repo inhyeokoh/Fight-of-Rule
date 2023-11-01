@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class SubMono<T> : MonoBehaviour, ISubClass where T : class
 {
-    T _board;
+    protected T _board;
     public List<ISubClass> SubClasses = new List<ISubClass>();
 
     public void Mount<T1>(T1 board)

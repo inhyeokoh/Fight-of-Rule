@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BasePlayerEntity : MonoBehaviour
+public abstract class BasePlayerEntity : SubMono<PlayerController>
 {
     //플레이어 닉네임
     private string ninkName;
@@ -25,19 +25,6 @@ public abstract class BasePlayerEntity : MonoBehaviour
     protected int SaveDefense { get { return saveDefense; } }
     protected int SaveSpeed { get { return saveSpeed; } }
     protected int SaveLevel { get { return saveLevel; } }
-
-
-    public void NetWorkPlayerDate()
-    {
-        saveHp = PlayerPrefs.GetInt("PlayerHp");
-        saveMp = PlayerPrefs.GetInt("PlayerMp");
-        saveExp = PlayerPrefs.GetInt("PlayerExp");
-        saveDamage = PlayerPrefs.GetInt("PlayerDamage");
-        saveDefense = PlayerPrefs.GetInt("PlayerDefense");
-        saveSpeed = PlayerPrefs.GetInt("PlayerSpeed");
-        saveLevel = PlayerPrefs.GetInt("PlayerLevel"); 
-    }
-
 
     public virtual void Setup(string name)
     {      

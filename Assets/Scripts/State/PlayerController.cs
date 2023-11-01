@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum Enum_Place
-{
-
-}
 
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance = null;
+
+    public BasePlayerEntity _basePlayerEntity;
+    public EventHandler _eventHandler;
+    public AnimationController _animationController;
+    public Effector _effector;
 
     [SerializeField]
     private GameObject[] ClassPrefabs;
