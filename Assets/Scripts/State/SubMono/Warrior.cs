@@ -166,4 +166,19 @@ public class Warrior : Character
         yield return new WaitForSeconds(2f);
         print("마포 대교는 무너졌냐?");
     }
+
+    protected override void _Init()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void _Excute()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void _Clear()
+    {
+        throw new System.NotImplementedException();
+    }
 }

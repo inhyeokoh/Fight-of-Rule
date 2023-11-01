@@ -27,4 +27,19 @@ public class Wizard : Character
 
         base.Setup(name);*/
     }
+
+    protected override void _Clear()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void _Excute()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    protected override void _Init()
+    {
+        throw new System.NotImplementedException();
+    }
 }
