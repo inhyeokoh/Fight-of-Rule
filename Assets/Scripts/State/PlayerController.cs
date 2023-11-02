@@ -10,10 +10,16 @@ public class PlayerController : MonoBehaviour
 
     public List<SubMono<PlayerController>> _controller;
 
-    public Character _playerEntity;
+    public CharacterState _playerState;
+    public CharacterMovement _playerMovement;
     public EventHandler _eventHandler;
     public AnimationController _animationController;
     public Effector _effector;
+
+    private StateMachine stateMachine = new StateMachine();
+    private Dictionary<int, State> state = new Dictionary<int, State>();
+
+    //private readonly int 
 
     [SerializeField]
     private GameObject[] ClassPrefabs;
@@ -43,6 +49,7 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
 
+        _playerMovement = Utils.GetOrAddComponent<CharacterMovement>(gameObject);
         _eventHandler = Utils.GetOrAddComponent<EventHandler>(gameObject);
         _animationController = Utils.GetOrAddComponent<AnimationController>(gameObject);
         _effector = Utils.GetOrAddComponent<Effector>(gameObject);
@@ -52,26 +59,27 @@ public class PlayerController : MonoBehaviour
             case "Warrior":               
                 { 
                     GameObject clone = Instantiate(ClassPrefabs[0]);
-                    _playerEntity = clone.GetComponent<Warrior>();
+                    _playerState = clone.GetComponent<Warrior>();
                     break;
                 }
             case "Archer":
                 {
                     GameObject clone = Instantiate(ClassPrefabs[1]);
-                    _playerEntity = clone.GetComponent<Warrior>();
+                    _playerState = clone.GetComponent<Warrior>();
                     break;
                 }
             case "Wizard": 
                 {
                     GameObject clone = Instantiate(ClassPrefabs[2]);
-                    _playerEntity = clone.GetComponent<Warrior>();
+                    _playerState = clone.GetComponent<Warrior>();
                     break;
                 }               
         }
 
         _controller = new List<SubMono<PlayerController>>
         {
-            _playerEntity,
+            _playerState,
+            _playerMovement,
             _eventHandler,
             _animationController,
             _effector
@@ -96,7 +104,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _playerEntity.FixedUpdated();                    
+       // _playerEntity.FixedUpdated();                    
     }
     private void Update()
     {
@@ -106,14 +114,14 @@ public class PlayerController : MonoBehaviour
         {
             avoid -= Time.deltaTime;         
         }
-        _playerEntity.Updated();
+        //_playerEntity.Updated();
     }
 
 
     public void OnMove(InputAction.CallbackContext context)
     {
         //Ray ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (_playerEntity.CharacterState == Enum_CharacterState.Avoid)
+       /* if (_playerEntity.CharacterStates == Enum_CharacterState.Avoid)
         {
             //_basePlayerEntity.GetComponent<Character>().animator.SetBool("Move", true);
             return;
@@ -126,8 +134,8 @@ public class PlayerController : MonoBehaviour
             test.position = hit.point;
             _playerEntity.InputVec = new Vector3(hit.point.x, _playerEntity.transform.position.y,
             hit.point.z);
-            _playerEntity.ChangeState((int)Enum_CharacterState.Move);
-        }
+           
+        }*/
 
         /*entitys[0].GetComponent<Warrior>().InputVec = value.Get<Vector3>();
         entitys[0].GetComponent<Warrior>().
@@ -150,33 +158,16 @@ public class PlayerController : MonoBehaviour
             test.position = hit.point;
             //entitys[0].GetComponent<Character>().InputVec = new Vector3(hit.point.x, entitys[0].transform.position.y,
             //  hit.point.z);
-            _playerEntity.ChangeState((int)Enum_CharacterState.Avoid);
+           
         }
     }
 
-    public void OnSkillInputKeyQ()
+
+
+    private void PlayerAddState()
     {
-       
+       // state.Add()
     }
-
-    public void OnSkillInputKeyW()
-    {
-      
-    }
-  
-    public void OnSkillInputKeyE()
-    {
-      
-    }
-  
-    public void OnSkillInputKeyR()
-    {
-       
-    }
-
-
-
-
 
 
 }

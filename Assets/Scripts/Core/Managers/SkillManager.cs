@@ -20,7 +20,7 @@ public class SkillManager : MonoBehaviour
     public static SkillManager Skill { get { return _skill; } }
     
 
-    public Character player;
+    public CharacterState player;
 
     [SerializeField]
     Skill[] warriorSkills;
@@ -57,7 +57,7 @@ public class SkillManager : MonoBehaviour
     public void PlayerData()
     {
           
-        player = GameObject.FindWithTag("Player").GetComponent<Character>();
+        player = GameObject.FindWithTag("Player").GetComponent<CharacterState>();
 
 #if UNITY_EDITOR
         Debug.Log("생성"); //플레이어 데이터를 가져왔을때 생성 출력
