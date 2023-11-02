@@ -44,14 +44,25 @@ public class GameManager : MonoBehaviour
 
 
     /*==================
+     *  ThreadManager
+     =================*/
+    /// <summary>
+    /// thread pool manager
+    /// </summary>
+    ThreadManager _threadPool = new ThreadManager();
+    public static ThreadManager ThreadPool { get {  return Instance._threadPool; } }
+
+
+    /*==================
      *     Network
      *     inhyeok
      =================*/
-/*    NetworkManager _networkManager = new NetworkManager();
+    NetworkManager _networkManager = new NetworkManager();
     /// <summary>
     /// network
     /// </summary>
-    public static NetworkManager Network { get { return Instance._networkManager; } }*/
+    public static NetworkManager Network { get { return Instance._networkManager; } }
+
 
     /// <summary>
     /// ui
@@ -74,7 +85,8 @@ public class GameManager : MonoBehaviour
         {
             _pool,
             _resources,
-/*            _networkManager,*/
+            _threadPool,
+            _networkManager,
         };
 
         for(int i = 0; i < _managers.Count; i++)
