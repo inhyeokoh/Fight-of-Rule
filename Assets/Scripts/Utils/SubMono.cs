@@ -33,7 +33,7 @@ public abstract class SubMono<T> : MonoBehaviour, ISubClass where T : class
     public void Connect(ISubClass sub)
     {
         sub.Mount(this);
-        SubClasses.Add(sub);
+        //SubClasses.Add(sub);
     }
 
     public Action GetAction()
@@ -42,7 +42,7 @@ public abstract class SubMono<T> : MonoBehaviour, ISubClass where T : class
     }
 
     //초기화
-    public void Init() { _Init(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Init(); }
+    public void Init() { _Init(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Init();}
     //실행
     public void Excute() { _Excute(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Excute(); }
     //정리

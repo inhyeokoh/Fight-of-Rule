@@ -12,28 +12,56 @@ public enum Enum_ArcherSkill
 
 public class Archer : Character
 {     
-    public override void Setup(string name)
+  
+    public override void LevelUp()
+    {
+        
+    }
+
+
+    IEnumerator Skill0(Character entity)
+    {
+        yield return new WaitForSeconds(2f);
+        print("움직였다");
+    }
+    IEnumerator Skill1(Character entity)
+    {
+        yield return new WaitForSeconds(2f);
+        print("움직였다");
+    }
+    IEnumerator Skill2(Character entity)
+    {
+        yield return new WaitForSeconds(2f);
+        print("움직였다");
+    }
+    IEnumerator Skill3(Character entity)
+    {
+        yield return new WaitForSeconds(2f);
+        print("움직였다");
+    }
+
+    protected override void _Init()
     {
         print("캐릭터클래스거쳐감");
 
-        
+
 
         //캐릭터 idle상태 앞에는 파라미터를 넣으면 되고 람다식을 이용해 Enter,FixedStay,Stay,Exit순으로 Action<T> 대리자 생성
         //굳이 안써도 되는 부분은 빈공간으로 호출해도됌
         states.Add((int)Enum_CharacterState.Idle, new State/*<Character>*/((/*Character entity*/) =>
         {
             Debug.Log("가만히 있는다");
-            animator.SetBool("Move", false);
-            StartCoroutine("Skill0",this);
+
+            StartCoroutine("Skill0", this);
         },
         (/*Character entity*/) =>
         {
-           print("FixedUpdate에서 가만히 있는중");
+            print("FixedUpdate에서 가만히 있는중");
         },
         (/*Character entity*/) =>
         {
-            
-          print("Update에서 가만히 있는중");
+
+            print("Update에서 가만히 있는중");
         },
         (/*Character entity*/) =>
         {
@@ -45,8 +73,7 @@ public class Archer : Character
         states.Add((int)Enum_CharacterState.Move, new State/*<Character>*/((/*Character entity*/) =>
         {
             //   Debug.Log("움직이기 시작");
-            //entity.gameObject.transform.LookAt(new Vector3(entity.InputVec.x, 0, entity.InputVec.z));
-            animator.SetBool("Move", true);
+            //entity.gameObject.transform.LookAt(new Vector3(entity.InputVec.x, 0, entity.InputVec.z));         
             /*Vector3 dir = new Vector3(entity.InputVec.x, 0, entity.InputVec.z) -
                 new Vector3(entity.transform.position.x, 0, entity.transform.position.z);*/
             //  Debug.Log(Vector3.Distance(entity.transform.position, entity.InputVec));
@@ -66,7 +93,7 @@ public class Archer : Character
             if (Vector3.Distance(transform.position, InputVec) >= 0.2f)
             {
                 rigid.velocity = dir.normalized * Speed;
-              //  Debug.Log(dir);
+                //  Debug.Log(dir);
             }
             else
             {
@@ -82,12 +109,12 @@ public class Archer : Character
         },
         (/*Character entity*/) =>
         {
-           
-        },        
+
+        },
         (/*Character entity*/) =>
         {
         }));
-      
+
         /*tates.Add((int)Enum_CharacterState.Attack, new State<Character>((Character entity) =>
         {
 
@@ -223,51 +250,17 @@ public class Archer : Character
         {
         }));
 
-*/
-
-
-        base.Setup(name);
-    }
-
-    public override void LevelUp()
-    {
         
-    }
-
-
-    IEnumerator Skill0(Character entity)
-    {
-        yield return new WaitForSeconds(2f);
-        print("움직였다");
-    }
-    IEnumerator Skill1(Character entity)
-    {
-        yield return new WaitForSeconds(2f);
-        print("움직였다");
-    }
-    IEnumerator Skill2(Character entity)
-    {
-        yield return new WaitForSeconds(2f);
-        print("움직였다");
-    }
-    IEnumerator Skill3(Character entity)
-    {
-        yield return new WaitForSeconds(2f);
-        print("움직였다");
-    }
-
-    protected override void _Init()
-    {
-        throw new System.NotImplementedException();
+*/
     }
 
     protected override void _Excute()
     {
-        throw new System.NotImplementedException();
+  
     }
 
     protected override void _Clear()
     {
-        throw new System.NotImplementedException();
+      
     }
 }

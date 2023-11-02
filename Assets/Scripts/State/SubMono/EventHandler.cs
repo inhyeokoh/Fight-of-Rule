@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class EventHandler : SubMono<PlayerController>
 {
-    //Event를 통해 callback
+
+    //Event를 통해 callback함수 대부분 애니메이션 이벤트에다 넣기 위해 만든 클래스
     public void OnStateEvent(int stateId)
     {
        // _board.EventDistributor(stateId);
@@ -17,16 +18,16 @@ public class EventHandler : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     protected override void _Excute()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     protected override void _Clear()
     {
-        throw new System.NotImplementedException();
+       
     }
 }

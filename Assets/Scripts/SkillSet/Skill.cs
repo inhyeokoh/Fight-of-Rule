@@ -5,19 +5,20 @@ using UnityEngine;
 public abstract class Skill : MonoBehaviour
 {
     private int level; //배열을 조작하기 위한 인티져
-   /* public int Level
-    {
-        get
-        {
-            return level;
-        }
-        set
-        {
-            level = value;
-        }
-    }*/
+    /* public int Level
+     {
+         get
+         {
+             return level;
+         }
+         set
+         {
+             level = value;
+         }
+     }*/
 
 
+    private int skillID; //스킬 번호
     public string skillName; //스킬 이름
     public string skillDESC; // 스킬 설명서 
     public int[] skillMP; // 드는 마나

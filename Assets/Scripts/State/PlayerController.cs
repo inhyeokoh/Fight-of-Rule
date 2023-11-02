@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance = null;
 
-    public BasePlayerEntity _basePlayerEntity;
+    public List<SubMono<PlayerController>> _controller;
+
+    public Character _playerEntity;
     public EventHandler _eventHandler;
     public AnimationController _animationController;
     public Effector _effector;
@@ -23,13 +25,14 @@ public class PlayerController : MonoBehaviour
     private float avoid = 0;
 
     public Camera camera;
-
-    Character character;
+  
     Ray ray;
 
 
     private void Awake()
     {
+        string charcterClass = "Warrior";
+
         if (instance == null)
         {
             instance = this;
@@ -40,31 +43,46 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         }
 
-        string charcterClass = "Warrior";
-
+        _eventHandler = Utils.GetOrAddComponent<EventHandler>(gameObject);
+        _animationController = Utils.GetOrAddComponent<AnimationController>(gameObject);
+        _effector = Utils.GetOrAddComponent<Effector>(gameObject);
+      
         switch (charcterClass)
         {
             case "Warrior":               
                 { 
                     GameObject clone = Instantiate(ClassPrefabs[0]);
-                    character = clone.GetComponent<Warrior>();                
+                    _playerEntity = clone.GetComponent<Warrior>();
                     break;
                 }
             case "Archer":
                 {
                     GameObject clone = Instantiate(ClassPrefabs[1]);
-                    character = clone.GetComponent<Archer>();                  
+                    _playerEntity = clone.GetComponent<Warrior>();
                     break;
                 }
             case "Wizard": 
                 {
                     GameObject clone = Instantiate(ClassPrefabs[2]);
-                    character = clone.GetComponent<Wizard>();                
+                    _playerEntity = clone.GetComponent<Warrior>();
                     break;
                 }               
         }
 
-        character.Setup("±Ã¼ö");
+        _controller = new List<SubMono<PlayerController>>
+        {
+            _playerEntity,
+            _eventHandler,
+            _animationController,
+            _effector
+        };
+
+        for (int i = 0; i < _controller.Count; i++)
+        {
+            _controller[i].Mount(this);
+            _controller[i].Init();
+        }
+        
         SkillManager.Skill.PlayerData();
 
         camera = Camera.main;
@@ -78,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        character.FixedUpdated();                    
+        _playerEntity.FixedUpdated();                    
     }
     private void Update()
     {
@@ -88,16 +106,16 @@ public class PlayerController : MonoBehaviour
         {
             avoid -= Time.deltaTime;         
         }
-        character.Updated();
+        _playerEntity.Updated();
     }
 
 
     public void OnMove(InputAction.CallbackContext context)
     {
         //Ray ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if (character.GetComponent<Character>().CharacterState == Enum_CharacterState.Avoid)
+        if (_playerEntity.CharacterState == Enum_CharacterState.Avoid)
         {
-            character.GetComponent<Character>().animator.SetBool("Move", true);
+            //_basePlayerEntity.GetComponent<Character>().animator.SetBool("Move", true);
             return;
         }
         
@@ -106,9 +124,9 @@ public class PlayerController : MonoBehaviour
 
             print(hit.collider);
             test.position = hit.point;
-            character.GetComponent<Character>().InputVec = new Vector3(hit.point.x, character.transform.position.y,
-            hit.point.z); 
-            character.GetComponent<Character>().ChangeState((int)Enum_CharacterState.Move);
+            _playerEntity.InputVec = new Vector3(hit.point.x, _playerEntity.transform.position.y,
+            hit.point.z);
+            _playerEntity.ChangeState((int)Enum_CharacterState.Move);
         }
 
         /*entitys[0].GetComponent<Warrior>().InputVec = value.Get<Vector3>();
@@ -131,8 +149,8 @@ public class PlayerController : MonoBehaviour
             print(hit.point);
             test.position = hit.point;
             //entitys[0].GetComponent<Character>().InputVec = new Vector3(hit.point.x, entitys[0].transform.position.y,
-              //  hit.point.z);
-            character.GetComponent<Character>().ChangeState((int)Enum_CharacterState.Avoid);
+            //  hit.point.z);
+            _playerEntity.ChangeState((int)Enum_CharacterState.Avoid);
         }
     }
 

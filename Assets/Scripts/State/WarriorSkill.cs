@@ -26,7 +26,6 @@ public class WarriorSkill : MonoBehaviour
     }
     IEnumerator Coroutine_Skill0(Character entity)
     {
-        entity.animator.SetBool("Move", true);
         yield return first;
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Effector : SubMono<PlayerController>
 {
+    //effect를 발동하기위 만든 클래스
 
     public void InstEffect(int stateId)
     {
@@ -12,16 +13,16 @@ public class Effector : SubMono<PlayerController>
 
     protected override void _Clear()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     protected override void _Excute()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     protected override void _Init()
     {
-        throw new System.NotImplementedException();
+       
     }
 }

@@ -4,9 +4,20 @@ using UnityEngine;
 
 public class Warrior : Character
 { 
-    public override void Setup(string name)
+ 
+    public override void LevelUp()
     {
-  
+
+    }
+    IEnumerator Skill()
+    {
+        yield return new WaitForSeconds(2f);
+        print("마포 대교는 무너졌냐?");
+    }
+
+    protected override void _Init()
+    {
+        print($"{rigid.velocity}");
         print("캐릭터클래스거쳐감");
 
 
@@ -15,16 +26,16 @@ public class Warrior : Character
         //굳이 안써도 되는 부분은 빈공간으로 호출해도됌
         states.Add((int)Enum_CharacterState.Idle, new State(() =>
         {
-            Debug.Log("가만히 있는다"); 
+            Debug.Log("가만히 있는다");
         },
         () =>
         {
-            // print("FixedUpdate에서 가만히 있는중");
+            print("FixedUpdate에서 가만히 있는중");
         },
         () =>
         {
 
-            //  print("Update에서 가만히 있는중");
+            print("Update에서 가만히 있는중");
         },
         () =>
         {
@@ -35,26 +46,23 @@ public class Warrior : Character
 
         states.Add((int)Enum_CharacterState.Move, new State(() =>
         {
-            //   Debug.Log("움직이기 시작");
+            Debug.Log("움직이기 시작");
             //entity.gameObject.transform.LookAt(new Vector3(entity.InputVec.x, 0, entity.InputVec.z));
-            animator.SetBool("Move", true);
+
             //*Vector3 dir = new Vector3(entity.InputVec.x, 0, entity.InputVec.z) -
-                new Vector3(transform.position.x, 0, transform.position.z);
+
             //  Debug.Log(Vector3.Distance(entity.transform.position, entity.InputVec));
             // Debug.Log($"hit 포지션 : { entity.InputVec}, dir 포지션 : {dir.normalized}");
         },
         () =>
         {
-            Vector3 dir = InputVec -transform.position;
+            Vector3 dir = InputVec - transform.position;
             //* Vector3 dir = new Vector3(entity.InputVec.x, 0, entity.InputVec.z) -
-                 new Vector3(transform.position.x, 0, transform.position.z);
-
             transform.rotation = Quaternion.LookRotation(dir);
-            //Debug.Log("움직이는중");
             // Vector3 nextVec = entity.InputVec; //* entity.Speed * Time.fixedDeltaTime;
             // entity.Rigid.velocity = nextVec * entity.Speed; //MovePosition(entity.Rigid.position + nextVec);
 
-            if (Vector3.Distance(transform.position,InputVec) >= 0.2f)
+            if (Vector3.Distance(transform.position, InputVec) >= 0.2f)
             {
                 rigid.velocity = dir.normalized * Speed;
                 //  Debug.Log(dir);
@@ -70,7 +78,7 @@ public class Warrior : Character
             {
                 ChangeState((int)Enum_CharacterState.Idle);
             }
-              
+
         },
         () =>
         {
@@ -154,31 +162,17 @@ public class Warrior : Character
        () =>
        {
        }));
-        base.Setup(name);
-    }
+        base._Init();
 
-    public override void LevelUp()
-    {
-
-    }
-    IEnumerator Skill()
-    {
-        yield return new WaitForSeconds(2f);
-        print("마포 대교는 무너졌냐?");
-    }
-
-    protected override void _Init()
-    {
-        throw new System.NotImplementedException();
     }
 
     protected override void _Excute()
     {
-        throw new System.NotImplementedException();
+       
     }
 
     protected override void _Clear()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

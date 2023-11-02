@@ -16,20 +16,20 @@ public enum Enum_CharacterState
 }
 
 
-public abstract class Character : BasePlayerEntity
+public abstract class Character : SubMono<PlayerController>
 {
+    //Caracter
+    //캐릭터에서는 캐릭터에 상태가 가장 중심적으로 있어야하는 기능
+    //캐릭터의 네트워크에 연결을해서 hp mp exp damage defense speed level 렌더러 백터값 물리엔진을 받아온다.
 
     private int hp;
     private int mp;
     private int exp;
     private int damage;
     private int defense;
-    private int speed;
+    private int speed = 30;
     private int level;
     private Enum_CharacterState characterState;
-
-    public Animator animator;
-  
     [SerializeField]
     protected Vector3 inputVec;
 
@@ -171,34 +171,18 @@ public abstract class Character : BasePlayerEntity
 
     }
 
-
-
-    public override void Setup(string name)
+    protected override void _Init()
     {
-        
-        base.Setup(name);
-
-
-        hp = SaveHp; mp = SaveMp; exp = SaveExp; damage = SaveDamage; 
-        defense = SaveDefense; speed = SaveSpeed; level = SaveLevel;
-
-        print(hp);
-          
-        //stateMachine = new StateMachine<Character>();
-
-        //StateMachine을 생성하고 자기 자신(Character.cs)와 처음에 실행해야하는 상태를 넣고있는 모습
         stateMachine.Setup(states[(int)Enum_CharacterState.Idle]);
     }
 
-
-
     //FixedStay나 //Stay를 사용할땐 상속이든 다른곳에서 연결을 하든 Update와 FixedUpdate에 연결해야함
-    public override void FixedUpdated()
+    public void FixedUpdated()
     {
         stateMachine.FixedStay();
     }
 
-    public override void Updated()
+    public void Updated()
     {
         stateMachine.Stay();
     }
