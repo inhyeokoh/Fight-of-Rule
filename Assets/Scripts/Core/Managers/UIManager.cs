@@ -5,9 +5,10 @@ using UnityEngine;
 
 public class UIManager
 {
-    // sortingOrder 등을 관리하는 변수, 앞에 뜰 수 있는 0~9를 남겨둠
+/*    // sortingOrder 등을 관리하는 변수, 앞에 뜰 수 있는 0~9를 남겨둠
     int _order = 10;
 
+    // gameobject가 아닌 UI_Popup 컴포넌트를 가지고 있는 것으로 구분
     Stack<UI_Popup> _popupStack = new Stack<UI_Popup>();
     UI_Scene _sceneUI = null;
 
@@ -51,7 +52,7 @@ public class UIManager
         }
 
         GameObject go = GameManager.Resources.Instantiate($"Prefabs/UI/Scene/{name}");
-        T sceneUI = go.GetOrAddComponent<T>();
+        T sceneUI = go.GetOrAddComponent<T>(); // 프리팹 안에 스크립트 추가
         _sceneUI = sceneUI;
 
         go.transform.SetParent(Root.transform); // 부모 오브젝트 지정
@@ -114,5 +115,5 @@ public class UIManager
         {
             ClosePopupUI();
         }
-    }
+    }*/
 }
