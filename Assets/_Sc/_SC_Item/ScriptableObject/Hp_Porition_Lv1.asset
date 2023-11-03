@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464faaadfa3a8f94ab97562b372a9cb8, type: 3}
+  m_Name: Hp_Porition_Lv1
+  m_EditorClassIdentifier: 
+  _id: 1
+  _name: HpPortionLv1
+  _tooltip: 
+  _iconSprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
+  _dropItemPrefab: {fileID: 8053593006174637883, guid: 8d193e922291d6f44ac16d60ce221ae0,
+    type: 3}
+  _maxAmount: 99
+  _hpValue: 10
+  _mpValue: 0
+  _speedPercent: 0
