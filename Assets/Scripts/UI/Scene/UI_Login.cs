@@ -7,11 +7,10 @@ public class UI_Login : UI_Entity
 {
     enum Enum_UI_Logins
     {
-        InputFieldID = 1,
-        InputFieldPW,
         MainText,
         TestLogin,
         TestExit,
+        Image
     }
 
     protected override Type GetUINamesAsType()
@@ -28,6 +27,10 @@ public class UI_Login : UI_Entity
             Debug.Log(_subUIs[i].gameObject.name);
         }
 
-        Debug.Log(_entities[(int)Enum_UI_Logins.TestLogin].gameObject.name);
+        Debug.Log(_entities[(int)Enum_UI_Logins.Image].gameObject.name);
     }
+
+
+
+
 }

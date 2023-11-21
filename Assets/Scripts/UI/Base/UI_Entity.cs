@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IDragHandler, ISelectHandler
@@ -13,6 +13,10 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
     public Action<PointerEventData> ClickAction = null;
     public Action<PointerEventData> DragAction = null;
     public Action<BaseEventData> SelectAction = null;
+
+    PlayerInput playerInput;
+    string playername = "Player";
+    string uiKeyInput = "KeyInput";
 
     //나의 UI_Type
     public Type UIType = null;
@@ -40,12 +44,22 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     protected void Start()
     {
+        GameObject keyInput = GameObject.Find($"{uiKeyInput}");
+        if (keyInput != null)
+        {
+            playerInput = keyInput.GetComponent<PlayerInput>();
+        }
+        /*        GameObject player = GameObject.Find($"{playername}");
+                if (player != null)
+                {
+                    playerInput = player.GetComponent<PlayerInput>(); // 로그인 씬 말고 인게임 들어갔을때 Init 말고 재실행 필요할듯
+                }*/
         if (UIType == null)
             Init();
     }
 
     //만약 상위UI가 있다면 하위 UI에게 전달해주는 용도
-    public void Mount(UI_Entity mother)
+    protected void Mount(UI_Entity mother)
     {
         _mother = mother;   //부모 UI_Entity를 받아옴
     }
@@ -69,6 +83,7 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
             //UI_Entity 대상이 아니라면 생략
             if (comp == null) continue;
 
+            // UI요소라면 다음 코드가 실행됨
             comp.Mount(this);
             _subUIs.Add(comp);
         }
@@ -78,21 +93,22 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         if (obj == null) return null;
 
-        for(int i = 0; i < _components.Count; i++)
+        for (int i = 0; i < _components.Count; i++)
         {
             var component = obj.GetComponent(_components[i]);
 
-            if (component == null) 
+            if (component == null)
                 continue;
 
             var uientity = component.gameObject.GetOrAddComponent<UI_SubEntity>();
             uientity.UIType = _components[i];
 
-            if (names == null) 
+            if (names == null)
                 return uientity;
 
             for (int str = 0; str < names.Length; str++)
             {
+                // 하이어라키 상의 이름과 enum 안의 이름이 일치하면,
                 if (component.gameObject.name == names[str])
                 {
                     _entities.Add(str, uientity);
@@ -112,17 +128,23 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
         return GetComponent<T>();
     }
 
+    /*    public void CloseAllUI()
+        {
+            if (_mother != null)
+                _mother.CloseAllUI();
+            else
+                GameManager.Resources.Destroy(gameObject);
+        }*/
+
     public void CloseUI()
     {
-        if (_mother != null)
-            _mother.CloseUI();
-        else
-            GameManager.Resources.Destroy(gameObject);
+        GameManager.Resources.Destroy(gameObject);
     }
+
 
     protected abstract Type GetUINamesAsType();
 
-    // 포인터가 오브젝트에 들어왔을 때 호출 ex) 인벤 아이템 정보 보기, 상호작용 가능한 물체가 나타나면 F같은 키 표시
+    // 포인터가 오브젝트에 들어왔을 때 호출 ex) 인벤 아이템 정보 보기
     public void OnPointerEnter(PointerEventData eventData)
     {
         PointerEnterAction?.Invoke(eventData);
@@ -150,5 +172,17 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
     public void OnSelect(BaseEventData eventData)
     {
         SelectAction?.Invoke(eventData);
+    }
+
+    public void PointerOnUI(bool On)
+    {
+        if (On)
+        {
+            playerInput.currentActionMap.FindAction("Move").Disable();
+        }
+        else
+        {
+            playerInput.currentActionMap.FindAction("Move").Enable();
+        }
     }
 }
