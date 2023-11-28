@@ -81,6 +81,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static DataManager Data { get { return Instance._dataManager; } }
 
+    /*==================
+    *    SceneManager
+    =================*/
+    SceneManager2 _sceneManager = new SceneManager2();
+    /// <summary>
+    /// Change Scene
+    /// </summary>
+    public static SceneManager2 Scene { get { return Instance._sceneManager; } }
+
     Action _onUpdate;
 
     private void Awake()

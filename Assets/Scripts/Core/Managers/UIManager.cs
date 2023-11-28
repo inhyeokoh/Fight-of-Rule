@@ -3,13 +3,19 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq;
 
 public class UIManager : SubClass<GameManager>
 {
     PlayerInput playerAction;
     string playername = "Player";
-    public GameObject _inventoryPopup;
-    public GameObject _notiPopup;
+
+    // public GameObject Inventory;
+    public GameObject Noti;
+    public GameObject Setting;
+    public GameObject InputName;
+
+    Transform popupTr;
 
     // 실시간 팝업 관리 링크드 리스트
     public LinkedList<GameObject> _activePopupList;
@@ -34,22 +40,24 @@ public class UIManager : SubClass<GameManager>
         }
 
         // 나중엔 pool로 관리
-/*        _inventoryPopup = GameManager.Resources.Instantiate($"Prefabs/UI/Inventory", GameObject.Find("Canvas").transform);
-        _notiPopup = GameManager.Resources.Instantiate($"Prefabs/UI/Notification", GameObject.Find("Canvas").transform);
-        _inventoryPopup.SetActive(false);
-        _notiPopup.SetActive(false);*/
-
-        _activePopupList = new LinkedList<GameObject>();
+        popupTr = GameObject.Find("Canvas").transform;
+        Noti = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Noti", popupTr);
+        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
+        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
 
         // 리스트 초기화
         _allPopupList = new List<GameObject>()
         {
-            _inventoryPopup, _notiPopup
+            Noti, Setting, InputName
         };
+
+        _activePopupList = new LinkedList<GameObject>();
+
+        InitCloseAll();
     }
 
     // 시작 시 모든 팝업 닫기
-    private void InitCloseAll()
+    public void InitCloseAll()
     {
         foreach (var popup in _allPopupList)
         {
@@ -57,7 +65,15 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
-    // 팝업을 열고 링크드리스트의 상단에 추가
+    // 모든 팝업 닫기
+    public void CloseAll()
+    {
+        foreach (var popup in _activePopupList)
+        {
+            ClosePopup(popup);
+        }
+    }
+
     public void OpenPopup(GameObject popup)
     {
         _activePopupList.AddFirst(popup);
@@ -65,7 +81,7 @@ public class UIManager : SubClass<GameManager>
         RefreshAllPopupDepth();
     }
 
-    // 팝업을 닫고 링크드리스트에서 제거
+    // 팝업을 비활성화하고 링크드리스트에서 제거
     public void ClosePopup(GameObject popup)
     {
         _activePopupList.Remove(popup);
@@ -78,7 +94,7 @@ public class UIManager : SubClass<GameManager>
     {
         foreach (var popup in _activePopupList)
         {
-            popup.transform.SetAsFirstSibling(); // 하이어라키에서 순서변경
+            popup.transform.SetAsLastSibling(); // 하이어라키에서 순서 맨 아래 오도록 변경 (그래야 뷰에서 가장 위에 표시됨)
         }
     }
 
@@ -90,15 +106,15 @@ public class UIManager : SubClass<GameManager>
         RefreshAllPopupDepth();
     }
 
-    public void Inven()
+    public void OpenOrClose(GameObject go)
     {
-        if (!_inventoryPopup.activeSelf)
+        if (!go.activeSelf)
         {
-            OpenPopup(_inventoryPopup);
+            OpenPopup(go);
         }
         else
         {
-            ClosePopup(_inventoryPopup);
+            ClosePopup(go);
         }
     }
 
@@ -108,6 +124,10 @@ public class UIManager : SubClass<GameManager>
         {
             // ESC 누를 경우 링크드리스트의 First 닫기
             ClosePopup(_activePopupList.First.Value);
+        }
+        else
+        {
+            GameManager.Scene.GetPreviousScene();
         }
     }
 

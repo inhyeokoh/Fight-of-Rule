@@ -2,15 +2,19 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class UI_Login : UI_Entity
 {
     enum Enum_UI_Logins
     {
-        MainText,
-        TestLogin,
-        TestExit,
-        Image
+        Panel,
+        IDField,
+        PWField,
+        Text,
+        Login,
+        Logout,
+        Setting
     }
 
     protected override Type GetUINamesAsType()
@@ -27,10 +31,14 @@ public class UI_Login : UI_Entity
             Debug.Log(_subUIs[i].gameObject.name);
         }
 
-        Debug.Log(_entities[(int)Enum_UI_Logins.Image].gameObject.name);
+        _entities[(int)Enum_UI_Logins.Setting].ClickAction = (PointerEventData data) => {
+            GameObject setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", transform.parent);
+            GameManager.UI._activePopupList.AddFirst(setting);
+        };
+
+
+
+
+
     }
-
-
-
-
 }
