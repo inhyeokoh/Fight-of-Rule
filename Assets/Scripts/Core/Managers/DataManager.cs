@@ -5,7 +5,10 @@ using System.IO;
 
 public class DataManager : SubClass<GameManager>
 {
-    public CharOption character;
+    // DataManager 안에 선언해야 접근하기 용이함
+    public CharData character; // 캐릭터 생성 정보
+    public SettingsData setting; // 환경설정 정보
+
     string path;
 
     protected override void _Clear()
@@ -22,11 +25,9 @@ public class DataManager : SubClass<GameManager>
     {
         // 유니티 기본 설정 경로. PC나 모바일 등등 어디든 프로젝트 이름으로 된 폴더 생김
         path = Application.persistentDataPath + "/";
-    }
 
-    public void CreateChar()
-    {
-        character = new CharOption();
+        character = new CharData();
+        setting = new SettingsData();
     }
 
     public void SaveData(string fileName, Data info)

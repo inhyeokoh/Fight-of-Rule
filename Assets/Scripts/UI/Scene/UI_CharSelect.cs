@@ -30,7 +30,7 @@ public class UI_CharSelect : UI_Entity
         }
 
         // 슬롯 데이터 로드 ( 현재는 좀 하드코딩 상태...)
-        CharOption slot0 = JsonUtility.FromJson<CharOption>(GameManager.Data.LoadData("slot0"));
+        CharData slot0 = JsonUtility.FromJson<CharData>(GameManager.Data.LoadData("slot0"));
         _entities[(int)Enum_UI_CharSelect.Slot0].GetComponentInChildren<TMP_Text>().text = $"{slot0.charName}\n {slot0.level}\n {slot0.job}\n {slot0.gender}\n";
     }
 }

@@ -13,7 +13,7 @@ public class UIManager : SubClass<GameManager>
     // public GameObject Inventory;
     public GameObject Noti;
     public GameObject Setting;
-    public GameObject InputName;
+    public GameObject InputName; 
 
     Transform popupTr;
 

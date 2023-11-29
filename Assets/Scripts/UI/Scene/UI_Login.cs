@@ -32,13 +32,7 @@ public class UI_Login : UI_Entity
         }
 
         _entities[(int)Enum_UI_Logins.Setting].ClickAction = (PointerEventData data) => {
-            GameObject setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", transform.parent);
-            GameManager.UI._activePopupList.AddFirst(setting);
+            GameManager.UI.OpenOrClose(GameManager.UI.Setting);
         };
-
-
-
-
-
     }
 }
