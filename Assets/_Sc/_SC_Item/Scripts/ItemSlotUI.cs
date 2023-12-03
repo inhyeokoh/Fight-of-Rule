@@ -2,14 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemSlotUI : MonoBehaviour
 {
+    [Tooltip("슬롯 내에서 아이콘과 슬롯 사이의 여백")]
+    [SerializeField] private float _padding = 1f;
+
     [Tooltip("아이템 아이콘 이미지")]
     [SerializeField] private Image _iconImage;
 
     [Tooltip("아이템 개수 텍스트")]
-    [SerializeField] private Text _amountText;
+    [SerializeField] private TextMeshProUGUI _amountText;
 
     [Tooltip("슬롯이 포커스될 때 나타나는 하이라이트 이미지")]
     [SerializeField] private Image _highlightImage;
@@ -65,6 +69,56 @@ public class ItemSlotUI : MonoBehaviour
 
     public void SetSlotIndex(int index) => Index = index;
 
+
+    private void Awake()
+    {
+        InitComponents();
+        Debug.Log(_slotRect);
+        InitValues();
+    }
+    private void InitComponents()
+    {
+        _inventoryUI = GetComponentInParent<InventoryUI>();
+
+        // Rects
+        _slotRect = GetComponent<RectTransform>();
+        _iconRect = _iconImage.rectTransform;
+        _highlightRect = _highlightImage.rectTransform;
+
+        // Game Objects
+        _iconGo = _iconRect.gameObject;
+        _textGo = _amountText.gameObject;
+        _highlightGo = _highlightImage.gameObject;
+
+        // Images
+        _slotImage = GetComponent<Image>();
+    }
+    private void InitValues()
+    {
+        // 1. Item Icon, Highlight Rect
+        _iconRect.pivot = new Vector2(0.5f, 0.5f); // 피벗은 중앙
+        _iconRect.anchorMin = Vector2.zero;        // 앵커는 Top Left
+        _iconRect.anchorMax = Vector2.one;
+
+        // 패딩 조절
+        _iconRect.offsetMin = Vector2.one * (_padding);
+        _iconRect.offsetMax = Vector2.one * (-_padding);
+
+        // 아이콘과 하이라이트 크기가 동일하도록
+        _highlightRect.pivot = _iconRect.pivot;
+        _highlightRect.anchorMin = _iconRect.anchorMin;
+        _highlightRect.anchorMax = _iconRect.anchorMax;
+        _highlightRect.offsetMin = _iconRect.offsetMin;
+        _highlightRect.offsetMax = _iconRect.offsetMax;
+
+        // 2. Image
+        _iconImage.raycastTarget = false;
+        _highlightImage.raycastTarget = false;
+
+        // 3. Deactivate Icon
+        HideIcon();
+        _highlightGo.SetActive(false);
+    }
     /// <summary> 슬롯 자체의 활성화/비활성화 여부 설정 </summary>
     public void SetSlotAccessibleState(bool value)
     {
@@ -162,5 +216,66 @@ public class ItemSlotUI : MonoBehaviour
             HideText();
 
         _amountText.text = amount.ToString();
+    }
+
+    /// <summary> 슬롯에 하이라이트 표시/해제 </summary>
+    public void Highlight(bool show)
+    {
+        if (show)
+            StartCoroutine(nameof(HighlightFadeInRoutine));
+        else
+            StartCoroutine(nameof(HighlightFadeOutRoutine));
+    }
+
+    /// <summary> 하이라이트 이미지를 아이콘 이미지의 상단/하단으로 표시 </summary>
+    public void SetHighlightOnTop(bool value)
+    {
+        if (value)
+            _highlightRect.SetAsLastSibling();
+        else
+            _highlightRect.SetAsFirstSibling();
+    }
+
+    /// <summary> 하이라이트 알파값 서서히 증가 </summary>
+    private IEnumerator HighlightFadeInRoutine()
+    {
+        StopCoroutine(nameof(HighlightFadeOutRoutine));
+        _highlightGo.SetActive(true);
+
+        float unit = _highlightAlpha / _highlightFadeDuration;
+
+        for (; _currentHLAlpha <= _highlightAlpha; _currentHLAlpha += unit * Time.deltaTime)
+        {
+            _highlightImage.color = new Color(
+                _highlightImage.color.r,
+                _highlightImage.color.g,
+                _highlightImage.color.b,
+                _currentHLAlpha
+            );
+
+            yield return null;
+        }
+    }
+
+    /// <summary> 하이라이트 알파값 0%까지 서서히 감소 </summary>
+    private IEnumerator HighlightFadeOutRoutine()
+    {
+        StopCoroutine(nameof(HighlightFadeInRoutine));
+
+        float unit = _highlightAlpha / _highlightFadeDuration;
+
+        for (; _currentHLAlpha >= 0f; _currentHLAlpha -= unit * Time.deltaTime)
+        {
+            _highlightImage.color = new Color(
+                _highlightImage.color.r,
+                _highlightImage.color.g,
+                _highlightImage.color.b,
+                _currentHLAlpha
+            );
+
+            yield return null;
+        }
+
+        _highlightGo.SetActive(false);
     }
 }

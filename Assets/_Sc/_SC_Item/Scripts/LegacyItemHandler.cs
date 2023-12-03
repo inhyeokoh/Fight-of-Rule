@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class LegacyItemHandler : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private Animator anim;
     public GameObject inventoryOutline;

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _id: 1
   _name: HpPortionLv1
-  _tooltip: 
-  _iconSprite: {fileID: 21300000, guid: f09eae8c0ea04254b90c5386a034a225, type: 3}
+  _tooltip: HpPortionLv1
+  _iconSprite: {fileID: 21300000, guid: 881798b77426a8f47b533dcc4767e9e5, type: 3}
   _dropItemPrefab: {fileID: 8053593006174637883, guid: 8d193e922291d6f44ac16d60ce221ae0,
     type: 3}
   _maxAmount: 99
