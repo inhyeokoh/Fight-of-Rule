@@ -6,7 +6,7 @@ public class PlayerStats : MonoBehaviour
 {
     public float hp;
     public float mp;
-    public PlayerMovement pm;
+    public Player pm;
     public float playerSpeed;
 
     public static PlayerStats Inst { get; private set; }
@@ -27,7 +27,7 @@ public class PlayerStats : MonoBehaviour
     {
         hp = 100;
         mp = 100;
-        pm.playerSpeed = playerSpeed;
+        pm.moveSpeed = playerSpeed;
     }
 
     // Update is called once per frame
