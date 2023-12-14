@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
-using System;
-using System.Linq;
+
 
 public class UIManager : SubClass<GameManager>
 {
@@ -13,7 +11,7 @@ public class UIManager : SubClass<GameManager>
     // public GameObject Inventory;
     public GameObject Noti;
     public GameObject Setting;
-    public GameObject InputName; 
+    public GameObject InputName;
 
     Transform popupTr;
 
@@ -25,6 +23,7 @@ public class UIManager : SubClass<GameManager>
 
     protected override void _Clear()
     {
+        
     }
 
     protected override void _Excute()
@@ -38,12 +37,20 @@ public class UIManager : SubClass<GameManager>
         {
             playerAction = player.GetComponent<PlayerInput>(); // 로그인 씬 말고 인게임 들어갔을때 실행 필요할듯
         }
+        else
+        {
+            GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
+            Object.DontDestroyOnLoad(uiManage);
+        }
 
         // 나중엔 pool로 관리
-        popupTr = GameObject.Find("Canvas").transform;
-        Noti = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Noti", popupTr);
-        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
-        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
+
+        /*        Noti = GameManager.Resources.Load<GameObject>($"Prefabs/UI/Popup/Noti");
+                GameManager.Pool.CreatPool(Noti, 1);
+                Setting = GameManager.Resources.Load<GameObject>($"Prefabs/UI/Popup/Setting");
+                GameManager.Pool.CreatPool(Setting, 1);
+                InputName = GameManager.Resources.Load<GameObject>($"Prefabs/UI/Popup/InputName");
+                GameManager.Pool.CreatPool(InputName, 1);*/
 
         // 리스트 초기화
         _allPopupList = new List<GameObject>()
@@ -52,17 +59,17 @@ public class UIManager : SubClass<GameManager>
         };
 
         _activePopupList = new LinkedList<GameObject>();
-
-        InitCloseAll();
     }
 
-    // 시작 시 모든 팝업 닫기
-    public void InitCloseAll()
+    public void SetPopups() // 추후에 인자로 인게임씬인지 여부를 받아서 구분해서 팝업 생성해도 될듯
     {
-        foreach (var popup in _allPopupList)
-        {
-            ClosePopup(popup);
-        }
+        popupTr = GameObject.Find("Canvas").transform;
+        Noti = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Noti", popupTr);
+        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
+        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
+        Noti.SetActive(false);
+        Setting.SetActive(false);
+        InputName.SetActive(false);
     }
 
     // 모든 팝업 닫기
@@ -77,6 +84,7 @@ public class UIManager : SubClass<GameManager>
     public void OpenPopup(GameObject popup)
     {
         _activePopupList.AddFirst(popup);
+        // pSetting = GameManager.Pool.Pop(popup, popupTr);
         popup.SetActive(true);
         RefreshAllPopupDepth();
     }
@@ -85,6 +93,7 @@ public class UIManager : SubClass<GameManager>
     public void ClosePopup(GameObject popup)
     {
         _activePopupList.Remove(popup);
+        // GameManager.Pool.Push(pSetting);
         popup.SetActive(false);
         RefreshAllPopupDepth();
     }

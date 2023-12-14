@@ -43,7 +43,7 @@ public class UI_JobSelect : UI_Entity
         }
 
         jobName = "";
-        josDesc = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponent<TMP_Text>();
+        josDesc = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponentInChildren<TMP_Text>();
         jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
 
 

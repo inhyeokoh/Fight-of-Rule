@@ -2,7 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.SceneManagement;
 
 public class UI_InputName : UI_Entity
 {
@@ -30,13 +29,14 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
+        Debug.Log("nameinit");
 
         for (int i = 0; i < _subUIs.Count; i++)
         {
             Debug.Log(_subUIs[i].gameObject.name);
         }
 
-        msg = _entities[(int)Enum_UI_InputName.CheckName].GetComponent<TMP_Text>();
+        msg = _entities[(int)Enum_UI_InputName.CheckName].GetComponentInChildren<TMP_Text>();
 
         // 생성 가능한 이름인지 체크 후, 저장 및 씬 이동
         _entities[(int)Enum_UI_InputName.Create].ClickAction = (PointerEventData data) => {            
@@ -45,7 +45,8 @@ public class UI_InputName : UI_Entity
                 msg.text = "This name can be created.";
                 GameManager.Data.character.charName = nickName;
                 _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
-                    GameManager.Data.SaveData("slot0", GameManager.Data.character); SceneManager.LoadScene("Select");
+                    GameManager.Data.SaveData(GameManager.Data.fileName, GameManager.Data.character);
+                    GameManager.Scene.GetNextScene();
                 };
             }
             else

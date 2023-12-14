@@ -105,7 +105,8 @@ public class GameManager : MonoBehaviour
             _threadPool,
             _networkManager,
             _uiManager,
-            _dataManager
+            _dataManager,
+            _sceneManager
         };
 
         for(int i = 0; i < _managers.Count; i++)
