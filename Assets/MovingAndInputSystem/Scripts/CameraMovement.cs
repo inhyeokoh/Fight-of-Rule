@@ -74,14 +74,14 @@ public class CameraMovement : MonoBehaviour
         if (scrollValue > 0 && zoomLvl < 3)
         {
             zoomLvl++;
-            Debug.Log(scrollValue + "" + zoomLvl);
+            //Debug.Log(scrollValue + "" + zoomLvl);
             
         }
 
         if (scrollValue < 0 && zoomLvl > 1)
         {
             zoomLvl--;
-            Debug.Log(scrollValue + "" + zoomLvl);
+            //Debug.Log(scrollValue + "" + zoomLvl);
         }
     }
 

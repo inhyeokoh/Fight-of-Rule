@@ -17,6 +17,7 @@ public abstract class SubMono<T> : MonoBehaviour, ISubClass where T : class
 #endif
         }
 
+
         _board = board as T;
         for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Mount(this);
     }

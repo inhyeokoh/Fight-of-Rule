@@ -17,10 +17,14 @@ public class SkillManager : MonoBehaviour
 
     private static SkillManager _skill = null;
 
+    public Collider[] players;   
+
     public static SkillManager Skill { get { return _skill; } }
     
 
-    public CharacterState player;
+    //스킬을 쓰는 대상을 찾기위한 현재 플레이어
+    public CharacterState Player { get; private set; }
+
 
     [SerializeField]
     Skill[] warriorSkills;
@@ -30,11 +34,11 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField]
     Skill[] wizardSkills;
+    
+    [SerializeField]
+    Skill[] characterSkills;
 
-
-    //Dictionary<Skill,>
-
-    /*  private List<SkillEdit> WizardSkill;*/
+  
     public void Awake()
     {
         if (_skill == null)
@@ -45,22 +49,69 @@ public class SkillManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }
+        }     
+    }
+
+    public void Update()
+    {
+      // players = Physics.OverlapSphere(Player.transform.position, 30f, 1 << 7);
+
+       
+    }
+
+    private void OnDrawGizmos()
+    {
+       // Gizmos.DrawWireSphere(player.transform.position, 30f);
     }
 
     public void SkillLevelUp(Skill skill)
     {
-        
+        skill.LevelUp();
     }
 
 
     public void PlayerData()
     {
-          
-        player = GameObject.FindWithTag("Player").GetComponent<CharacterState>();
+        Player = PlayerController.instance._playerState;
+        switch (PlayerController.instance._class)
+        {
+            case Enum_Class.Warrior:
+                {
+                    characterSkills = new Skill[warriorSkills.Length];
+
+                    for (int i = 0; i < warriorSkills.Length; i++)
+                    {                       
+                        characterSkills[i] = warriorSkills[i].Init();
+                        characterSkills[i].SkillStat();
+                    }
+                    break;
+                }
+            case Enum_Class.Archer:
+                {
+                    characterSkills = new Skill[archerSkills.Length];
+
+                    for (int i = 0; i < archerSkills.Length; i++)
+                    {
+                        characterSkills[i] = archerSkills[i].Init();
+                        characterSkills[i].SkillStat();
+                    }
+                    break;
+                }
+            case Enum_Class.Wizard:
+                {
+                    characterSkills = new Skill[wizardSkills.Length];
+
+                    for (int i = 0; i < wizardSkills.Length; i++)
+                    {
+                        characterSkills[i] = wizardSkills[i].Init();
+                        characterSkills[i].SkillStat();
+                    }
+                    break;
+                }
+        }
 
 #if UNITY_EDITOR
-        Debug.Log("생성"); //플레이어 데이터를 가져왔을때 생성 출력
+        //Debug.Log("생성"); //플레이어 데이터를 가져왔을때 생성 출력
 #endif
     }
 
@@ -68,16 +119,9 @@ public class SkillManager : MonoBehaviour
     {
         for (int i = 0; i < skillResetDate.Length; i++)
         {
-            // skill
+            characterSkills[i].SkillReset();
         }
     }
-
-   
-    public void SkillChanage(int skillIndex)
-    {
-
-    }
-
   /*  public void ClassSkillLevelCheck(SkillEdit[] check, Character player)
     {
         for (int i = 0; i < check.Length; i++)
