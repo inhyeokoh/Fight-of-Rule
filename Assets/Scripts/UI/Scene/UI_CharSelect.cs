@@ -8,6 +8,7 @@ public class UI_CharSelect : UI_Entity
 {
     enum Enum_UI_CharSelect
     {
+        Setting,
         Panel,
         Start,
         Delete
@@ -22,6 +23,10 @@ public class UI_CharSelect : UI_Entity
     protected override void Init()
     {
         base.Init();
+
+        _entities[(int)Enum_UI_CharSelect.Setting].ClickAction = (PointerEventData data) => {
+            GameManager.UI.OpenOrClose(GameManager.UI.Setting);
+        };
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
             GameManager.Scene.GetNextScene();

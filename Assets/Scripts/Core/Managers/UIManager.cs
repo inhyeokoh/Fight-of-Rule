@@ -136,7 +136,8 @@ public class UIManager : SubClass<GameManager>
         }
         else
         {
-            GameManager.Scene.GetPreviousScene();
+            GameManager.Scene.GetLocatedScene(); // 이전에 위치했던 씬으로
+            // GameManager.Scene.GetPreviousScene();
         }
     }
 

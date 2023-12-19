@@ -29,7 +29,6 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
-        Debug.Log("nameinit");
 
         for (int i = 0; i < _subUIs.Count; i++)
         {
@@ -45,6 +44,8 @@ public class UI_InputName : UI_Entity
                 msg.text = "This name can be created.";
                 GameManager.Data.character.charName = nickName;
                 _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
+                    GameManager.Data.login.slotCount++; // 슬롯 수 저장
+                    GameManager.Data.SaveData("LoginData", GameManager.Data.login);
                     GameManager.Data.SaveData(GameManager.Data.fileName, GameManager.Data.character);
                     GameManager.Scene.GetNextScene();
                 };

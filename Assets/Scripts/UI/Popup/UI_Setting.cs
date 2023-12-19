@@ -124,11 +124,20 @@ public class UI_Setting : UI_Entity
         volNames[8].text = $"{volNames[6].text} On";
     }
 
+    // 기존값이랑 비교해서 다른부분이 있을 때만 서버에 저장하도록 (float 오차 유의)
     void SaveOptionsVol()
     {
-        GameManager.Data.setting.totalVol = volSliders[0].value;
-        GameManager.Data.setting.backgroundVol = volSliders[1].value;
-        GameManager.Data.setting.effectVol = volSliders[2].value;
+        if (GameManager.Data.setting.totalVol - volSliders[0].value > 0.001f || 
+            GameManager.Data.setting.backgroundVol - volSliders[1].value > 0.001f ||
+            GameManager.Data.setting.effectVol - volSliders[2].value > 0.001f) // 값의 차이가 0.1% 이상 나는 부분이 있다면,
+        {
+            GameManager.Data.setting.totalVol = volSliders[0].value;
+            GameManager.Data.setting.backgroundVol = volSliders[1].value;
+            GameManager.Data.setting.effectVol = volSliders[2].value;
+
+            GameManager.Data.SaveData("Setting", GameManager.Data.setting); // 로컬에 저장하는 부분 -> 서버 송수신으로 변경 예정
+        }
     }
+    
     // TODO 사운드 매니저 제작 이후 추가작업
 }

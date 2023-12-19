@@ -6,6 +6,8 @@ using UnityEngine;
 public class UI_Manage : MonoBehaviour
 {
     // bool inGame;
+    public int preSceneNum;
+    public int curSceneNum;
 
     void OnEnable()
     {
@@ -19,6 +21,7 @@ public class UI_Manage : MonoBehaviour
         {
             inGame = true;
         }*/
+        curSceneNum = SceneManager.GetActiveScene().buildIndex;
         GameManager.UI.SetPopups();    // 팝업들 전부 세팅 TODO: inGame을 인자로 받도록
     }
 

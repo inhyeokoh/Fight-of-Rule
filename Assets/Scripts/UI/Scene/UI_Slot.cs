@@ -36,6 +36,11 @@ public class UI_Slot : UI_Entity
             Image image = _entities[(int)Enum_UI_Slot.Image].GetComponent<Image>();
             image.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{GameManager.Data.character.job}");
 
+            _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
+                GetComponent<Toggle>().isOn = true;
+                GameManager.Data.character = JsonUtility.FromJson<CharData>(GameManager.Data.LoadData(gameObject.name)); // 해당 캐릭터 데이터 주입
+            };
+
             // 해당 슬롯 텍스트 상자에 데이터 기입
             _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
                 $"{GameManager.Data.character.charName}\n {GameManager.Data.character.level}\n {GameManager.Data.character.job}\n {GameManager.Data.character.gender}\n";
