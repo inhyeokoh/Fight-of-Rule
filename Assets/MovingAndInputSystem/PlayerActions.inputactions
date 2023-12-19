@@ -3,60 +3,32 @@
     "maps": [
         {
             "name": "PlayerActions",
-            "id": "260876fc-bdb5-475c-8c24-c17d6b2c7a07",
+            "id": "c97bca51-fe0d-49cf-9c27-d9e80925c8e8",
             "actions": [
                 {
-                    "name": "Move",
-                    "type": "Value",
-                    "id": "4b8b1e8b-826c-4073-bb99-ea3ff2b81320",
-                    "expectedControlType": "Vector2",
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "bd195cf3-b1cd-4636-835d-79fd7a6ce589",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
                 {
                     "name": "",
-                    "id": "14eb418f-94d1-4d84-9d25-b0b91c998866",
-                    "path": "<Mouse>/position",
+                    "id": "f3fa9984-f6f6-4c6c-aeee-423246273554",
+                    "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PC",
-                    "action": "Move",
+                    "groups": "",
+                    "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": [
-        {
-            "name": "PC",
-            "bindingGroup": "PC",
-            "devices": [
-                {
-                    "devicePath": "<Mouse>",
-                    "isOptional": false,
-                    "isOR": false
-                },
-                {
-                    "devicePath": "<Keyboard>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "Mobile",
-            "bindingGroup": "Mobile",
-            "devices": [
-                {
-                    "devicePath": "<Touchscreen>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        }
-    ]
+    "controlSchemes": []
 }
