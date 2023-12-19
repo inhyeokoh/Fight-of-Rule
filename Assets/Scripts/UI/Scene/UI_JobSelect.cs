@@ -15,7 +15,8 @@ public class UI_JobSelect : UI_Entity
 
     enum Enum_UI_JobSelect
     {
-        Panel_L = 0,
+        Setting = 0,
+        Panel_L,
         Panel_R,
         Select,
         Warrior,
@@ -42,10 +43,13 @@ public class UI_JobSelect : UI_Entity
             Debug.Log(_subUIs[i].gameObject.name);
         }
 
-        jobName = "";
-        josDesc = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponent<TMP_Text>();
-        jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
+        _entities[(int)Enum_UI_JobSelect.Setting].ClickAction = (PointerEventData data) => {
+            GameManager.UI.OpenOrClose(GameManager.UI.Setting);
+        };
 
+        jobName = "";
+        josDesc = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponentInChildren<TMP_Text>();
+        jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
 
         // 직업,성별,이미지 기본 설정
         SaveOptions($"{defaultJob}");

@@ -1,10 +1,11 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneManager2 : SubMono<GameManager>
+public class SceneManager2 : SubClass<GameManager>
 {
     int curIdx = 0;
     int maxIdx;
+    GameObject uiManage;
 
     protected override void _Clear()
     {
@@ -16,26 +17,50 @@ public class SceneManager2 : SubMono<GameManager>
 
     protected override void _Init()
     {
-        maxIdx = SceneManager.sceneCount;
+        maxIdx = SceneManager.sceneCountInBuildSettings;
+        curIdx = SceneManager.GetActiveScene().buildIndex;
+
+        uiManage = GameObject.Find("UI_Manage");
     }
 
-
-    public void GetPreviousScene()
+    public void GetPreviousScene(int numToSkip = 1)
     {
         curIdx = SceneManager.GetActiveScene().buildIndex;
-        if (curIdx > 0)
+        if (curIdx - numToSkip + 1 > 0)
         {
             SceneManager.LoadScene(--curIdx);
         }
-    }
-
-    public void GetNextScene()
-    {
-        curIdx = SceneManager.GetActiveScene().buildIndex;
-        if (curIdx < maxIdx)
+        else
         {
-            SceneManager.LoadScene(++curIdx);
+            ExitGame();
         }
     }
 
+    // 이전에 있던 씬으로 이동
+    public void GetLocatedScene()
+    {
+        if (uiManage.GetComponent<UI_Manage>().preSceneNum == 0)
+        {
+            ExitGame();
+        }
+        SceneManager.LoadScene(uiManage.GetComponent<UI_Manage>().preSceneNum);
+    }
+
+    public void GetNextScene(int numToSkip = 1)
+    {
+        curIdx = SceneManager.GetActiveScene().buildIndex;
+        if (curIdx < maxIdx - numToSkip)
+        {
+            SceneManager.LoadScene(curIdx + numToSkip);
+        }
+    }
+
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
 }

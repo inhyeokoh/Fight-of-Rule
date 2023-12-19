@@ -31,16 +31,16 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     //UI컴포넌트들 모음
     static List<Type> _components = new List<Type>()
-        {
-            typeof(Button),
-            typeof(Slider),
-            typeof(Image),
-            typeof(RawImage),
-            typeof(Toggle),
-            typeof(TMP_InputField),
-            typeof(TMP_Dropdown),
-            typeof(TMP_Text),
-        };
+    {
+        typeof(Button),
+        typeof(Slider),
+        typeof(Image),
+        typeof(RawImage),
+        typeof(Toggle),
+        typeof(TMP_InputField),
+        typeof(TMP_Dropdown),
+        typeof(TMP_Text),
+    };
 
     protected void Start()
     {
@@ -111,7 +111,10 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
                 // 하이어라키 상의 이름과 enum 안의 이름이 일치하면,
                 if (component.gameObject.name == names[str])
                 {
-                    _entities.Add(str, uientity);
+                    if (!_entities.ContainsKey(str))  // 키가 이미 존재하는지 확인
+                    {
+                        _entities.Add(str, uientity);
+                    }
                     break;
                 }
             }
