@@ -49,11 +49,11 @@ public class StateMachine
             currentState.Exit();          
         }
 
-        currentState = newState;
-        Debug.Log($"현재 상태 : {currentState}");
+        currentState = newState;     
         currentState.Enter();
 
     }
+    
     //ReversState는 ChangeState에서 previousState변수에 저장됬었던 이전상태를 다시 전환하고 싶을때 호출하면됌
     public void ReversState()
     {

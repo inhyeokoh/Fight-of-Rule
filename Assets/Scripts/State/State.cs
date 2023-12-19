@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 
-public class State//<T> where T : class
+public class State
 {
     //상태를 확인하고 상태를 호출시켜주는 대리자 변수들
     Action _enterAction;
