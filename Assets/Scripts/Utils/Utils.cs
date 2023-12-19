@@ -77,4 +77,11 @@ public class Utils
         }
         return false;
     }
+
+    public static void DebugLog(string msg)
+    {
+#if UNITY_EDITOR
+        Debug.Log(msg);
+#endif
+    }
 }

@@ -44,6 +44,16 @@ public class GameManager : MonoBehaviour
 
 
     /*==================
+     *  ThreadManager
+     =================*/
+    /// <summary>
+    /// thread pool manager
+    /// </summary>
+    ThreadManager _threadPool = new ThreadManager();
+    public static ThreadManager ThreadPool { get {  return Instance._threadPool; } }
+
+
+    /*==================
      *     Network
      *     inhyeok
      =================*/
@@ -53,15 +63,33 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static NetworkManager Network { get { return Instance._networkManager; } }
 
-    /// <summary>
-    /// ui
-    /// </summary>
+    /*==================
+     *  UIManager
+     =================*/
     UIManager _uiManager = new UIManager();
+    /// <summary>
+    /// Control popup UI
+    /// </summary>
     public static UIManager UI { get { return Instance._uiManager; } }
 
+    /*==================
+    *    DataManager
+    =================*/
+    DataManager _dataManager = new DataManager();
     /// <summary>
-    /// invoke in GameManager.Update();
+    /// Load and Save Data
     /// </summary>
+    public static DataManager Data { get { return Instance._dataManager; } }
+
+    /*==================
+    *    SceneManager
+    =================*/
+    SceneManager2 _sceneManager = new SceneManager2();
+    /// <summary>
+    /// Change Scene
+    /// </summary>
+    public static SceneManager2 Scene { get { return Instance._sceneManager; } }
+
     Action _onUpdate;
 
     private void Awake()
@@ -74,7 +102,11 @@ public class GameManager : MonoBehaviour
         {
             _pool,
             _resources,
+            _threadPool,
             _networkManager,
+            _uiManager,
+            _dataManager,
+            _sceneManager
         };
 
         for(int i = 0; i < _managers.Count; i++)

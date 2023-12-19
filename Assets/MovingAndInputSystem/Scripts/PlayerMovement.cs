@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private InputAction mouseClickAction;
     [SerializeField]
-    private float playerSpeed = 10f;
+    public float playerSpeed = 10f;
     [SerializeField]
     private float rotationSpeed = 3f;
 
