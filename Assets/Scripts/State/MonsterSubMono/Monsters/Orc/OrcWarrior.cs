@@ -101,7 +101,7 @@ public class OrcWarrior : Orc
             _board._monsterMovement.Stop();        
             _board._animationController.ChangeMoveAnimation(0);
             EffectDamage(4);
-            //print(damage);
+            _board._effector.InstanceEffect = 0;
             _board._monsterMovement.Ablilty(abliltyDelay);
             _board._animationController.ChangeAbliltyAnimation(0);
         }, () => { }, 

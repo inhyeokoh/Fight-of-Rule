@@ -103,6 +103,8 @@ MonoBehaviour:
   - 0
   - 0
   - 0
+  IsInstanceEffect: 0
+  skillEffectIndex: 1
   skillDamage: f4010000f4010000f4010000f4010000f401000000000000
   skillNumber: 10
 --- !u!61 &6662587935173828856

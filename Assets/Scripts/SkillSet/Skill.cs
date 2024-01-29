@@ -31,11 +31,19 @@ public abstract class Skill : MonoBehaviour
     [SerializeField]
     protected float[] cool; // ÄðÅ¸ÀÓ  
 
+    [SerializeField]
+    protected bool IsInstanceEffect;
+
+    [SerializeField]
+    protected int skillEffectIndex;
+
 
     public int SKillMP { get; protected set; }
     public int SkillDamage { get; protected set; }
 
     public float SkillCoolTime { get; protected set; }
+
+    public float SkillEffectIndex { get; protected set; }
 
 
     public abstract Skill Init();

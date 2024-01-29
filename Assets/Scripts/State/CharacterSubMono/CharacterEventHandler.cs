@@ -21,6 +21,10 @@ public class CharacterEventHandler : SubMono<PlayerController>
         _board.DistributeEffectBurstOff(index);
     }
 
+    public void EffectDurationInstanceEvent(int index)
+    {
+        _board.DistributeEffectInstace(index);
+    }
 
     public void OnChangeStateEvent(int stateId)
     {

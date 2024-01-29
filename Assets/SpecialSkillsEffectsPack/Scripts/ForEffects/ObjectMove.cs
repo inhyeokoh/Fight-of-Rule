@@ -16,6 +16,8 @@ public class ObjectMove : MonoBehaviour
     public float DestroyTime2;
     float m_scalefactor;
 
+    MonsterState monster;
+
     private void OnEnable()
     {
         m_scalefactor = VariousEffectsScene.m_gaph_scenesizefactor;

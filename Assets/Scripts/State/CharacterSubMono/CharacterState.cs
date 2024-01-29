@@ -221,7 +221,7 @@ public abstract class CharacterState : SubMono<PlayerController>
                 _board._playerMovement.Stop();
                 _board._playerMovement.IsKinematic(true);
                 characterState = Enum_CharacterState.Idle;
-                //_board._animationController.ChangeMoveAnimation(0);
+                _board._animationController.ChangeMoveAnimation(0);
             }      
         }, 
         () => { }, 
@@ -244,12 +244,13 @@ public abstract class CharacterState : SubMono<PlayerController>
             else
             {
                 _board._playerMovement.Stop();
+                _board._animationController.ChangeMoveAnimation(0);
                 _board._playerState.ChangeState((int)Enum_CharacterState.Idle);
             }
         },
         () => 
         {
-            _board._animationController.ChangeMoveAnimation(0);
+            //_board._animationController.ChangeMoveAnimation(0);
         }));
         state.Add((int)Enum_CharacterState.Attack, new State(() => 
         {
@@ -283,6 +284,7 @@ public abstract class CharacterState : SubMono<PlayerController>
             }
             else
             {
+                _board._animationController.ChangeMoveAnimation(0);
                 _board._playerState.ChangeState((int)Enum_CharacterState.Idle);
             }        
         },
@@ -305,10 +307,19 @@ public abstract class CharacterState : SubMono<PlayerController>
         {
             characterState = Enum_CharacterState.Delay;         
             _board._playerMovement.Stop();
+            _board._playerMovement.TargetPosition = gameObject.transform.position;
         },
 () => { },
-
-() => { _board._playerMovement.Stop(); },
+() => { _board._playerMovement.Stop();
+    if (Vector3.Distance(gameObject.transform.position, _board._playerMovement.TargetPosition) >= 0.2f)
+    {
+        _board._animationController.ChangeMoveAnimation(1);
+    }
+   /* else
+    {
+        _board._animationController.ChangeMoveAnimation(0);
+    }*/
+},
 () => {   skillUseCheck = false;}));
 
     }

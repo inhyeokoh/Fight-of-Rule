@@ -80,7 +80,10 @@ public class MonsterController : MonoBehaviour
     {
         _effector.EffectBurstOff(Event);
     }
-
+    public void DistributeEffectInstace(int Event)
+    {
+        _effector.EffectDurationInstance(Event);
+    }
     public void DistributeEffectBurstStop()
     {
         _effector.EffectBurstStop();

@@ -378,6 +378,7 @@ public abstract class MonsterState : SubMono<MonsterController>
                 //_board._monsterMovement.IsKinematic(true);
                 _board._monsterMovement.Attack(attackSpeed);
                 _board._animationController.ChanageAttackAnimation(attackNumber);
+                _board._effector.InstanceEffect = 0;
             }              
         },
       () => { },
