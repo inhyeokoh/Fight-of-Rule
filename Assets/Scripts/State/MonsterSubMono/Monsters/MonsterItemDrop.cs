@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterItemDrop : SubMono<MonsterController>
 {
-    [SerializeField]
-    private Item[] items;
+   // [SerializeField]
+    //private Item[] items;
 
     protected override void _Clear()
     {
