@@ -20,6 +20,11 @@ public class MonsterEventHandler : SubMono<MonsterController>
         _board.DistributeState(stateId);
     }
 
+    public void EffectDurationInstanceEvent(int index)
+    {
+        _board.DistributeEffectInstace(index);
+    }
+
     public void OnRootMotion()
     {
         _board.DistributeRootMotion();

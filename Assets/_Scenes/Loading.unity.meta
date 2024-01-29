@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Scenes/Loading.unity.meta
 guid: 2f648e9c571e87b409e91a5aba6ba233
+========
+guid: 9f7483a04af4304418c411d2ca6b9003
+>>>>>>>> develop:Assets/SpecialSkillsEffectsPack/Patch/Decals/HDRP_Decals/HDRPdecalMatrixFix(Upper2020HDRP).unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

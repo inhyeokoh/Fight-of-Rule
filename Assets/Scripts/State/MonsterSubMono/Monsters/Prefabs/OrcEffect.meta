@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Scenes/Inventory.unity.meta
+guid: 7c0532ab629f1784c8a546c14d256a67
+========
+guid: f9c8b71bd96f42542ae86e1d64613181
+folderAsset: yes
+>>>>>>>> develop:Assets/Scripts/State/MonsterSubMono/Monsters/Prefabs/OrcEffect.meta
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -9,6 +9,7 @@ public class ActiveSkill : Skill
     [SerializeField]
     private int[] skillDamage; // 데미지   
 
+   
     [SerializeField]
     WarriorSkill skillNumber;
     public override void LevelUp()
@@ -21,21 +22,22 @@ public class ActiveSkill : Skill
         print($"스킬 데미지 : {SkillDamage}");
         print($"스킬 마나 : {SKillMP}");
         print($"스킬 쿨타임 : {SkillCoolTime}");
+        PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
         SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
         SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);      
     }
     public override Skill Init()
     {
-        
         GameObject clone = Instantiate(gameObject);
         clone.transform.parent = SkillManager.Skill.transform.GetChild(0);       
         clone.SetActive(false);
-
+    
         return clone.GetComponent<ActiveSkill>();
     }
 
     public override void SkillStat()
     {
+        SkillEffectIndex = skillEffectIndex;
         SkillDamage = skillDamage[level];    
         SKillMP = skillMP[level];
         SkillCoolTime = cool[level];

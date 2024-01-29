@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/UI/Scene/ItemSlot.prefab.meta
 guid: 569573972739efa4bb6cb99ce85e5078
+========
+guid: 8b63214f359360e4799003c9b86ee90b
+>>>>>>>> develop:Assets/Scripts/State/MonsterSubMono/Monsters/Prefabs/OrcEffect/Arrow.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

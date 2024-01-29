@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/UI/Scene/UI_ItemSlot.cs.meta
+guid: 5643018a83a9ac349a557949306c7cc5
+========
+guid: 9195276ac83465345ae1b13271800d8d
+>>>>>>>> develop:Assets/Scripts/State/InGameItemMiscellaneous.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

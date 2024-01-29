@@ -8,11 +8,22 @@ public class CharacterEffector : SubMono<PlayerController>
     private GameObject[] effetcBurst;
     [SerializeField]
     private GameObject[] effectDuration;
+ 
     [SerializeField]
-    private Transform effectMiddle;
+    private List<Transform> effectTransform;
 
-    /*    [SerializeField]
-        private Transform[] effectsPosition;*/
+    private int instanceEffect;
+
+    private bool isSkillInstance;
+
+    public int InstanceEffect { get { return instanceEffect; } set { instanceEffect = value; } }
+
+    public bool IsSkillInstance { get { return isSkillInstance; } set { isSkillInstance = value; } }
+
+    /*[SerializeField]
+
+    [SerializeField]
+    private Transform[] effectsPosition;*/
     protected override void _Clear()
     {
 
@@ -42,10 +53,9 @@ public class CharacterEffector : SubMono<PlayerController>
         effetcBurst[index].SetActive(false);
     }
 
-    public void EffectDurationInstance(int effectIndex)
-    {
-        GameObject clone = effectDuration[effectIndex];
-        Instantiate(effectDuration[effectIndex], effectMiddle.position, effectMiddle.rotation);
+    public void EffectDurationInstance(int transformIndex)
+    {            
+        Instantiate(effectDuration[instanceEffect], effectTransform[transformIndex].position, effectTransform[transformIndex].rotation);
     }
 
 

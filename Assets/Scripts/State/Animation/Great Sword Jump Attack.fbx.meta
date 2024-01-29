@@ -71,12 +71,19 @@ ModelImporter:
         floatParameter: 0
         intParameter: 4
         messageOptions: 0
-      - time: 0.7958974
+      - time: 0.8053314
         functionName: OnChangeStateEvent
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
+        messageOptions: 0
+      - time: 0.77294683
+        functionName: OnChangeStateEvent
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 2
         messageOptions: 0
       transformMask: []
       maskType: 3
