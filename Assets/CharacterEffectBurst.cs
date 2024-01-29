@@ -10,6 +10,9 @@ public class CharacterEffectBurst : MonoBehaviour
     Transform characterTransform;
 
     [SerializeField]
+    public MonsterState monsterState;
+
+    [SerializeField]
     float addforce = 30f;
 
     [SerializeField]
@@ -31,6 +34,11 @@ public class CharacterEffectBurst : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if(other.gameObject.layer == 7)
+        {
+            CharacterState characterState = other.GetComponent<CharacterState>();
+            DamageFactory.instance.CharacterDamage(characterState, skillDamage, monsterState, addforce);
+        }
 
         if (other.gameObject.CompareTag("Monster"))
         {          

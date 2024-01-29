@@ -24,10 +24,14 @@ public class ObjectMoveDestroy : MonoBehaviour
 
     [SerializeField]
     private int addforce;
+    [SerializeField]
+    private Vector3 rotation;
 
     private int skillDamage;
 
     CharacterState characterState;
+
+    public MonsterState monsterState;
 
     float time;
     bool ishit;
@@ -41,6 +45,7 @@ public class ObjectMoveDestroy : MonoBehaviour
 
     private void OnEnable()
     {
+        gameObject.transform.rotation = Quaternion.Euler(rotation);
         characterState = PlayerController.instance._playerState;
         skillDamage = characterState.SkillDamage;
         m_scalefactor = VariousEffectsScene.m_gaph_scenesizefactor;//transform.parent.localScale.x;
@@ -69,14 +74,23 @@ public class ObjectMoveDestroy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        MakeHitObject(transform);
+        print("닿았음");
         
+        MakeHitObject(transform);
+
         if (other.gameObject.CompareTag("Monster"))
         {
             MonsterState monsterState = other.GetComponent<MonsterState>();
 
             DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterState, addforce);
         }
+        else if (other.gameObject.layer == 7)
+        {
+            CharacterState characterState = other.GetComponent<CharacterState>();
+
+            DamageFactory.instance.CharacterDamage(characterState, skillDamage, monsterState, addforce);
+        }
+        Destroy(gameObject);
     }
 
     void MakeHitObject(RaycastHit hit)

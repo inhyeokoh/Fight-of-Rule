@@ -674,6 +674,37 @@ Transform:
   m_Father: {fileID: 4977798007049805786}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1474209637654583410
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6132756966216296863}
+  m_Layer: 0
+  m_Name: EffectMiddle
+  m_TagString: Untagged
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6132756966216296863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1474209637654583410}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.00015045468, y: 1.57, z: 1.76}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2630407656452056586}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1507815538051757209
 GameObject:
   m_ObjectHideFlags: 0
@@ -1262,7 +1293,7 @@ Transform:
   - {fileID: 5932602735028810145}
   - {fileID: 7834502793444390157}
   m_Father: {fileID: 2630407656452056586}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3271234385110608020
 GameObject:
@@ -1366,6 +1397,7 @@ Transform:
   m_LocalScale: {x: 1.9, y: 1.9, z: 1.9}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 6132756966216296863}
   - {fileID: 7552896248588830366}
   - {fileID: 1277932280720329834}
   m_Father: {fileID: 0}
@@ -1466,7 +1498,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a8cea4a3e51ece4e9409b0d41efbb9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effetc: []
+  effetcBurst: []
+  effectDuration:
+  - {fileID: 5832424545188445121, guid: 8b63214f359360e4799003c9b86ee90b, type: 3}
+  effectTransform:
+  - {fileID: 6132756966216296863}
 --- !u!114 &2630407656452056596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1491,7 +1527,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7321d50de5f261469aee8ceedbd081e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  items: []
 --- !u!114 &2630407656452056602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1507,6 +1542,7 @@ MonoBehaviour:
   monsterTransform: {fileID: 0}
   monsterRigidbody: {fileID: 0}
   ai: {fileID: 0}
+  hitCoolTime: 0
   delay: 0
   spawn: {x: 0, y: 0, z: 0}
   characterPosition: {fileID: 0}
@@ -1526,6 +1562,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDelay: 1
   isAbliltyDelay: 1
+  isHitCheck: 0
+  isDeadCheck: 0
   expCharacter: {fileID: 0}
   monsterState: 0
 --- !u!195 &2092053607
@@ -3054,7 +3092,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2630407656452056586}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &253338290896628595
 SkinnedMeshRenderer:

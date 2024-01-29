@@ -17,8 +17,16 @@ public class DamageFactory : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void HitCheck(GameObject characterObject)
+    {
+        if (characterObject.CompareTag("Monster"))
+        {
+            
+        }
+    }
     
-    public void CharacterDamage(CharacterState character, MonsterState monster)
+    public void CharacterDamage(CharacterState character, int skillDamage, MonsterState monster, float addforce)
     {
 
     }

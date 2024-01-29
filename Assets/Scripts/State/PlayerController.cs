@@ -185,8 +185,7 @@ public class PlayerController : MonoBehaviour
            _playerState.SkillUseCheck)
             {
                 if (Physics.Raycast(ray, out RaycastHit hi, 100, 1 << 6))
-                {
-                    _animationController.ChangeMoveAnimation(1);
+                {                  
                     test.position = hi.point;
                     _playerMovement.TargetPosition = new Vector3(hi.point.x, _playerMovement.playerTransform.position.y,
                     hi.point.z);
@@ -195,11 +194,9 @@ public class PlayerController : MonoBehaviour
             }
             if (Physics.Raycast(ray, out RaycastHit hit, 100, 1 << 6))
             {
-
                 test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                 hit.point.z);
-
 
                 _playerState.ChangeState((int)Enum_CharacterState.Move);
 
@@ -420,6 +417,11 @@ public class PlayerController : MonoBehaviour
     public void DistributeEffectBurstOff(int Event)
     {
         _effector.EffectBurstOff(Event);
+    }
+
+    public void DistributeEffectInstace(int Event)
+    {
+        _effector.EffectDurationInstance(Event);
     }
 
     public void DistributeEffectBurstStop()

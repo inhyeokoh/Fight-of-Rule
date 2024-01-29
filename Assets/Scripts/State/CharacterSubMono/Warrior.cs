@@ -16,7 +16,7 @@ public class Warrior : CharacterState
     public override void StateAdd()
     {
         state.Add((int)WarriorSkill.AssaultBlade, new State(() => {
-           // _board._animationController.ChangeMoveAnimation(0);
+            _board._animationController.ChangeMoveAnimation(0);
             _board._playerMovement.Direction(_board._playerMovement.TargetPosition);
             _board._playerMovement.IsKinematic(true);
             skillUseCheck = true;
@@ -24,14 +24,13 @@ public class Warrior : CharacterState
             _board._animationController.ChangeSkillAnimation(0);         
         }, () => { }, () => { }, 
         () => 
-        {
-            _board._playerMovement.TargetPosition = gameObject.transform.position;       
+        {                
             skillUseCheck = false;
             _board._playerMovement.IsKinematic(false);
         }));
      
         state.Add((int)WarriorSkill.DivingSlash, new State(() => {
-            //_board._animationController.ChangeMoveAnimation(0);
+             _board._animationController.ChangeMoveAnimation(0);
             _board._playerMovement.Direction(_board._playerMovement.TargetPosition);
             skillUseCheck = true;
             _board._playerMovement.IsKinematic(true);
@@ -39,15 +38,14 @@ public class Warrior : CharacterState
             _board._animationController.ChangeSkillAnimation(1);
         }, () => { }, () => { },
          () =>
-         {
-             _board._playerMovement.TargetPosition = gameObject.transform.position;             
+         {                      
              _board._animationController.RootMotion(false);
              _board._playerMovement.IsKinematic(false);
              skillUseCheck = false;
          }));
         
         state.Add((int)WarriorSkill.DubleSlash, new State(() => {
-            //_board._animationController.ChangeMoveAnimation(0);
+             _board._animationController.ChangeMoveAnimation(0);
             _board._playerMovement.Direction(_board._playerMovement.TargetPosition);
             _board._playerMovement.IsKinematic(true);
             skillUseCheck = true;
@@ -55,14 +53,13 @@ public class Warrior : CharacterState
             _board._animationController.ChangeSkillAnimation(3);
         }, () => { }, () => { },
        () =>
-       {
-           _board._playerMovement.TargetPosition = gameObject.transform.position;       
+       {        
            _board._playerMovement.IsKinematic(false);
            skillUseCheck = false;
        }));
 
         state.Add((int)WarriorSkill.SwordStorm, new State(() => {
-            //_board._animationController.ChangeMoveAnimation(0);
+            _board._animationController.ChangeMoveAnimation(0);
             _board._playerMovement.Direction(_board._playerMovement.TargetPosition);
             skillUseCheck = true;
             _board._playerMovement.IsKinematic(true);
@@ -70,15 +67,14 @@ public class Warrior : CharacterState
             _board._animationController.ChangeSkillAnimation(2);
         }, () => { }, () => { },
        () =>
-       {
-           _board._playerMovement.TargetPosition = gameObject.transform.position;
+       {        
            _board._animationController.RootMotion(false);
            _board._playerMovement.IsKinematic(false);
            skillUseCheck = false;
        }));
 
         state.Add((int)WarriorSkill.WheelWind, new State(() => {
-            //_board._animationController.ChangeMoveAnimation(0);
+            _board._animationController.ChangeMoveAnimation(0);
             _board._playerMovement.Direction(_board._playerMovement.TargetPosition);
             skillUseCheck = true;
             _board._playerMovement.IsKinematic(false); 
