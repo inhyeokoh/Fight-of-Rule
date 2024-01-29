@@ -4,43 +4,56 @@ using UnityEngine;
 
 public abstract class Skill : MonoBehaviour
 {
-    private int level; //배열을 조작하기 위한 인티져
-    /* public int Level
-     {
-         get
-         {
-             return level;
-         }
-         set
-         {
-             level = value;
-         }
-     }*/
 
+    protected int level = 2;
 
-    private int skillID; //스킬 번호
-    public string skillName; //스킬 이름
-    public string skillDESC; // 스킬 설명서 
-    public int[] skillMP; // 드는 마나
-    public int[] skillDamage; // 데미지
-    public int[] skillPoint; // 필요 스킬 포인트
-    public int[] skillLevelCondition; // 필요 레벨
-    public int[] skillLevel; // 스킬 레벨
-    public float[] cool; // 쿨타임
-
-    public GameObject[] paticleObject; //이펙트
-    public Sprite icon; // 스킬 아이콘
-
+    public int Level { get { return level; } }
     
+    [Header("Skill ID")]
+    [SerializeField]
+    protected int skillID; //스킬 번호
+    
+    [Header("Skill String")]
+    [SerializeField]
+    protected string skillName; //스킬 이름
+    [SerializeField]
+    protected string skillDESC; // 스킬 설명서 
+    [SerializeField]
+    protected Sprite icon; // 스킬 아이콘
+
+    [Header("Skill Array")]
+    [SerializeField]
+    protected int[] skillMP; // 드는 마나  
+    [SerializeField]
+    protected int[] skillPoint; // 필요 스킬 포인트
+    [SerializeField]
+    protected int[] skillLevelCondition; // 필요 레벨
+    [SerializeField]
+    protected float[] cool; // 쿨타임  
+
+
+    public int SKillMP { get; protected set; }
+    public int SkillDamage { get; protected set; }
+
+    public float SkillCoolTime { get; protected set; }
+
+
+    public abstract Skill Init();
     public abstract void Use();
 
-    public void SkillLevelUp()
-    {
+    public abstract void LevelUp();
 
-    }
+    public abstract void SkillStat();
+
+
+    public virtual void BuffOn(int statsUp) { }
    
-    public void OnEnable()
+    
+    public virtual void BuffOff(int statsUp) { }
+
+    public void SkillReset()
     {
-        Use();
+        level = -1;
     }
+
 }
