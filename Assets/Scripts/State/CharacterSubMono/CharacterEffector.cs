@@ -58,7 +58,7 @@ public class CharacterEffector : SubMono<PlayerController>
         Instantiate(effectDuration[instanceEffect], effectTransform[transformIndex].position, effectTransform[transformIndex].rotation);
     }
 
-   
+
 
     public void EffectBurstStop()
     {

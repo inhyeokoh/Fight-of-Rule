@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/State/CharacterSubMono/CharacterStatus.cs.meta
+guid: ca5825ee624c1234eb5970a4d845cd79
+========
 guid: bb3bdad969ed4574c8387aec508f7fd6
+>>>>>>>> develop:Assets/Scripts/State/InGameItemConsumption.cs.meta
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2

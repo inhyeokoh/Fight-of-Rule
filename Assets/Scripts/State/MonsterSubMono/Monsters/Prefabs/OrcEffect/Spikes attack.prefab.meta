@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Prefabs/UI/Popup/Inventory.prefab.meta
+guid: b1340b22b033dc847bcedc1273e52470
+========
 guid: d0255962f594b824d9e144e19a6e09e3
+>>>>>>>> develop:Assets/Scripts/State/MonsterSubMono/Monsters/Prefabs/OrcEffect/Spikes attack.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

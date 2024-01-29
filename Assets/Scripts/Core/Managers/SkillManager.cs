@@ -19,11 +19,13 @@ public class SkillManager : MonoBehaviour
 
     public Collider[] players;   
 
-    public static SkillManager Skill { get { return _skill; } }
-    
+    public static SkillManager Skill { get { return _skill; } }    
 
     //스킬을 쓰는 대상을 찾기위한 현재 플레이어
-    public CharacterState Player { get; private set; }
+    public CharacterState PlayerState { get; private set; }
+
+    //스킬을 쓰는 대상을 찾기위한 현재 플레이어
+    public CharacterStatus PlayerStat { get; private set; }
 
 
     [SerializeField]
@@ -72,7 +74,7 @@ public class SkillManager : MonoBehaviour
 
     public void PlayerData()
     {
-        Player = PlayerController.instance._playerState;
+        PlayerStat = PlayerController.instance._playerStat;
         switch (PlayerController.instance._class)
         {
             case Enum_Class.Warrior:

@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Content/Item.meta
+guid: a214729819ad08e48aacb1d7353ad8e3
+folderAsset: yes
+========
 guid: efaad269331390c4ba5819cbbd1c85e0
+>>>>>>>> develop:Assets/SpecialSkillsEffectsPack/Patch/Decals/HDRP_Decals/HDRPdecal(For2020HDRP).unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

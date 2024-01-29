@@ -23,8 +23,8 @@ public class ActiveSkill : Skill
         print($"스킬 마나 : {SKillMP}");
         print($"스킬 쿨타임 : {SkillCoolTime}");
         PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
-        SkillManager.Skill.Player.EffectDamage(SkillDamage);
-        SkillManager.Skill.Player.ChangeState((int)skillNumber);      
+        SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
+        SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);      
     }
     public override Skill Init()
     {

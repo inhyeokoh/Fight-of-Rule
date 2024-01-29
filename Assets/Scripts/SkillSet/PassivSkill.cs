@@ -45,11 +45,11 @@ public class PassivSkill : Skill
 
     public override void BuffOn(int statsUp)
     {
-        SkillManager.Skill.Player.HP += statsUp;
+        SkillManager.Skill.PlayerStat.HP += statsUp;
     }
     public override void BuffOff(int statsDown)
     {
-        SkillManager.Skill.Player.HP -= statsDown;
+        SkillManager.Skill.PlayerStat.HP -= statsDown;
     }
 
     public override void SkillStat()

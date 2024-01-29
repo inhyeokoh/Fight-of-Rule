@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterEffectDuration : MonoBehaviour
 {
     [SerializeField]
-    CharacterState characterState;
+    CharacterStatus characterStat;
 
     [SerializeField]
     private float activeTime;
@@ -45,8 +45,8 @@ public class CharacterEffectDuration : MonoBehaviour
     {
         delayTime = false;
         damageOn = true;
-        characterState = PlayerController.instance._playerState;
-        skillDamage = characterState.SkillDamage;
+        characterStat = PlayerController.instance._playerStat;
+        skillDamage = characterStat.SkillDamage;
         Invoke("SetActvieObject", activeTime);
     }
 
@@ -60,7 +60,7 @@ public class CharacterEffectDuration : MonoBehaviour
                 for (int i = 0; i < enemys.Count; i++)
                 {
                     MonsterState monsterState = enemys[i].GetComponent<MonsterState>();
-                    DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterState, addforce);
+                    DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterStat, addforce);
                 }
 
             }
@@ -83,7 +83,7 @@ public class CharacterEffectDuration : MonoBehaviour
         {
             enemys.Add(other);
             MonsterState monsterState = other.GetComponent<MonsterState>();
-            DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterState, addforce);
+            DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterStat, addforce);
             damageOn = false;
             print(other.gameObject);
         }

@@ -90,7 +90,7 @@ public class Warrior : CharacterState
                   Vector3 direction = _board._playerMovement.TargetPosition - gameObject.transform.position;
                   _board._playerMovement.Rb.velocity = direction.normalized * Speed;*/
 
-                _board._playerMovement.Move(Speed);
+                _board._playerMovement.Move(_board._playerStat.Speed);
 
 
             }
@@ -113,14 +113,14 @@ public class Warrior : CharacterState
 
     }
 
-    public override void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenes, bool firstLevel)
+/*    public override void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenes, bool firstLevel)
     {
-        base.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenes, firstLevel);
-    }
+        base.stats.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenes, firstLevel);
+    }*/
 
     protected override void _Init()
     {
-        Attack = 700;
+        _board._playerStat.Attack = 700;
         attackCombo = 2;      
         base._Init();
     }

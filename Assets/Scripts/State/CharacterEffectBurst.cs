@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class CharacterEffectBurst : MonoBehaviour
 {
+/*    [SerializeField]
+    CharacterState characterState;*/
     [SerializeField]
-    CharacterState characterState;
+    CharacterStatus characterStat;
     [SerializeField]
     Transform characterTransform;
 
@@ -27,8 +29,8 @@ public class CharacterEffectBurst : MonoBehaviour
 
     private void OnEnable()
     {
-        characterState = PlayerController.instance._playerState;
-        skillDamage = characterState.SkillDamage;      
+        characterStat = PlayerController.instance._playerStat;
+        skillDamage = characterStat.SkillDamage;      
     }
 
 
@@ -44,7 +46,7 @@ public class CharacterEffectBurst : MonoBehaviour
         {          
             MonsterState monsterState = other.GetComponent<MonsterState>();
 
-            DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterState, addforce);
+            DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterStat, addforce);
         }
     }  
 

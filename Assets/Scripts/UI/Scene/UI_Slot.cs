@@ -47,14 +47,19 @@ public class UI_Slot : UI_Entity
         }
         else // 오브젝트 명과 일치하는 데이터 파일이 없다면,
         {
-            GetComponent<Toggle>().group = null; // 토글 그룹에서 제외 (선택 불가능 하도록);
-            _entities[(int)Enum_UI_Slot.Image].gameObject.SetActive(false);
-            _entities[(int)Enum_UI_Slot.Label].gameObject.SetActive(false);
-            // "슬롯이름+Create" 이름을 가진 캐릭터 생성버튼에 기능 부여
-            _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
-                GameManager.Data.fileName = gameObject.name;
-                GameManager.Scene.GetPreviousScene();
-            };
+            SetSlotEmpty();
         }
+    }
+
+    void SetSlotEmpty()
+    {
+        GetComponent<Toggle>().group = null; // 토글 그룹에서 제외 (선택 불가능 하도록);
+        _entities[(int)Enum_UI_Slot.Image].gameObject.SetActive(false);
+        _entities[(int)Enum_UI_Slot.Label].gameObject.SetActive(false);
+        // "슬롯이름+Create" 이름을 가진 캐릭터 생성버튼에 기능 부여
+        _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
+            GameManager.Data.fileName = gameObject.name;
+            GameManager.Scene.GetPreviousScene();
+        };
     }
 }

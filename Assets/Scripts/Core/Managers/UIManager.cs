@@ -6,10 +6,9 @@ using UnityEngine.InputSystem;
 public class UIManager : SubClass<GameManager>
 {
     PlayerInput playerAction;
-    string playername = "Player";
+    string playername = "Warrior(Clone)";
 
-    // public GameObject Inventory;
-    public GameObject Noti;
+    public GameObject Inventory;
     public GameObject Setting;
     public GameObject InputName;
 
@@ -43,19 +42,10 @@ public class UIManager : SubClass<GameManager>
             Object.DontDestroyOnLoad(uiManage);
         }
 
-        // 나중엔 pool로 관리
-
-        /*        Noti = GameManager.Resources.Load<GameObject>($"Prefabs/UI/Popup/Noti");
-                GameManager.Pool.CreatPool(Noti, 1);
-                Setting = GameManager.Resources.Load<GameObject>($"Prefabs/UI/Popup/Setting");
-                GameManager.Pool.CreatPool(Setting, 1);
-                InputName = GameManager.Resources.Load<GameObject>($"Prefabs/UI/Popup/InputName");
-                GameManager.Pool.CreatPool(InputName, 1);*/
-
         // 리스트 초기화
         _allPopupList = new List<GameObject>()
         {
-            Noti, Setting, InputName
+            Inventory, Setting, InputName
         };
 
         _activePopupList = new LinkedList<GameObject>();
@@ -64,10 +54,10 @@ public class UIManager : SubClass<GameManager>
     public void SetPopups() // 추후에 인자로 인게임씬인지 여부를 받아서 구분해서 팝업 생성해도 될듯
     {
         popupTr = GameObject.Find("Canvas").transform;
-        Noti = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Noti", popupTr);
+        Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupTr);
         Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
         InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
-        Noti.SetActive(false);
+        Inventory.SetActive(false);
         Setting.SetActive(false);
         InputName.SetActive(false);
     }
@@ -81,10 +71,10 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
+    // 팝업을 활성화하고 링크드리스트에서 등록
     public void OpenPopup(GameObject popup)
     {
         _activePopupList.AddFirst(popup);
-        // pSetting = GameManager.Pool.Pop(popup, popupTr);
         popup.SetActive(true);
         RefreshAllPopupDepth();
     }
@@ -93,7 +83,6 @@ public class UIManager : SubClass<GameManager>
     public void ClosePopup(GameObject popup)
     {
         _activePopupList.Remove(popup);
-        // GameManager.Pool.Push(pSetting);
         popup.SetActive(false);
         RefreshAllPopupDepth();
     }
@@ -103,7 +92,9 @@ public class UIManager : SubClass<GameManager>
     {
         foreach (var popup in _activePopupList)
         {
-            popup.transform.SetAsLastSibling(); // 하이어라키에서 순서 맨 아래 오도록 변경 (그래야 뷰에서 가장 위에 표시됨)
+            // 하이어라키에서 순서 맨 아래 오도록 변경
+            // 뷰에서 가장 위에 표시됨
+            popup.transform.SetAsLastSibling();
         }
     }
 
@@ -136,8 +127,8 @@ public class UIManager : SubClass<GameManager>
         }
         else
         {
-            GameManager.Scene.GetLocatedScene(); // 이전에 위치했던 씬으로
-            // GameManager.Scene.GetPreviousScene();
+            // 이전에 위치했던 씬으로
+            GameManager.Scene.GetLocatedScene();
         }
     }
 

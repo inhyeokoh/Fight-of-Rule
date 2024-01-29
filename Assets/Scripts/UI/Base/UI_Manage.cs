@@ -35,4 +35,8 @@ public class UI_Manage : MonoBehaviour
     {
         GameManager.UI.Escape();
     }
+    public void OnInven()
+    {
+        GameManager.UI.OpenOrClose(GameManager.UI.Inventory);
+    }
 }

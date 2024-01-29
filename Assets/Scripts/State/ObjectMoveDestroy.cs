@@ -29,7 +29,7 @@ public class ObjectMoveDestroy : MonoBehaviour
 
     private int skillDamage;
 
-    CharacterState characterState;
+    CharacterStatus characterStat;
 
     public MonsterState monsterState;
 
@@ -46,8 +46,8 @@ public class ObjectMoveDestroy : MonoBehaviour
     private void OnEnable()
     {
         gameObject.transform.rotation = Quaternion.Euler(rotation);
-        characterState = PlayerController.instance._playerState;
-        skillDamage = characterState.SkillDamage;
+        characterStat = PlayerController.instance._playerStat;
+        skillDamage = characterStat.SkillDamage;
         m_scalefactor = VariousEffectsScene.m_gaph_scenesizefactor;//transform.parent.localScale.x;
         time = Time.time;
     }
@@ -82,7 +82,7 @@ public class ObjectMoveDestroy : MonoBehaviour
         {
             MonsterState monsterState = other.GetComponent<MonsterState>();
 
-            DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterState, addforce);
+            DamageFactory.instance.MonsterDamage(monsterState, skillDamage, characterStat, addforce);
         }
         else if (other.gameObject.layer == 7)
         {
