@@ -192,7 +192,21 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        maxHP = GameManager.Data.character.maxHP;
+        level = 1;
+        maxHP = 50;
+        maxMP = 50;
+        maxEXP = 100;
+
+        hp = 50;
+        mp = 50;
+        exp = 0;
+        attack = 5;
+        attackSpeed = 1;
+        defense = 3;
+        speed = 10;
+        skillDamage = 1;
+
+/*        maxHP = GameManager.Data.character.maxHP;
         maxMP = GameManager.Data.character.maxMP;
         maxEXP = GameManager.Data.character.maxEXP;
 
@@ -202,7 +216,7 @@ public class CharacterStatus : SubMono<PlayerController>
         attack = GameManager.Data.character.attack;
         defense = GameManager.Data.character.defense;
         speed = GameManager.Data.character.speed;
-        level = GameManager.Data.character.level;
+        level = GameManager.Data.character.level;*/
     }
 
     protected override void _Excute()
