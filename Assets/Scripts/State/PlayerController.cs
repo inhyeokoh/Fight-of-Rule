@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     public List<SubMono<PlayerController>> _controller;
 
+    public CharacterStatus _playerStat;
     public CharacterState _playerState;
     public CharacterMovement _playerMovement;
     public CharacterEventHandler _eventHandler;
@@ -76,6 +77,7 @@ public class PlayerController : MonoBehaviour
             case Enum_Class.Warrior:
                 {
                     GameObject clone = Instantiate(ClassPrefabs[0]);
+                    _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
@@ -87,6 +89,7 @@ public class PlayerController : MonoBehaviour
             case Enum_Class.Archer:
                 {
                     GameObject clone = Instantiate(ClassPrefabs[1]);
+                    _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();                
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
@@ -98,6 +101,7 @@ public class PlayerController : MonoBehaviour
             case Enum_Class.Wizard:
                 {
                     GameObject clone = Instantiate(ClassPrefabs[2]);
+                    _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
@@ -112,6 +116,7 @@ public class PlayerController : MonoBehaviour
 
         _controller = new List<SubMono<PlayerController>>
         {
+            _playerStat,
             _playerState,
             _playerMovement,
             _eventHandler,
@@ -132,21 +137,21 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        Level.text = $"Level : {_playerState.Level}";
-        MaxHP.text = $"MaxHP : {_playerState.MaxHP}";
-        MaxMP.text = $"MaxMP : {_playerState.MaxMP}";
-        MaxEXP.text = $"MaxEXP : {_playerState.MaxEXP}";
-        Attack.text = $"Attack : {_playerState.Attack}";
-        Defenese.text = $"Defense : {_playerState.Defense}";
-        HP.text = $"HP : {_playerState.HP}";
+        Level.text = $"Level : {_playerStat.Level}";
+        MaxHP.text = $"MaxHP : {_playerStat.MaxHP}";
+        MaxMP.text = $"MaxMP : {_playerStat.MaxMP}";
+        MaxEXP.text = $"MaxEXP : {_playerStat.MaxEXP}";
+        Attack.text = $"Attack : {_playerStat.Attack}";
+        Defenese.text = $"Defense : {_playerStat.Defense}";
+        HP.text = $"HP : {_playerStat.HP}";
        // MP.text = $"MP : {_playerState.MP}";
-        EXP.text = $"EXP : {_playerState.EXP}";
+        EXP.text = $"EXP : {_playerStat.EXP}";
     }
 
     private void FixedUpdate()
     {
-        MP.text = $"MP : {_playerState.MP}";
-        EXP.text = $"EXP : {_playerState.EXP}";
+        MP.text = $"MP : {_playerStat.MP}";
+        EXP.text = $"EXP : {_playerStat.EXP}";
         _playerState.FixedUpdated();
     }
     private void Update()
@@ -164,7 +169,7 @@ public class PlayerController : MonoBehaviour
 
     public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenese, bool firstLevele)
     {
-        _playerState.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenese, firstLevele);
+        _playerStat.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenese, firstLevele);
     }
 
     public void LevelUpCheck(int level)
@@ -242,17 +247,17 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.phase == InputActionPhase.Started)
         {
-            _playerState.EXP += 2000000;
+            _playerStat.EXP += 2000000;
 
-            Level.text = $"Level : {_playerState.Level}";
-            MaxHP.text = $"MaxHP : {_playerState.MaxHP}";
-            MaxMP.text = $"MaxMP : {_playerState.MaxMP}";
-            MaxEXP.text = $"MaxEXP : {_playerState.MaxEXP}";
-            Attack.text = $"Attack : {_playerState.Attack}";
-            Defenese.text = $"Defense : {_playerState.Defense}";
-            HP.text = $"HP : {_playerState.HP}";
-            MP.text = $"MP : {_playerState.MP}";
-            EXP.text = $"EXP : {_playerState.EXP}";
+            Level.text = $"Level : {_playerStat.Level}";
+            MaxHP.text = $"MaxHP : {_playerStat.MaxHP}";
+            MaxMP.text = $"MaxMP : {_playerStat.MaxMP}";
+            MaxEXP.text = $"MaxEXP : {_playerStat.MaxEXP}";
+            Attack.text = $"Attack : {_playerStat.Attack}";
+            Defenese.text = $"Defense : {_playerStat.Defense}";
+            HP.text = $"HP : {_playerStat.HP}";
+            MP.text = $"MP : {_playerStat.MP}";
+            EXP.text = $"EXP : {_playerStat.EXP}";
         }
 
 
@@ -303,7 +308,7 @@ public class PlayerController : MonoBehaviour
                 test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);                              
-                ketSlots[0].Use(_playerState);
+                ketSlots[0].Use(_playerState, _playerStat);
             }
         }           
     }
@@ -328,7 +333,7 @@ public class PlayerController : MonoBehaviour
                 test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);              
-                ketSlots[1].Use(_playerState);
+                ketSlots[1].Use(_playerState, _playerStat);
             }          
         }
     }
@@ -352,7 +357,7 @@ public class PlayerController : MonoBehaviour
                 test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
-                ketSlots[2].Use(_playerState);
+                ketSlots[2].Use(_playerState, _playerStat);
             }    
         }
     }
@@ -376,7 +381,7 @@ public class PlayerController : MonoBehaviour
                 test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
-                ketSlots[3].Use(_playerState);
+                ketSlots[3].Use(_playerState, _playerStat);
             }  
         }
     }

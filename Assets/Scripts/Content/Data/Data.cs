@@ -31,8 +31,21 @@ public class SettingsData : Data
 public class CharData : Data
 {
     public string charName;
-    public int level = 1;
     public string job;
     public string gender;
+
+    public int level;
+    public int maxHP;
+    public int maxMP;
+    public int maxEXP;
+
+    public int hp;
+    public int mp;
+    public int exp;
+    public int attack;
+    public int attackSpeed;
+    public int defense;
+    public int speed;
+    public int skillDamage;
 }
 

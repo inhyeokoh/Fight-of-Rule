@@ -40,21 +40,26 @@ public class UI_Setting : UI_Entity
         LoadOptionsVol();
 
         // 버튼 할당
-        _entities[(int)Enum_UI_Settings.Close].ClickAction = (PointerEventData data) => {
+        _entities[(int)Enum_UI_Settings.Close].ClickAction = (PointerEventData data) =>
+        {
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
-        _entities[(int)Enum_UI_Settings.Reset].ClickAction = (PointerEventData data) => {
+        _entities[(int)Enum_UI_Settings.Reset].ClickAction = (PointerEventData data) =>
+        {
             ResetOptionsVol(0.5f);
         };
-        _entities[(int)Enum_UI_Settings.Accept].ClickAction = (PointerEventData data) => {
+        _entities[(int)Enum_UI_Settings.Accept].ClickAction = (PointerEventData data) =>
+        {
             SaveOptionsVol();
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
-        _entities[(int)Enum_UI_Settings.Cancel].ClickAction = (PointerEventData data) => {
+        _entities[(int)Enum_UI_Settings.Cancel].ClickAction = (PointerEventData data) =>
+        {
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
 
-        _entities[(int)Enum_UI_Settings.Interact].DragAction = (PointerEventData data) => {
+        _entities[(int)Enum_UI_Settings.Interact].DragAction = (PointerEventData data) =>
+        {
             transform.position = data.position;   // TODO: 드래그 수정 필요
         };
 

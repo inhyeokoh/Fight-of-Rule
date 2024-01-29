@@ -43,17 +43,17 @@ public class KeySlot : MonoBehaviour
             slotSkill = null;
         }
     }
-    public void QuickSlot(Skill skill, CharacterState player) 
+    public void QuickSlot(Skill skill, CharacterState playerState, CharacterStatus playerStat) 
     {
         if (skill == null)
         {
-            player.ChangeState((int)Enum_CharacterState.Idle);
+            playerState.ChangeState((int)Enum_CharacterState.Idle);
             print("스킬이 없습니다.");
             return;
         }
         else
         {
-            if (player.SkillUseCheck)
+            if (playerState.SkillUseCheck)
             {
                 print("스킬 사용중 입니다.");
             }
@@ -61,13 +61,13 @@ public class KeySlot : MonoBehaviour
             {
                 print("스킬이 아직 쿨타임 입니다.");
             }
-            else if (player.MP < skill.SKillMP)
+            else if (playerStat.MP < skill.SKillMP)
             {
                 print("마나가 부족합니다.");
             }
             else
             {
-                player.MP -= skill.SKillMP;
+                playerStat.MP -= skill.SKillMP;
                 PlayerController.instance._effector.EffectBurstStop();
                 skill.Use();
                 coolTimeCheck.SkillUse();
@@ -75,8 +75,8 @@ public class KeySlot : MonoBehaviour
         }
       
     }
-    public void Use(CharacterState player)
+    public void Use(CharacterState playerState, CharacterStatus playerStat)
     {
-        QuickSlot(slotSkill, player);
+        QuickSlot(slotSkill, playerState, playerStat);
     }
 }

@@ -11,8 +11,8 @@ public class CharacterEffector : SubMono<PlayerController>
     [SerializeField]
     private Transform effectMiddle;
 
-    [SerializeField]
-    private Transform[] effectsPosition;
+    /*    [SerializeField]
+        private Transform[] effectsPosition;*/
     protected override void _Clear()
     {
 
@@ -43,13 +43,12 @@ public class CharacterEffector : SubMono<PlayerController>
     }
 
     public void EffectDurationInstance(int effectIndex)
-    {      
+    {
         GameObject clone = effectDuration[effectIndex];
-       /* print(positionIndex);
-        Instantiate(effectDuration[effectIndex], effectsPosition[positionIndex].position, effectsPosition[positionIndex].rotation);*/
+        Instantiate(effectDuration[effectIndex], effectMiddle.position, effectMiddle.rotation);
     }
 
-   
+
 
     public void EffectBurstStop()
     {

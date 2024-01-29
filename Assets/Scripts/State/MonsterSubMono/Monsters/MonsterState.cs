@@ -56,7 +56,7 @@ public abstract class MonsterState : SubMono<MonsterController>
 
     protected Dictionary<int, State> state;
     [SerializeField]
-    protected CharacterState expCharacter;
+    protected CharacterStatus expCharacter;
     StateMachine stateMachine;
     [SerializeField]
     protected Enum_MonsterState monsterState;
@@ -435,7 +435,7 @@ public abstract class MonsterState : SubMono<MonsterController>
 
     }
 
-    public void DeadCheck(int damage, CharacterState expCharacter, float addforce)
+    public void DeadCheck(int damage, CharacterStatus expCharacter, float addforce)
     {
 
        // _board.DistributeEffectBurstStop();
