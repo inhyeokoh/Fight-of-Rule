@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+message SETTING_OPTIONS {
+    float total_vol = 1;
+    float background_vol = 2;
+    float effect_vol = 3;
+
+    bool total_vol_on = 4;
+    bool background_vol_on = 5; 
+    bool effect_vol_on = 6;
+}

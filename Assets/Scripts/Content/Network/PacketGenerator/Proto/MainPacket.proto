@@ -1,0 +1,30 @@
+syntax = "proto3";
+import "CharacterMessage.proto";
+import "OptionMessage.proto";
+
+message C_LOGIN {
+    string login_id = 1;
+    string login_pw = 2;
+}
+
+message S_LOGIN {
+    string login_id = 1;
+    bool login_success = 2;
+    repeated CHARACTER_INFO slots = 3;
+}
+
+message C_OPTION {
+    bool get_options = 1;
+}
+
+message S_OPTION {
+    SETTING_OPTIONS setting_options = 1;
+}
+
+message C_NICKNAME {
+    string nickname = 1;
+}
+
+message S_NICKNAME {
+    bool nickname_success = 1;
+}
