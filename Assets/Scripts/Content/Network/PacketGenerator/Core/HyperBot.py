@@ -19,6 +19,11 @@ from enum import IntEnum
 #BASE_DIR = ".."
 TEST_PREFIX = ""
 TEST_DIR = "Proto"
+MAIN_FILE = "PacketHandler.cs"
+
+RESULT_DIR = "__build_result__"
+PROTO_DIR = "ProtoBuild"
+
 
 class AnsItemType(IntEnum):
     EVT = 0,
@@ -81,6 +86,8 @@ class HyperSlackBot_Slave():
         
         
     def send_init(self):
+        os.makedirs(f"{RESULT_DIR}/{PROTO_DIR}", exist_ok=True)
+        
         send_items = f'./{TEST_PREFIX}{TEST_DIR}/'
         proto_files = natsort.natsorted((os.listdir(send_items)))
         proto_files = [protofile for protofile in proto_files if protofile.endswith('.proto')]
@@ -110,7 +117,7 @@ class HyperSlackBot_Slave():
             for proto_file in proto_files:
                 self.ask_dic[proto_file.replace(".proto", ".cs")] = False
                 
-            self.ask_dic["PacketHandler.cs"] = False
+            self.ask_dic[MAIN_FILE] = False
             
             self.ask_ts = out_p["ts"]
             response_text = f"파일이 성공적으로 업로드되었습니다."
@@ -220,7 +227,12 @@ class HyperSlackBot_Slave():
         headers = {"Authorization": f"Bearer {self.app_token}"}
         response = requests.get(download_url, headers=headers)
         
-        with open(f"{file_name}", "wb") as f:
+        if MAIN_FILE != file_name:
+            dir = f"{RESULT_DIR}/{PROTO_DIR}/{file_name}"
+        else:
+            dir = f"{RESULT_DIR}/{file_name}"
+            
+        with open(f"{dir}", "wb") as f:
             f.write(response.content)
         
         self.ask_dic[file_name] = True
