@@ -183,7 +183,9 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  skillDamage: 000000000000000000000000
+  IsInstanceEffect: 0
+  skillEffectIndex: 0
+  skillDamage: 50c3000050c3000050c30000
   skillNumber: 13
 --- !u!61 &7348174743919538303
 BoxCollider2D:

@@ -24,7 +24,7 @@ public class DataManager : SubClass<GameManager>
     }
 
     protected override void _Init()
-    {
+    { 
         // 유니티 기본 설정 경로. PC나 모바일 등등 어디든 프로젝트 이름으로 된 폴더 생김
         path = Application.persistentDataPath + "/";
 
@@ -32,7 +32,7 @@ public class DataManager : SubClass<GameManager>
         // setting = new SettingsData();
         // character = new CharData();
 
-        LoadAllSavedData();
+        LoadAllSavedData();     
     }
 
     // 저장할 파일 이름과 저장할 클래스를 입력 받아 Json 파일로 저장
@@ -45,7 +45,7 @@ public class DataManager : SubClass<GameManager>
 
     public string LoadData(string fileName)
     {
-        string data = File.ReadAllText(path + fileName);
+        string data = File.ReadAllText(path + fileName);      
         return data;
     }
 

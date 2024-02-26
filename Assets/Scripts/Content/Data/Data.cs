@@ -49,3 +49,78 @@ public class CharData : Data
     public int skillDamage;
 }
 
+
+
+
+public class ItemsData
+{
+    public int itemID;
+    public string itemType;
+    public string itemName;
+    public string itemDescription;
+}
+
+[System.Serializable]
+public class ItemWeaponData : ItemsData
+{
+    public int level;
+   
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int attack;
+}
+[System.Serializable]
+public class ItemHeadData : ItemsData
+{   
+    public int level;
+ 
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int maxHP;
+    public int defenes;
+}
+[System.Serializable]
+public class ItemBodyData : ItemsData
+{   
+    public int level;
+  
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int maxHP;
+    public int defenes;
+    public int attack;
+    
+
+}
+[System.Serializable]
+public class ItemHandData : ItemsData
+{
+    public int level;
+
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int attack;
+    public int maxMP;
+}
+[System.Serializable]
+public class ItemFootData : ItemsData
+{  
+    public int level; 
+
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int speed;
+    public int defenes;
+}
+
+[System.Serializable]
+public class ItemETC : ItemData
+{
+
+}
+

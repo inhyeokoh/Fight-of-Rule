@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public enum Enum_Class
 {
+    Default,
     Warrior,
     Archer,
     Wizard
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
     public CharacterStatus _playerStat;
     public CharacterState _playerState;
     public CharacterMovement _playerMovement;
+    public CharacterEquipment _playerEquipment;
+    public CharacterPotion _playerpotion;
     public CharacterEventHandler _eventHandler;
     public CharacterAnimationController _animationController;
     public CharacterEffector _effector;
@@ -37,6 +40,11 @@ public class PlayerController : MonoBehaviour
     public Text HP;
     public Text MP;
     public Text EXP;
+    public Text Weapon;
+    public Text Head;
+    public Text Body;
+    public Text Hand;
+    public Text Foot;
 
 
     [SerializeField]
@@ -79,6 +87,7 @@ public class PlayerController : MonoBehaviour
                     GameObject clone = Instantiate(ClassPrefabs[0]);
                     _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();
+                    _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
@@ -90,7 +99,8 @@ public class PlayerController : MonoBehaviour
                 {
                     GameObject clone = Instantiate(ClassPrefabs[1]);
                     _playerStat = clone.GetComponent<CharacterStatus>();
-                    _playerState = clone.GetComponent<CharacterState>();                
+                    _playerState = clone.GetComponent<CharacterState>();
+                    _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
@@ -103,6 +113,7 @@ public class PlayerController : MonoBehaviour
                     GameObject clone = Instantiate(ClassPrefabs[2]);
                     _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();
+                    _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
@@ -118,6 +129,7 @@ public class PlayerController : MonoBehaviour
         {
             _playerStat,
             _playerState,
+            _playerEquipment,
             _playerMovement,
             _eventHandler,
             _animationController,
@@ -138,21 +150,40 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         Level.text = $"Level : {_playerStat.Level}";
-        MaxHP.text = $"MaxHP : {_playerStat.MaxHP}";
-        MaxMP.text = $"MaxMP : {_playerStat.MaxMP}";
+        MaxHP.text = $"MaxHP : {_playerStat.SumMaxHP}";
+        MaxMP.text = $"MaxMP : {_playerStat.SumMaxMP}";
         MaxEXP.text = $"MaxEXP : {_playerStat.MaxEXP}";
-        Attack.text = $"Attack : {_playerStat.Attack}";
-        Defenese.text = $"Defense : {_playerStat.Defense}";
+        Attack.text = $"Attack : {_playerStat.SumAttack}";
+        Defenese.text = $"Defense : {_playerStat.SumDefense}";
         HP.text = $"HP : {_playerStat.HP}";
        // MP.text = $"MP : {_playerState.MP}";
         EXP.text = $"EXP : {_playerStat.EXP}";
+        Weapon.text = $"Weapon : {_playerEquipment.WeaponCheck}";
+        Head.text = $"Head : {_playerEquipment.HeadCheck}";
+        Body.text = $"Body : {_playerEquipment.BodyCheck}";
+        Hand.text = $"Hand : {_playerEquipment.HandCheck}";
+        Foot.text = $"Foot : {_playerEquipment.FootCheck}";
     }
 
     private void FixedUpdate()
     {
+
+        Level.text = $"Level : {_playerStat.Level}";
+        MaxHP.text = $"MaxHP : {_playerStat.SumMaxHP}";
+        MaxMP.text = $"MaxMP : {_playerStat.SumMaxMP}";
+        MaxEXP.text = $"MaxEXP : {_playerStat.MaxEXP}";
+        Attack.text = $"Attack : {_playerStat.SumAttack}";
+        Defenese.text = $"Defense : {_playerStat.SumDefense}";
+        HP.text = $"HP : {_playerStat.HP}";
         MP.text = $"MP : {_playerStat.MP}";
         EXP.text = $"EXP : {_playerStat.EXP}";
+        Weapon.text = $"Weapon : {_playerEquipment.WeaponCheck}";
+        Head.text = $"Head : {_playerEquipment.HeadCheck}";
+        Body.text = $"Body : {_playerEquipment.BodyCheck}";
+        Hand.text = $"Hand : {_playerEquipment.HandCheck}";
+        Foot.text = $"Foot : {_playerEquipment.FootCheck}";
         _playerState.FixedUpdated();
+        _playerEquipment.EquipmentFixedStay();
     }
     private void Update()
     {
@@ -164,12 +195,13 @@ public class PlayerController : MonoBehaviour
         }
 
         _playerState.Updated();
+        _playerEquipment.EquipmentStay();
 
     }
 
-    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenese, bool firstLevele)
+    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenese, bool firstLevel)
     {
-        _playerStat.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenese, firstLevele);
+        _playerStat.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenese, firstLevel);
     }
 
     public void LevelUpCheck(int level)
