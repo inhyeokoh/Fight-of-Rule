@@ -13,11 +13,11 @@ public enum Enum_ArcherSkill
 public class Archer : CharacterState
 {     
   
-    public override void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenes, bool firstLevel) 
+/*    public override void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenes, bool firstLevel) 
     { 
 
 
-    }
+    }*/
 
     protected override void _Init()
     {

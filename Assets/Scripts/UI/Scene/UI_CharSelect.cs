@@ -29,12 +29,13 @@ public class UI_CharSelect : UI_Entity
         };
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
-            GameManager.Scene.GetNextScene();
+            UI_Loading.LoadScene("StatePattern");
         };
 
-        // TODO
+        // 인벤씬 테스트용
         _entities[(int)Enum_UI_CharSelect.Delete].ClickAction = (PointerEventData data) => {
-            // 삭제 경고창
+            UI_Loading.LoadScene("Inventory");
         };
+        // TODO 캐릭터 삭제
     }
 }

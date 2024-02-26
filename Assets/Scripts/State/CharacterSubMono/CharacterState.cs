@@ -25,23 +25,9 @@ public abstract class CharacterState : SubMono<PlayerController>
     //캐릭터의 네트워크에 연결을해서 hp mp exp damage defense speed level 렌더러 백터값 물리엔진을 받아온다.
     Collider playerCollider;
 
-    private int maxHP = 50;
-    private int maxMP = 50;
-    private int maxEXP = 100;
-
     protected int attackCombo;
     [SerializeField]
     protected bool skillUseCheck;
-
-    private int hp = 50;
-    private int mp = 50;
-    private int exp = 0;
-    private int attack = 5;
-    private int attackSpeed;
-    private int defense = 3;
-    private int speed = 10;
-    private int level = 1;
-    private int skillDamage;
 
     [SerializeField]
     private bool isAvoid = false;
@@ -53,148 +39,8 @@ public abstract class CharacterState : SubMono<PlayerController>
     [SerializeField]
     private Enum_CharacterState characterState;
 
-
     public bool IsAvoid { get { return isAvoid; } set { isAvoid = value; } }
-
-    public int MaxHP { get { return maxHP; } }
-    public int MaxMP { get { return maxMP; } }
-
-    public int MaxEXP { get { return maxEXP; } }
-
-    public int HP
-    {
-        get
-        {
-            return hp;
-        }
-        set
-        {
-            hp = value < 0 ? 0 : value;
-
-            if (hp >= maxHP)
-            {
-                hp = maxHP;
-            }
-
-            if(hp == 0)
-            {
-                Dead();
-            }
-            
-        }
-    }
-
-    public int MP
-    {
-        get
-        {
-            return mp;
-        }
-        set
-        {          
-            mp = value < 0 ? 0 : value;
-
-            if (mp >= maxMP)
-            {
-                mp = maxMP;
-            }
-        }
-    }
-
-    public int EXP
-    {
-        get
-        {
-            return exp;
-        }
-        set
-        {
-            if (level == 50)
-            {
-                return;
-            }
-            else
-            {
-                exp = value;                            
-               
-                if (exp >= maxEXP)             
-                {                             
-                    {                    
-                        level++;                    
-                        _board.LevelUpCheck(level);                 
-                    }
-                }
-            }                    
-        }
-    }
-
-    public int Attack
-    {
-        get
-        {
-            return attack;
-        }
-        set
-        {
-            attack = value;
-        }
-    }
-
-    public int SkillDamage
-    {
-        get
-        {
-            return skillDamage;
-        }       
-    }
-
-    public int Defense
-    {
-        get
-        {
-            return defense;
-        }
-        set
-        {
-            defense = value;
-        }
-    }
-
-    public int Speed
-    {
-        get
-        {
-            return speed;
-        }
-        set
-        {
-            speed = value;
-        }
-    }
-
-    public int Level
-    {
-        get
-        {
-            return level;
-        }
-        set
-        {
-            level = value;
-        }
-    }
-
-    public int AttackSpeed
-    {
-        get
-        {
-            return attackSpeed;
-        }
-        set
-        {
-            attackSpeed = value;
-        }
-    }
+ 
 
     public bool SkillUseCheck { get { return skillUseCheck; } }
 
@@ -221,7 +67,7 @@ public abstract class CharacterState : SubMono<PlayerController>
                 _board._playerMovement.Stop();
                 _board._playerMovement.IsKinematic(true);
                 characterState = Enum_CharacterState.Idle;
-                //_board._animationController.ChangeMoveAnimation(0);
+                _board._animationController.ChangeMoveAnimation(0);
             }      
         }, 
         () => { }, 
@@ -239,21 +85,22 @@ public abstract class CharacterState : SubMono<PlayerController>
         {
             if (Vector3.Distance(_board._playerMovement.playerTransform.position, _board._playerMovement.targetPosition) > 0.1f)
             {
-                _board._playerMovement.Move(speed);
+                _board._playerMovement.Move(_board._playerStat.Speed);
             }
             else
             {
                 _board._playerMovement.Stop();
+                _board._animationController.ChangeMoveAnimation(0);
                 _board._playerState.ChangeState((int)Enum_CharacterState.Idle);
             }
         },
         () => 
         {
-            _board._animationController.ChangeMoveAnimation(0);
+            //_board._animationController.ChangeMoveAnimation(0);
         }));
         state.Add((int)Enum_CharacterState.Attack, new State(() => 
         {
-            EffectDamage();
+            _board._playerStat.EffectDamage();
             _board._playerMovement.IsKinematic(true);
             _board._animationController.ChangeMoveAnimation(0);
             _board._playerMovement.Direction(_board._playerMovement.TargetPosition); 
@@ -279,10 +126,11 @@ public abstract class CharacterState : SubMono<PlayerController>
             if (isAvoid)
             {
                 _board.DistributeEffectBurstStop();
-                _board._playerMovement.Avoid(speed);
+                _board._playerMovement.Avoid(_board._playerStat.Speed);
             }
             else
             {
+                _board._animationController.ChangeMoveAnimation(0);
                 _board._playerState.ChangeState((int)Enum_CharacterState.Idle);
             }        
         },
@@ -305,10 +153,19 @@ public abstract class CharacterState : SubMono<PlayerController>
         {
             characterState = Enum_CharacterState.Delay;         
             _board._playerMovement.Stop();
+            _board._playerMovement.TargetPosition = gameObject.transform.position;
         },
 () => { },
-
-() => { _board._playerMovement.Stop(); },
+() => { _board._playerMovement.Stop();
+    if (Vector3.Distance(gameObject.transform.position, _board._playerMovement.TargetPosition) >= 0.2f)
+    {
+        _board._animationController.ChangeMoveAnimation(1);
+    }
+   /* else
+    {
+        _board._animationController.ChangeMoveAnimation(0);
+    }*/
+},
 () => {   skillUseCheck = false;}));
 
     }
@@ -331,35 +188,6 @@ public abstract class CharacterState : SubMono<PlayerController>
     {
         //print($"현재상태 {(Enum_CharacterState)newState}");
         stateMachine.ChangeState(state[newState]);
-    }
-
-
-    public virtual void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defense, bool firstLevel)
-    {
-        int previousEXP = this.maxEXP;
-
-        if (firstLevel)
-        {
-            this.maxEXP = maxEXP;
-        }
-        else
-        {
-            this.maxEXP += maxEXP;
-        }
-
-        this.maxHP += maxHP;
-        this.maxMP += maxMP;
-        this.attack += attack;
-        this.defense += defense;
-
-        HP = this.maxHP;
-        MP = this.maxMP;
-        EXP -= previousEXP;
-    }
-
-    public int EffectDamage(int EffectDamage = 1)
-    {
-        return skillDamage = attack * EffectDamage;
     }
 
     public void Alive()

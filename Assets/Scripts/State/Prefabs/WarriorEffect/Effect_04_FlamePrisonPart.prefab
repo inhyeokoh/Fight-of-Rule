@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5214525194815764128}
   - component: {fileID: 3558043431247775883}
   - component: {fileID: 555905343473046301}
-  - component: {fileID: 3802120926219410836}
   m_Layer: 0
   m_Name: Effect_04_FlamePrisonPart
   m_TagString: Untagged
@@ -71,18 +70,6 @@ MonoBehaviour:
   damageOn: 1
   delayTime: 0
   firstDamageOn: 0
---- !u!114 &3802120926219410836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2896664553568018579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29b68c25a03e96c448ca7ca8175685f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7043994525435623075
 GameObject:
   m_ObjectHideFlags: 0

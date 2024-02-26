@@ -63,7 +63,6 @@ public class DataManager : SubClass<GameManager>
         if (GameManager.Data.CheckData("LoginData")) // 로그인 기록이 있으면 만들어둔 슬롯 갯수가 있을것이므로 불러옴
         {
             login = JsonUtility.FromJson<LoginData>(GameManager.Data.LoadData("LoginData"));
-            Debug.Log(GameManager.Data.login.slotCount);
         }
     }
 }

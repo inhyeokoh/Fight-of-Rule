@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/UI/Popup/UI_Inventory.cs.meta
+guid: 55dabf774e19dc946868d50a91ac8861
+========
+guid: f275bdccee3d7db4d97d4529d431ba22
+>>>>>>>> develop:Assets/Scripts/State/InGameItemEquipment.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

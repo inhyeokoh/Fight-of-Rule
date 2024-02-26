@@ -6,12 +6,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IDragHandler, ISelectHandler
+public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, ISelectHandler
 {
     public Action<PointerEventData> PointerEnterAction = null;
     public Action<PointerEventData> PointerExitAction = null;
     public Action<PointerEventData> ClickAction = null;
+    public Action<PointerEventData> BeginDragAction = null;
     public Action<PointerEventData> DragAction = null;
+    public Action<PointerEventData> EndDragAction = null;
     public Action<BaseEventData> SelectAction = null;
 
     PlayerInput playerInput;
@@ -165,10 +167,22 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
         ClickAction?.Invoke(eventData);
     }
 
+    // 드래그 시작되면 호출
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        BeginDragAction?.Invoke(eventData);
+    }
+
     // 드래그 대상이 드래그되는 동안 호출
     public void OnDrag(PointerEventData eventData)
     {
         DragAction?.Invoke(eventData);
+    }
+
+    // 드래그 끝나면 호출
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        EndDragAction?.Invoke(eventData);
     }
 
     // 오브젝트가 선택된 순간, 그 오브젝트에서 호출
