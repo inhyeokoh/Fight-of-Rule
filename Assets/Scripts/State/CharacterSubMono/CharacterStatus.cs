@@ -12,13 +12,11 @@ public class CharacterStatus : SubMono<PlayerController>
     private int characterDefense;
     private int characterSpeed;
 
-
     private int hp;
     private int mp;
     private int exp;
     private int level;
     private int skillDamage;
-
 
     private int sumMaxHP;
     private int sumMaxMP;
@@ -26,8 +24,6 @@ public class CharacterStatus : SubMono<PlayerController>
     private int sumAttackSpeed;
     private int sumDefense;
     private int sumSpeed;
-
-
 
     public int MaxEXP { get { return characterMaxEXP; } }
 
