@@ -28,3 +28,4 @@ message C_NICKNAME {
 message S_NICKNAME {
     bool nickname_success = 1;
 }
+
