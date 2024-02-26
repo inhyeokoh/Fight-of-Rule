@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterStatus : SubMono<PlayerController>
 {
+    private int level;
     private int maxHP;
     private int maxMP;
     private int maxEXP;
@@ -15,7 +16,6 @@ public class CharacterStatus : SubMono<PlayerController>
     private int attackSpeed;
     private int defense;
     private int speed;
-    private int level;
     private int skillDamage;
 
     public int MaxHP { get { return maxHP; } }

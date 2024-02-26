@@ -11,7 +11,7 @@ public class UI_Login : UI_Entity
     {
         Panel,
         IDField,
-        PWField,
+        PWField,        
         Login,
         Quit
     }
