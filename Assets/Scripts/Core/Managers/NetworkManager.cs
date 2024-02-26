@@ -7,6 +7,8 @@ public class NetworkManager : SubClass<GameManager>
     static readonly string SERVER_IP = "211.105.26.250";
     static readonly int SERVER_POTR = 28889;
 
+    public ServerSession mainSession = null;
+
     protected override void _Init()
     {
         //초기화(연결설정 등등)
