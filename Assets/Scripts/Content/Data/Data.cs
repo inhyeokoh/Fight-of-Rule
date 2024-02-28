@@ -36,20 +36,16 @@ public class CharData : Data
 
     public int level;
     public int maxHP;
-    public int maxMP;
-    public int maxEXP;
-
     public int hp;
+    public int maxMP;
     public int mp;
+    public int maxEXP;
     public int exp;
     public int attack;
     public int attackSpeed;
     public int defense;
     public int speed;
-    public int skillDamage;
 }
-
-
 
 
 public class ItemsData

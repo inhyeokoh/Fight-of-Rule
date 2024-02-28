@@ -37,6 +37,7 @@ public class UI_JobSelect : UI_Entity
     protected override void Init()
     {
         base.Init();
+        GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
 
         for (int i = 0; i < _subUIs.Count; i++)
         {

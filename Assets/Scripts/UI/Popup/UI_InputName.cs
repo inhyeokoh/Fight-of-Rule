@@ -42,12 +42,12 @@ public class UI_InputName : UI_Entity
             if (canCreate)
             {
                 msg.text = "This name can be created.";
-                GameManager.Data.character.charName = nickName;
+                GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = nickName;
                 _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
                     GameManager.Data.login.slotCount++; // ½½·Ô ¼ö ÀúÀå
                     GameManager.Data.SaveData("LoginData", GameManager.Data.login);
                     GetDefaultStats();
-                    GameManager.Data.SaveData(GameManager.Data.fileName, GameManager.Data.character);
+                    // GameManager.Data.SaveData(GameManager.Data.fileName, GameManager.Data.character);
                     GameManager.Scene.GetNextScene();
                 };
             }
