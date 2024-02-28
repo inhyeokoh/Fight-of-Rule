@@ -33,6 +33,7 @@ public class UI_Login : UI_Entity
 
             // 환경설정, 캐릭터 데이터 생성하고 Json 파일로 된 내용 (추후 서버 통신으로 변경) 받아옴 
             GameManager.Data.setting = JsonUtility.FromJson<SettingsData>(GameManager.Data.LoadData("Setting"));
+            GameManager.Scene.GetNextScene(); // 임시
         };
 
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {

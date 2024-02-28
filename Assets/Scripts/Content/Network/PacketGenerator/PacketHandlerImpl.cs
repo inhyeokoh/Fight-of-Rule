@@ -42,12 +42,11 @@ public class PacketHandlerImpl : MonoBehaviour
             return true;
         }
 
-
-        for(int i = 0; i < field_list.Count; i++)
+        GameManager.Data.characters = new CharData[field_list.Count];
+        for (int i = 0; i < field_list.Count; i++)
         {
             var slot = field_list[i];
             //슬롯 순회하면서 유저 스탯 정보 처리
-            GameManager.Data.characters[i] = new CharData();
             GameManager.Data.characters[i].charName = slot.Nickname;
             GameManager.Data.characters[i].job = slot.Job;
             GameManager.Data.characters[i].gender = slot.Gender;

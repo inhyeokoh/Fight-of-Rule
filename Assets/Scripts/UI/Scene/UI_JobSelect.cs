@@ -10,9 +10,6 @@ public class UI_JobSelect : UI_Entity
     TMP_Text josDescript;
     Image jobImage;
 
-    string defaultJob = "Warrior";
-    string defaultGender = "Men";
-
     enum Enum_UI_JobSelect
     {
         Setting = 0,
@@ -36,8 +33,7 @@ public class UI_JobSelect : UI_Entity
 
     protected override void Init()
     {
-        base.Init();
-        character = new CharData();
+        base.Init();  
         character = GameManager.Data.characters[GameManager.Data.selectedSlotNum];
 
         josDescript = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponentInChildren<TMP_Text>();
