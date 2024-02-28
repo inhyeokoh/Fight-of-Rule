@@ -8,8 +8,13 @@ public class PacketHandlerImpl : MonoBehaviour
 {
     internal static bool Handle_S_OPTION(Session session, S_OPTION message)
     {
-        // message.SettingOptions;
+        GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
+        GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
+        GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
 
+        GameManager.Data.setting.bTotalVol = message.SettingOptions.TotalVolOn;
+        GameManager.Data.setting.bBackgroundVol = message.SettingOptions.BackgroundVolOn;
+        GameManager.Data.setting.bEffectVol = message.SettingOptions.EffectVolOn;
 
         return true; // ?
     }
@@ -30,7 +35,7 @@ public class PacketHandlerImpl : MonoBehaviour
         {
             //슬롯이 없음 => 신규 유저
             //신규유저 로직 처리 ( 경우에 따라 다른 패킷을 전송해야 할 수 있음)
-            GameManager.Data.selectedSlotNum = 0; 
+            GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
             SceneManager.LoadScene("Create");
 
             //TODO
@@ -41,7 +46,7 @@ public class PacketHandlerImpl : MonoBehaviour
         for(int i = 0; i < field_list.Count; i++)
         {
             var slot = field_list[i];
-            //슬롯 순회하면서 유저 정보 처리
+            //슬롯 순회하면서 유저 스탯 정보 처리
             GameManager.Data.characters[i] = new CharData();
             GameManager.Data.characters[i].charName = slot.Nickname;
             GameManager.Data.characters[i].job = slot.Job;
@@ -68,7 +73,9 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
-        throw new NotImplementedException();
+        // message.NicknameSuccess;
+
+        return true;
     }
 
 /*    void GetInfo(int slotNum, CHARACTER_INFO info)

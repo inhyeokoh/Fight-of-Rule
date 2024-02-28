@@ -45,6 +45,25 @@ public class CharData : Data
     public int attackSpeed;
     public int defense;
     public int speed;
+
+    public CharData()
+    {
+        charName = "";
+        job = "Warrior";
+        gender = "Men";
+
+        level = 1;
+        maxHP = 100;
+        hp = 100;
+        maxMP = 100;
+        mp = 100;
+        maxEXP = 100;
+        exp = 0;
+        attack = 5;
+        attackSpeed = 1;
+        defense = 3;
+        speed = 10;
+    }
 }
 
 
