@@ -70,15 +70,15 @@ public abstract class Session
         _recvargs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
 
         //1개만 등록
-        GameManager.ThreadPool.EnqueueJob(this, () => { RecvRegister(_recvargs); });
+        GameManager.ThreadPool.EnqueueJob(() => { RecvRegister(_recvargs); });
     }
     public void Send(ArraySegment<byte> buffer)
     {
-        GameManager.ThreadPool.EnqueueJob(this, () => { _Send(buffer); });
+        GameManager.ThreadPool.EnqueueJob(() => { _Send(buffer); });
     }
     public void Send(List<ArraySegment<byte>> sendingList)
     {
-        GameManager.ThreadPool.EnqueueJob(this, () => { _Send(sendingList); });
+        GameManager.ThreadPool.EnqueueJob(() => { _Send(sendingList); });
     }
 
     void _Send(ArraySegment<byte> buffer)
@@ -153,7 +153,7 @@ public abstract class Session
                     PendingList.Clear();    //초기화
                 }
 
-                GameManager.ThreadPool.EnqueueJob(this, () => { SendRegister(); }); //재등록
+                GameManager.ThreadPool.EnqueueJob(() => { SendRegister(); }); //재등록
             }
             catch (Exception ex)
             {
@@ -220,7 +220,7 @@ public abstract class Session
                     return;
                 }
                     
-                GameManager.ThreadPool.EnqueueJob(this, () => { RecvRegister(args); });
+                GameManager.ThreadPool.EnqueueJob(() => { RecvRegister(args); });
             }
             catch (Exception ex)    //유효하지 않은경우( Disconect 와 같은 메세지를 받은 경우)
             {

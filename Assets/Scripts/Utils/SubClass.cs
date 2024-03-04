@@ -11,7 +11,7 @@ using UnityEngine;
 /// <typeparam name="T"></typeparam>
 public abstract class SubClass<T> : ISubClass where T : class
 {
-    T _board;
+    protected T _board;
     public List<ISubClass> SubClasses = new List<ISubClass>();
 
     /// <summary>

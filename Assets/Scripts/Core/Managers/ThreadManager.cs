@@ -5,6 +5,8 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Cysharp.Threading.Tasks;
+
 public class ThreadManager : SubClass<GameManager>
 {
     static readonly int THREAD_WORKER = 2;
@@ -15,9 +17,6 @@ public class ThreadManager : SubClass<GameManager>
         public object owner;
         public Action work;
     }
-
-    Queue<OwnedJob> _jobs = new Queue<OwnedJob>();
-    object _jobLock = new object();
 
     protected override void _Clear()
     {
@@ -34,46 +33,96 @@ public class ThreadManager : SubClass<GameManager>
         //completion port thread는 초기치와 달라짐. thread 부족 시 지 멋대로 만듬. 싫으면 적정치를 찾아서 알아서 넣어야함
         ThreadPool.SetMinThreads(1, 1);
         ThreadPool.SetMaxThreads(THREAD_WORKER, THREAD_IOCP);
-
-        for (int i = 0; i < THREAD_WORKER; i++)
-        {
-            var task = new Task(() => { _ThreadWork(); });
-            task.Start();
-        }
     }
 
-    public void EnqueueJob<T>(T owner, Action lambdaEx)
+    public void EnqueueJob(Action lambdaEx, int tick_after = 0, object mem = null)
     {
-        object capture = owner;
-        var job = new OwnedJob { owner = capture, work = lambdaEx };
-
-        lock(_jobLock)
+        ThreadPool.QueueUserWorkItem(async (obj) =>
         {
-            _jobs.Enqueue(job);
-        }
+            object remember = mem;
+            if(tick_after > 0)
+                await Task.Delay(tick_after);
+            lambdaEx?.Invoke();
+        });
     }
 
-    void _ThreadWork()
+    public void EnqueueJob<T>(Func<T> lambdaEx, int tick_after, Action<T> callback = null)
     {
-        Queue<OwnedJob> threadJob = new Queue<OwnedJob>();
+        if (lambdaEx == null)
+            return;
 
-        while(true)
+        ThreadPool.QueueUserWorkItem(async (obj) =>
         {
-            lock(_jobLock)
-            {
-                while (_jobs.Count > 0)
-                    threadJob.Enqueue(_jobs.Dequeue());
-            }
+            await Task.Delay(tick_after);
+            var ret = lambdaEx.Invoke();
 
-            while(threadJob.Count > 0)
-            {
-                var item = threadJob.Dequeue();
-                item.work?.Invoke();
-            }
-
-            _SleepEx();
-        }
+            callback?.Invoke(ret);
+        });
     }
 
-    void _SleepEx() { Thread.Sleep(1); }
+    public void EnqueueJob(Func<object[]> lambdaEx, int tick_after, Action<object[]> callback = null)
+    {
+        if (lambdaEx == null)
+            return;
+
+        ThreadPool.QueueUserWorkItem(async (obj) =>
+        {
+            await Task.Delay(tick_after);
+            var ret = lambdaEx.Invoke();
+
+            callback?.Invoke(ret);
+        });
+    }
+
+    public void UniAsyncJob(Action lambdaAsync, int tick_after = 0, GameObject validator = null)
+    {
+        if(validator != null)
+        {
+            var ct = validator.GetCancellationTokenOnDestroy();
+            _board.EnqueueAsync(async () => {
+                await UniTask.Delay(tick_after, cancellationToken: ct);
+                if (validator != null)
+                    lambdaAsync?.Invoke();
+            });
+
+            return;
+        }
+
+        //난 책임 안진다 ㅋㅋ
+        _board.EnqueueAsync(async () => {
+            await UniTask.Delay(tick_after);
+            lambdaAsync?.Invoke();
+        });
+    }
+
+    public void UniAsyncJob(Action lambdaAsync, PlayerLoopTiming timing = PlayerLoopTiming.Update, GameObject validator = null, bool forward = false)
+    {
+        if (validator != null)
+        {
+            var ct = validator.GetCancellationTokenOnDestroy();
+            _board.EnqueueAsync(async () => {
+                if (forward == false)
+                    await UniTask.Yield(timing, cancellationToken:ct);
+
+                if (validator != null)
+                    lambdaAsync?.Invoke();
+
+                if (forward)
+                    await UniTask.Yield(timing, cancellationToken: ct);
+            });
+
+            return;
+        }
+
+        //난 책임 안진다 ㅋㅋ
+        _board.EnqueueAsync(async () => {
+            if (forward == false)
+                await UniTask.Yield(timing);
+
+            lambdaAsync?.Invoke();
+
+            if (forward)
+                await UniTask.Yield(timing);
+        });
+    }
 }

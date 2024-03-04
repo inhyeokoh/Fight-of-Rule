@@ -16,7 +16,7 @@ public class NetworkManager : SubClass<GameManager>
         IPAddress ipaddr = IPAddress.Parse(SERVER_IP);
         IPEndPoint ipendpoint = new IPEndPoint(ipaddr, SERVER_POTR);  //ipendpoint로 자동으로 ipv4 패밀리로 지정됨
         Connector connector = new Connector();                  //연결 설정만 그대로 받아서 연결
-        GameManager.ThreadPool.EnqueueJob(this, () => { connector.Connect(ipendpoint, () => { return new ServerSession(); }); });
+        GameManager.ThreadPool.EnqueueJob(() => { connector.Connect(ipendpoint, () => { return new ServerSession(); }); });
     }
     protected override void _Excute()
     {
