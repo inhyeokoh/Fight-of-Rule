@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 
 using Cysharp.Threading.Tasks;
+using UnityEngine.SceneManagement;
 
 public class ThreadManager : SubClass<GameManager>
 {
@@ -74,6 +75,12 @@ public class ThreadManager : SubClass<GameManager>
         });
     }
 
+    /// <summary>
+    /// tick after 만큼 지연 후 실행
+    /// </summary>
+    /// <param name="lambdaAsync"></param>
+    /// <param name="tick_after"></param>
+    /// <param name="validator"></param>
     public void UniAsyncJob(Action lambdaAsync, int tick_after = 0, GameObject validator = null)
     {
         if(validator != null)
@@ -95,19 +102,19 @@ public class ThreadManager : SubClass<GameManager>
         });
     }
 
-    public void UniAsyncJob(Action lambdaAsync, PlayerLoopTiming timing = PlayerLoopTiming.Update, GameObject validator = null, bool forward = false)
+    /// <summary>
+    /// looplambda가 false를 반환할 때 까지 지정한 timing마다 수행
+    /// </summary>
+    /// <param name="looplambda"></param>
+    /// <param name="validator"></param>
+    /// <param name="timing"></param>
+    public void UniAsyncLoopJob(Func<bool> looplambda, GameObject validator = null, PlayerLoopTiming timing = PlayerLoopTiming.Update)
     {
         if (validator != null)
         {
             var ct = validator.GetCancellationTokenOnDestroy();
             _board.EnqueueAsync(async () => {
-                if (forward == false)
-                    await UniTask.Yield(timing, cancellationToken:ct);
-
-                if (validator != null)
-                    lambdaAsync?.Invoke();
-
-                if (forward)
+                while (looplambda.Invoke())
                     await UniTask.Yield(timing, cancellationToken: ct);
             });
 
@@ -116,13 +123,85 @@ public class ThreadManager : SubClass<GameManager>
 
         //난 책임 안진다 ㅋㅋ
         _board.EnqueueAsync(async () => {
-            if (forward == false)
-                await UniTask.Yield(timing);
-
-            lambdaAsync?.Invoke();
-
-            if (forward)
+            while (looplambda.Invoke())
                 await UniTask.Yield(timing);
         });
+    }
+
+    /// <summary>
+    /// 지정한 task를 전달만 해줌
+    /// </summary>
+    /// <param name="asynclambda"></param>
+    public void UniAsyncTask(Func<UniTask> asynclambda)
+    {
+        _board.EnqueueAsync(async () =>
+        {
+            await asynclambda.Invoke();
+        });
+    }
+
+    /// <summary>
+    /// 지정한 Task를 전달만 해줌 + 인자로 자동으로 cancellationToken을 추출해서 던져줌
+    /// </summary>
+    /// <param name="asynclambda"></param>
+    /// <param name="validator"></param>
+    public void UniAsyncTask(Func<CancellationToken, UniTask> asynclambda, GameObject validator)
+    {
+        var ct = validator.GetCancellationTokenOnDestroy();
+        _board.EnqueueAsync(async () =>
+        {
+            await asynclambda.Invoke(ct);
+        });
+    }
+
+    private void Example1()
+    {
+        //GameObject test1 = new GameObject("testObject1");
+        var ct = GameManager.Instance.GetCancellationTokenOnDestroy();
+        UniAsyncTask(async () =>
+        {
+            while (true)
+            {
+                var loadAsync = SceneManager.LoadSceneAsync("로드할 씬");
+                if (loadAsync.isDone)
+                    return;
+
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken: ct);
+            }
+        });
+    }
+
+    private void Example2()
+    {
+        //GameObject test2 = new GameObject("testObject2");
+        UniAsyncTask(async (ct) =>
+        {
+            while(true)
+            {
+                var loadAsync = SceneManager.LoadSceneAsync("로드할 씬");
+                if (loadAsync.isDone)
+                    return;
+
+                await UniTask.Yield(PlayerLoopTiming.Update, cancellationToken:ct);
+            }
+        }, GameManager.Instance.gameObject);
+    }
+
+    private void Example3()
+    {
+        UniAsyncJob(() => { Debug.Log("테스트 로그"); }, 1000);
+
+        GameObject test3 = new GameObject("test3");
+        UniAsyncJob(() => { Debug.Log("테스트 로그"); }, 1000, test3);
+    }
+
+    private void Example4()
+    {
+        UniAsyncLoopJob(() =>
+        {
+            var loadAsync = SceneManager.LoadSceneAsync("로드할 씬");
+            //false일 경우 return true;
+            return loadAsync.isDone == false;
+        },GameManager.Instance.gameObject);
     }
 }
