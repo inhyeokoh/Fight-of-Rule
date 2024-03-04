@@ -10,7 +10,7 @@ public class UI_Slot : UI_Entity
 {
     int slotNum;
     CharData character;
-
+    string gender;
     enum Enum_UI_Slot
     {
         Image,
@@ -41,8 +41,10 @@ public class UI_Slot : UI_Entity
 
 
             // 해당 슬롯 텍스트 상자에 데이터 기입
+            gender = character.gender ? "Men" : "Women";
+
             _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
-                $"{character.charName}\n {character.level}\n {character.job}\n {character.gender}\n";
+                $"{character.charName}\n {character.level}\n {character.job}\n {gender}\n";
 
             _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
                 GetComponent<Toggle>().isOn = true;

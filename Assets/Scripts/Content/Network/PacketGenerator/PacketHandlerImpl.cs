@@ -16,7 +16,7 @@ public class PacketHandlerImpl : MonoBehaviour
         GameManager.Data.setting.bBackgroundVol = message.SettingOptions.BackgroundVolOn;
         GameManager.Data.setting.bEffectVol = message.SettingOptions.EffectVolOn;
 
-        return true; // ?
+        return true;
     }
 
     internal static bool Handle_S_LOGIN(Session session, S_LOGIN message)
@@ -36,8 +36,8 @@ public class PacketHandlerImpl : MonoBehaviour
             //슬롯이 없음 => 신규 유저
             //신규유저 로직 처리 ( 경우에 따라 다른 패킷을 전송해야 할 수 있음)
             GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
-            SceneManager.LoadScene("Create");
-
+            SceneManager.LoadScene("Create");            
+            
             //TODO
             return true;
         }
@@ -76,24 +76,4 @@ public class PacketHandlerImpl : MonoBehaviour
 
         return true;
     }
-
-/*    void GetInfo(int slotNum, CHARACTER_INFO info)
-    {
-        //이거 순차적으로 돌 방법 없나?
-        GameManager.Data.characters[slotNum].charName = info.Nickname;
-        GameManager.Data.characters[slotNum].job = info.Job;
-        GameManager.Data.characters[slotNum].gender = info.Gender;
-
-        GameManager.Data.characters[slotNum].level = info.Stat.Level;
-        GameManager.Data.characters[slotNum].maxHP = info.Stat.MaxHP;
-        GameManager.Data.characters[slotNum].hp = info.Stat.Hp;
-        GameManager.Data.characters[slotNum].maxMP = info.Stat.MaxMP;
-        GameManager.Data.characters[slotNum].mp = info.Stat.Mp;
-        GameManager.Data.characters[slotNum].maxEXP = info.Stat.MaxEXP;
-        GameManager.Data.characters[slotNum].exp = info.Stat.Exp;
-        GameManager.Data.characters[slotNum].attack = info.Stat.Attack;
-        GameManager.Data.characters[slotNum].attackSpeed = info.Stat.AttackSpeed;
-        GameManager.Data.characters[slotNum].defense = info.Stat.Defense;
-        GameManager.Data.characters[slotNum].speed = info.Stat.Speed;
-    }*/
 }

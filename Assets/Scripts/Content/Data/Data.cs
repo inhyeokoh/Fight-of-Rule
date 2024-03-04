@@ -32,7 +32,7 @@ public class CharData : Data
 {
     public string charName;
     public string job;
-    public string gender;
+    public bool gender;
 
     public int level;
     public int maxHP;
@@ -50,7 +50,7 @@ public class CharData : Data
     {
         charName = "";
         job = "Warrior";
-        gender = "Men";
+        gender = true;
 
         level = 1;
         maxHP = 100;

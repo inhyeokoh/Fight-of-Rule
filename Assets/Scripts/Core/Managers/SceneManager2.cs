@@ -1,4 +1,6 @@
+using System.Collections;
 using UnityEngine;
+using System;
 using UnityEngine.SceneManagement;
 
 public class SceneManager2 : SubClass<GameManager>
@@ -53,6 +55,19 @@ public class SceneManager2 : SubClass<GameManager>
         {
             SceneManager.LoadScene(curIdx + numToSkip);
         }
+    }
+    public void LoadSceneByAsync()
+    {       
+        // StartCoroutine()
+    }
+    public IEnumerator LoadSceneAsync(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }    
     }
 
     public void ExitGame()

@@ -3,7 +3,7 @@ syntax = "proto3";
 message CHARACTER_INFO {
     string nickname = 1;
     string job = 2;
-    string gender = 3;
+    bool gender = 3;
 
     CHARACTER_STATUS stat = 4;
 }

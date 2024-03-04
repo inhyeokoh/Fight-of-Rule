@@ -55,8 +55,8 @@ public class UI_JobSelect : UI_Entity
         _entities[(int)Enum_UI_JobSelect.Archer].ClickAction = (PointerEventData data) => {
             SaveOptions("Archer");
         };
-        _entities[(int)Enum_UI_JobSelect.Men].ClickAction = (PointerEventData data) => { character.gender = "Men"; };
-        _entities[(int)Enum_UI_JobSelect.Women].ClickAction = (PointerEventData data) => { character.gender = "Women"; };
+        _entities[(int)Enum_UI_JobSelect.Men].ClickAction = (PointerEventData data) => { character.gender = true; };
+        _entities[(int)Enum_UI_JobSelect.Women].ClickAction = (PointerEventData data) => { character.gender = false; };
 
         // ÀÌ¸§ »ý¼º ÆË¾÷ ¶ç¿ì±â
         _entities[(int)Enum_UI_JobSelect.Select].ClickAction = (PointerEventData data) => {
