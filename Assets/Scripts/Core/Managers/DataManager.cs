@@ -44,14 +44,12 @@ public class DataManager : SubClass<GameManager>
     {
         string data = JsonUtility.ToJson(info);
         File.WriteAllText(path + fileName, data);
-        Debug.Log(path);
     }
 
     public void SaveData(string fileName, Data[] info)
     {
         string data = JsonUtility.ToJson(info);
         File.WriteAllText(path + fileName, data); // 이건 로컬에 저장. 추후 서버로
-        Debug.Log(path);
     }
 
     public string LoadData(string fileName)

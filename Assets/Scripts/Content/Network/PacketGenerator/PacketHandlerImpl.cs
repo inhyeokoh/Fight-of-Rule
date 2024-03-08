@@ -36,8 +36,8 @@ public class PacketHandlerImpl : MonoBehaviour
             //슬롯이 없음 => 신규 유저
             //신규유저 로직 처리 ( 경우에 따라 다른 패킷을 전송해야 할 수 있음)
             GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
-            SceneManager.LoadScene("Create");            
-            
+            SceneManager.LoadScene("Create");
+
             //TODO
             return true;
         }

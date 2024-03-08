@@ -17,8 +17,6 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
     public Action<BaseEventData> SelectAction = null;
 
     PlayerInput playerInput;
-    string playername = "Player";
-    string uiKeyInput = "KeyInput";
 
     //나의 UI_Type
     public Type UIType = null;
@@ -46,16 +44,6 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     protected void Start()
     {
-        GameObject keyInput = GameObject.Find($"{uiKeyInput}");
-        if (keyInput != null)
-        {
-            playerInput = keyInput.GetComponent<PlayerInput>();
-        }
-        /*        GameObject player = GameObject.Find($"{playername}");
-                if (player != null)
-                {
-                    playerInput = player.GetComponent<PlayerInput>(); // 로그인 씬 말고 인게임 들어갔을때 Init 말고 재실행 필요할듯
-                }*/
         if (UIType == null)
             Init();
     }
@@ -189,17 +177,5 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
     public void OnSelect(BaseEventData eventData)
     {
         SelectAction?.Invoke(eventData);
-    }
-
-    public void PointerOnUI(bool On)
-    {
-        if (On)
-        {
-            playerInput.currentActionMap.FindAction("Move").Disable();
-        }
-        else
-        {
-            playerInput.currentActionMap.FindAction("Move").Enable();
-        }
     }
 }

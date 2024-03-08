@@ -32,10 +32,6 @@ public class UI_CharSelect : UI_Entity
             UI_Loading.LoadScene("StatePattern");
         };
 
-        // 인벤씬 테스트용
-        _entities[(int)Enum_UI_CharSelect.Delete].ClickAction = (PointerEventData data) => {
-            UI_Loading.LoadScene("Inventory");
-        };
         // TODO 캐릭터 삭제
     }
 }

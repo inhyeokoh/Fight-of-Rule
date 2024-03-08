@@ -2,12 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class UIManager : SubClass<GameManager>
 {
-    PlayerInput playerAction;
-    string playername = "Warrior(Clone)";
-
+    PlayerInput pi;
+    InputAction moveAction;
+    InputAction fireAction;
     public GameObject Inventory;
     public GameObject Setting;
     public GameObject InputName;
@@ -31,16 +30,9 @@ public class UIManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        GameObject player = GameObject.Find($"{playername}");
-        if (player != null)
-        {
-            playerAction = player.GetComponent<PlayerInput>(); // 로그인 씬 말고 인게임 들어갔을때 실행 필요할듯
-        }
-        else
-        {
-            GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
-            Object.DontDestroyOnLoad(uiManage);
-        }
+        GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
+        moveAction = uiManage.GetComponent<PlayerInput>().currentActionMap.FindAction("Move");
+        Object.DontDestroyOnLoad(uiManage); 
 
         // 리스트 초기화
         _allPopupList = new List<GameObject>()
@@ -51,15 +43,28 @@ public class UIManager : SubClass<GameManager>
         _activePopupList = new LinkedList<GameObject>();
     }
 
-    public void SetPopups() // 추후에 인자로 인게임씬인지 여부를 받아서 구분해서 팝업 생성해도 될듯
+    public void SetPopups(bool ingame)
     {
         popupTr = GameObject.Find("Canvas").transform;
-        Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupTr);
-        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
-        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
-        Inventory.SetActive(false);
-        Setting.SetActive(false);
-        InputName.SetActive(false);
+        if (ingame)
+        {            
+            Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupTr);
+            Inventory.SetActive(false);
+        }
+        else
+        {
+            Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
+            InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
+            Setting.SetActive(false);
+            InputName.SetActive(false);
+        }
+    }
+
+    public void ConnectPlayerInput()
+    {
+        pi = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
+        moveAction = pi.currentActionMap.FindAction("Move");
+        fireAction = pi.currentActionMap.FindAction("Fire");
     }
 
     // 모든 팝업 닫기
@@ -118,17 +123,17 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
-    public void Escape()
+    public void PointerOnUI(bool On)
     {
-        if (_activePopupList.Count > 0)
-        {
-            // ESC 누를 경우 링크드리스트의 First 닫기
-            ClosePopup(_activePopupList.First.Value);
+        if (On)
+        {           
+            moveAction.Disable();
+            fireAction.Disable();
         }
         else
         {
-            // 이전에 위치했던 씬으로
-            GameManager.Scene.GetLocatedScene();
+            moveAction.Enable();
+            fireAction.Enable();
         }
     }
 

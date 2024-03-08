@@ -69,7 +69,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Press",
+                    "name": "Move",
                     "type": "Button",
                     "id": "19d65dfd-3c3b-4c2b-8a39-25d336a493f3",
                     "expectedControlType": "Button",
@@ -90,6 +90,24 @@
                     "name": "AliveCheck",
                     "type": "Button",
                     "id": "6d76f484-f7cb-44e0-9183-6c2e2fb54eb4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Inven",
+                    "type": "Button",
+                    "id": "e1bfe72b-83b6-4ed3-be39-9658502dbbba",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "70fd4260-d6d7-4912-bfe9-c71b27f8b1c2",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -247,7 +265,7 @@
                     "interactions": "Press(behavior=2)",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Press",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -270,6 +288,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "AliveCheck",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "bb198c75-8e0e-477f-9b0f-c6e905604c7c",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inven",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b3a97138-78de-4577-9c83-69cf97d31f11",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -786,6 +826,54 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "OutGame",
+            "id": "3548023e-a0b5-4c96-8a16-c4123184030f",
+            "actions": [
+                {
+                    "name": "Escape",
+                    "type": "Button",
+                    "id": "4f0ff32f-966a-4065-be49-32fc4a276b53",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Test",
+                    "type": "Button",
+                    "id": "0c2d5d7a-0f93-4518-bb47-c8f35d386466",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "becfdba4-7dbb-4ccd-bf28-cf6b6bffb03f",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e9efb46-3f00-492e-9931-56a3eab10795",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Test",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

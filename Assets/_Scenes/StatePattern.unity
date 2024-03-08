@@ -22341,7 +22341,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1574243906
 Transform:
   m_ObjectHideFlags: 0
@@ -25977,6 +25977,48 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 6d76f484-f7cb-44e0-9183-6c2e2fb54eb4
     m_ActionName: Player/AliveCheck[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1519084753312639681, guid: ac87fb9310f236440a8d1d2e6f6bdb26,
+          type: 3}
+        m_TargetAssemblyTypeName: UI_Manage, Assembly-CSharp
+        m_MethodName: Inven
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: e1bfe72b-83b6-4ed3-be39-9658502dbbba
+    m_ActionName: Player/Inven[/Keyboard/i]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1519084753312639681, guid: ac87fb9310f236440a8d1d2e6f6bdb26,
+          type: 3}
+        m_TargetAssemblyTypeName: UI_Manage, Assembly-CSharp
+        m_MethodName: Escape
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 70fd4260-d6d7-4912-bfe9-c71b27f8b1c2
+    m_ActionName: Player/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4f0ff32f-966a-4065-be49-32fc4a276b53
+    m_ActionName: OutGame/Escape[/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0c2d5d7a-0f93-4518-bb47-c8f35d386466
+    m_ActionName: OutGame/Test[/Keyboard/t]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player

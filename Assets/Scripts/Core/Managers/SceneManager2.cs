@@ -45,7 +45,10 @@ public class SceneManager2 : SubClass<GameManager>
         {
             ExitGame();
         }
-        SceneManager.LoadScene(uiManage.GetComponent<UI_Manage>().preSceneNum);
+        else
+        {
+            SceneManager.LoadScene(uiManage.GetComponent<UI_Manage>().preSceneNum);
+        }
     }
 
     public void GetNextScene(int numToSkip = 1)
@@ -56,10 +59,7 @@ public class SceneManager2 : SubClass<GameManager>
             SceneManager.LoadScene(curIdx + numToSkip);
         }
     }
-    public void LoadSceneByAsync()
-    {       
-        // StartCoroutine()
-    }
+
     public IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);

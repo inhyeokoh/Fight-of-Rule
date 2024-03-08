@@ -2,27 +2,41 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
+// InputAction 호출 받기, 씬 간 연결, 씬 별로 상이한 팝업 호출 실행 
 public class UI_Manage : MonoBehaviour
 {
-    // bool inGame;
+    bool inGame;
     public int preSceneNum;
     public int curSceneNum;
+    public int[] parent;
+
+    private void Awake()
+    {
+        preSceneNum = 0;
+        parent = new int[5];
+        parent[0] = 0;
+    }
 
     void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    // 새로운 씬에 아래 내용을 새로 호출
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        /*        if (SceneManager.GetActiveScene().name == "InGame")
+        preSceneNum = curSceneNum;
+        curSceneNum = SceneManager.GetActiveScene().buildIndex;
+        parent[curSceneNum] = preSceneNum; // 로그인부터 실행 안하면 에러발생.필요시 주석처리
+
+        if (SceneManager.GetActiveScene().name == "StatePattern")
         {
             inGame = true;
-        }*/
-        curSceneNum = SceneManager.GetActiveScene().buildIndex;
-        GameManager.UI.SetPopups();    // 팝업들 전부 세팅 TODO: inGame을 인자로 받도록
+            GameManager.UI.ConnectPlayerInput();
+        }
+
+        GameManager.UI.SetPopups(inGame);
     }
 
     void OnDisable()
@@ -30,13 +44,29 @@ public class UI_Manage : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // 인게임 전까지의 키보드 입력 받음
-    public void OnEscape()
+    public void Escape(InputAction.CallbackContext context)
     {
-        GameManager.UI.Escape();
+        if (context.action.phase == InputActionPhase.Performed)
+        {
+            Debug.Log("Esc감지");
+            if (GameManager.UI._activePopupList.Count > 0)
+            {
+                // ESC 누를 경우 링크드리스트의 First 닫기
+                GameManager.UI.ClosePopup(GameManager.UI._activePopupList.First.Value);
+            }
+            else
+            {
+                // 이전에 위치했던 씬으로
+                GameManager.Scene.GetLocatedScene();
+            }           
+        }
     }
-    public void OnInven()
+
+    public void Inven(InputAction.CallbackContext context)
     {
-        GameManager.UI.OpenOrClose(GameManager.UI.Inventory);
+        if (context.action.phase == InputActionPhase.Performed)
+        {
+            GameManager.UI.OpenOrClose(GameManager.UI.Inventory);
+        }
     }
 }

@@ -42,6 +42,7 @@ public class UI_ItemSlot : UI_Entity
         _inven = transform.GetComponentInParent<UI_Inventory>();
         _amountText = _entities[(int)Enum_UI_ItemSlot.IconImg].transform.GetChild(0).gameObject;
 
+        //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
         {
             if (_inven.items[_currentSlotIndex] != null)
@@ -52,6 +53,7 @@ public class UI_ItemSlot : UI_Entity
             }
         };
 
+        //드래그 중
         _entities[(int)Enum_UI_ItemSlot.IconImg].DragAction = (PointerEventData data) =>
         {
             if (_inven.items[_currentSlotIndex] != null)
@@ -60,6 +62,7 @@ public class UI_ItemSlot : UI_Entity
             }
         };
 
+        //드래그 끝
         _entities[(int)Enum_UI_ItemSlot.IconImg].EndDragAction = (PointerEventData data) =>
         {
             if (_inven.items[_currentSlotIndex] != null) // 드래그 드롭한 오브젝트가 슬롯이어야함
@@ -68,8 +71,8 @@ public class UI_ItemSlot : UI_Entity
                 {
                     _otherSlotIndex = GetSlotIndex(data.pointerCurrentRaycast.gameObject.transform.parent.name);
                     _inven.SwitchItem(_currentSlotIndex, _otherSlotIndex); // 아이템 배열 스위칭
-
-                    SwithItemImg();
+                    _inven.UpdateInvenInfo(_currentSlotIndex);
+                    _inven.UpdateInvenInfo(_otherSlotIndex);
                 }
 
                 _dragImg.SetActive(false);
@@ -90,43 +93,6 @@ public class UI_ItemSlot : UI_Entity
         {
             _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
         };
-    }
-
-    void SwithItemImg() // 수정 필요
-    {
-        if (_inven.items[_otherSlotIndex] == null) // 비어있으면
-        {
-            b.sprite = _iconImg.sprite;
-            _iconImg.sprite = null;
-        }
-        else
-        {
-            Sprite tempSp = _iconImg.sprite;
-            _iconImg.sprite = b.sprite;
-            b.sprite = tempSp;
-        }
-
-        if (_iconImg.sprite == null)
-        {
-            _iconImg.color = new Color32(12, 15, 29, 0);
-            _amountText.SetActive(false);
-        }
-        else
-        {
-            _iconImg.color = new Color32(255, 255, 255, 255);
-            _amountText.SetActive(true);
-        }
-            
-        if (b.sprite == null)
-        {
-            b.color = new Color32(12, 15, 29, 0);
-            _amountTextB.SetActive(false);
-        }
-        else
-        {
-            b.color = new Color32(255, 255, 255, 255);
-            _amountTextB.SetActive(true);
-        }
     }
 
     int GetSlotIndex(string name)
