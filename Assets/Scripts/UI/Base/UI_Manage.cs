@@ -9,11 +9,11 @@ public class UI_Manage : MonoBehaviour
 {
     bool inGame;
     public int curSceneNum;
-    public Queue<int> scenes;
+    public Stack<int> scenes;
 
     private void Awake()
     {
-        scenes = new Queue<int>();
+        scenes = new Stack<int>();
     }
 
     void OnEnable()
@@ -24,7 +24,7 @@ public class UI_Manage : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         curSceneNum = SceneManager.GetActiveScene().buildIndex;
-        scenes.Enqueue(curSceneNum);
+        scenes.Push(curSceneNum);
 
         if (SceneManager.GetActiveScene().name == "StatePattern")
         {
@@ -44,7 +44,6 @@ public class UI_Manage : MonoBehaviour
     {
         if (context.action.phase == InputActionPhase.Performed)
         {
-            Debug.Log("Esc감지");
             if (GameManager.UI._activePopupList.Count > 0)
             {
                 // ESC 누를 경우 링크드리스트의 First 닫기

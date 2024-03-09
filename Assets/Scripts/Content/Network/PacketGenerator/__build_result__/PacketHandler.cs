@@ -19,6 +19,8 @@ class PacketHandler
         PKT_S_OPTION = 4,
         PKT_C_NICKNAME = 5,
         PKT_S_NICKNAME = 6,
+        PKT_C_CHARACTER = 7,
+        PKT_S_CHARACTER = 8,
     };
     Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>> _handler = new Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>>();
     public void Init()
@@ -26,10 +28,12 @@ class PacketHandler
         _handler.Add((ushort)PacketType.PKT_S_LOGIN, (session, buffer) => PacketHandlerImpl.Handle_S_LOGIN(session, _HandlePacket<S_LOGIN>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_OPTION, (session, buffer) => PacketHandlerImpl.Handle_S_OPTION(session, _HandlePacket<S_OPTION>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_NICKNAME, (session, buffer) => PacketHandlerImpl.Handle_S_NICKNAME(session, _HandlePacket<S_NICKNAME>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_CHARACTER, (session, buffer) => PacketHandlerImpl.Handle_S_CHARACTER(session, _HandlePacket<S_CHARACTER>(buffer)));
     }
     public ArraySegment<byte> SerializePacket(C_LOGIN pkt) { return _serializePacket(pkt, PacketType.PKT_C_LOGIN); }
     public ArraySegment<byte> SerializePacket(C_OPTION pkt) { return _serializePacket(pkt, PacketType.PKT_C_OPTION); }
     public ArraySegment<byte> SerializePacket(C_NICKNAME pkt) { return _serializePacket(pkt, PacketType.PKT_C_NICKNAME); }
+    public ArraySegment<byte> SerializePacket(C_CHARACTER pkt) { return _serializePacket(pkt, PacketType.PKT_C_CHARACTER); }
     static ArraySegment<byte> _serializePacket<T>(T pkt, PacketType protocol) where T : IMessage
     {
         //TODO send buffer & obj pool

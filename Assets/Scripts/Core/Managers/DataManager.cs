@@ -28,14 +28,14 @@ public class DataManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        //임시
-        selectedSlotNum = 0;
+        login = new LoginData();
+        setting = new SettingsData();
         characters = new CharData[4];
+        selectedSlotNum = 0;
 
         // 유니티 기본 설정 경로. PC나 모바일 등등 어디든 프로젝트 이름으로 된 폴더 생김
         path = Application.persistentDataPath + "/";
 
-        login = new LoginData();
         LoadAllSavedData();
     }
 

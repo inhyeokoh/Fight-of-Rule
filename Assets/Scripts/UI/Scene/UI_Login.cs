@@ -25,17 +25,11 @@ public class UI_Login : UI_Entity
         base.Init();
                 
         _entities[(int)Enum_UI_Logins.Login].ClickAction = (PointerEventData data) => {
-            // InputField에 입력한 id와 pw를 각각 LoginData 클래스에 저장
-            GameManager.Data.login.id = _entities[(int)Enum_UI_Logins.IDField].GetComp<TMP_InputField>().text;
-            GameManager.Data.login.pw = _entities[(int)Enum_UI_Logins.PWField].GetComp<TMP_InputField>().text;
 
-            // LoginData 클래스를 LoginData라는 Json형식의 파일로 변환하여 저장
-            GameManager.Data.SaveData("LoginData", GameManager.Data.login);
-
-            GameManager.Data.setting = JsonUtility.FromJson<SettingsData>(GameManager.Data.LoadData("Setting"));
-            var loadAsync = SceneManager.LoadSceneAsync("StatePattern"); // 테스트 위해서 인게임 씬으로 바로 이동
+            //로그인 성공시 실행될 내용. 테스트 용도
+            var loadAsync = SceneManager.LoadSceneAsync("Create");
             GameManager.ThreadPool.UniAsyncLoopJob(() =>
-            {             
+            {
                 return loadAsync.progress < 0.9f;
             });
         };
@@ -43,5 +37,14 @@ public class UI_Login : UI_Entity
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {
             GameManager.Scene.ExitGame();
         };
+    }
+
+    public void StartLogin()
+    {
+        C_LOGIN login_ask_pkt = new C_LOGIN();
+        login_ask_pkt.LoginId = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>().text;
+        login_ask_pkt.LoginPw = _entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text;
+
+        GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
     }
 }

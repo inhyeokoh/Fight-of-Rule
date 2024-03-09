@@ -33,11 +33,13 @@ public class UI_JobSelect : UI_Entity
 
     protected override void Init()
     {
-        base.Init();  
+        base.Init();
+        GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
         character = GameManager.Data.characters[GameManager.Data.selectedSlotNum];
 
         josDescript = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponentInChildren<TMP_Text>();
         jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
+        _SetDefalut();
 
         // 팝업 열고 닫기
         _entities[(int)Enum_UI_JobSelect.Setting].ClickAction = (PointerEventData data) =>
@@ -47,13 +49,13 @@ public class UI_JobSelect : UI_Entity
 
         // 버튼 선택에 맞게 이미지, 설명란 및 저장할 데이터 변경
         _entities[(int)Enum_UI_JobSelect.Warrior].ClickAction = (PointerEventData data) => {
-            SaveOptions("Warrior");
+            _SaveOptions("Warrior");
         };
         _entities[(int)Enum_UI_JobSelect.Wizard].ClickAction = (PointerEventData data) => {
-            SaveOptions("Wizard");
+            _SaveOptions("Wizard");
         };
         _entities[(int)Enum_UI_JobSelect.Archer].ClickAction = (PointerEventData data) => {
-            SaveOptions("Archer");
+            _SaveOptions("Archer");
         };
         _entities[(int)Enum_UI_JobSelect.Men].ClickAction = (PointerEventData data) => { character.gender = true; };
         _entities[(int)Enum_UI_JobSelect.Women].ClickAction = (PointerEventData data) => { character.gender = false; };
@@ -68,7 +70,24 @@ public class UI_JobSelect : UI_Entity
         };
     }
 
-    void SaveOptions(string jobName)
+    void _SetDefalut()
+    {
+        jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{character.job}");
+        switch (character.job)
+        {
+            case "Warrior":
+                josDescript.text = $"{character.job}s have high defense and health."; break;
+            case "Wizard":
+                josDescript.text = $"{character.job}s deal powerful damage or help their teammates."; break;
+            case "Archer":
+                josDescript.text = $"{character.job}s can inflict lethal damage from long range."; break;
+            default:
+                break;
+        }
+    }
+
+
+    void _SaveOptions(string jobName)
     {
         character.job = jobName;
 

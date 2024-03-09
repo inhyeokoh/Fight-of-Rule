@@ -10,16 +10,15 @@ public class ServerSession : PacketSession
     {
         GameManager.Network.mainSession = this;
 
-        C_LOGIN login_ask_pkt = new C_LOGIN();
-        login_ask_pkt.LoginId = "hyeok";
-        login_ask_pkt.LoginPw = "123123";
+        GameManager.ThreadPool.UniAsyncJob(() => { GameObject.Find("Canvas").GetComponentInChildren<UI_Login>().StartLogin(); });
+
 
         //傈价过 1
         //var sdata = PacketHandler.Instance.SerializePacket(login_ask_pkt);
         //Send(sdata);
 
         //傈价过 2
-        Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
+        //Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
     }
 
     public override void OnDisconnected(EndPoint endpoint)

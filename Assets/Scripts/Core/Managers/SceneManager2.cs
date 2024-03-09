@@ -44,7 +44,13 @@ public class SceneManager2 : SubClass<GameManager>
     {
         if (uiManage.scenes.Count > 0)
         {
-            SceneManager.LoadScene(uiManage.scenes.Dequeue());
+            if (SceneManager.GetActiveScene().name == "Loading") // 로딩은 한번 더 이전씬까지 이동
+            {
+                uiManage.scenes.Pop();
+                SceneManager.LoadScene(uiManage.scenes.Pop());
+            }
+            uiManage.scenes.Pop(); //현재씬 pop해서 버리고
+            SceneManager.LoadScene(uiManage.scenes.Pop()); //이전씬으로 이동
         }
         else
         {

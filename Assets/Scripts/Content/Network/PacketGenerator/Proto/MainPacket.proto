@@ -8,9 +8,9 @@ message C_LOGIN {
 }
 
 message S_LOGIN {
-    string login_id = 1;
-    bool login_success = 2;
-    repeated CHARACTER_INFO slots = 3;
+    bool login_success = 1;
+    string ip = 2;
+    int32 port = 3;
 }
 
 message C_OPTION {
