@@ -13,12 +13,9 @@ public class UI_ItemSlot : UI_Entity
     // 현재 슬롯
     Image _iconImg;
     int _currentSlotIndex;
-    GameObject _amountText;
 
-    // 드롭시 위치한 슬롯
-    Image b;
+    // 드롭 시 위치한 슬롯
     int _otherSlotIndex;
-    GameObject _amountTextB;
 
     enum Enum_UI_ItemSlot
     {
@@ -40,7 +37,6 @@ public class UI_ItemSlot : UI_Entity
         _highlightImg = _entities[(int)Enum_UI_ItemSlot.HighlightImg].GetComponent<Image>();
         _currentSlotIndex = GetSlotIndex(gameObject.name);
         _inven = transform.GetComponentInParent<UI_Inventory>();
-        _amountText = _entities[(int)Enum_UI_ItemSlot.IconImg].transform.GetChild(0).gameObject;
 
         //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
@@ -65,18 +61,22 @@ public class UI_ItemSlot : UI_Entity
         //드래그 끝
         _entities[(int)Enum_UI_ItemSlot.IconImg].EndDragAction = (PointerEventData data) =>
         {
-            if (_inven.items[_currentSlotIndex] != null) // 드래그 드롭한 오브젝트가 슬롯이어야함
+            if (_inven.items[_currentSlotIndex] != null && CheckCorrectDrop(data)) // 드래그 드롭한 오브젝트가 슬롯이어야함
             {
-                if (CheckCorrectDrop(data))
+                _otherSlotIndex = GetSlotIndex(data.pointerCurrentRaycast.gameObject.transform.parent.name);
+                // 같은 아이템이면 앞에꺼에 수량 합치기, 다른 아이템이면 위치 교환
+                if (_inven.CheckItemType(_currentSlotIndex, _otherSlotIndex))
                 {
-                    _otherSlotIndex = GetSlotIndex(data.pointerCurrentRaycast.gameObject.transform.parent.name);
-                    _inven.SwitchItem(_currentSlotIndex, _otherSlotIndex); // 아이템 배열 스위칭
-                    _inven.UpdateInvenInfo(_currentSlotIndex);
-                    _inven.UpdateInvenInfo(_otherSlotIndex);
+                    _inven.AddUpItems(_currentSlotIndex, _otherSlotIndex);
                 }
-
-                _dragImg.SetActive(false);
+                else
+                {
+                    _inven.SwitchItems(_currentSlotIndex, _otherSlotIndex); // 아이템 배열 스위칭
+                }
+                _inven.UpdateInvenInfo(_currentSlotIndex);
+                _inven.UpdateInvenInfo(_otherSlotIndex);
             }
+            _dragImg.SetActive(false);
         };
 
         // 슬롯 하이라이트
@@ -105,16 +105,8 @@ public class UI_ItemSlot : UI_Entity
     {
         if (data.pointerCurrentRaycast.gameObject.name == "IconImg")
         {
-            b = data.pointerCurrentRaycast.gameObject.GetComponent<Image>(); // 현재 마우스 포인터에 위치한 슬롯칸 이미지
-            _amountTextB = data.pointerCurrentRaycast.gameObject.transform.GetChild(0).gameObject; // 드롭할 슬롯 Amount Text
             return true;
         }
         return false;
-    }
-
-    void Swap(Image a, Image b)
-    {
-        // if 같은 이미지(or 아이템)라면 수량 합치기
-        // else 위치교환    
     }
 }

@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
@@ -7,7 +8,7 @@ public class SceneManager2 : SubClass<GameManager>
 {
     int curIdx = 0;
     int maxIdx;
-    GameObject uiManage;
+    UI_Manage uiManage;
 
     protected override void _Clear()
     {
@@ -22,7 +23,7 @@ public class SceneManager2 : SubClass<GameManager>
         maxIdx = SceneManager.sceneCountInBuildSettings;
         curIdx = SceneManager.GetActiveScene().buildIndex;
 
-        uiManage = GameObject.Find("UI_Manage");
+        uiManage = GameObject.Find("UI_Manage").GetComponent<UI_Manage>();
     }
 
     public void GetPreviousScene(int numToSkip = 1)
@@ -41,13 +42,13 @@ public class SceneManager2 : SubClass<GameManager>
     // 이전에 있던 씬으로 이동
     public void GetLocatedScene()
     {
-        if (uiManage.GetComponent<UI_Manage>().preSceneNum == 0)
+        if (uiManage.scenes.Count > 0)
         {
-            ExitGame();
+            SceneManager.LoadScene(uiManage.scenes.Dequeue());
         }
         else
         {
-            SceneManager.LoadScene(uiManage.GetComponent<UI_Manage>().preSceneNum);
+            ExitGame();
         }
     }
 

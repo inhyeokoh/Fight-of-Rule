@@ -8,15 +8,12 @@ using UnityEngine.InputSystem;
 public class UI_Manage : MonoBehaviour
 {
     bool inGame;
-    public int preSceneNum;
     public int curSceneNum;
-    public int[] parent;
+    public Queue<int> scenes;
 
     private void Awake()
     {
-        preSceneNum = 0;
-        parent = new int[5];
-        parent[0] = 0;
+        scenes = new Queue<int>();
     }
 
     void OnEnable()
@@ -26,9 +23,8 @@ public class UI_Manage : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        preSceneNum = curSceneNum;
         curSceneNum = SceneManager.GetActiveScene().buildIndex;
-        parent[curSceneNum] = preSceneNum; // 로그인부터 실행 안하면 에러발생.필요시 주석처리
+        scenes.Enqueue(curSceneNum);
 
         if (SceneManager.GetActiveScene().name == "StatePattern")
         {

@@ -44,12 +44,12 @@ public abstract class ItemBase : MonoBehaviour
     protected CharacterStatus player;
 
     [SerializeField]
-    protected int count;
+    public int count;
 
     [SerializeField]
-    protected string itemName; //아이템 이름
+    public string itemName; //아이템 이름
     [SerializeField]
-    protected string itemDescription;//아이템 설명
+    public string itemDescription;//아이템 설명
    
     private void Awake()
     {

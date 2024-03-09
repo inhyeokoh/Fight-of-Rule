@@ -8,6 +8,7 @@ public class PacketHandlerImpl : MonoBehaviour
 {
     internal static bool Handle_S_OPTION(Session session, S_OPTION message)
     {
+        //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
         GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
         GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
         GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
@@ -28,15 +29,20 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
-        GameManager.Data.setting = new SettingsData();
+        GameManager.Data.setting = new SettingsData(); //서버에 저장된 환경설정 정보 받아오도록 언제 호출해야나?
         var field_list = message.Slots;
+        AsyncOperation loadAsync;
 
-        if(field_list.Count == 0)
+        if (field_list.Count == 0)
         {
             //슬롯이 없음 => 신규 유저
             //신규유저 로직 처리 ( 경우에 따라 다른 패킷을 전송해야 할 수 있음)
             GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
-            SceneManager.LoadScene("Create");
+            loadAsync = SceneManager.LoadSceneAsync("Create");
+            GameManager.ThreadPool.UniAsyncLoopJob(() =>
+            {
+                return loadAsync.progress < 0.9f;
+            });
 
             //TODO
             return true;
@@ -65,14 +71,18 @@ public class PacketHandlerImpl : MonoBehaviour
 
         }
         //캐릭터 선택씬으로 이동
-        SceneManager.LoadScene("Select"); // 밑에 return true랑 상관없으려나? 반환값이 true면 다음씬 이동?
+        loadAsync = SceneManager.LoadSceneAsync("Select");
+        GameManager.ThreadPool.UniAsyncLoopJob(() =>
+        {
+            return loadAsync.progress < 0.9f;
+        });
 
         return true;
     }
 
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
-        // message.NicknameSuccess;
+        // message.NicknameSuccess; 이 bool값을 받아서 UI_Login 스크립트 변수에 받아야할지?
 
         return true;
     }
