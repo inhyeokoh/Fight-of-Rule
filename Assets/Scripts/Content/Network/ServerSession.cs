@@ -10,7 +10,7 @@ public class ServerSession : PacketSession
     {
         GameManager.Network.mainSession = this;
 
-        GameManager.ThreadPool.UniAsyncJob(() => { GameObject.Find("Canvas").GetComponentInChildren<UI_Login>().StartLogin(); });
+        GameManager.ThreadPool.UniAsyncJob(() => { GameManager.Resources.Instantiate("Prefabs/UI/Popup/UI_Login", GameObject.Find("Canvas").transform); });
 
 
         //Àü¼Û¹ý 1
@@ -28,7 +28,7 @@ public class ServerSession : PacketSession
 
     public override void OnPacketRecv(ArraySegment<byte> buffer)
     {
-        
+        PacketHandler.Instance.HandlePacket(this, buffer);
     }
 
     public override void OnSend(int bytetransferred)

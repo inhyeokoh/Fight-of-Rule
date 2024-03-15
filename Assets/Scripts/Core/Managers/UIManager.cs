@@ -7,6 +7,7 @@ public class UIManager : SubClass<GameManager>
     PlayerInput pi;
     InputAction moveAction;
     InputAction fireAction;
+    public GameObject SignUp;
     public GameObject Inventory;
     public GameObject Setting;
     public GameObject InputName;
@@ -15,9 +16,6 @@ public class UIManager : SubClass<GameManager>
 
     // 실시간 팝업 관리 링크드 리스트
     public LinkedList<GameObject> _activePopupList;
-
-    // 전체 팝업 목록
-    public List<GameObject> _allPopupList;
 
     protected override void _Clear()
     {
@@ -34,12 +32,6 @@ public class UIManager : SubClass<GameManager>
         moveAction = uiManage.GetComponent<PlayerInput>().currentActionMap.FindAction("Move");
         Object.DontDestroyOnLoad(uiManage); 
 
-        // 리스트 초기화
-        _allPopupList = new List<GameObject>()
-        {
-            Inventory, Setting, InputName
-        };
-
         _activePopupList = new LinkedList<GameObject>();
     }
 
@@ -53,11 +45,14 @@ public class UIManager : SubClass<GameManager>
         }
         else
         {
+            SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupTr);
             Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
             InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
+            SignUp.SetActive(false);
             Setting.SetActive(false);
             InputName.SetActive(false);
         }
+
     }
 
     public void ConnectPlayerInput()
@@ -65,6 +60,20 @@ public class UIManager : SubClass<GameManager>
         pi = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
         moveAction = pi.currentActionMap.FindAction("Move");
         fireAction = pi.currentActionMap.FindAction("Fire");
+    }
+
+    public void OpenPopup(GameObject popup)
+    {
+        _activePopupList.AddLast(popup);
+        popup.SetActive(true);
+        SortPopupView();
+    }
+
+    public void ClosePopup(GameObject popup)
+    {
+        _activePopupList.Remove(popup);
+        popup.SetActive(false);
+        SortPopupView();
     }
 
     // 모든 팝업 닫기
@@ -76,39 +85,23 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
-    // 팝업을 활성화하고 링크드리스트에서 등록
-    public void OpenPopup(GameObject popup)
+    // 하이어라키에서 맨 아래 오도록 변경하여 뷰에서 가장 위에 표시되도록
+    public void SortPopupView()
     {
-        _activePopupList.AddFirst(popup);
-        popup.SetActive(true);
-        RefreshAllPopupDepth();
-    }
-
-    // 팝업을 비활성화하고 링크드리스트에서 제거
-    public void ClosePopup(GameObject popup)
-    {
-        _activePopupList.Remove(popup);
-        popup.SetActive(false);
-        RefreshAllPopupDepth();
-    }
-
-    // 링크드리스트 내 모든 팝업의 자식 순서 재배치
-    public void RefreshAllPopupDepth()
-    {
+        // 링크드리스트 순회하면서 팝업 순서 재배치.
+        // 가장 마지막에 연 팝업이 화면상 가장 위에 오도록
         foreach (var popup in _activePopupList)
-        {
-            // 하이어라키에서 순서 맨 아래 오도록 변경
-            // 뷰에서 가장 위에 표시됨
+        {            
             popup.transform.SetAsLastSibling();
         }
     }
 
     // 클릭한 팝업이 가장 앞으로 오도록
-    public void GetPopupFoward(GameObject go)
+    public void GetPopupForward(GameObject go)
     {
         _activePopupList.Remove(go);
-        _activePopupList.AddFirst(go);
-        RefreshAllPopupDepth();
+        _activePopupList.AddLast(go);
+        SortPopupView();
     }
 
     public void OpenOrClose(GameObject go)

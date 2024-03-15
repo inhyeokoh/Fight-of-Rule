@@ -43,7 +43,7 @@ public class InGameItemConsumption : ItemBase
                 count -= 1;
             }
 
-            print("´ê¾ÒÀ½");
+            Debug.Log("´ê¾ÒÀ½");
         }, () => { }, () => { }, () => { gameObject.SetActive(false); });
     }
     public override void Enter()

@@ -16,8 +16,6 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
     public Action<PointerEventData> EndDragAction = null;
     public Action<BaseEventData> SelectAction = null;
 
-    PlayerInput playerInput;
-
     //³ªÀÇ UI_Type
     public Type UIType = null;
 

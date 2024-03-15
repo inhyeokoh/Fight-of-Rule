@@ -2,6 +2,22 @@ syntax = "proto3";
 import "CharacterMessage.proto";
 import "OptionMessage.proto";
 
+message C_SIGNUP {
+    string signup_id = 1;
+    string signup_pw = 2;
+}
+
+message S_SIGNUP {
+    enum SIGNUP_FLAGS
+    {
+        SIGNUP_NOERROR = 0;     // signup sucess
+        SIGNUP_ERROR_DUP = 1;   // signup failed (duplicate)
+        SIGNUP_ERROR_EXIST = 2; // signup failed (exists account)
+        //etc
+    }
+    SIGNUP_FLAGS signup_result = 1;
+}
+
 message C_LOGIN {
     string login_id = 1;
     string login_pw = 2;
@@ -11,6 +27,7 @@ message S_LOGIN {
     bool login_success = 1;
     string ip = 2;
     int32 port = 3;
+    int64 uid = 4;
 }
 
 message C_OPTION {
@@ -26,7 +43,7 @@ message C_NICKNAME {
 }
 
 message S_NICKNAME {
-    bool nickname_success = 1;
+    bool create_nickname_success = 1;
 }
 
 message C_CHARACTER {

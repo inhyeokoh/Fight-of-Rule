@@ -14,7 +14,7 @@ public class UI_Setting : UI_Entity
     Toggle[] toggles;
     
     enum Enum_UI_Settings
-    {
+    {        
         Panel,
         Interact,
         Panel_L,
@@ -36,10 +36,16 @@ public class UI_Setting : UI_Entity
     {
         base.Init();
 
+        togNames = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<TMP_Text>();
+        toggles = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<Toggle>();
+        volSliders = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<Slider>();
+        // 텍스트 수정 용도 (인스펙터 창에서 하는것보다 통일성 면에서 확인하기 쉬움 )
+        volNames = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<TMP_Text>();
+
         SetPanel_L();
         LoadOptionsVol();
 
-        // 버튼 할당
+        // 버튼 할당      
         _entities[(int)Enum_UI_Settings.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
@@ -58,6 +64,13 @@ public class UI_Setting : UI_Entity
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
 
+        foreach (var _subUI in _subUIs)
+        {
+            _subUI.ClickAction = (PointerEventData data) =>
+            {
+                GameManager.UI.GetPopupForward(GameManager.UI.Setting);
+            };
+        }
         _entities[(int)Enum_UI_Settings.Interact].DragAction = (PointerEventData data) =>
         {
             transform.position = data.position;   // TODO: 드래그 수정 필요
@@ -66,19 +79,8 @@ public class UI_Setting : UI_Entity
         initStarted = true;
     }
 
-    private void OnEnable() // SetActive 때마다 호출할 함수 넣기
-    {
-        if (initStarted)
-        {
-            LoadOptionsVol();
-        }
-    }
-
     void SetPanel_L()
     {
-        togNames = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<TMP_Text>();
-        toggles = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<Toggle>();
-
         togNames[0].text = "Audio";
         togNames[1].text = "GamePlay";
         togNames[2].text = "ShortCut Key";
@@ -90,7 +92,7 @@ public class UI_Setting : UI_Entity
         }
     }
 
-    // Panel_L에 있는 토글에 따라서 해당되는 내용을 Panel_R 에 활성화
+    // Panel_L에 있는 토글 선택 여부에 따라서 해당되는 내용을 Panel_R 에 활성화
     void ToggleValueChanged(int toggleIndex)
     {   
         bool isToggleOn = toggles[toggleIndex].isOn;                
@@ -108,10 +110,6 @@ public class UI_Setting : UI_Entity
 
     void LoadOptionsVol()
     {
-        volSliders = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<Slider>();
-        // 텍스트 수정 용도 ( 인스펙터 창에서 하는것보다 통일성 면에서 확인하기 쉬움 )
-        volNames = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<TMP_Text>();
-
         volSliders[0].value = GameManager.Data.setting.totalVol;
         volSliders[1].value = GameManager.Data.setting.backgroundVol;
         volSliders[2].value = GameManager.Data.setting.effectVol;
@@ -132,9 +130,9 @@ public class UI_Setting : UI_Entity
     // 기존값이랑 비교해서 다른부분이 있을 때만 서버에 저장하도록 (float 오차 유의)
     void SaveOptionsVol()
     {
-        if (GameManager.Data.setting.totalVol - volSliders[0].value > 0.001f || 
-            GameManager.Data.setting.backgroundVol - volSliders[1].value > 0.001f ||
-            GameManager.Data.setting.effectVol - volSliders[2].value > 0.001f) // 값의 차이가 0.1% 이상 나는 부분이 있다면,
+        if (GameManager.Data.setting.totalVol - volSliders[0].value > 0.01f || 
+            GameManager.Data.setting.backgroundVol - volSliders[1].value > 0.01f ||
+            GameManager.Data.setting.effectVol - volSliders[2].value > 0.01f) // 값의 차이가 1% 이상 나는 부분이 있다면,
         {
             GameManager.Data.setting.totalVol = volSliders[0].value;
             GameManager.Data.setting.backgroundVol = volSliders[1].value;

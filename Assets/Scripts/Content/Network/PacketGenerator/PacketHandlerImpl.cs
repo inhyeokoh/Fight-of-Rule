@@ -29,61 +29,81 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
-        string ip = message.Ip;
-        Debug.Log($"{ip}");
-        int port = message.Port;
-        Debug.Log($"{port}");
-/*                // var field_list = message.Slots;
-                AsyncOperation loadAsync;
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            var loadAsync = SceneManager.LoadSceneAsync("create");
+            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
+        }
+        );
+        /*                // var field_list = message.Slots;
+                        AsyncOperation loadAsync;
 
-                if (field_list.Count == 0)
-                {
-                    //슬롯이 없음 => 신규 유저
-                    //신규유저 로직 처리 ( 경우에 따라 다른 패킷을 전송해야 할 수 있음)
-                    GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
-                    loadAsync = SceneManager.LoadSceneAsync("Create");
-                    GameManager.ThreadPool.UniAsyncLoopJob(() =>
-                    {
-                        return loadAsync.progress < 0.9f;
-                    });
+                        if (field_list.Count == 0)
+                        {
+                            //슬롯이 없음 => 신규 유저
+                            //신규유저 로직 처리 ( 경우에 따라 다른 패킷을 전송해야 할 수 있음)
+                            GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
+                            loadAsync = SceneManager.LoadSceneAsync("Create");
+                            GameManager.ThreadPool.UniAsyncLoopJob(() =>
+                            {
+                                return loadAsync.progress < 0.9f;
+                            });
 
-                    //TODO
-                    return true;
-                }
+                            //TODO
+                            return true;
+                        }
 
-                GameManager.Data.characters = new CharData[field_list.Count];
-                for (int i = 0; i < field_list.Count; i++)
-                {
-                    var slot = field_list[i];
-                    //슬롯 순회하면서 유저 스탯 정보 처리
-                    GameManager.Data.characters[i].charName = slot.Nickname;
-                    GameManager.Data.characters[i].job = slot.Job;
-                    GameManager.Data.characters[i].gender = slot.Gender;
+                        GameManager.Data.characters = new CharData[field_list.Count];
+                        for (int i = 0; i < field_list.Count; i++)
+                        {
+                            var slot = field_list[i];
+                            //슬롯 순회하면서 유저 스탯 정보 처리
+                            GameManager.Data.characters[i].charName = slot.Nickname;
+                            GameManager.Data.characters[i].job = slot.Job;
+                            GameManager.Data.characters[i].gender = slot.Gender;
 
-                    GameManager.Data.characters[i].level = slot.Stat.Level;
-                    GameManager.Data.characters[i].maxHP = slot.Stat.MaxHP;
-                    GameManager.Data.characters[i].hp = slot.Stat.Hp;
-                    GameManager.Data.characters[i].maxMP = slot.Stat.MaxMP;
-                    GameManager.Data.characters[i].mp = slot.Stat.Mp;
-                    GameManager.Data.characters[i].maxEXP = slot.Stat.MaxEXP;
-                    GameManager.Data.characters[i].exp = slot.Stat.Exp;
-                    GameManager.Data.characters[i].attack = slot.Stat.Attack;
-                    GameManager.Data.characters[i].attackSpeed = slot.Stat.AttackSpeed;
-                    GameManager.Data.characters[i].defense = slot.Stat.Defense;
-                    GameManager.Data.characters[i].speed = slot.Stat.Speed;
+                            GameManager.Data.characters[i].level = slot.Stat.Level;
+                            GameManager.Data.characters[i].maxHP = slot.Stat.MaxHP;
+                            GameManager.Data.characters[i].hp = slot.Stat.Hp;
+                            GameManager.Data.characters[i].maxMP = slot.Stat.MaxMP;
+                            GameManager.Data.characters[i].mp = slot.Stat.Mp;
+                            GameManager.Data.characters[i].maxEXP = slot.Stat.MaxEXP;
+                            GameManager.Data.characters[i].exp = slot.Stat.Exp;
+                            GameManager.Data.characters[i].attack = slot.Stat.Attack;
+                            GameManager.Data.characters[i].attackSpeed = slot.Stat.AttackSpeed;
+                            GameManager.Data.characters[i].defense = slot.Stat.Defense;
+                            GameManager.Data.characters[i].speed = slot.Stat.Speed;
 
-                }
-                //캐릭터 선택씬으로 이동
-                loadAsync = SceneManager.LoadSceneAsync("Select");
-                GameManager.ThreadPool.UniAsyncLoopJob(() =>
-                {
-                    return loadAsync.progress < 0.9f;
-                });*/
+                        }
+                        //캐릭터 선택씬으로 이동
+                        loadAsync = SceneManager.LoadSceneAsync("Select");
+                        GameManager.ThreadPool.UniAsyncLoopJob(() =>
+                        {
+                            return loadAsync.progress < 0.9f;
+                        });*/
 
         return true;
     }
 
-    internal static bool Handle_S_CHARACTER(Session session, S_CHARACTER s_CHARACTER)
+    internal static bool Handle_S_SIGNUP(Session session, S_SIGNUP message)
+    {
+        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorDup)
+        {
+            Debug.Log("이미 존재하는 아이디");
+            return false;
+        }
+
+        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
+        {
+            Debug.Log("이미 가입된 회원입니다");
+            return false;
+        }
+
+        Debug.Log("성공적으로 가입 되었습니다");
+        return true;
+    }
+
+    internal static bool Handle_S_CHARACTER(Session session, S_CHARACTER message)
     {
 
         return true;

@@ -12,7 +12,7 @@ public class UI_InputName : UI_Entity
 
     enum Enum_UI_InputName
     {
-        Image,
+        Panel,
         InputField,
         Create,
         Accept,
@@ -29,6 +29,18 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
+
+        foreach (var _subUI in _subUIs)
+        {
+            _subUI.ClickAction = (PointerEventData data) =>
+            {
+                GameManager.UI.GetPopupForward(GameManager.UI.InputName);
+            };
+        }
+
+        _entities[(int)Enum_UI_InputName.Panel].ClickAction = (PointerEventData data) => {
+            GameManager.UI.GetPopupForward(GameManager.UI.InputName);
+        };
 
         msg = _entities[(int)Enum_UI_InputName.CheckName].GetComponentInChildren<TMP_Text>();
 
@@ -60,10 +72,6 @@ public class UI_InputName : UI_Entity
     private void Update()
     {
         nickName = _entities[(int)Enum_UI_InputName.InputField].GetComp<TMP_InputField>().text;
-    }
-
-    bool _CheckCanCreate()
-    {
         if (String.IsNullOrEmpty(nickName))
         {
             msg.text = "Please enter your name.";
@@ -76,14 +84,5 @@ public class UI_InputName : UI_Entity
         {
             msg.text = "";
         }
-
-        if (true)
-        {
-
-        }
-
-
-        return true;
     }
-
 }

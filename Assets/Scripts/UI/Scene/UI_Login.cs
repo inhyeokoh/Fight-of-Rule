@@ -12,6 +12,7 @@ public class UI_Login : UI_Entity
         IDField,
         PWField,        
         Login,
+        SignUp,
         Quit
     }
 
@@ -23,28 +24,29 @@ public class UI_Login : UI_Entity
     protected override void Init()
     {
         base.Init();
-                
+
+        _entities[(int)Enum_UI_Logins.SignUp].ClickAction = (PointerEventData data) => {
+            GameManager.UI.OpenOrClose(GameManager.UI.SignUp);
+        };
+
         _entities[(int)Enum_UI_Logins.Login].ClickAction = (PointerEventData data) => {
 
-            //로그인 성공시 실행될 내용. 테스트 용도
-            var loadAsync = SceneManager.LoadSceneAsync("Create");
+            C_LOGIN login_ask_pkt = new C_LOGIN();
+            login_ask_pkt.LoginId = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>().text;
+            login_ask_pkt.LoginPw = _entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text;
+
+            GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
+
+            //서버 없이 씬 넘어가기
+/*            var loadAsync = SceneManager.LoadSceneAsync("Create");
             GameManager.ThreadPool.UniAsyncLoopJob(() =>
             {
                 return loadAsync.progress < 0.9f;
-            });
+            });*/
         };
 
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {
             GameManager.Scene.ExitGame();
         };
-    }
-
-    public void StartLogin()
-    {
-        C_LOGIN login_ask_pkt = new C_LOGIN();
-        login_ask_pkt.LoginId = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>().text;
-        login_ask_pkt.LoginPw = _entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text;
-
-        GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
     }
 }

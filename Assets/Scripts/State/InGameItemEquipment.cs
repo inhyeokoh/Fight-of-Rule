@@ -42,7 +42,7 @@ public class InGameItemEquipment : ItemBase
 
     public override void Check()
     {
-        print(ap);
+        Debug.Log(ap);
         playerEquipment = PlayerController.instance._playerEquipment;
         playerEquipment.EquipmentCheck(ap);
       

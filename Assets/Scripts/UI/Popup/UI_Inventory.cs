@@ -33,6 +33,14 @@ public class UI_Inventory : UI_Entity
         _GetInvenDataFromDB();
         _SetItemSlots();
 
+        foreach (var _subUI in _subUIs)
+        {
+            _subUI.ClickAction = (PointerEventData data) =>
+            {
+                GameManager.UI.GetPopupForward(GameManager.UI.Inventory);
+            };
+        }
+
         // 인벤토리 창 드래그
         _entities[(int)Enum_UI_Inventory.Interact].DragAction = (PointerEventData data) =>
         {
@@ -146,7 +154,7 @@ public class UI_Inventory : UI_Entity
     }
 
 
-    public void UpdateInvenInfo(int slotIndex) // 초기에는 교환할 두 아이템의 배열 재정령 후 이미지와 수량을 서로 교체하는 방식이 더 적은 로직을 사용하여 간단해 보였지만, 확장성 면에서 아이템 합산시에는 재사용이 어려워서 아이템 배열 정보에 맞게 갱신 시키는 메서드 사용.
+    public void UpdateInvenInfo(int slotIndex) // 아이템 배열 정보에 맞게 갱신 시키는 메서드 사용.
     {
         GameObject slotInfo = _invenPanel.transform.GetChild(slotIndex).GetChild(2).gameObject; // 번호에 맞는 슬롯의 IconImg 오브젝트 
         Image iconImg= slotInfo.GetComponent<Image>();

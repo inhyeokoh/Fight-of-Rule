@@ -64,6 +64,11 @@ public class CharData : Data
         defense = 3;
         speed = 10;
     }
+
+    public CharData(string job) : this()
+    {
+        this.job = job;
+    }
 }
 
 
