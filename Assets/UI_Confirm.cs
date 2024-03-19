@@ -7,7 +7,7 @@ using TMPro;
 
 public class UI_Confirm : UI_Entity
 {
-    public TMP_Text mainText;
+    TMP_Text _mainText;
 
     enum Enum_UI_Confirm
     {
@@ -27,8 +27,8 @@ public class UI_Confirm : UI_Entity
     {
         base.Init();
 
-        mainText = _entities[(int)Enum_UI_Confirm.MainText].GetComponent<TMP_Text>();
-        mainText.text = "Default";
+        _mainText = _entities[(int)Enum_UI_Confirm.MainText].GetComponent<TMP_Text>();
+        _mainText.text = "Default";
 
         _entities[(int)Enum_UI_Confirm.Accept].ClickAction = (PointerEventData data) => {
             GameManager.UI.CloseLinkedPopup();
@@ -44,7 +44,6 @@ public class UI_Confirm : UI_Entity
 
     public void ChangeText(string contents)
     {
-        Debug.Log(mainText.text);
-        mainText.text = contents;
+        _mainText.text = contents;
     }
 }

@@ -12,6 +12,7 @@ public class UIManager : SubClass<GameManager>
     public GameObject Setting;
     public GameObject InputName;
     public GameObject Confirm;
+    bool _leafPopup;
 
     GameObject popupCanvas;
 
@@ -65,41 +66,49 @@ public class UIManager : SubClass<GameManager>
 
     public void OpenPopup(GameObject popup)
     {
-        _activePopupList.AddLast(popup);
-        popup.SetActive(true);
-        SortPopupView();
+        if (!_leafPopup)
+        {
+            _activePopupList.AddLast(popup);
+            popup.SetActive(true);
+            SortPopupView();
+        }
     }
     
     // 종속된 팝업 열기
-    public void OpenChildPopup(GameObject popup)
-    {
-        if (_linkedPopupList.Count == 0)
+    public void OpenChildPopup(GameObject popup, bool leaf = false)
+    {        
+        if (!_leafPopup)
         {
-            var latest = _activePopupList.Last.Value;
-            _linkedPopupList.Add(latest); //Root가 될 팝업을 linkedPopupList에 추가
-        }
+            if (_linkedPopupList.Count == 0)
+            {
+                var latest = _activePopupList.Last.Value;
+                _linkedPopupList.Add(latest); //Root가 될 팝업을 linkedPopupList에 추가
+            }
 
-        OpenPopup(popup);
-        _linkedPopupList.Add(popup);
+            OpenPopup(popup);
+            _linkedPopupList.Add(popup);
+        }
+        _leafPopup = leaf;
     }
 
     public void ClosePopup(GameObject popup)
     {
         if (_linkedPopupList.Count > 0)
         {
-            _linkedPopupList.Clear();
+            _linkedPopupList.Remove(popup);
         }
         _activePopupList.Remove(popup);
         popup.SetActive(false);
+        _leafPopup = false;
     }
 
     public void CloseLinkedPopup()
     {
-        foreach (var popup in _linkedPopupList) // 연결된 팝업들 순회
+        for (int i = _linkedPopupList.Count - 1; i >= 0; i--) // linkedPopupList.Count가 계속 변함을 주의
         {
-            ClosePopup(popup);
+            ClosePopup(_linkedPopupList[i]);
         }
-        _linkedPopupList.Clear();
+        _leafPopup = false;
     }
 
     // 모든 팝업 닫기

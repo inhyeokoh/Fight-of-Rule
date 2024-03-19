@@ -48,7 +48,7 @@ public class UI_InputName : UI_Entity
                 GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = nickName;
 
                 _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
-                    GameManager.UI.OpenChildPopup(GameManager.UI.Confirm);
+                    GameManager.UI.OpenChildPopup(GameManager.UI.Confirm, true);
                     GameManager.UI.Confirm.GetComponent<UI_Confirm>().ChangeText("Would you like to create?");
                 };
             }
