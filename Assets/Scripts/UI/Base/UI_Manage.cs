@@ -7,7 +7,6 @@ using UnityEngine.InputSystem;
 // InputAction 호출 받기, 씬 간 연결, 씬 별로 상이한 팝업 호출 실행 
 public class UI_Manage : MonoBehaviour
 {
-    bool inGame;
     public int curSceneNum;
     public Stack<int> scenes;
 
@@ -25,14 +24,12 @@ public class UI_Manage : MonoBehaviour
     {
         curSceneNum = SceneManager.GetActiveScene().buildIndex;
         scenes.Push(curSceneNum);
-
-        if (SceneManager.GetActiveScene().name == "StatePattern")
+                
+        if (scene.name == "StatePattern")
         {
-            inGame = true;
             GameManager.UI.ConnectPlayerInput();
+            GameManager.UI.SetInGamePopups();
         }
-
-        GameManager.UI.SetPopups(inGame);
     }
 
     void OnDisable()
@@ -47,7 +44,7 @@ public class UI_Manage : MonoBehaviour
             if (GameManager.UI._activePopupList.Count > 0)
             {
                 // ESC 누를 경우 링크드리스트의 First 닫기
-                GameManager.UI.ClosePopup(GameManager.UI._activePopupList.First.Value);
+                GameManager.UI.ClosePopup(GameManager.UI._activePopupList.Last.Value);
             }
             else
             {

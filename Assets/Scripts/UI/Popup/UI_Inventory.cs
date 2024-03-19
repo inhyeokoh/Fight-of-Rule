@@ -9,8 +9,7 @@ public class UI_Inventory : UI_Entity
 {
     GameObject _invenPanel;
     public GameObject dragImg;
-    public ItemBase[] items; // 인벤 아이템 배열
-
+    List<ItemBase> _invenItems;
     int _totalSlotCount = 30;
 
     enum Enum_UI_Inventory
@@ -30,7 +29,8 @@ public class UI_Inventory : UI_Entity
     {
         base.Init();
         _invenPanel = _entities[(int)Enum_UI_Inventory.Panel].gameObject;
-        _GetInvenDataFromDB();
+        _invenItems = GameManager.Inven.items;
+
         _SetItemSlots();
 
         foreach (var _subUI in _subUIs)
@@ -65,39 +65,10 @@ public class UI_Inventory : UI_Entity
         };
 
         dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
+
+        gameObject.SetActive(false);
     }
 
-    //로컬로부터 내 인벤 아이템 정보 가져와서 배열에 집어넣음
-    void _GetInvenDataFromDB()
-    {
-        GameManager.Data.ItemDB = GameManager.Resources.Load<TextAsset>("Data/ItemDB");
-        string[] lines = GameManager.Data.ItemDB.text.Substring(0, GameManager.Data.ItemDB.text.Length - 1).Split('\n'); // text파일로 된 DB의 Line
-        items = new ItemBase[_totalSlotCount + 1]; // 마지막 칸은 아이템 스위칭용
-        for (int i = 0; i < lines.Length; i++) // 배열 0번부터 차례로 넣음
-        {
-            string[] row = lines[i].Split('\t'); // Tab 기준으로 나누기           
-            // 아이템 집어 넣기
-            if (row[0] == "Equipment")
-            {
-                items[i] = new InGameItemEquipment();
-            }
-            else if (row[0] == "Consumption")
-            {
-                items[i] = new InGameItemConsumption();
-                //items[i] = new InGameItemDuraction();
-            }
-            else
-            {
-                // Etc
-            }
-            // items[i].itemID
-            // items[i].itemType =
-            items[i].itemName = row[1];
-            items[i].itemDescription = row[2];
-            items[i].count = Convert.ToInt32(row[3]);
-            // Debug.Log($"아이템 명: {items[i].itemName}, 아이템 수량: {items[i].count}");
-        }        
-    }
 
     // 인벤토리 내 슬롯과 아이템 생성
     void _SetItemSlots()
@@ -107,8 +78,9 @@ public class UI_Inventory : UI_Entity
         {
             GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _invenPanel.transform);
             _itemSlot.name = "ItemSlot_" + slotIndex;
+            _itemSlot.GetComponent<UI_ItemSlot>().index = slotIndex;
 
-            if (items[slotIndex].itemName == null)
+            if (_invenItems[slotIndex].itemName == null)
             {
                 slotIndex++;
                 continue;
@@ -119,48 +91,20 @@ public class UI_Inventory : UI_Entity
 
             icon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             icon.GetComponent<Image>().sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{items[slotIndex].itemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
+                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[slotIndex].itemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
             amountText.SetActive(true);
-            amountText.GetComponent<TMP_Text>().text = $"{items[slotIndex].count}";        
+            amountText.GetComponent<TMP_Text>().text = $"{_invenItems[slotIndex].count}";        
             slotIndex++;
         }
     }   
 
-
-    public void SwitchItems(int a, int b)
-    {        
-        items[_totalSlotCount] = items[b];
-        items[b] = items[a];
-        items[a] = items[_totalSlotCount];
-    }
-
-    public bool CheckItemType(int a, int b)
-    {
-        if (items[a].itemType == items[b].itemType)
-        {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    public void AddUpItems(int a, int b)
-    {
-        if (items[a].count <= 100)
-        {
-
-        }
-    }
-
-
-    public void UpdateInvenInfo(int slotIndex) // 아이템 배열 정보에 맞게 갱신 시키는 메서드 사용.
+    public void UpdateInvenInfo(int slotIndex) // 아이템 배열 정보에 맞게 UI 갱신 시키는 메서드
     {
         GameObject slotInfo = _invenPanel.transform.GetChild(slotIndex).GetChild(2).gameObject; // 번호에 맞는 슬롯의 IconImg 오브젝트 
         Image iconImg= slotInfo.GetComponent<Image>();
         TMP_Text amountText = slotInfo.transform.GetChild(0).GetComponent<TMP_Text>();
 
-        if (items[slotIndex] == null)
+        if (_invenItems[slotIndex] == null)
         {
             iconImg.sprite = null;
             iconImg.color = new Color32(12, 15, 29, 0);
@@ -168,10 +112,10 @@ public class UI_Inventory : UI_Entity
         }
         else
         {
-            iconImg.sprite = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{items[slotIndex].itemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
+            iconImg.sprite = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[slotIndex].itemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
             iconImg.color = new Color32(255, 255, 255, 255);
             amountText.gameObject.SetActive(true);
-            amountText.text = $"{(items[slotIndex].count)}"; //  해당 아이템 이름과 일치하는 수량 로드
+            amountText.text = $"{(_invenItems[slotIndex].count)}"; //  해당 아이템 이름과 일치하는 수량 로드
         }
     }
 

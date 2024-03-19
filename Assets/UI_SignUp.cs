@@ -63,5 +63,7 @@ public class UI_SignUp : UI_Entity
         _entities[(int)Enum_UI_SignUp.Cancel].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.SignUp);
         };
+
+        gameObject.SetActive(false);
     }
 }

@@ -29,6 +29,7 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
+        msg = _entities[(int)Enum_UI_InputName.CheckName].GetComponentInChildren<TMP_Text>();
 
         foreach (var _subUI in _subUIs)
         {
@@ -38,11 +39,6 @@ public class UI_InputName : UI_Entity
             };
         }
 
-        _entities[(int)Enum_UI_InputName.Panel].ClickAction = (PointerEventData data) => {
-            GameManager.UI.GetPopupForward(GameManager.UI.InputName);
-        };
-
-        msg = _entities[(int)Enum_UI_InputName.CheckName].GetComponentInChildren<TMP_Text>();
 
         // 생성 가능한 이름인지 체크 후, 저장 및 씬 이동
         _entities[(int)Enum_UI_InputName.Create].ClickAction = (PointerEventData data) => {            
@@ -52,10 +48,8 @@ public class UI_InputName : UI_Entity
                 GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = nickName;
 
                 _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
-                    GameManager.Data.login.slotCount++; // 슬롯 수 저장
-                    GameManager.Data.SaveData("LoginData", GameManager.Data.login);
-                    // GameManager.Data.SaveData(GameManager.Data.fileName, GameManager.Data.character);
-                    GameManager.Scene.GetNextScene();
+                    GameManager.UI.OpenChildPopup(GameManager.UI.Confirm);
+                    GameManager.UI.Confirm.GetComponent<UI_Confirm>().ChangeText("Would you like to create?");
                 };
             }
             else
@@ -67,6 +61,8 @@ public class UI_InputName : UI_Entity
         _entities[(int)Enum_UI_InputName.Cancel].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.InputName);
         };
+
+        gameObject.SetActive(false);
     }
 
     private void Update()

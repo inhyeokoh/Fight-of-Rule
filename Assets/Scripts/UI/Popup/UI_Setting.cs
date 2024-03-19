@@ -6,8 +6,6 @@ using TMPro;
 
 public class UI_Setting : UI_Entity
 {
-    bool initStarted;
-
     Slider[] volSliders;
     TMP_Text[] volNames;
     TMP_Text[] togNames;
@@ -18,8 +16,8 @@ public class UI_Setting : UI_Entity
         Panel,
         Interact,
         Panel_L,
-        Panel_R,
         Scrollbar_L,
+        Panel_R,
         Scrollbar_R,
         Close,
         Reset,
@@ -45,7 +43,14 @@ public class UI_Setting : UI_Entity
         SetPanel_L();
         LoadOptionsVol();
 
-        // 버튼 할당      
+        foreach (var _subUI in _subUIs)
+        {
+            _subUI.ClickAction = (PointerEventData data) =>
+            {
+                GameManager.UI.GetPopupForward(GameManager.UI.Setting);
+            };
+        }
+        // 버튼 기능 할당      
         _entities[(int)Enum_UI_Settings.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
@@ -64,19 +69,12 @@ public class UI_Setting : UI_Entity
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
 
-        foreach (var _subUI in _subUIs)
-        {
-            _subUI.ClickAction = (PointerEventData data) =>
-            {
-                GameManager.UI.GetPopupForward(GameManager.UI.Setting);
-            };
-        }
         _entities[(int)Enum_UI_Settings.Interact].DragAction = (PointerEventData data) =>
         {
             transform.position = data.position;   // TODO: 드래그 수정 필요
         };
 
-        initStarted = true;
+        gameObject.SetActive(false);
     }
 
     void SetPanel_L()

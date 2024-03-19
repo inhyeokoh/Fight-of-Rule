@@ -29,6 +29,10 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
+        Debug.Log(message.Ip);
+        Debug.Log(message.Port);
+        Debug.Log(message.Uid);
+
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
             var loadAsync = SceneManager.LoadSceneAsync("create");

@@ -11,11 +11,13 @@ public class UIManager : SubClass<GameManager>
     public GameObject Inventory;
     public GameObject Setting;
     public GameObject InputName;
+    public GameObject Confirm;
 
-    Transform popupTr;
+    GameObject popupCanvas;
 
     // 실시간 팝업 관리 링크드 리스트
     public LinkedList<GameObject> _activePopupList;
+    public List<GameObject> _linkedPopupList;
 
     protected override void _Clear()
     {
@@ -30,30 +32,29 @@ public class UIManager : SubClass<GameManager>
     {
         GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
         moveAction = uiManage.GetComponent<PlayerInput>().currentActionMap.FindAction("Move");
-        Object.DontDestroyOnLoad(uiManage); 
+        Object.DontDestroyOnLoad(uiManage);
+        popupCanvas = GameObject.Find("PopupCanvas");
+        Object.DontDestroyOnLoad(popupCanvas);
+        SetOutGamePopups();
 
         _activePopupList = new LinkedList<GameObject>();
+        _linkedPopupList = new List<GameObject>();
+
     }
 
-    public void SetPopups(bool ingame)
+    public void SetOutGamePopups()
     {
-        popupTr = GameObject.Find("Canvas").transform;
-        if (ingame)
-        {            
-            Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupTr);
-            Inventory.SetActive(false);
-        }
-        else
-        {
-            SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupTr);
-            Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
-            InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
-            SignUp.SetActive(false);
-            Setting.SetActive(false);
-            InputName.SetActive(false);
-        }
-
+        SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform);
+        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupCanvas.transform);
+        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform);
+        Confirm = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Confirm", popupCanvas.transform);
     }
+
+    public void SetInGamePopups()
+    {
+        Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
+    }
+
 
     public void ConnectPlayerInput()
     {
@@ -68,12 +69,37 @@ public class UIManager : SubClass<GameManager>
         popup.SetActive(true);
         SortPopupView();
     }
+    
+    // 종속된 팝업 열기
+    public void OpenChildPopup(GameObject popup)
+    {
+        if (_linkedPopupList.Count == 0)
+        {
+            var latest = _activePopupList.Last.Value;
+            _linkedPopupList.Add(latest); //Root가 될 팝업을 linkedPopupList에 추가
+        }
+
+        OpenPopup(popup);
+        _linkedPopupList.Add(popup);
+    }
 
     public void ClosePopup(GameObject popup)
     {
+        if (_linkedPopupList.Count > 0)
+        {
+            _linkedPopupList.Clear();
+        }
         _activePopupList.Remove(popup);
         popup.SetActive(false);
-        SortPopupView();
+    }
+
+    public void CloseLinkedPopup()
+    {
+        foreach (var popup in _linkedPopupList) // 연결된 팝업들 순회
+        {
+            ClosePopup(popup);
+        }
+        _linkedPopupList.Clear();
     }
 
     // 모든 팝업 닫기
@@ -85,15 +111,11 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
-    // 하이어라키에서 맨 아래 오도록 변경하여 뷰에서 가장 위에 표시되도록
+    // 가장 마지막에 연 팝업이 화면상 가장 위에 오도록
     public void SortPopupView()
     {
-        // 링크드리스트 순회하면서 팝업 순서 재배치.
-        // 가장 마지막에 연 팝업이 화면상 가장 위에 오도록
-        foreach (var popup in _activePopupList)
-        {            
-            popup.transform.SetAsLastSibling();
-        }
+        var popup = _activePopupList.Last.Value;
+        popup.transform.SetAsLastSibling();
     }
 
     // 클릭한 팝업이 가장 앞으로 오도록

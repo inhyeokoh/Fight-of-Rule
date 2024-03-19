@@ -58,7 +58,6 @@ public class GameManager : MonoBehaviour
 
     /*==================
      *     Network
-     *     inhyeok
      =================*/
     NetworkManager _networkManager = new NetworkManager();
     /// <summary>
@@ -93,6 +92,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static SceneManager2 Scene { get { return Instance._sceneManager; } }
 
+    /*==================
+    *    DataManager
+    =================*/
+    InventoryManager _invenManager = new InventoryManager();
+    /// <summary>
+    /// Load and Save Data
+    /// </summary>
+    public static InventoryManager Inven { get { return Instance._invenManager; } }
+
     LockQueue<Action> _tasks = new LockQueue<Action>();
     Action _onUpdate;
 
@@ -110,7 +118,8 @@ public class GameManager : MonoBehaviour
             _networkManager,
             _uiManager,
             _dataManager,
-            _sceneManager
+            _sceneManager,
+            _invenManager
         };
 
         for(int i = 0; i < _managers.Count; i++)

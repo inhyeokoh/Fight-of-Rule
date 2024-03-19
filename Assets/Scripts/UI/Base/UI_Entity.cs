@@ -119,13 +119,13 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
         return GetComponent<T>();
     }
 
-    /*    public void CloseAllUI()
-        {
-            if (_mother != null)
-                _mother.CloseAllUI();
-            else
-                GameManager.Resources.Destroy(gameObject);
-        }*/
+    public void CloseAllUI()
+    {
+        if (_mother != null)
+            _mother.CloseAllUI();
+        else
+            GameManager.Resources.Destroy(gameObject);
+    }
 
     public void CloseUI()
     {
