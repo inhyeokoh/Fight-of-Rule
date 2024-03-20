@@ -19564,7 +19564,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1151892514660935258}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.5123121, z: 0, w: -0.8587994}
   m_LocalPosition: {x: 0.26086953, y: 0.4956521, z: 1.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -24474,6 +24474,7 @@ MonoBehaviour:
   isShieldActive: 0
   isHitMake: 0
   addforce: 0
+  rotation: {x: 0, y: 0, z: 0}
   monsterState: {fileID: 0}
 --- !u!1 &1151897488002648122
 GameObject:

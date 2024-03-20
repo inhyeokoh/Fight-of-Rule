@@ -3262,6 +3262,7 @@ GameObject:
   - component: {fileID: 9052954012294434462}
   - component: {fileID: 9052954012294434449}
   - component: {fileID: 9052954012294434448}
+  - component: {fileID: -7101554200858716067}
   - component: {fileID: 6530393427523975275}
   m_Layer: 3
   m_Name: OrcWarrior
@@ -3365,6 +3366,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monsterState: {fileID: 0}
+  _monsterStatus: {fileID: 0}
   _animationController: {fileID: 0}
   _eventHandler: {fileID: 0}
   _effector: {fileID: 0}
@@ -3385,7 +3387,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effetcBurst: []
   effectDuration:
-  - {fileID: 1151892514660935258, guid: d0255962f594b824d9e144e19a6e09e3, type: 3}
+  - {fileID: 1151892514660935258, guid: b1340b22b033dc847bcedc1273e52470, type: 3}
   effectTransform:
   - {fileID: 8347769202238527137}
 --- !u!114 &9052954012294434463
@@ -3451,6 +3453,18 @@ MonoBehaviour:
   isDeadCheck: 0
   expCharacter: {fileID: 0}
   monsterState: 0
+--- !u!114 &-7101554200858716067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568482129018721339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caa9254dd5e7074b9c5b8675eb284f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!195 &6530393427523975275
 NavMeshAgent:
   m_ObjectHideFlags: 0

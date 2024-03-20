@@ -19,6 +19,7 @@ public class CoolTimeCheck : MonoBehaviour
     public void SkillUse()
     {
         coolTime = maxCoolTime;
+        print(coolTime); 
         skillFillAmount.fillAmount = 1;
         StartCoroutine(CoolTimeStart());
     }

@@ -11,6 +11,9 @@ public class UIManager : SubClass<GameManager>
     public GameObject Inventory;
     public GameObject Setting;
     public GameObject InputName;
+    public GameObject StatusWindow;
+    //public GameObject SkillWindow;
+    public GameObject InGameMain;
 
     Transform popupTr;
 
@@ -57,9 +60,12 @@ public class UIManager : SubClass<GameManager>
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupTr);
         Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupTr);
         InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupTr);
+        StatusWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/StatusWindow", popupTr);
+       // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupTr);
         Inventory.SetActive(false);
         Setting.SetActive(false);
         InputName.SetActive(false);
+        StatusWindow.SetActive(false);
     }
 
     // ¸ðµç ÆË¾÷ ´Ý±â

@@ -117,7 +117,8 @@ public abstract class CharacterState : SubMono<PlayerController>
             //_board._animationController.ChangeMoveAnimation(0);            
             isAvoid = true;
             _board._playerMovement.Direction(_board._playerMovement.TargetPosition);
-            characterState = Enum_CharacterState.Avoid; playerCollider.enabled = false;
+            characterState = Enum_CharacterState.Avoid; 
+            playerCollider.enabled = false;
             _board._animationController.ChangeTrrigerAnimation(Enum_CharacterState.Avoid.ToString());
         },
         () => { },

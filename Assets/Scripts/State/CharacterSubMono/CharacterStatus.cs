@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterStatus : SubMono<PlayerController>
 {
+
+    //데이터를 전달받는 캐릭터의 순수능력치
     private int characterMaxHP;
     private int characterMaxMP;
     private int characterMaxEXP;
@@ -20,6 +22,7 @@ public class CharacterStatus : SubMono<PlayerController>
     private int skillDamage;
 
 
+    //인게임상에 캐릭터 능력치
     private int sumMaxHP;
     private int sumMaxMP;
     private int sumAttack;
@@ -83,7 +86,7 @@ public class CharacterStatus : SubMono<PlayerController>
 
             if (mp >= sumMaxMP)
             {
-                mp = sumMaxMP;
+                mp = sumMaxMP; 
             }
         }
     }
@@ -120,6 +123,13 @@ public class CharacterStatus : SubMono<PlayerController>
     public int Defense { get { return characterDefense; } set { characterDefense = value; } }
 
     public int AttackSpped { get { return characterAttackSpeed; } set { characterAttackSpeed = value; } }
+    public int Speed { get { return characterSpeed; } set { characterSpeed = value; } }
+    public int MaxHP { get { return characterMaxHP; } set { characterMaxHP = value; } }
+    public int MaxMP { get { return characterMaxMP; } set { characterMaxMP = value; } }
+
+    public int SumMaxHP { get { return sumMaxHP; } set { sumMaxHP = value; } }
+
+    public int SumMaxMP { get { return sumMaxMP; } set { sumMaxMP = value; } }
     public int SkillDamage
     {
         get
@@ -132,13 +142,6 @@ public class CharacterStatus : SubMono<PlayerController>
         }
     }
 
-    public int Speed { get { return characterSpeed; } set { characterSpeed = value; } }
-    public int MaxHP { get { return characterMaxHP; } set { characterMaxHP = value; } }
-    public int MaxMP { get { return characterMaxMP; } set { characterMaxMP = value; } }
-
-    public int SumMaxHP { get { return sumMaxHP; } set { sumMaxHP = value; } }
-
-    public int SumMaxMP { get { return sumMaxMP; } set { sumMaxMP = value; } }
 
     public int SumAttack
     {
@@ -189,6 +192,8 @@ public class CharacterStatus : SubMono<PlayerController>
         }
     }
 
+
+    //레벨업할때 능력치를 상승시키는 메서드
     public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defense, bool firstLevel)
     {
         int previousEXP = this.characterMaxEXP;
@@ -212,6 +217,7 @@ public class CharacterStatus : SubMono<PlayerController>
         EXP -= previousEXP;
     }
 
+    //데미지 계산
     public int EffectDamage(int EffectDamage = 1)
     {
         return SkillDamage = sumAttack * EffectDamage;

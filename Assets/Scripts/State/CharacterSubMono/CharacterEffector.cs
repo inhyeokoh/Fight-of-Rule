@@ -4,14 +4,18 @@ using UnityEngine;
 
 public class CharacterEffector : SubMono<PlayerController>
 {
+    //¡ÔΩ√ ¿Ã∆Â∆Æ
     [SerializeField]
     private GameObject[] effetcBurst;
+
+    //¡ˆº” ¿Ã∆Â∆Æ
     [SerializeField]
     private GameObject[] effectDuration;
  
     [SerializeField]
     private List<Transform> effectTransform;
 
+    //«ˆ¿Á Ω∫≈≥ ¿Ã∆Â∆Æ ¿Œµ¶Ω∫
     private int instanceEffect;
 
     private bool isSkillInstance;
@@ -42,11 +46,13 @@ public class CharacterEffector : SubMono<PlayerController>
     public void EffectDurationOn(int index)
     {
         effectDuration[index].SetActive(true);
+        print(index);
     }
 
     public void EffectBurstOn(int index)
     {
         effetcBurst[index].SetActive(true);
+        print(index);
     }
     public void EffectBurstOff(int index)
     {
@@ -55,7 +61,7 @@ public class CharacterEffector : SubMono<PlayerController>
 
     public void EffectDurationInstance(int transformIndex)
     {            
-        Instantiate(effectDuration[instanceEffect], effectTransform[transformIndex].position, effectTransform[transformIndex].rotation);
+        Instantiate(effectDuration[transformIndex], effectTransform[transformIndex].position, effectTransform[transformIndex].rotation);
     }
 
 

@@ -31,7 +31,7 @@ public class DamageFactory : MonoBehaviour
 
     }
 
-    public void MonsterDamage(MonsterState monster, int skillDamage, CharacterStatus character, float addforce)
+    public void MonsterDamage(MonsterStatus monster, int skillDamage, CharacterStatus character, float addforce)
     {
        // print("데미지 팩토리 실행됌");
         monster.DeadCheck(skillDamage, character, addforce);
