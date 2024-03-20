@@ -443,6 +443,8 @@ public abstract class MonsterState : SubMono<MonsterController>
         this.expCharacter = expCharacter;
         hp -= damage / defense;
 
+        print(hp);
+
         if (hp <= 0)
         {
             hp = 0;

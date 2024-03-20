@@ -1,0 +1,9 @@
+Equipment	Armor	Armor입니다	1	FALSE
+Equipment	Boots	Boots입니다	1	FALSE
+Equipment	Helmets	Helmets입니다	1	FALSE
+Consumption	Apple	사과입니다	1	FALSE
+Consumption	Hp	HP포션입니다	100	FALSE
+Consumption	Hp	HP포션입니다	92	FALSE
+Consumption	Hp	HP포션입니다	1	FALSE
+Consumption	Mp	MP포션입니다	100	FALSE
+Consumption	Mp	MP포션입니다	1	FALSE

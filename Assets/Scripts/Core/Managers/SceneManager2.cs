@@ -1,11 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.SceneManagement;
 
 public class SceneManager2 : SubClass<GameManager>
 {
     int curIdx = 0;
     int maxIdx;
-    GameObject uiManage;
+    UI_Manage uiManage;
 
     protected override void _Clear()
     {
@@ -20,7 +23,7 @@ public class SceneManager2 : SubClass<GameManager>
         maxIdx = SceneManager.sceneCountInBuildSettings;
         curIdx = SceneManager.GetActiveScene().buildIndex;
 
-        uiManage = GameObject.Find("UI_Manage");
+        uiManage = GameObject.Find("UI_Manage").GetComponent<UI_Manage>();
     }
 
     public void GetPreviousScene(int numToSkip = 1)
@@ -39,11 +42,20 @@ public class SceneManager2 : SubClass<GameManager>
     // 이전에 있던 씬으로 이동
     public void GetLocatedScene()
     {
-        if (uiManage.GetComponent<UI_Manage>().preSceneNum == 0)
+        if (uiManage.scenes.Count > 0)
+        {
+            if (SceneManager.GetActiveScene().name == "Loading") // 로딩은 한번 더 이전씬까지 이동
+            {
+                uiManage.scenes.Pop();
+                SceneManager.LoadScene(uiManage.scenes.Pop());
+            }
+            uiManage.scenes.Pop(); //현재씬 pop해서 버리고
+            SceneManager.LoadScene(uiManage.scenes.Pop()); //이전씬으로 이동
+        }
+        else
         {
             ExitGame();
         }
-        SceneManager.LoadScene(uiManage.GetComponent<UI_Manage>().preSceneNum);
     }
 
     public void GetNextScene(int numToSkip = 1)
@@ -53,6 +65,16 @@ public class SceneManager2 : SubClass<GameManager>
         {
             SceneManager.LoadScene(curIdx + numToSkip);
         }
+    }
+
+    public IEnumerator LoadSceneAsync(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }    
     }
 
     public void ExitGame()

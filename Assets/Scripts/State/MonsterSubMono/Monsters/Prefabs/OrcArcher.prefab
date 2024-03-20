@@ -1500,7 +1500,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effetcBurst: []
   effectDuration:
-  - {fileID: 5832424545188445121, guid: 8b63214f359360e4799003c9b86ee90b, type: 3}
+  - {fileID: 5832424545188445121, guid: f0eaa6900f12b304582184b40e4ba042, type: 3}
   effectTransform:
   - {fileID: 6132756966216296863}
 --- !u!114 &2630407656452056596

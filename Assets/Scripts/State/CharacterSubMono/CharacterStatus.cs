@@ -4,25 +4,46 @@ using UnityEngine;
 
 public class CharacterStatus : SubMono<PlayerController>
 {
-    private int maxHP;
-    private int maxMP;
-    private int maxEXP;
+    private int characterMaxHP;
+    private int characterMaxMP;
+    private int characterMaxEXP;
+    private int characterAttack;
+    private int characterAttackSpeed;
+    private int characterDefense;
+    private int characterSpeed;
 
     private int hp;
     private int mp;
     private int exp;
-    private int attack;
-    private int attackSpeed;
-    private int defense;
-    private int speed;
     private int level;
     private int skillDamage;
 
-    public int MaxHP { get { return maxHP; } }
-    public int MaxMP { get { return maxMP; } }
+    private int sumMaxHP;
+    private int sumMaxMP;
+    private int sumAttack;
+    private int sumAttackSpeed;
+    private int sumDefense;
+    private int sumSpeed;
 
-    public int MaxEXP { get { return maxEXP; } }
+    public int MaxEXP { get { return characterMaxEXP; } }
 
+    // 현재 순수 스텟은 그대루 두고
+    // 최대체력, 최대마나, 공격력, 방어력, 스피드, 공격속도
+
+
+    // 아이템 적용 장비 적용
+
+    public int Level
+    {
+        get
+        {
+            return level;
+        }
+        set
+        {
+            level = value;
+        }
+    }
     public int HP
     {
         get
@@ -33,9 +54,9 @@ public class CharacterStatus : SubMono<PlayerController>
         {
             hp = value < 0 ? 0 : value;
 
-            if (hp >= maxHP)
+            if (hp >= sumMaxHP)
             {
-                hp = maxHP;
+                hp = sumMaxHP;
             }
 
             if (hp == 0)
@@ -56,9 +77,9 @@ public class CharacterStatus : SubMono<PlayerController>
         {
             mp = value < 0 ? 0 : value;
 
-            if (mp >= maxMP)
+            if (mp >= sumMaxMP)
             {
-                mp = maxMP;
+                mp = sumMaxMP;
             }
         }
     }
@@ -79,7 +100,7 @@ public class CharacterStatus : SubMono<PlayerController>
             {
                 exp = value;
 
-                if (exp >= maxEXP)
+                if (exp >= characterMaxEXP)
                 {
                     {
                         level++;
@@ -90,18 +111,11 @@ public class CharacterStatus : SubMono<PlayerController>
         }
     }
 
-    public int Attack
-    {
-        get
-        {
-            return attack;
-        }
-        set
-        {
-            attack = value;
-        }
-    }
+    public int Attack { get { return characterAttack; } set { characterAttack = value; } }
 
+    public int Defense { get { return characterDefense; } set { characterDefense = value; } }
+
+    public int AttackSpped { get { return characterAttackSpeed; } set { characterAttackSpeed = value; } }
     public int SkillDamage
     {
         get
@@ -114,97 +128,113 @@ public class CharacterStatus : SubMono<PlayerController>
         }
     }
 
-    public int Defense
+    public int Speed { get { return characterSpeed; } set { characterSpeed = value; } }
+    public int MaxHP { get { return characterMaxHP; } set { characterMaxHP = value; } }
+    public int MaxMP { get { return characterMaxMP; } set { characterMaxMP = value; } }
+
+    public int SumMaxHP { get { return sumMaxHP; } set { sumMaxHP = value; } }
+
+    public int SumMaxMP { get { return sumMaxMP; } set { sumMaxMP = value; } }
+
+    public int SumAttack
     {
         get
         {
-            return defense;
+            return sumAttack;
         }
         set
         {
-            defense = value;
+            sumAttack = value;
         }
     }
 
-    public int Speed
+    public int SumDefense
     {
         get
         {
-            return speed;
+            return sumDefense;
         }
         set
         {
-            speed = value;
+            sumDefense = value;
         }
     }
 
-    public int Level
+    public int SumSpeed
     {
         get
         {
-            return level;
+            return sumSpeed;
         }
         set
         {
-            level = value;
+            sumSpeed = value;
         }
     }
 
-    public int AttackSpeed
+
+    public int SumAttackSpeed
     {
         get
         {
-            return attackSpeed;
+            return sumAttackSpeed;
         }
         set
         {
-            attackSpeed = value;
+            sumAttackSpeed = value;
         }
     }
 
     public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defense, bool firstLevel)
     {
-        int previousEXP = this.maxEXP;
+        int previousEXP = this.characterMaxEXP;
 
         if (firstLevel)
         {
-            this.maxEXP = maxEXP;
+            this.characterMaxEXP = maxEXP;
         }
         else
         {
-            this.maxEXP += maxEXP;
+            this.characterMaxEXP += maxEXP;
         }
 
-        this.maxHP += maxHP;
-        this.maxMP += maxMP;
-        this.attack += attack;
-        this.defense += defense;
+        this.characterMaxHP += maxHP;
+        this.characterMaxMP += maxMP;
+        this.characterAttack += attack;
+        this.characterDefense += defense;
 
-        HP = this.maxHP;
-        MP = this.maxMP;
+        HP = this.characterMaxHP;
+        MP = this.characterMaxMP;
         EXP -= previousEXP;
     }
 
     public int EffectDamage(int EffectDamage = 1)
     {
-        return SkillDamage = Attack * EffectDamage;
+        return SkillDamage = sumAttack * EffectDamage;
     }
 
     protected override void _Init()
     {
-        level = 1;
-        maxHP = 50;
-        maxMP = 50;
-        maxEXP = 100;
+        level = 50;
+        characterMaxHP = 50;
+        characterMaxMP = 50;
+        characterMaxEXP = 100;
 
-        hp = 50;
+        hp = 20;
         mp = 50;
         exp = 0;
-        attack = 5;
-        attackSpeed = 1;
-        defense = 3;
-        speed = 10;
-        skillDamage = 1;
+        characterAttack = 5;
+        characterAttackSpeed = 1;
+        characterDefense = 3;
+        characterSpeed = 10;
+      
+        sumMaxHP = characterMaxHP;
+        sumMaxMP = characterMaxMP;
+        sumAttack = characterAttack;
+        sumAttackSpeed = characterAttackSpeed;
+        sumDefense = characterDefense;
+        sumSpeed = characterSpeed;
+
 
 /*        maxHP = GameManager.Data.character.maxHP;
         maxMP = GameManager.Data.character.maxMP;

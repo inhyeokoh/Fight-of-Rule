@@ -85,7 +85,7 @@ public abstract class CharacterState : SubMono<PlayerController>
         {
             if (Vector3.Distance(_board._playerMovement.playerTransform.position, _board._playerMovement.targetPosition) > 0.1f)
             {
-                _board._playerMovement.Move(_board._playerStat.Speed);
+                _board._playerMovement.Move(_board._playerStat.SumSpeed);
             }
             else
             {

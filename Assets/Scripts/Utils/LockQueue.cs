@@ -7,7 +7,7 @@ public class LockQueue<T>
 
     public int Count { get { lock (_lock) { return _packetQueue.Count; } } }
 
-    public void Push(T entity)
+    public void Enqueue(T entity)
     {
         lock (_lock)
         {
@@ -15,7 +15,7 @@ public class LockQueue<T>
         }
     }
 
-    public T Pop()
+    public T Dequeue()
     {
         lock (_lock)
         {
@@ -27,7 +27,7 @@ public class LockQueue<T>
         }
     }
 
-    public List<T> PopAll()
+    public List<T> DequeueAll()
     {
         var list = new List<T>();
 

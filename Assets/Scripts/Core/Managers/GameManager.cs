@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Cysharp.Threading.Tasks;
+using Unity.VisualScripting;
+
 public class GameManager : MonoBehaviour
 {
     static GameManager _Instance;
@@ -90,6 +93,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static SceneManager2 Scene { get { return Instance._sceneManager; } }
 
+    LockQueue<Action> _tasks = new LockQueue<Action>();
     Action _onUpdate;
 
     private void Awake()
@@ -124,5 +128,17 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         _onUpdate?.Invoke();
+        var tasks = _tasks.DequeueAll();
+
+        for (int i = 0; i < tasks.Count; i++)
+            tasks[i]?.Invoke();
+    }
+
+    /// <summary>
+    /// unity main thread
+    /// </summary>
+    public void EnqueueAsync(Action lambda)
+    {
+        _tasks.Enqueue(lambda);
     }
 }

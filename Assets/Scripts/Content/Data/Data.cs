@@ -32,20 +32,110 @@ public class CharData : Data
 {
     public string charName;
     public string job;
-    public string gender;
+    public bool gender;
 
     public int level;
     public int maxHP;
-    public int maxMP;
-    public int maxEXP;
-
     public int hp;
+    public int maxMP;
     public int mp;
+    public int maxEXP;
     public int exp;
     public int attack;
     public int attackSpeed;
     public int defense;
     public int speed;
-    public int skillDamage;
+
+    public CharData()
+    {
+        charName = "";
+        job = "Warrior";
+        gender = true;
+
+        level = 1;
+        maxHP = 100;
+        hp = 100;
+        maxMP = 100;
+        mp = 100;
+        maxEXP = 100;
+        exp = 0;
+        attack = 5;
+        attackSpeed = 1;
+        defense = 3;
+        speed = 10;
+    }
+}
+
+
+public class ItemsData
+{
+    public int itemID;
+    public string itemType;
+    public string itemName;
+    public string itemDescription;
+}
+
+[System.Serializable]
+public class ItemWeaponData : ItemsData
+{
+    public int level;
+   
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int attack;
+}
+[System.Serializable]
+public class ItemHeadData : ItemsData
+{   
+    public int level;
+ 
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int maxHP;
+    public int defenes;
+}
+[System.Serializable]
+public class ItemBodyData : ItemsData
+{   
+    public int level;
+  
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int maxHP;
+    public int defenes;
+    public int attack;
+    
+
+}
+[System.Serializable]
+public class ItemHandData : ItemsData
+{
+    public int level;
+
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int attack;
+    public int maxMP;
+}
+[System.Serializable]
+public class ItemFootData : ItemsData
+{  
+    public int level; 
+
+    public string equipmentClass;
+    public string equipmentType;
+
+    public int speed;
+    public int defenes;
+}
+
+[System.Serializable]
+public class ItemETC : ItemData
+{
+
 }
 

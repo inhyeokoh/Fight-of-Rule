@@ -29,7 +29,7 @@ public class SkillManager : MonoBehaviour
 
 
     [SerializeField]
-    Skill[] warriorSkills;
+    Skill[] warriorSkills; 
 
     [SerializeField]
     Skill[] archerSkills;
@@ -74,6 +74,7 @@ public class SkillManager : MonoBehaviour
 
     public void PlayerData()
     {
+        PlayerState = PlayerController.instance._playerState;
         PlayerStat = PlayerController.instance._playerStat;
         switch (PlayerController.instance._class)
         {

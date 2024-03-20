@@ -53,7 +53,27 @@ public class StateMachine
         currentState.Enter();
 
     }
+
+    //아이템만 쓸경우
+    public void EnterState(State newState)
+    {
+        if (newState == null)
+        {
+            return;
+        }
+
+        currentState = newState;
+        currentState.Enter();
+    }
     
+
+    //상태를 체인지 하지말고 Exit만 발동하고 싶을때? 
+    public void ExitState()
+    {
+        currentState.Exit();
+        currentState = null;
+    }
+
     //ReversState는 ChangeState에서 previousState변수에 저장됬었던 이전상태를 다시 전환하고 싶을때 호출하면됌
     public void ReversState()
     {
