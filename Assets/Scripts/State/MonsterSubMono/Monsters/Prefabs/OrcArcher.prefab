@@ -1376,6 +1376,7 @@ GameObject:
   - component: {fileID: 2630407656452056596}
   - component: {fileID: 2630407656452056597}
   - component: {fileID: 2630407656452056602}
+  - component: {fileID: -86655449038846117}
   - component: {fileID: 8241931496302525553}
   - component: {fileID: 2092053607}
   m_Layer: 3
@@ -1480,6 +1481,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _monsterState: {fileID: 0}
+  _monsterStatus: {fileID: 0}
   _animationController: {fileID: 0}
   _eventHandler: {fileID: 0}
   _effector: {fileID: 0}
@@ -1548,6 +1550,18 @@ MonoBehaviour:
   characterPosition: {fileID: 0}
   attackSpeed: 0
   abliltyDelay: 0
+--- !u!114 &-86655449038846117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443782014933318832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4caa9254dd5e7074b9c5b8675eb284f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &8241931496302525553
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,7 @@ public class UI_Inventory : UI_Entity
 {
     GameObject _invenPanel;
     public GameObject dragImg;
-    List<ItemBase> _invenItems;
+    List<Item> _invenItems;
     int _totalSlotCount = 30;
 
     enum Enum_UI_Inventory
@@ -80,20 +80,20 @@ public class UI_Inventory : UI_Entity
             _itemSlot.name = "ItemSlot_" + slotIndex;
             _itemSlot.GetComponent<UI_ItemSlot>().index = slotIndex;
 
-            if (_invenItems[slotIndex].itemName == null)
+/*            if (_invenItems[slotIndex].ItemName == null)
             {
                 slotIndex++;
                 continue;
-            }
+            }*/
 
             GameObject icon = _itemSlot.transform.GetChild(2).gameObject;  // IconImage (=슬롯 오브젝트 자식 2번)
             GameObject amountText = icon.transform.GetChild(0).gameObject; // Amount Text (=아이콘 오브젝트 자식 0번)
 
             icon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
             icon.GetComponent<Image>().sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[slotIndex].itemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
+                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[slotIndex].ItemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
             amountText.SetActive(true);
-            amountText.GetComponent<TMP_Text>().text = $"{_invenItems[slotIndex].count}";        
+            // amountText.GetComponent<TMP_Text>().text = $"{_invenItems[slotIndex].count}";        
             slotIndex++;
         }
     }   
@@ -112,10 +112,10 @@ public class UI_Inventory : UI_Entity
         }
         else
         {
-            iconImg.sprite = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[slotIndex].itemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
+            iconImg.sprite = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[slotIndex].ItemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
             iconImg.color = new Color32(255, 255, 255, 255);
             amountText.gameObject.SetActive(true);
-            amountText.text = $"{(_invenItems[slotIndex].count)}"; //  해당 아이템 이름과 일치하는 수량 로드
+            // amountText.text = $"{(_invenItems[slotIndex].count)}"; //  해당 아이템 이름과 일치하는 수량 로드
         }
     }
 

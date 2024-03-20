@@ -56,4 +56,9 @@ public class PassivSkill : Skill
     {
         
     }
+
+    public override void SkillInfo()
+    {
+      
+    }
 }

@@ -12,9 +12,12 @@ public class UIManager : SubClass<GameManager>
     public GameObject Setting;
     public GameObject InputName;
     public GameObject Confirm;
-    bool _leafPopup;
+    public GameObject StatusWindow;
+    //public GameObject SkillWindow;
+    public GameObject InGameMain;
 
     GameObject popupCanvas;
+    bool _leafPopup;
 
     // 실시간 팝업 관리 링크드 리스트
     public LinkedList<GameObject> _activePopupList;
@@ -54,6 +57,9 @@ public class UIManager : SubClass<GameManager>
     public void SetInGamePopups()
     {
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
+        StatusWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/StatusWindow", popupCanvas.transform);
+        // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
+        StatusWindow.SetActive(false);
     }
 
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class InventoryManager : SubClass<GameManager>
 {
-    public List<ItemBase> items; // 아이템
+    public List<Item> items; // 아이템
     UI_Inventory _inven;
 
     protected override void _Clear()
@@ -26,7 +26,7 @@ public class InventoryManager : SubClass<GameManager>
     //로컬로부터 내 인벤 아이템 정보 가져와서 인벤 리스트에 집어넣음
     void _GetInvenDataFromDB()
     {
-        items = new List<ItemBase>();
+        items = new List<Item>();
         GameManager.Data.ItemDB = GameManager.Resources.Load<TextAsset>("Data/ItemDB");
         string[] lines = GameManager.Data.ItemDB.text.Substring(0, GameManager.Data.ItemDB.text.Length - 1).Split('\n'); // text파일로 된 DB의 Line
         for (int i = 0; i < lines.Length; i++) // 배열 0번부터 차례로 넣음
@@ -58,7 +58,7 @@ public class InventoryManager : SubClass<GameManager>
     public void DragAndDropItems(int a, int b)
     {
         // 같은 아이템이면 앞에꺼에 수량 합치기, 다른 아이템이면 위치 교환
-        if (_CheckItemType(a, b))
+        if (_CheckItemIsSame(a, b))
         {
             _AddUpItems(a, b);
         }
@@ -77,9 +77,9 @@ public class InventoryManager : SubClass<GameManager>
         items[a] = items[items.Count];
     }
 
-    bool _CheckItemType(int a, int b)
+    bool _CheckItemIsSame(int a, int b)
     {
-        if (items[a].itemType == items[b].itemType)
+        if (items[a].ItemId == items[b].ItemId)
         {
             return true;
         }
@@ -90,9 +90,9 @@ public class InventoryManager : SubClass<GameManager>
 
     void _AddUpItems(int a, int b)
     {
-        if (items[a].count <= 100)
+/*        if (items[a] <= 100)
         {
-            // items[a].count + items[b].count;
-        }
+            items[a].count + items[b].count;
+        }*/
     }
 }

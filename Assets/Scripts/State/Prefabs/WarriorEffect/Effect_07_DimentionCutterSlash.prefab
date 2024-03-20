@@ -14671,8 +14671,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87f499ceb5bc720499fd4f3753f833e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 0}
+  characterStat: {fileID: 0}
   characterTransform: {fileID: 0}
+  monsterState: {fileID: 0}
   addforce: 10
   skillDamage: 0
 --- !u!1 &7287619605558904761

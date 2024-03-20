@@ -10,7 +10,7 @@ public class UI_ItemSlot : UI_Entity
     GameObject _dragImg;
     Image _highlightImg;
     UI_Inventory _inven;
-    List<ItemBase> _invenItems;
+    List<Item> _invenItems;
 
     // ÇöÀç ½½·Ô
     Image _iconImg;

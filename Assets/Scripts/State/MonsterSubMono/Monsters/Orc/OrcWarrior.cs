@@ -21,7 +21,10 @@ public class OrcWarrior : Orc
         //그래서 공격을 하고 공격카운트가 다되고 캐릭터가 있을시에 다시 하는게 낫지 않나 이거임
 
         //공격에 다가왔을땐 가만히 있다가 떄리기
-        //
+
+
+
+        // 몬스터가 딜레이없이 바로 행동하지 못하게 딜레이 상태패턴
         state.Add((int)Enum_MonsterState.Delay, new State(() =>
         {
             if (isDeadCheck)
@@ -38,7 +41,7 @@ public class OrcWarrior : Orc
 
             if (isDelay)
             {              
-                _board._monsterMovement.Delay(delay);
+                _board._monsterMovement.Delay(_board._monsterStatus.Delay);
             }
         },
         () =>
@@ -61,13 +64,13 @@ public class OrcWarrior : Orc
             }
             else if (isDelay && !isHitCheck)
             {
-                if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) > detectDistance)
+                if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) > _board._monsterStatus.DetectDistance)
                 {
                     ChangeState((int)Enum_MonsterState.Return);
                 }
                 else
                 {
-                    if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < attackDistance &&
+                    if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < _board._monsterStatus.AttackDistance &&
                     isAttack)
                     {
                         print("delay");
@@ -76,7 +79,7 @@ public class OrcWarrior : Orc
                         AttackNumber();
                         ChangeState((int)Enum_MonsterState.Attack);
                     }
-                    else if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < attackDistance &&
+                    else if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < _board._monsterStatus.AttackDistance &&
                     !isAttack)
                     {
                         ChangeState((int)Enum_MonsterState.Idle);
@@ -96,13 +99,15 @@ public class OrcWarrior : Orc
                 }
             }
         }, () => { /*_board._monsterMovement.IsKinematic(false);*/ }));
+
+        // 오크의 스킬
         state.Add((int)Enum_OrcState.Rush, new State(() => 
         {
             _board._monsterMovement.Stop();        
             _board._animationController.ChangeMoveAnimation(0);
-            EffectDamage(4);
+            _board._monsterStatus.EffectDamage(4);
             _board._effector.InstanceEffect = 0;
-            _board._monsterMovement.Ablilty(abliltyDelay);
+            _board._monsterMovement.Ablilty(_board._monsterStatus.AbliltyDelay);
             _board._animationController.ChangeAbliltyAnimation(0);
         }, () => { }, 
         () => 
@@ -113,22 +118,7 @@ public class OrcWarrior : Orc
         ChangeState((int)Enum_CharacterState.Idle);
     }
     protected override void _Init()
-    {
-        maxHP = 1000;
-        maxMP = 200;
-        hp = maxHP;
-        mp = maxMP;
-        exp = 42;
-        attack = 50;
-        attackSpeed = 3f;
-        delay = 1f;
-        abliltyDelay = 20f;
-        defense = 20;
-        speed = 7;
-        level = 8;
-
-        detectDistance = 20;
-        attackDistance = 3;
+    {      
         base._Init();
     }
 
@@ -148,14 +138,14 @@ public class OrcWarrior : Orc
 
         if (attack <= 20f)
         {
-            attackNumber = 1;
-            EffectDamage(2);
+            _board._monsterStatus.AttackNumber = 1;
+            _board._monsterStatus.EffectDamage(2);
             //print(damage);
         }
         else
         {
-            attackNumber = 0;
-            EffectDamage();
+            _board._monsterStatus.AttackNumber = 0;
+            _board._monsterStatus.EffectDamage();
             //print(damage);
         }
 

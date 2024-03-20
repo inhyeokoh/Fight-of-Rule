@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class CharacterEquipment : SubMono<PlayerController>
 {
+    /// <summary>
+    /// 각각의 장비들 체크
+    /// </summary>
     [SerializeField]
     InGameItemEquipment currentWeapon;
     InGameItemEquipment currentHead;
@@ -11,6 +14,9 @@ public class CharacterEquipment : SubMono<PlayerController>
     InGameItemEquipment currentHand;
     InGameItemEquipment currentFoot;
 
+    /// <summary>
+    /// 장비가 껴져있는지 체크
+    /// </summary>
     private bool weaponCheck;
     private bool headCheck;
     private bool bodyCheck;
@@ -44,7 +50,10 @@ public class CharacterEquipment : SubMono<PlayerController>
        // 캐릭터가 껴져있는 장비를 불러오기
     }
 
-
+    /// <summary>
+    /// 장비를 끼면 껴져있는지 체크하는 메서드
+    /// </summary>
+    /// <param name="equipment"></param>
     public void EquipmentCheck(InGameItemEquipment equipment)
     {
         Change(equipment);
@@ -191,6 +200,10 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
     }*/
 
+
+    /// <summary>
+    /// 장비 아이템들의 지속효과들을 프레임마다 불러오는 메서드
+    /// </summary>
     public void EquipmentFixedStay()
     {
         for (int i = 0; i < equipments.Count; i++)
@@ -208,12 +221,17 @@ public class CharacterEquipment : SubMono<PlayerController>
     }
 
 
+
+    /// <summary>
+    /// 장비들의 조건과 그리고 이미 껴져있으면 갈아끼는 메서드
+    /// </summary>
+    /// <param name="change"></param>
     public void Change(InGameItemEquipment change)
     {
         switch (change.EquipmentType)
         {
             case Enum_EquipmentType.Weapon:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.item.Level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -241,7 +259,7 @@ public class CharacterEquipment : SubMono<PlayerController>
             
             
             case Enum_EquipmentType.Head:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.item.Level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -268,7 +286,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
 
             case Enum_EquipmentType.Body:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.item.Level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -296,7 +314,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
            
             case Enum_EquipmentType.Hand:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.item.Level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -325,7 +343,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
 
             case Enum_EquipmentType.Foot:             
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.item.Level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
