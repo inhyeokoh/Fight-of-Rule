@@ -33,6 +33,8 @@ public class PacketHandlerImpl : MonoBehaviour
         Debug.Log($"{ip}");
         int port = message.Port;
         Debug.Log($"{port}");
+
+        GameManager.Network.Connect(ip, port);
 /*                // var field_list = message.Slots;
                 AsyncOperation loadAsync;
 

@@ -11,12 +11,7 @@ public class NetworkManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        //초기화(연결설정 등등)
-        //서버 ip or 도메인 설정
-        IPAddress ipaddr = IPAddress.Parse(SERVER_IP);
-        IPEndPoint ipendpoint = new IPEndPoint(ipaddr, SERVER_POTR);  //ipendpoint로 자동으로 ipv4 패밀리로 지정됨
-        Connector connector = new Connector();                  //연결 설정만 그대로 받아서 연결
-        GameManager.ThreadPool.EnqueueJob(() => { connector.Connect(ipendpoint, () => { return new ServerSession(); }); });
+        Connect(SERVER_IP, SERVER_POTR);
     }
     protected override void _Excute()
     {
@@ -24,5 +19,17 @@ public class NetworkManager : SubClass<GameManager>
 
     protected override void _Clear()
     {
+    }
+
+    public void Connect(string ip, int port)
+    {
+        mainSession = null;
+
+        //초기화(연결설정 등등)
+        //서버 ip or 도메인 설정
+        IPAddress ipaddr = IPAddress.Parse(ip);
+        IPEndPoint ipendpoint = new IPEndPoint(ipaddr, port);  //ipendpoint로 자동으로 ipv4 패밀리로 지정됨
+        Connector connector = new Connector();                  //연결 설정만 그대로 받아서 연결
+        GameManager.ThreadPool.EnqueueJob(() => { connector.Connect(ipendpoint, () => { return new ServerSession(); }); });
     }
 }
