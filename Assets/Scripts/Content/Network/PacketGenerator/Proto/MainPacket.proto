@@ -38,6 +38,15 @@ message S_OPTION {
     SETTING_OPTIONS setting_options = 1;
 }
 
+message C_VERIFYING
+{
+    string token = 1;
+}
+
+message S_VERIFYING
+{
+}
+
 message C_NICKNAME {
     string nickname = 1;
 }
