@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -32,6 +33,15 @@ public class PacketHandlerImpl : MonoBehaviour
         Debug.Log(message.Ip);
         Debug.Log(message.Port);
         Debug.Log(message.Uid);
+        if (message.Ip.Length <= 0 || message.Port > 65535 || message.Port <= 0)
+        {
+            //이건 명확히 재시도 해야함
+            //todo
+            Debug.Log("로그인 실패");
+            return false;
+        }
+
+        GameManager.Network.Connect(message.Ip, message.Port);
 
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
