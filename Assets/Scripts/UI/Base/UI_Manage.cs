@@ -29,6 +29,7 @@ public class UI_Manage : MonoBehaviour
         {
             GameManager.UI.ConnectPlayerInput();
             GameManager.UI.SetInGamePopups();
+            GameManager.Inven.ConnectInvenUI();
         }
     }
 

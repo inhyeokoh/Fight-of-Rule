@@ -20,6 +20,9 @@ public class Item
     private int attackSpeed;
     private int maxHp;
     private int maxMp;
+    private int maxCount;
+    private int count;
+    private int slotNum;
 
     public Sprite ItemImage { get { return itemImage; } }
 
@@ -38,9 +41,13 @@ public class Item
     public int AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
     public int MaxHp { get { return maxHp; } set { maxHp = value; } }
     public int MaxMp { get { return maxMp; } set { maxMp = value; } }
+    public int MaxCount { get { return maxCount; } set { maxCount = value; } }
+    public int Count { get { return count; } set { count = value; } }
+
+    public int SlotNum { get { return slotNum; } set { slotNum = value; } }
 
     public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
-        int attackSpeed,int maxHp,int maxMp)
+        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, int slotNum)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;
@@ -54,5 +61,8 @@ public class Item
         this.attackSpeed = attackSpeed;
         this.maxHp = maxHp;
         this.maxMp = maxMp;
+        this.maxCount = maxCount;
+        this.count = count;
+        this.slotNum = slotNum;
     }
 }

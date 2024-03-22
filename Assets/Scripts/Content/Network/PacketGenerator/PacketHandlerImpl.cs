@@ -45,7 +45,7 @@ public class PacketHandlerImpl : MonoBehaviour
 
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
-            var loadAsync = SceneManager.LoadSceneAsync("create");
+            var loadAsync = SceneManager.LoadSceneAsync("Create");
             GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
         }
         );
@@ -96,6 +96,11 @@ public class PacketHandlerImpl : MonoBehaviour
                             return loadAsync.progress < 0.9f;
                         });*/
 
+        return true;
+    }
+
+    internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING s_VERIFYING)
+    {
         return true;
     }
 

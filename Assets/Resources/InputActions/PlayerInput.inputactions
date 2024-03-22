@@ -60,7 +60,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Press",
+                    "name": "Move",
                     "type": "Button",
                     "id": "245f3581-eca6-4162-8327-37cca8ec74fd",
                     "expectedControlType": "Button",
@@ -99,6 +99,15 @@
                     "name": "Escape",
                     "type": "Button",
                     "id": "85498f2e-cc96-4800-8c73-51d3e8d50548",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Inven",
+                    "type": "Button",
+                    "id": "97954831-d54f-4421-bf14-a63408e8cbde",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -179,7 +188,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Press",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -224,6 +233,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "85f0c55b-3225-4a45-a565-c3534287a7ef",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inven",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

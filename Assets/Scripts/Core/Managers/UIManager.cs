@@ -17,7 +17,7 @@ public class UIManager : SubClass<GameManager>
     public GameObject InGameMain;
 
     GameObject popupCanvas;
-    bool _leafPopup;
+    bool _leafPopup; // 단말 팝업. ex) 확인 여부 묻는 창
 
     // 실시간 팝업 관리 링크드 리스트
     public LinkedList<GameObject> _activePopupList;
@@ -91,7 +91,10 @@ public class UIManager : SubClass<GameManager>
                 _linkedPopupList.Add(latest); //Root가 될 팝업을 linkedPopupList에 추가
             }
 
-            OpenPopup(popup);
+            _activePopupList.AddLast(popup); // OpenPopup과 동일
+            popup.SetActive(true);
+            SortPopupView();
+
             _linkedPopupList.Add(popup);
         }
         _leafPopup = leaf;
@@ -99,7 +102,7 @@ public class UIManager : SubClass<GameManager>
 
     public void ClosePopup(GameObject popup)
     {
-        if (_linkedPopupList.Count > 0)
+        if (_linkedPopupList.Count > 0) // ex) 확인 여부 묻는 창에서 취소 누를 경우
         {
             _linkedPopupList.Remove(popup);
         }
