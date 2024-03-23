@@ -50,12 +50,13 @@ public class ServerSession : PacketSession
                 GameManager.ThreadPool.UniAsyncJob(() => { GameManager.Resources.Instantiate("Prefabs/UI/Popup/UI_Login", GameObject.Find("Canvas").transform); });
                 break;
             case NetState.NEED_VRF:
-                var ret = Utils.Dynamic_Assert(_vrf == null, "no vrf for vrf-session");
-                if(ret)
+                var ret = Utils.Dynamic_Assert(_vrf != null, "no vrf for vrf-session");
+                if(ret == false)
                     Disconnect();
 
                 C_VERIFYING vrf = new C_VERIFYING();
-                vrf.Token = _vrf?.token;
+                vrf.Token =  _vrf?.token;
+                Send(PacketHandler.Instance.SerializePacket(vrf));
                 break;
             default:
                 break;

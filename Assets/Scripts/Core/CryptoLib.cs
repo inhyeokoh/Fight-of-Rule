@@ -32,28 +32,28 @@ class CryptoLib
         return encoder;
     }
 
-    public static byte[] StringToBytes(string str, string encoding = "utf8")
+    public static byte[] StringToBytes(string str, string encoding = "ascii")
     {
         return GetEncoding(encoding).GetBytes(str);
     }
 
-    public static string BytesToString(byte[] bytes, string encoding = "utf8")
+    public static string BytesToString(byte[] bytes, string encoding = "ascii")
     {
 
         return GetEncoding(encoding).GetString(bytes);
     }
 
-    public static string EncryptBase64(string plain, string encoding = "utf8")
+    public static string EncryptBase64(string plain, string encoding = "ascii")
     {
         return Convert.ToBase64String(StringToBytes(plain, encoding));
     }
 
-    public static string DecryptBase64(string cipher, string encoding = "utf8")
+    public static string DecryptBase64(string cipher, string encoding = "ascii")
     {
         return BytesToString(Convert.FromBase64String(cipher), encoding);
     }
 
-    public static byte[] EncryptSHA256(string plain, string encoding = "utf8")
+    public static byte[] EncryptSHA256(string plain, string encoding = "ascii")
     {
         using (SHA256Managed sha256 = new SHA256Managed())
         {
@@ -61,7 +61,7 @@ class CryptoLib
         }
     }
 
-    public static string DecryptSHA256(byte[] cipher, string encoding = "utf8")
+    public static string DecryptSHA256(byte[] cipher, string encoding = "ascii")
     {
         using (SHA256Managed sha256 = new SHA256Managed())
         {
