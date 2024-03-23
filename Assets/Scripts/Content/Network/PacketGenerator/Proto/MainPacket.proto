@@ -28,6 +28,7 @@ message S_LOGIN {
     string ip = 2;
     int32 port = 3;
     int64 uid = 4;
+    string token = 5;
 }
 
 message C_OPTION {
@@ -38,6 +39,11 @@ message S_OPTION {
     SETTING_OPTIONS setting_options = 1;
 }
 
+message S_ASK_VERF
+{
+
+}
+
 message C_VERIFYING
 {
     string token = 1;
@@ -45,6 +51,7 @@ message C_VERIFYING
 
 message S_VERIFYING
 {
+    bool sucess = 1;
 }
 
 message C_NICKNAME {
