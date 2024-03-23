@@ -33,7 +33,7 @@ public class UI_Login : UI_Entity
 
             C_LOGIN login_ask_pkt = new C_LOGIN();
             login_ask_pkt.LoginId = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>().text;
-            login_ask_pkt.LoginPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256(_entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text));
+            login_ask_pkt.LoginPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256(_entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text), encoding:"ascii");
 
             //GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
 

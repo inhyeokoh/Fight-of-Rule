@@ -8,8 +8,12 @@ class CryptoLib
     public static Encoding GetEncoding(string encoding = "utf8")
     {
         Encoding encoder;
+        encoding = encoding.ToLower();
         switch (encoding)
         {
+            case "ascii":
+                encoder = Encoding.ASCII;
+                break;
             case "utf8":
                 encoder = Encoding.UTF8;
                 break;
