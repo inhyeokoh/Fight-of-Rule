@@ -78,10 +78,20 @@ public class Utils
         return false;
     }
 
-    public static void DebugLog(string msg)
+    public static void Log<T>(T msg)
     {
 #if UNITY_EDITOR
         Debug.Log(msg);
+#endif
+    }
+
+    public static bool Dynamic_Assert(bool assertionCond, string msg)
+    {
+#if UNITY_EDITOR
+        Log(msg);
+        Debug.Assert(assertionCond);
+
+        return assertionCond;
 #endif
     }
 }

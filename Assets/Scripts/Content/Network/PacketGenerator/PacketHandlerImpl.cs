@@ -30,25 +30,20 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
-        Debug.Log(message.Ip);
-        Debug.Log(message.Port);
-        Debug.Log(message.Uid);
+        Utils.Log(message.Ip);
+        Utils.Log(message.Port);
+        Utils.Log(message.Uid);
+        Utils.Log(message.Token);
+
         if (message.Ip.Length <= 0 || message.Port > 65535 || message.Port <= 0)
         {
             //이건 명확히 재시도 해야함
             //todo
-            Debug.Log("로그인 실패");
+            Utils.Log("로그인 실패");
             return false;
         }
 
-        GameManager.Network.Connect(message.Ip, message.Port);
-
-        GameManager.ThreadPool.UniAsyncJob(() =>
-        {
-            var loadAsync = SceneManager.LoadSceneAsync("Create");
-            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
-        }
-        );
+        GameManager.Network.Connect(message.Ip, message.Port, NetState.NEED_VRF, new Vrf() { ip = message.Ip, port = message.Port, token = message.Token, unique_id = message.Uid});
         /*                // var field_list = message.Slots;
                         AsyncOperation loadAsync;
 
@@ -99,13 +94,25 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_ASK_VERF(Session session, S_ASK_VERF s_ASK_VERF)
+    internal static bool Handle_S_ASK_VERF(Session session, S_ASK_VERF message)
     {
         return true;
     }
 
-    internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING s_VERIFYING)
+    internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING message)
     {
+        if(message.Sucess == false)
+        {
+            //TODO 게임 종료시키기
+            Utils.Log("cannot verifying");
+            return false;
+        }
+
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            var loadAsync = SceneManager.LoadSceneAsync("Create");
+            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
+        });
         return true;
     }
 
@@ -113,17 +120,19 @@ public class PacketHandlerImpl : MonoBehaviour
     {
         if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorDup)
         {
-            Debug.Log("이미 존재하는 아이디");
+#if UNITY_EDITOR
+            Utils.Log("이미 존재하는 아이디");
             return false;
+#endif
         }
 
         if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
         {
-            Debug.Log("이미 가입된 회원입니다");
+            Utils.Log("이미 가입된 회원입니다");
             return false;
         }
 
-        Debug.Log("성공적으로 가입 되었습니다");
+        Utils.Log("성공적으로 가입 되었습니다");
         return true;
     }
 
