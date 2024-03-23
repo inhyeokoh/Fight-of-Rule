@@ -46,7 +46,7 @@ public class UI_SignUp : UI_Entity
         _entities[(int)Enum_UI_SignUp.Create].ClickAction = (PointerEventData data) => {
             C_SIGNUP signup_ask_pkt = new C_SIGNUP();
             signup_ask_pkt.SignupId = _entities[(int)Enum_UI_SignUp.IDField].GetComponent<TMP_InputField>().text;
-            signup_ask_pkt.SignupPw = _entities[(int)Enum_UI_SignUp.PWField].GetComponent<TMP_InputField>().text;
+            signup_ask_pkt.SignupPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256(_entities[(int)Enum_UI_SignUp.PWField].GetComponent<TMP_InputField>().text), encoding: "ascii");
 
             GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(signup_ask_pkt));
 

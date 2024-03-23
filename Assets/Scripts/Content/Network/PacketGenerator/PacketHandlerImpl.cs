@@ -99,6 +99,11 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
+    internal static bool Handle_S_ASK_VERF(Session session, S_ASK_VERF s_ASK_VERF)
+    {
+        return true;
+    }
+
     internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING s_VERIFYING)
     {
         return true;
