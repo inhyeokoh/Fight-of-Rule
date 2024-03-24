@@ -22,19 +22,22 @@ public static partial class CharacterMessageReflection {
   static CharacterMessageReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChZDaGFyYWN0ZXJNZXNzYWdlLnByb3RvImAKDkNIQVJBQ1RFUl9JTkZPEhAK",
-          "CG5pY2tuYW1lGAEgASgJEgsKA2pvYhgCIAEoCRIOCgZnZW5kZXIYAyABKAgS",
-          "HwoEc3RhdBgEIAEoCzIRLkNIQVJBQ1RFUl9TVEFUVVMiuQEKEENIQVJBQ1RF",
-          "Ul9TVEFUVVMSDQoFbGV2ZWwYASABKAUSDQoFbWF4SFAYAiABKAUSCgoCaHAY",
-          "AyABKAUSDQoFbWF4TVAYBCABKAUSCgoCbXAYBSABKAUSDgoGbWF4RVhQGAYg",
-          "ASgFEgsKA2V4cBgHIAEoBRIOCgZhdHRhY2sYCCABKAUSEwoLYXR0YWNrU3Bl",
-          "ZWQYCSABKAUSDwoHZGVmZW5zZRgKIAEoBRINCgVzcGVlZBgLIAEoBWIGcHJv",
-          "dG8z"));
+          "ChZDaGFyYWN0ZXJNZXNzYWdlLnByb3RvIqUBCg5DSEFSQUNURVJfSU5GTxIU",
+          "CgxjaGFyYWN0ZXJfaWQYASABKAUSEAoIc2xvdF9udW0YAiABKAUSEAoIbmlj",
+          "a25hbWUYAyABKAkSCwoDam9iGAQgASgJEg4KBmdlbmRlchgFIAEoCBIfCgRz",
+          "dGF0GAYgASgLMhEuQ0hBUkFDVEVSX1NUQVRVUxIbCgN4eXoYByABKAsyDi5D",
+          "SEFSQUNURVJfUE9TIrkBChBDSEFSQUNURVJfU1RBVFVTEg0KBWxldmVsGAEg",
+          "ASgFEg0KBW1heEhQGAIgASgFEgoKAmhwGAMgASgFEg0KBW1heE1QGAQgASgF",
+          "EgoKAm1wGAUgASgFEg4KBm1heEVYUBgGIAEoBRILCgNleHAYByABKAUSDgoG",
+          "YXR0YWNrGAggASgFEhMKC2F0dGFja1NwZWVkGAkgASgFEg8KB2RlZmVuc2UY",
+          "CiABKAUSDQoFc3BlZWQYCyABKAUiMAoNQ0hBUkFDVEVSX1BPUxIJCgF4GAEg",
+          "ASgCEgkKAXkYAiABKAISCQoBehgDIAEoAmIGcHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_INFO), global::CHARACTER_INFO.Parser, new[]{ "Nickname", "Job", "Gender", "Stat" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_STATUS), global::CHARACTER_STATUS.Parser, new[]{ "Level", "MaxHP", "Hp", "MaxMP", "Mp", "MaxEXP", "Exp", "Attack", "AttackSpeed", "Defense", "Speed" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_INFO), global::CHARACTER_INFO.Parser, new[]{ "CharacterId", "SlotNum", "Nickname", "Job", "Gender", "Stat", "Xyz" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_STATUS), global::CHARACTER_STATUS.Parser, new[]{ "Level", "MaxHP", "Hp", "MaxMP", "Mp", "MaxEXP", "Exp", "Attack", "AttackSpeed", "Defense", "Speed" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_POS), global::CHARACTER_POS.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null)
         }));
   }
   #endregion
@@ -75,10 +78,13 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public CHARACTER_INFO(CHARACTER_INFO other) : this() {
+    characterId_ = other.characterId_;
+    slotNum_ = other.slotNum_;
     nickname_ = other.nickname_;
     job_ = other.job_;
     gender_ = other.gender_;
     stat_ = other.stat_ != null ? other.stat_.Clone() : null;
+    xyz_ = other.xyz_ != null ? other.xyz_.Clone() : null;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -88,8 +94,32 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     return new CHARACTER_INFO(this);
   }
 
+  /// <summary>Field number for the "character_id" field.</summary>
+  public const int CharacterIdFieldNumber = 1;
+  private int characterId_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int CharacterId {
+    get { return characterId_; }
+    set {
+      characterId_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "slot_num" field.</summary>
+  public const int SlotNumFieldNumber = 2;
+  private int slotNum_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int SlotNum {
+    get { return slotNum_; }
+    set {
+      slotNum_ = value;
+    }
+  }
+
   /// <summary>Field number for the "nickname" field.</summary>
-  public const int NicknameFieldNumber = 1;
+  public const int NicknameFieldNumber = 3;
   private string nickname_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -101,7 +131,7 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   }
 
   /// <summary>Field number for the "job" field.</summary>
-  public const int JobFieldNumber = 2;
+  public const int JobFieldNumber = 4;
   private string job_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -113,7 +143,7 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   }
 
   /// <summary>Field number for the "gender" field.</summary>
-  public const int GenderFieldNumber = 3;
+  public const int GenderFieldNumber = 5;
   private bool gender_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -125,7 +155,7 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   }
 
   /// <summary>Field number for the "stat" field.</summary>
-  public const int StatFieldNumber = 4;
+  public const int StatFieldNumber = 6;
   private global::CHARACTER_STATUS stat_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -133,6 +163,18 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     get { return stat_; }
     set {
       stat_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "xyz" field.</summary>
+  public const int XyzFieldNumber = 7;
+  private global::CHARACTER_POS xyz_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::CHARACTER_POS Xyz {
+    get { return xyz_; }
+    set {
+      xyz_ = value;
     }
   }
 
@@ -151,10 +193,13 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     if (ReferenceEquals(other, this)) {
       return true;
     }
+    if (CharacterId != other.CharacterId) return false;
+    if (SlotNum != other.SlotNum) return false;
     if (Nickname != other.Nickname) return false;
     if (Job != other.Job) return false;
     if (Gender != other.Gender) return false;
     if (!object.Equals(Stat, other.Stat)) return false;
+    if (!object.Equals(Xyz, other.Xyz)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -162,10 +207,13 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override int GetHashCode() {
     int hash = 1;
+    if (CharacterId != 0) hash ^= CharacterId.GetHashCode();
+    if (SlotNum != 0) hash ^= SlotNum.GetHashCode();
     if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
     if (Job.Length != 0) hash ^= Job.GetHashCode();
     if (Gender != false) hash ^= Gender.GetHashCode();
     if (stat_ != null) hash ^= Stat.GetHashCode();
+    if (xyz_ != null) hash ^= Xyz.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -184,21 +232,33 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     output.WriteRawMessage(this);
   #else
+    if (CharacterId != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(CharacterId);
+    }
+    if (SlotNum != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(SlotNum);
+    }
     if (Nickname.Length != 0) {
-      output.WriteRawTag(10);
+      output.WriteRawTag(26);
       output.WriteString(Nickname);
     }
     if (Job.Length != 0) {
-      output.WriteRawTag(18);
+      output.WriteRawTag(34);
       output.WriteString(Job);
     }
     if (Gender != false) {
-      output.WriteRawTag(24);
+      output.WriteRawTag(40);
       output.WriteBool(Gender);
     }
     if (stat_ != null) {
-      output.WriteRawTag(34);
+      output.WriteRawTag(50);
       output.WriteMessage(Stat);
+    }
+    if (xyz_ != null) {
+      output.WriteRawTag(58);
+      output.WriteMessage(Xyz);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -210,21 +270,33 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+    if (CharacterId != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(CharacterId);
+    }
+    if (SlotNum != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(SlotNum);
+    }
     if (Nickname.Length != 0) {
-      output.WriteRawTag(10);
+      output.WriteRawTag(26);
       output.WriteString(Nickname);
     }
     if (Job.Length != 0) {
-      output.WriteRawTag(18);
+      output.WriteRawTag(34);
       output.WriteString(Job);
     }
     if (Gender != false) {
-      output.WriteRawTag(24);
+      output.WriteRawTag(40);
       output.WriteBool(Gender);
     }
     if (stat_ != null) {
-      output.WriteRawTag(34);
+      output.WriteRawTag(50);
       output.WriteMessage(Stat);
+    }
+    if (xyz_ != null) {
+      output.WriteRawTag(58);
+      output.WriteMessage(Xyz);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
@@ -236,6 +308,12 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public int CalculateSize() {
     int size = 0;
+    if (CharacterId != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(CharacterId);
+    }
+    if (SlotNum != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(SlotNum);
+    }
     if (Nickname.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
     }
@@ -248,6 +326,9 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     if (stat_ != null) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(Stat);
     }
+    if (xyz_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Xyz);
+    }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -259,6 +340,12 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   public void MergeFrom(CHARACTER_INFO other) {
     if (other == null) {
       return;
+    }
+    if (other.CharacterId != 0) {
+      CharacterId = other.CharacterId;
+    }
+    if (other.SlotNum != 0) {
+      SlotNum = other.SlotNum;
     }
     if (other.Nickname.Length != 0) {
       Nickname = other.Nickname;
@@ -275,6 +362,12 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
       }
       Stat.MergeFrom(other.Stat);
     }
+    if (other.xyz_ != null) {
+      if (xyz_ == null) {
+        Xyz = new global::CHARACTER_POS();
+      }
+      Xyz.MergeFrom(other.Xyz);
+    }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -290,23 +383,38 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
-        case 10: {
+        case 8: {
+          CharacterId = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          SlotNum = input.ReadInt32();
+          break;
+        }
+        case 26: {
           Nickname = input.ReadString();
           break;
         }
-        case 18: {
+        case 34: {
           Job = input.ReadString();
           break;
         }
-        case 24: {
+        case 40: {
           Gender = input.ReadBool();
           break;
         }
-        case 34: {
+        case 50: {
           if (stat_ == null) {
             Stat = new global::CHARACTER_STATUS();
           }
           input.ReadMessage(Stat);
+          break;
+        }
+        case 58: {
+          if (xyz_ == null) {
+            Xyz = new global::CHARACTER_POS();
+          }
+          input.ReadMessage(Xyz);
           break;
         }
       }
@@ -324,23 +432,38 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
           break;
-        case 10: {
+        case 8: {
+          CharacterId = input.ReadInt32();
+          break;
+        }
+        case 16: {
+          SlotNum = input.ReadInt32();
+          break;
+        }
+        case 26: {
           Nickname = input.ReadString();
           break;
         }
-        case 18: {
+        case 34: {
           Job = input.ReadString();
           break;
         }
-        case 24: {
+        case 40: {
           Gender = input.ReadBool();
           break;
         }
-        case 34: {
+        case 50: {
           if (stat_ == null) {
             Stat = new global::CHARACTER_STATUS();
           }
           input.ReadMessage(Stat);
+          break;
+        }
+        case 58: {
+          if (xyz_ == null) {
+            Xyz = new global::CHARACTER_POS();
+          }
+          input.ReadMessage(Xyz);
           break;
         }
       }
@@ -900,6 +1023,269 @@ public sealed partial class CHARACTER_STATUS : pb::IMessage<CHARACTER_STATUS>
         }
         case 88: {
           Speed = input.ReadInt32();
+          break;
+        }
+      }
+    }
+  }
+  #endif
+
+}
+
+public sealed partial class CHARACTER_POS : pb::IMessage<CHARACTER_POS>
+#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    , pb::IBufferMessage
+#endif
+{
+  private static readonly pb::MessageParser<CHARACTER_POS> _parser = new pb::MessageParser<CHARACTER_POS>(() => new CHARACTER_POS());
+  private pb::UnknownFieldSet _unknownFields;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pb::MessageParser<CHARACTER_POS> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::CharacterMessageReflection.Descriptor.MessageTypes[2]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public CHARACTER_POS() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public CHARACTER_POS(CHARACTER_POS other) : this() {
+    x_ = other.x_;
+    y_ = other.y_;
+    z_ = other.z_;
+    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public CHARACTER_POS Clone() {
+    return new CHARACTER_POS(this);
+  }
+
+  /// <summary>Field number for the "x" field.</summary>
+  public const int XFieldNumber = 1;
+  private float x_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public float X {
+    get { return x_; }
+    set {
+      x_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "y" field.</summary>
+  public const int YFieldNumber = 2;
+  private float y_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public float Y {
+    get { return y_; }
+    set {
+      y_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "z" field.</summary>
+  public const int ZFieldNumber = 3;
+  private float z_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public float Z {
+    get { return z_; }
+    set {
+      z_ = value;
+    }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override bool Equals(object other) {
+    return Equals(other as CHARACTER_POS);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public bool Equals(CHARACTER_POS other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(X, other.X)) return false;
+    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
+    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Z, other.Z)) return false;
+    return Equals(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (X != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(X);
+    if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
+    if (Z != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Z);
+    if (_unknownFields != null) {
+      hash ^= _unknownFields.GetHashCode();
+    }
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void WriteTo(pb::CodedOutputStream output) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    output.WriteRawMessage(this);
+  #else
+    if (X != 0F) {
+      output.WriteRawTag(13);
+      output.WriteFloat(X);
+    }
+    if (Y != 0F) {
+      output.WriteRawTag(21);
+      output.WriteFloat(Y);
+    }
+    if (Z != 0F) {
+      output.WriteRawTag(29);
+      output.WriteFloat(Z);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(output);
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+    if (X != 0F) {
+      output.WriteRawTag(13);
+      output.WriteFloat(X);
+    }
+    if (Y != 0F) {
+      output.WriteRawTag(21);
+      output.WriteFloat(Y);
+    }
+    if (Z != 0F) {
+      output.WriteRawTag(29);
+      output.WriteFloat(Z);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(ref output);
+    }
+  }
+  #endif
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int CalculateSize() {
+    int size = 0;
+    if (X != 0F) {
+      size += 1 + 4;
+    }
+    if (Y != 0F) {
+      size += 1 + 4;
+    }
+    if (Z != 0F) {
+      size += 1 + 4;
+    }
+    if (_unknownFields != null) {
+      size += _unknownFields.CalculateSize();
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(CHARACTER_POS other) {
+    if (other == null) {
+      return;
+    }
+    if (other.X != 0F) {
+      X = other.X;
+    }
+    if (other.Y != 0F) {
+      Y = other.Y;
+    }
+    if (other.Z != 0F) {
+      Z = other.Z;
+    }
+    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(pb::CodedInputStream input) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    input.ReadRawMessage(this);
+  #else
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+          break;
+        case 13: {
+          X = input.ReadFloat();
+          break;
+        }
+        case 21: {
+          Y = input.ReadFloat();
+          break;
+        }
+        case 29: {
+          Z = input.ReadFloat();
+          break;
+        }
+      }
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+          break;
+        case 13: {
+          X = input.ReadFloat();
+          break;
+        }
+        case 21: {
+          Y = input.ReadFloat();
+          break;
+        }
+        case 29: {
+          Z = input.ReadFloat();
           break;
         }
       }

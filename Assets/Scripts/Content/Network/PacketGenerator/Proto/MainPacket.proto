@@ -62,10 +62,18 @@ message S_NICKNAME {
     bool create_nickname_success = 1;
 }
 
-message C_CHARACTER {
+message C_CHARACTERS {
+    bool request_characters = 1;
+}
+
+message S_CHARACTERS {
+    repeated CHARACTER_INFO character = 1;
+}
+
+message C_NEW_CHARACTER {
     CHARACTER_INFO character = 1;
 }
 
-message S_CHARACTER {
+message S_NEW_CHARACTER {
     bool create_success = 1;
 }

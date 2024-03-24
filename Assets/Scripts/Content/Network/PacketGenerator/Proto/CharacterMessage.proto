@@ -1,11 +1,14 @@
 syntax = "proto3";
 
 message CHARACTER_INFO {
-    string nickname = 1;
-    string job = 2;
-    bool gender = 3;
+    int32 character_id = 1;
+    int32 slot_num = 2;
+    string nickname = 3;
+    string job = 4;
+    bool gender = 5;
 
-    CHARACTER_STATUS stat = 4;
+    CHARACTER_STATUS stat = 6;
+    CHARACTER_POS xyz = 7;
 }
 
 message CHARACTER_STATUS {
@@ -20,4 +23,10 @@ message CHARACTER_STATUS {
     int32 attackSpeed = 9;
     int32 defense = 10;
     int32 speed = 11;
+}
+
+message CHARACTER_POS {
+    float x = 1;
+    float y = 2;
+    float z = 3;
 }

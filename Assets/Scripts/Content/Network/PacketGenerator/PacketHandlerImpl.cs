@@ -94,6 +94,16 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
+    internal static bool Handle_S_CHARACTERS(Session session, S_CHARACTERS message)
+    {
+        return true;
+    }
+
+    internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
+    {
+        return true;
+    }
+
     internal static bool Handle_S_ASK_VERF(Session session, S_ASK_VERF message)
     {
         return true;
@@ -136,7 +146,7 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_CHARACTER(Session session, S_CHARACTER message)
+    internal static bool Handle_S_CHARACTER(Session session, S_CHARACTERS message)
     {
 
         return true;
