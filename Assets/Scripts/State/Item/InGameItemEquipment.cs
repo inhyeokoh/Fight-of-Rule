@@ -1,64 +1,85 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class InGameItemEquipment : ItemObject
 {
-    //ÀåºñÀÇ Á÷¾÷ È®ÀÎ
+    protected static List<State> weaponState = new List<State>();
+    protected static List<State> headState = new List<State>();
+    protected static List<State> bodyState = new List<State>();
+    protected static List<State> handState = new List<State>();
+    protected static List<State> footState = new List<State>();
+
+
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
+
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½Ã·ï¿½ï¿½Ì¾ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½È®ï¿½Î°ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½Ýµï¿½ï¿½ï¿½ ï¿½Ñ°ï¿½ï¿½Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½
+    public CharacterEquipment playerEquipment;
+
+    //ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+    public InGameItemEquipment ap;
     [SerializeField]
     protected Enum_Class equipmentClass;
 
-    //Àåºñ ºÎÀ§ È®ÀÎ
+    //ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È®ï¿½ï¿½
     [SerializeField]
     protected Enum_EquipmentType equipmentType;
-
-    //ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ Á÷¾÷È®ÀÎ°ú Àåºñ¸¦ ²»À»¶§ ½ºÅÝµéÀ» ³Ñ°ÜÁÖ±âÀ§ÇÑ Å¬·¡½º
-    public CharacterEquipment playerEquipment;
-
-    //ÇöÀç ÀåºñÀÇ Á¤º¸µéÀ» º¸³»ÁÖ±â À§ÇÑ ÄÄÆ÷³ÍÆ®
-    public InGameItemEquipment ap;
 
     public Enum_Class EquipmentClass { get { return equipmentClass; } }
     public Enum_EquipmentType EquipmentType { get { return equipmentType; } }
 
 
-    // Àåºñ ¼¼ÆÃ
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     public override void Setting()
     {
+        if (!stateComplete)
+        {
+            StateSetting();
+            print("ï¿½ï¿½ï¿½ï¿½ ï¿½Ï·ï¿½" + " " + gameObject.name);
+            stateComplete = true;
+        }
+        else
+        {
+            print("ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½" + " " + gameObject.name);
+            print("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Ä«ï¿½ï¿½ï¿½ï¿½" + weaponState.Count + " " + gameObject.name);
+        }
+      
         playerEquipment = PlayerController.instance._playerEquipment;
+
+        switch (equipmentType) 
+        {
+            case Enum_EquipmentType.Weapon:
+                state = weaponState[item.StateIndex];
+                break;
+            case Enum_EquipmentType.Head:
+                state = headState[item.StateIndex];
+                break;
+            case Enum_EquipmentType.Body:
+                state = bodyState[item.StateIndex];
+                break;
+            case Enum_EquipmentType.Hand:
+                state = handState[item.StateIndex];
+                break;
+            case Enum_EquipmentType.Foot:
+                state = footState[item.StateIndex];
+                break;        
+        }
     }
 
-    public override void Enter()
-    {
-        stateMachine.EnterState(state);
-    }
-
-    public override void FixedStay()
-    {
-        stateMachine.FixedStay();
-    }
-
-    public override void Stay()
-    {
-        stateMachine.Stay();
-    }
-
-
-    public override void Exit()
-    {
-        stateMachine.ExitState();
-    }
-
-    // Àåºñ¸¦ ³¥·Á ÇßÀ»¶§ ÀåºñµéÀÇ Á¶°ÇÀÌ ¸Â´ÂÁö ¸ÂÀ¸¸é ÀåÂøÇÏ°Ô ÇÏ´Â ¸Þ¼­µå
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Â´ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public override void Check()
     {
         Debug.Log(ap);
         playerEquipment = PlayerController.instance._playerEquipment;
-        playerEquipment.EquipmentCheck(ap);     
+        playerEquipment.EquipmentCheck(ap);      
     }
 
-    public override void Data(int itemID)
+    public void StateSetting()
     {
-        
+        weaponState.Add(new State(() => { player.SumAttack += item.Attack; }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
+        weaponState.Add(new State(() => { player.SumAttack += item.Attack; }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
+        weaponState.Add(new State(() => { player.SumAttack += item.Attack; }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
+        weaponState.Add(new State(() => { player.SumAttack += item.Attack;  }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
     }
 }

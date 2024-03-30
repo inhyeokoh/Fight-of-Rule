@@ -24,6 +24,13 @@ public class Item
     private int count;
     private int slotNum;
     private bool countable;
+    private int stateIndex;
+
+    Enum_ItemType itemType;
+    Enum_PotionType potionType;
+    Enum_EquipmentType equipmentType;
+
+
 
     public Sprite ItemImage { get { return itemImage; } }
 
@@ -32,6 +39,8 @@ public class Item
     public string ItemName { get { return itemName; } }
 
     public string ItemDescription { get { return itemDescription; } }
+
+    public int StateIndex { get { return stateIndex; } }
 
     public int Level { get { return level; } set { level = value; } }
 
@@ -51,6 +60,7 @@ public class Item
 
     public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
         int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum)
+        int attackSpeed,int maxHp,int maxMp, int stateIndex)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;
@@ -68,5 +78,6 @@ public class Item
         this.count = count;
         this.countable = countable;
         this.slotNum = slotNum;
+        this.stateIndex = stateIndex;
     }
 }

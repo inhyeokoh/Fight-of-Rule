@@ -39,33 +39,9 @@ public class InGameItemConsumption : ItemObject
             gameObject.SetActive(false);       
         });
     }
-    public override void Enter()
-    {
-        stateMachine.EnterState(state);   
-    }
-
-    public override void Exit()
-    {
-        stateMachine.ExitState();
-    }
-
-    public override void FixedStay()
-    {
-        stateMachine.FixedStay();
-    }
-
-    public override void Stay()
-    {
-        stateMachine.Stay();
-    }
 
     public override void Check()
     {
       
-    }
-
-    public override void Data(int itemID)
-    {
-        
     }
 }

@@ -56,33 +56,8 @@ public class InGameItemDuraction : ItemObject
             drinkOn = false;
         });
     }
-
-    public override void Enter()
-    {
-        stateMachine.EnterState(state);
-    }
-    public override void Exit()
-    {
-        
-    }
-
     public override void Check()
     {
       
-    }
-
-    public override void FixedStay()
-    {
-       
-    }
-
-    public override void Stay()
-    {
-        
-    }
-
-    public override void Data(int itemID)
-    {
-        
-    }
+    } 
 }

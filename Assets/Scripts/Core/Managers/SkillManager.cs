@@ -15,6 +15,9 @@ public class SkillManager : MonoBehaviour
     //만약에 스킬을 얻으면 이 스킬을 사용해야한다
     //플레이어가 캐릭터 직업에 따라 쓰는 스킬들이 달라진다.
 
+    [SerializeField]
+    private KeySlotUISetting keySlotUISetting;
+
     private static SkillManager _skill = null;
 
     public Collider[] players;   
@@ -51,8 +54,9 @@ public class SkillManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }     
+        }
     }
+
 
     public void Update()
     {
@@ -65,13 +69,6 @@ public class SkillManager : MonoBehaviour
     {
        // Gizmos.DrawWireSphere(player.transform.position, 30f);
     }
-
-    public void SkillLevelUp(Skill skill)
-    {
-        skill.LevelUp();
-    }
-
-
     public void PlayerData()
     {
         PlayerState = PlayerController.instance._playerState;
@@ -118,19 +115,36 @@ public class SkillManager : MonoBehaviour
 #endif
     }
 
-    public void SkillReset(Skill[] skillResetDate)
+    
+    // 현재 캐릭터 스킬 리턴
+    public Skill[] CharacterSkillSet()
     {
-        for (int i = 0; i < skillResetDate.Length; i++)
+        return characterSkills;
+    }
+
+    // 스킬창 스킬들 레벨 올리셋
+    public void SkillAllReset()
+    {
+        keySlotUISetting.KeySlotAllReset();
+
+        for (int i = 0; i < characterSkills.Length; i++)
         {
-            characterSkills[i].SkillReset();
+            characterSkills[i].LevelReset();
         }
     }
-  /*  public void ClassSkillLevelCheck(SkillEdit[] check, Character player)
+
+    // 현재 스킬 레벨업
+    public void SkillLevelUp(Skill skill)
     {
-        for (int i = 0; i < check.Length; i++)
-        {
-        
-            
-        }
-    }*/
+        skill.LevelUp();
+    }
+ 
+    // 현재 스킬 리셋
+    public void SkillReset(Skill skill)
+    {
+        keySlotUISetting.KeySlotSkillReset(skill);
+
+        skill.LevelReset();
+    }
+
 }
