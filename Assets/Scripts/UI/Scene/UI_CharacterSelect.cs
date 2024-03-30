@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_CharSelect : UI_Entity
+public class UI_CharacterSelect : UI_Entity
 {
     enum Enum_UI_CharSelect
     {

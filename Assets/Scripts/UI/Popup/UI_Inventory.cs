@@ -9,8 +9,8 @@ public class UI_Inventory : UI_Entity
 {
     GameObject _invenPanel;
     public GameObject dragImg;
-    List<Item> _invenItems;
-    int _totalSlotCount = 30;
+    List<Item> _items;
+    int _totalSlotCount;
 
     enum Enum_UI_Inventory
     {
@@ -29,7 +29,8 @@ public class UI_Inventory : UI_Entity
     {
         base.Init();
         _invenPanel = _entities[(int)Enum_UI_Inventory.Panel].gameObject;
-        _invenItems = GameManager.Inven.items;
+        _items = GameManager.Inven.items;
+        _totalSlotCount = GameManager.Inven.totalSlot;
 
         _DrawItemSlots();
 
@@ -64,8 +65,7 @@ public class UI_Inventory : UI_Entity
             GameManager.UI.PointerOnUI(false);
         };
 
-        dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
-
+        dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;               
         gameObject.SetActive(false);
     }
 
@@ -86,5 +86,20 @@ public class UI_Inventory : UI_Entity
     {
         UI_ItemSlot slot = _invenPanel.transform.GetChild(slotIndex).GetComponent<UI_ItemSlot>();
         slot._ItemRender();
+    }
+
+    // TODO : 인벤 확장
+
+    void _ExtendSlot(int newSlot = 5)
+    {
+        for (int i = _totalSlotCount; i < _totalSlotCount + newSlot; i++)
+        {
+            GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _invenPanel.transform);
+            _itemSlot.name = "ItemSlot_" + i;
+            _itemSlot.GetComponent<UI_ItemSlot>().index = i;
+        }
+        GameManager.Inven.totalSlot += newSlot;
+        _totalSlotCount = GameManager.Inven.totalSlot;
+        GameManager.Inven.ExtendItemList();
     }
 }

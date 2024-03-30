@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UI_JobSelect : UI_Entity
+public class UI_CharacterCreate : UI_Entity
 {
     CharData character;
     TMP_Text josDescript;
@@ -106,5 +106,16 @@ public class UI_JobSelect : UI_Entity
             default:
                 break;
         }
+    }
+
+    public void SendCharacterPacket()
+    {
+        C_NEW_CHARACTER new_character_pkt = new C_NEW_CHARACTER();
+        new_character_pkt.Character.Gender = character.gender;
+        new_character_pkt.Character.Job = character.job;
+        new_character_pkt.Character.Nickname = character.charName;
+        new_character_pkt.Character.SlotNum = GameManager.Data.selectedSlotNum;
+
+        GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(new_character_pkt));
     }
 }

@@ -6,18 +6,17 @@ using UnityEngine.EventSystems;
 public class UI_InputName : UI_Entity
 {
     // TODO : 생성가능,중복닉네임,생성불가한 케이스로 나뉘어야함
-    bool canCreate = true;
-    string nickName = "";
-    TMP_Text msg;
+    public bool canCreate = true;
+    public string nickname;
+    TMP_Text _instruction;
 
     enum Enum_UI_InputName
     {
         Panel,
+        Instruction,
         InputField,
-        Create,
         Accept,
         Cancel,
-        CheckName
     }
 
     protected override Type GetUINamesAsType()
@@ -29,7 +28,8 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
-        msg = _entities[(int)Enum_UI_InputName.CheckName].GetComponentInChildren<TMP_Text>();
+        _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
+        _instruction.text = "Up to 12 characters can be entered in Korean, English, and numbers.";
 
         foreach (var _subUI in _subUIs)
         {
@@ -39,22 +39,19 @@ public class UI_InputName : UI_Entity
             };
         }
 
-
-        // 생성 가능한 이름인지 체크 후, 저장 및 씬 이동
-        _entities[(int)Enum_UI_InputName.Create].ClickAction = (PointerEventData data) => {            
-            if (canCreate)
+        _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
+            nickname = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().text;
+            if (nickname.Length < 4 || nickname.Length > 12)
             {
-                msg.text = "This name can be created.";
-                GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = nickName;
-
-                _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
-                    GameManager.UI.OpenChildPopup(GameManager.UI.Confirm, true);
-                    GameManager.UI.Confirm.GetComponent<UI_Confirm>().ChangeText("Would you like to create?");
-                };
+                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Please enter at least 4 characters and no more than 12 characters.");
             }
+            // 특수문자 안되게
             else
             {
-                msg.text = "This name cannot be created.";
+                C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
+                nick_DupAsk_pkt.Nickname = nickname;
+                GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
             }
         };
 
@@ -63,22 +60,5 @@ public class UI_InputName : UI_Entity
         };
 
         gameObject.SetActive(false);
-    }
-
-    private void Update()
-    {
-        nickName = _entities[(int)Enum_UI_InputName.InputField].GetComp<TMP_InputField>().text;
-        if (String.IsNullOrEmpty(nickName))
-        {
-            msg.text = "Please enter your name.";
-        }
-        else if (nickName.Length < 4 || nickName.Length > 12)
-        {
-            msg.text = "Please enter at least 4 characters and no more than 12 characters.";
-        }
-        else
-        {
-            msg.text = "";
-        }
     }
 }

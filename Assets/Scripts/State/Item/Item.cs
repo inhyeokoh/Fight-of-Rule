@@ -23,6 +23,7 @@ public class Item
     private int maxCount;
     private int count;
     private int slotNum;
+    private bool countable;
 
     public Sprite ItemImage { get { return itemImage; } }
 
@@ -46,8 +47,10 @@ public class Item
 
     public int SlotNum { get { return slotNum; } set { slotNum = value; } }
 
+    public bool Countable { get { return countable; } set { countable = value; } }
+
     public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
-        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, int slotNum)
+        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;
@@ -63,6 +66,7 @@ public class Item
         this.maxMp = maxMp;
         this.maxCount = maxCount;
         this.count = count;
+        this.countable = countable;
         this.slotNum = slotNum;
     }
 }

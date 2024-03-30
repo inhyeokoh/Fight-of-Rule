@@ -11,7 +11,8 @@ public class UIManager : SubClass<GameManager>
     public GameObject Inventory;
     public GameObject Setting;
     public GameObject InputName;
-    public GameObject Confirm;
+    public GameObject ConfirmYN;
+    public GameObject ConfirmY;
     public GameObject StatusWindow;
     //public GameObject SkillWindow;
     public GameObject InGameMain;
@@ -51,7 +52,8 @@ public class UIManager : SubClass<GameManager>
         SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform);
         Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupCanvas.transform);
         InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform);
-        Confirm = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Confirm", popupCanvas.transform);
+        ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform);
+        ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform);
     }
 
     public void SetInGamePopups()

@@ -11,7 +11,6 @@ public class UI_ItemSlot : UI_Entity
     Image _highlightImg;
     UI_Inventory _inven;
     List<Item> _invenItems;
-    Dictionary<int, Item> _itemDict;
 
     // 현재 슬롯
     Image _iconImg;
@@ -43,7 +42,6 @@ public class UI_ItemSlot : UI_Entity
 
         _inven = transform.GetComponentInParent<UI_Inventory>();
         _invenItems = GameManager.Inven.items;
-        _itemDict = GameManager.Inven.itemDict;
         _dragImg = _inven.dragImg;
 
         _ItemRender();
@@ -51,10 +49,10 @@ public class UI_ItemSlot : UI_Entity
         //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
         {
-            if (!CheckItemNull()) // 수정 필요
+            if (!CheckItemNull())
             {
                 _dragImg.SetActive(true);
-                _dragImg.GetComponent<Image>().sprite = _iconImg.sprite;
+                _dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
             }
         };
 
@@ -81,25 +79,31 @@ public class UI_ItemSlot : UI_Entity
         // 슬롯 하이라이트
         _entities[(int)Enum_UI_ItemSlot.IconImg].PointerEnterAction = (PointerEventData data) =>
         {
-            _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0.4f);
+            if (!CheckItemNull())
+            {
+                _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0.4f);
+            }
         };
 
         _entities[(int)Enum_UI_ItemSlot.IconImg].PointerExitAction = (PointerEventData data) =>
         {
-            _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
+            if (!CheckItemNull())
+            {
+                _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
+            }
         };
     }
 
     // 슬롯 번호에 맞게 아이템 그리기
     public void _ItemRender()
     {
-        if (_itemDict.ContainsKey(index))
+        if (_invenItems[index] != null)
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
             _iconImg.sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_itemDict[index].ItemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
+                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[index].ItemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
             _amountText.SetActive(true);
-            _amountText.GetComponent<TMP_Text>().text = $"{_itemDict[index].Count}";            
+            _amountText.GetComponent<TMP_Text>().text = $"{_invenItems[index].Count}";            
         }
         else
         {
@@ -111,21 +115,13 @@ public class UI_ItemSlot : UI_Entity
 
     bool CheckItemNull()
     {
-        if (_iconImg.sprite != null)
-        {
-            return false;
-        }
-        return true;
+        return _iconImg.sprite == null;
     }
 
 
     // 드롭 시 슬롯에 벗어나지 않았는지 확인
     bool CheckCorrectDrop(PointerEventData data)
     {
-        if (data.pointerCurrentRaycast.gameObject.name == "IconImg")
-        {
-            return true;
-        }
-        return false;
+        return data.pointerCurrentRaycast.gameObject.name == "IconImg";
     }
 }

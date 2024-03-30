@@ -36,11 +36,10 @@ public static partial class MainPacketReflection {
           "C0NfVkVSSUZZSU5HEg0KBXRva2VuGAEgASgJIh0KC1NfVkVSSUZZSU5HEg4K",
           "BnN1Y2VzcxgBIAEoCCIeCgpDX05JQ0tOQU1FEhAKCG5pY2tuYW1lGAEgASgJ",
           "Ii0KClNfTklDS05BTUUSHwoXY3JlYXRlX25pY2tuYW1lX3N1Y2Nlc3MYASAB",
-          "KAgiKgoMQ19DSEFSQUNURVJTEhoKEnJlcXVlc3RfY2hhcmFjdGVycxgBIAEo",
-          "CCIyCgxTX0NIQVJBQ1RFUlMSIgoJY2hhcmFjdGVyGAEgAygLMg8uQ0hBUkFD",
-          "VEVSX0lORk8iNQoPQ19ORVdfQ0hBUkFDVEVSEiIKCWNoYXJhY3RlchgBIAEo",
-          "CzIPLkNIQVJBQ1RFUl9JTkZPIikKD1NfTkVXX0NIQVJBQ1RFUhIWCg5jcmVh",
-          "dGVfc3VjY2VzcxgBIAEoCGIGcHJvdG8z"));
+          "KAgiDgoMQ19DSEFSQUNURVJTIjIKDFNfQ0hBUkFDVEVSUxIiCgljaGFyYWN0",
+          "ZXIYASADKAsyDy5DSEFSQUNURVJfSU5GTyI1Cg9DX05FV19DSEFSQUNURVIS",
+          "IgoJY2hhcmFjdGVyGAEgASgLMg8uQ0hBUkFDVEVSX0lORk8iKQoPU19ORVdf",
+          "Q0hBUkFDVEVSEhYKDmNyZWF0ZV9zdWNjZXNzGAEgASgIYgZwcm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { global::CharacterMessageReflection.Descriptor, global::OptionMessageReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -55,7 +54,7 @@ public static partial class MainPacketReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::S_VERIFYING), global::S_VERIFYING.Parser, new[]{ "Sucess" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::C_NICKNAME), global::C_NICKNAME.Parser, new[]{ "Nickname" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_NICKNAME), global::S_NICKNAME.Parser, new[]{ "CreateNicknameSuccess" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::C_CHARACTERS), global::C_CHARACTERS.Parser, new[]{ "RequestCharacters" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::C_CHARACTERS), global::C_CHARACTERS.Parser, null, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_CHARACTERS), global::S_CHARACTERS.Parser, new[]{ "Character" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::C_NEW_CHARACTER), global::C_NEW_CHARACTER.Parser, new[]{ "Character" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_NEW_CHARACTER), global::S_NEW_CHARACTER.Parser, new[]{ "CreateSuccess" }, null, null, null, null)
@@ -2395,7 +2394,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public C_CHARACTERS(C_CHARACTERS other) : this() {
-    requestCharacters_ = other.requestCharacters_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -2403,18 +2401,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public C_CHARACTERS Clone() {
     return new C_CHARACTERS(this);
-  }
-
-  /// <summary>Field number for the "request_characters" field.</summary>
-  public const int RequestCharactersFieldNumber = 1;
-  private bool requestCharacters_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public bool RequestCharacters {
-    get { return requestCharacters_; }
-    set {
-      requestCharacters_ = value;
-    }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -2432,7 +2418,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
     if (ReferenceEquals(other, this)) {
       return true;
     }
-    if (RequestCharacters != other.RequestCharacters) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -2440,7 +2425,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override int GetHashCode() {
     int hash = 1;
-    if (RequestCharacters != false) hash ^= RequestCharacters.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -2459,10 +2443,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     output.WriteRawMessage(this);
   #else
-    if (RequestCharacters != false) {
-      output.WriteRawTag(8);
-      output.WriteBool(RequestCharacters);
-    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -2473,10 +2453,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-    if (RequestCharacters != false) {
-      output.WriteRawTag(8);
-      output.WriteBool(RequestCharacters);
-    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -2487,9 +2463,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public int CalculateSize() {
     int size = 0;
-    if (RequestCharacters != false) {
-      size += 1 + 1;
-    }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -2501,9 +2474,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
   public void MergeFrom(C_CHARACTERS other) {
     if (other == null) {
       return;
-    }
-    if (other.RequestCharacters != false) {
-      RequestCharacters = other.RequestCharacters;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -2520,10 +2490,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
-        case 8: {
-          RequestCharacters = input.ReadBool();
-          break;
-        }
       }
     }
   #endif
@@ -2539,10 +2505,6 @@ public sealed partial class C_CHARACTERS : pb::IMessage<C_CHARACTERS>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
           break;
-        case 8: {
-          RequestCharacters = input.ReadBool();
-          break;
-        }
       }
     }
   }

@@ -5,7 +5,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-public class UI_Confirm : UI_Entity
+// 확인 버튼만 있는 팝업
+public class UI_ConfirmY : UI_Entity
 {
     TMP_Text _mainText;
 
@@ -15,7 +16,6 @@ public class UI_Confirm : UI_Entity
         Interact,
         MainText,
         Accept,
-        Cancel
     }
 
     protected override Type GetUINamesAsType()
@@ -31,12 +31,7 @@ public class UI_Confirm : UI_Entity
         _mainText.text = "Default";
 
         _entities[(int)Enum_UI_Confirm.Accept].ClickAction = (PointerEventData data) => {
-            GameManager.UI.CloseLinkedPopup();
-            GameManager.Scene.GetNextScene();
-        };
-
-        _entities[(int)Enum_UI_Confirm.Cancel].ClickAction = (PointerEventData data) => {
-            GameManager.UI.ClosePopup(GameManager.UI.Confirm);
+            GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
         };
 
         gameObject.SetActive(false);

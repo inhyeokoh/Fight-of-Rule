@@ -59,11 +59,10 @@ message C_NICKNAME {
 }
 
 message S_NICKNAME {
-    bool create_nickname_success = 1;
+    bool success = 1;
 }
 
 message C_CHARACTERS {
-    bool request_characters = 1;
 }
 
 message S_CHARACTERS {
@@ -75,5 +74,5 @@ message C_NEW_CHARACTER {
 }
 
 message S_NEW_CHARACTER {
-    bool create_success = 1;
+    bool success = 1;
 }

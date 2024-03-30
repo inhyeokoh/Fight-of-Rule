@@ -7,17 +7,23 @@ using UnityEngine.SceneManagement;
 
 public class PacketHandlerImpl : MonoBehaviour
 {
-    internal static bool Handle_S_OPTION(Session session, S_OPTION message)
+    internal static bool Handle_S_SIGNUP(Session session, S_SIGNUP message)
     {
-        //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
-        GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
-        GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
-        GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
+        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorDup)
+        {
+#if UNITY_EDITOR
+            Utils.Log("이미 존재하는 아이디");
+            return false;
+#endif
+        }
 
-        GameManager.Data.setting.bTotalVol = message.SettingOptions.TotalVolOn;
-        GameManager.Data.setting.bBackgroundVol = message.SettingOptions.BackgroundVolOn;
-        GameManager.Data.setting.bEffectVol = message.SettingOptions.EffectVolOn;
+        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
+        {
+            Utils.Log("이미 가입된 회원입니다");
+            return false;
+        }
 
+        Utils.Log("성공적으로 가입 되었습니다");
         return true;
     }
 
@@ -43,7 +49,7 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
-        GameManager.Network.Connect(message.Ip, message.Port, NetState.NEED_VRF, new Vrf() { ip = message.Ip, port = message.Port, token = message.Token, unique_id = message.Uid});
+        GameManager.Network.Connect(message.Ip, message.Port, NetState.NEED_VRF, new Vrf() { ip = message.Ip, port = message.Port, token = message.Token, unique_id = message.Uid });
         /*                // var field_list = message.Slots;
                         AsyncOperation loadAsync;
 
@@ -94,6 +100,43 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
+    internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
+    {
+        if (message.CreateNicknameSuccess == false)
+        {
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This ID already exists.");
+            });
+            return false;
+        }
+
+        // 해당 닉네임 생성 가능하면
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
+            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+            GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().choice = 0;
+            GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
+        });
+        return true;
+    }
+
+    internal static bool Handle_S_OPTION(Session session, S_OPTION message)
+    {
+        //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
+        GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
+        GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
+        GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
+
+        GameManager.Data.setting.bTotalVol = message.SettingOptions.TotalVolOn;
+        GameManager.Data.setting.bBackgroundVol = message.SettingOptions.BackgroundVolOn;
+        GameManager.Data.setting.bEffectVol = message.SettingOptions.EffectVolOn;
+
+        return true;
+    }
+
     internal static bool Handle_S_CHARACTERS(Session session, S_CHARACTERS message)
     {
         return true;
@@ -126,36 +169,10 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_SIGNUP(Session session, S_SIGNUP message)
-    {
-        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorDup)
-        {
-#if UNITY_EDITOR
-            Utils.Log("이미 존재하는 아이디");
-            return false;
-#endif
-        }
-
-        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
-        {
-            Utils.Log("이미 가입된 회원입니다");
-            return false;
-        }
-
-        Utils.Log("성공적으로 가입 되었습니다");
-        return true;
-    }
-
     internal static bool Handle_S_CHARACTER(Session session, S_CHARACTERS message)
     {
 
         return true;
     }
 
-    internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
-    {
-        // message.NicknameSuccess; 이 bool값을 받아서 UI_Login 스크립트 변수에 받아야할지?
-
-        return true;
-    }
 }

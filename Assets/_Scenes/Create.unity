@@ -1654,7 +1654,7 @@ GameObject:
   - component: {fileID: 1260259261}
   - component: {fileID: 1260259262}
   m_Layer: 5
-  m_Name: JobSelect
+  m_Name: CharacterCreate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1703,6 +1703,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6406b4d58f1ad4e44a592797a3df47e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _mother: {fileID: 0}
+  _subUIs: []
+  character:
+    charName: 
+    job: Warrior
+    gender: 1
+    level: 1
+    maxHP: 100
+    hp: 100
+    maxMP: 100
+    mp: 100
+    maxEXP: 100
+    exp: 0
+    attack: 5
+    attackSpeed: 1
+    defense: 3
+    speed: 10
+  josDescript: {fileID: 0}
+  jobImage: {fileID: 0}
 --- !u!1 &1353969669
 GameObject:
   m_ObjectHideFlags: 0
