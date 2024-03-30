@@ -59,8 +59,7 @@ public class Item
     public bool Countable { get { return countable; } set { countable = value; } }
 
     public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
-        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum)
-        int attackSpeed,int maxHp,int maxMp, int stateIndex)
+        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum, int stateIndex)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;

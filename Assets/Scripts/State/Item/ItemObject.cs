@@ -52,7 +52,7 @@ public abstract class ItemObject : MonoBehaviour
     private void Awake()
     {       
         stateMachine = new StateMachine();
-        item = new Item(null, 0, "무기", "설명", 0, 0, 5, 0, 0, 0, 0, 0, 0);
+        item = new Item(null, 0, "무기", "설명", 0, 0, 5, 0, 0, 0, 0, 0, 0,/*temp*/0,/*temp*/false,/*temp*/0,/*temp*/0);
 
       /*  try
         {
