@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum Enum_PotionType
 {
+    Defult,
     Heal,
     Mana,
     Exp,
@@ -13,6 +14,7 @@ public enum Enum_PotionType
 
 public enum Enum_EquipmentType
 {
+    Defult,
     Weapon,
     Head,
     Body,
@@ -35,6 +37,7 @@ public abstract class ItemObject : MonoBehaviour
 
     public Enum_ItemType itemType;
 
+    protected static bool stateComplete;
 
 
     //상태 패턴 생성기
@@ -45,19 +48,30 @@ public abstract class ItemObject : MonoBehaviour
     [SerializeField]
     protected CharacterStatus player;   
     private void Awake()
-    {
-        stateMachine = new StateMachine();       
-        Setting();
+    {       
+        stateMachine = new StateMachine();
+        item = new Item(null, 0, "무기", "설명", 0, 0, 5, 0, 0, 0, 0, 0, 0);
+
+      /*  try
+        {
+            Setting();
+        }
+        catch
+        {
+            print("현재 플레이어를 찾을수 없습니다");
+        }*/
+
     }
 
     private void Start()
-    {
-        
+    {      
+           
+        Setting();       
     }
 
     private void OnEnable()
     {
-        Data(itemID);
+        
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -77,24 +91,30 @@ public abstract class ItemObject : MonoBehaviour
             }
         }     
     }
+    public void Enter()
+    {
+        stateMachine.EnterState(state);
+    }
 
-    // Update is called once per frame
-  /*  public virtual void FixedUpdate()
+    public  void FixedStay()
     {
         stateMachine.FixedStay();
     }
-    public virtual void Update()
+
+    public  void Stay()
     {
         stateMachine.Stay();
-    }*/
+    }
 
-    public abstract void Enter();
 
-    public abstract void FixedStay();
+    public  void Exit()
+    {
+        stateMachine.ExitState();
+    }
+    public void Data(int itemID)
+    {
 
-    public abstract void Stay();
-
-    public abstract void Exit();
+    }
 
     public abstract void Setting();
 
@@ -102,7 +122,6 @@ public abstract class ItemObject : MonoBehaviour
     public abstract void Check();
 
 
-    public abstract void Data(int itemID);
     
     //아이템의 정보들
     //아이템의 효과

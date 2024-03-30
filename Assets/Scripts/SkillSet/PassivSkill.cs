@@ -33,16 +33,7 @@ public class PassivSkill : Skill
 
         return default;
     }
-    public override void LevelUp()
-    {
-        
-    }
-
-    public override void Use()
-    {
-        BuffOn(statsUp[level]);
-    }
-
+  
     public override void BuffOn(int statsUp)
     {
         SkillManager.Skill.PlayerStat.HP += statsUp;
@@ -50,15 +41,5 @@ public class PassivSkill : Skill
     public override void BuffOff(int statsDown)
     {
         SkillManager.Skill.PlayerStat.HP -= statsDown;
-    }
-
-    public override void SkillStat()
-    {
-        
-    }
-
-    public override void SkillInfo()
-    {
-      
     }
 }

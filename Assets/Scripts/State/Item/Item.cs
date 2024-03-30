@@ -20,6 +20,13 @@ public class Item
     private int attackSpeed;
     private int maxHp;
     private int maxMp;
+    private int stateIndex;
+
+    Enum_ItemType itemType;
+    Enum_PotionType potionType;
+    Enum_EquipmentType equipmentType;
+
+
 
     public Sprite ItemImage { get { return itemImage; } }
 
@@ -28,6 +35,8 @@ public class Item
     public string ItemName { get { return itemName; } }
 
     public string ItemDescription { get { return itemDescription; } }
+
+    public int StateIndex { get { return stateIndex; } }
 
     public int Level { get { return level; } set { level = value; } }
 
@@ -40,7 +49,7 @@ public class Item
     public int MaxMp { get { return maxMp; } set { maxMp = value; } }
 
     public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
-        int attackSpeed,int maxHp,int maxMp)
+        int attackSpeed,int maxHp,int maxMp, int stateIndex)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;
@@ -54,5 +63,6 @@ public class Item
         this.attackSpeed = attackSpeed;
         this.maxHp = maxHp;
         this.maxMp = maxMp;
+        this.stateIndex = stateIndex;
     }
 }

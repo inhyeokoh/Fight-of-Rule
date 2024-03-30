@@ -6,8 +6,28 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
+public enum Enum_UI_SkillWindow
+{
+    BackGroundPanel = 0,
+    Interact,
+    Close,
+    CurrentSkillPointPanel,
+    SkillToolTipView,
+    LearnBtn,
+    ResetBtn,
+    SkillNamePanel,
+    NecessaryLevelPanel,
+    NecessaryPointPanel,
+    SkillView,
+    SelctSkillObject
+}
+
 public class UI_SkillWindow : UI_Entity
-{  
+{
+
+    [SerializeField]
+    GameObject skillContent;
+
     /// <summary>
     /// 스킬창 오브젝트 들 
     /// </summary>
@@ -25,28 +45,11 @@ public class UI_SkillWindow : UI_Entity
     /// <summary>
     /// 키슬롯과 스킬연동을 위한 클래스들
     /// </summary>
-    [SerializeField]
-    UI_SkillKeySlot[] skillChecks;
-
+ 
     public Skill selectSkill;
 
     CharacterStatus player;
 
-    enum Enum_UI_SkillWindow
-    {
-        BackGroundPanel = 0,
-        Interact,
-        Close,
-        CurrentSkillPointPanel,
-        SkillToolTipView,
-        LearnBtn,
-        ResetBtn,
-        SkillNamePanel,
-        NecessaryLevelPanel,
-        NecessaryPointPanel,
-        SkillView,
-        SelctSkillObject
-    }
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_SkillWindow); 
@@ -57,6 +60,17 @@ public class UI_SkillWindow : UI_Entity
          base.Init();
         _skillPanal = _entities[(int)Enum_UI_SkillWindow.BackGroundPanel].gameObject;
 
+     
+        // 스킬매니저에 있던 캐릭터 스킬 배열 가져온후 스킬슬롯 생성
+        foreach(Skill skill in SkillManager.Skill.CharacterSkillSet())
+        {
+            UI_SkillUISlot skillClone = GameManager.Resources.Instantiate
+               ("Prefabs/UI/Scene/SkillUISlot", skillContent.transform)
+               .GetComponent<UI_SkillUISlot>();
+
+            skillClone.CurrentSkill(skill);
+        }
+      
         _entities[(int)Enum_UI_SkillWindow.Close].ClickAction =(PointerEventData data) =>
         {
             // GameManager.UI.ClosePopup(GameManager.UI.SkillWindow);
@@ -79,10 +93,10 @@ public class UI_SkillWindow : UI_Entity
                 print("레벨이 부족합니다.");
             }*/
             else
-            {
-                selectSkill.LevelUp();
-                SkillInpomation();
-                selectSkillInfo.SkillInfo();
+            {       
+                SkillManager.Skill.SkillLevelUp(selectSkill);
+                SkillInfomation();
+                selectSkillInfo.SkillLevelInfo();
             }
         };
 
@@ -100,22 +114,9 @@ public class UI_SkillWindow : UI_Entity
             }
             else
             {
-                for(int i =0; i < skillChecks.Length; i++)
-                {
-                    if(skillChecks[i].skill == selectSkill)
-                    {
-                        skillChecks[i].skill = null;
-                        Color tempColor1 = skillChecks[i].SkillIcon.color;
-                        tempColor1.g = tempColor1.b = tempColor1.r = 0;
-                        skillChecks[i].SkillIcon.color = tempColor1;
-                        skillChecks[i].SkillIcon.sprite = null;
-                    }
-                }
-
-                selectSkill.Level = 0;
-                selectSkill.SkillInfo(); 
-                SkillInpomation();
-                selectSkillInfo.SkillInfo();
+                SkillManager.Skill.SkillReset(selectSkill); 
+                SkillInfomation();
+                selectSkillInfo.SkillLevelInfo();
             }
         };
 
@@ -133,12 +134,12 @@ public class UI_SkillWindow : UI_Entity
     public void SelctSkill(Skill skill)
     {
         this.selectSkill = skill;
-        SkillInpomation();
+        SkillInfomation();
     }
 
 
     // 스킬 인포창 갱신중
-    private void SkillInpomation()
+    private void SkillInfomation()
     {
         skillToolTip.text = selectSkill.SKillDESC;
         skillName.text = selectSkill.SkillName;
@@ -166,7 +167,7 @@ public class UI_SkillWindow : UI_Entity
 
 
     // 스킬이 업했거나 리셋을 했으면 위에 인포창들을 갱신하기위해 스킬에 있는 정보들을 가져온다
-    public void SelectSkillUIText(UI_SkillUISlot texts)
+    public void SelectSkillUIInfoMationText(UI_SkillUISlot texts)
     {
         if (selectSkillInfo != null)
         {
@@ -175,6 +176,4 @@ public class UI_SkillWindow : UI_Entity
 
         selectSkillInfo = texts;
     }
-
-
 }

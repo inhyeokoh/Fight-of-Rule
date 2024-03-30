@@ -7,16 +7,24 @@ using UnityEngine.EventSystems;
 
 public class UI_SkillKeySlot : UI_Entity
 {
+
+    bool skillChange;
+
+
     // 현재 키슬롯에 저장되있는 스킬
     public Skill skill;
-    Image skillIcon;
-    RectTransform imageRect;
+    public CoolTimeCheck coolTimeCheck;
+        
+    [SerializeField]
+    KeySlotUISetting keySlotUISetting;
 
-    // 현재 나의 키슬롯을 제외한 다른 키슬롯들 (같은 스킬을 꼈는지 확인)
-    [SerializeField]
-    UI_SkillKeySlot[] keySlots;
-    [SerializeField]
-    CoolTimeCheck coolTimeCheck;
+    Image skillIcon;
+    RectTransform keySlotImageRect;
+
+    // 드랍앤 드래그를 했을때 위치를 변경시키기 위한 트랜스폼
+    Transform canvas;
+    Transform previousParent;
+
 
     [SerializeField]
     SelectSkillMove MoveSkillObject;
@@ -45,10 +53,14 @@ public class UI_SkillKeySlot : UI_Entity
         base.Init();
 
         skillIcon = _entities[(int)Enum_UI_SKillKeySlot.SkillIcon].GetComponent<Image>();
-        imageRect = _entities[(int)Enum_UI_SKillKeySlot.SkillIcon].GetComponent<RectTransform>();
-       
-       
-        
+        keySlotImageRect = _entities[(int)Enum_UI_SKillKeySlot.SkillIcon].GetComponent<RectTransform>();
+
+        canvas = gameObject.transform.root;
+        previousParent = transform.parent;
+        /*keySlotUISetting =*/
+
+
+
         // 현재 스킬 정보가 닿았을때
         _entities[(int)Enum_UI_SKillKeySlot.SkillIcon].DropAction = (PointerEventData data) =>
         {
@@ -66,35 +78,10 @@ public class UI_SkillKeySlot : UI_Entity
             {
                 print(data.pointerDrag.gameObject.name);
                 // 아까 닿았던 스킬 정보를 가져오고
-                skill = data.pointerDrag.GetComponent<Skill>();
+                skill = data.pointerDrag.transform.parent.GetComponent<UI_SkillUISlot>().SkillReturn();
+                coolTimeCheck.CoolTimeChanage(skill);
 
-               /* if (skill.Level == 0)
-                {
-                    return;
-                }*/
-                
-                // 현재 나의 스킬과 동일한 스킬이 있는 키슬롯 확인
-                for (int i =0; i < keySlots.Length; i++)
-                {
-
-                    // 만약에 있다면 원래 스킬이 있던 키슬롯은 널시키고 다시 스킬이 없던 화면으로 바꿈
-                    if(keySlots[i].skill == skill)
-                    {
-                        keySlots[i].skill = null;
-                        Color tempColor1 = keySlots[i].SkillIcon.color;
-                        tempColor1.g = tempColor1.b = tempColor1.r = 0;
-                        keySlots[i].SkillIcon.color = tempColor1;
-                        keySlots[i].SkillIcon.sprite = null;
-                    }
-                }
-
-                // 그 스킬을 키슬롯에 적용
-
-                Color tempColor = skillIcon.color;
-                tempColor.g = tempColor.b = tempColor.r = 255f;
-                skillIcon.color = tempColor;
-                skillIcon.sprite = skill.Icon;
-                coolTimeCheck.MaxCoolTime = skill.SkillCoolTime;
+                keySlotUISetting.KeySlotCheck(this, skill);
             }  
             
             if (data.pointerDrag.gameObject.tag == "KeySlotSkill")
@@ -103,37 +90,18 @@ public class UI_SkillKeySlot : UI_Entity
                 //if (dataUIKeySlot.skill == null) return;
 
                 if (skill == null)
-                {                    
-                    skill = dataUIKeySlot.skill;
-
-                    dataUIKeySlot.skill = null;
-
-                    Color tempColor1 = dataUIKeySlot.SkillIcon.color;
-                    tempColor1.g = tempColor1.b = tempColor1.r = 0;
-                    dataUIKeySlot.SkillIcon.color = tempColor1;
-                    dataUIKeySlot.SkillIcon.sprite = null;
-
-                    Color tempColor = skillIcon.color;
-                    tempColor.g = tempColor.b = tempColor.r = 255f;
-                    skillIcon.color = tempColor;
-                    skillIcon.sprite = skill.Icon;
-                    coolTimeCheck.MaxCoolTime = skill.SkillCoolTime;
-
+                {
+                    keySlotUISetting.KeySlotNullChanage(this, dataUIKeySlot);
+                   
                     MoveSkillObject.GetComponent<Image>().raycastTarget = true;
                     MoveSkillObject.gameObject.SetActive(false);
                 }
                 else
-                {                  
-                    Skill tempSkill = skill;
-                    skill = dataUIKeySlot.skill;
-                    dataUIKeySlot.skill = tempSkill;
-
-                    skillIcon.sprite = skill.Icon;
-                    coolTimeCheck.MaxCoolTime = skill.SkillCoolTime;
-                    
-                    dataUIKeySlot.SkillIcon.sprite = dataUIKeySlot.skill.Icon;
-                    dataUIKeySlot.coolTimeCheck.MaxCoolTime = skill.SkillCoolTime;
+                {
+                    keySlotUISetting.KeySlotChanage(this, dataUIKeySlot);                   
                 }
+
+                skillChange = true;
             }
         };
         _entities[(int)Enum_UI_SKillKeySlot.SkillIcon].BeginDragAction = (PointerEventData data) =>
@@ -143,9 +111,11 @@ public class UI_SkillKeySlot : UI_Entity
                 data.pointerEnter = null;
                 return;
             }
-          
+
+            MoveSkillObject.gameObject.transform.SetParent(canvas);
+            MoveSkillObject.transform.SetAsLastSibling();
             MoveSkillObject.gameObject.SetActive(true);
-            MoveSkillObject.ClickSkill(skill);
+            MoveSkillObject.SkillClick(skill);
             MoveSkillObject.GetComponent<Image>().raycastTarget = false;
         };
         _entities[(int)Enum_UI_SKillKeySlot.SkillIcon].DragAction = (PointerEventData data) =>
@@ -167,12 +137,26 @@ public class UI_SkillKeySlot : UI_Entity
                 return;
             }
 
-            if (data.pointerDrag)
+           /* if (data.pointerDrag)*/
 
+            MoveSkillObject.gameObject.transform.SetParent(previousParent);
+            MoveSkillObject.transform.SetAsLastSibling();
             MoveSkillObject.GetComponent<Image>().raycastTarget = true;
             MoveSkillObject.gameObject.SetActive(false);
-        };
 
+            if (data.pointerCurrentRaycast.gameObject == null || 
+            data.pointerCurrentRaycast.gameObject.tag != "KeySlotSkill")
+            {
+                if (MoveSkillObject.transform.position.x > (keySlotImageRect.position.x + 96f)        
+                || MoveSkillObject.transform.position.x < (keySlotImageRect.position.x - 96f)        
+                || MoveSkillObject.transform.position.y > (keySlotImageRect.position.y + 52.50f)         
+                || MoveSkillObject.transform.position.y < (keySlotImageRect.position.y + -52.50f))
+                {
+                    keySlotUISetting.KeySlotSkillReset(skill);
+                }
+            }         
+        };
+          
     }
 
 
@@ -190,7 +174,7 @@ public class UI_SkillKeySlot : UI_Entity
             {
                 print("스킬 사용중 입니다.");
             }
-            else if (coolTimeCheck.CoolTime > 0)
+            else if (skill.CoolTime > 0)
             {
                 print("스킬이 아직 쿨타임 입니다.");
             }
@@ -203,10 +187,8 @@ public class UI_SkillKeySlot : UI_Entity
                 playerStat.MP -= skill.SKillMP;
                 PlayerController.instance._effector.EffectBurstStop();
                 skill.Use();
-                coolTimeCheck.SkillUse();
             }
         }
-
     }
     public void Use(CharacterState playerState, CharacterStatus playerStat)
     {

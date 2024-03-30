@@ -44,8 +44,6 @@ public class UI_InGameMain : UI_Entity
     {
         base.Init();
 
-        print("나도 입력 완료");
-
         HPSbr = _entities[(int)Enum_UI_ingameMain.HPSdr].GetComponent<Slider>();
         MPSbr = _entities[(int)Enum_UI_ingameMain.MPSdr].GetComponent<Slider>();
            

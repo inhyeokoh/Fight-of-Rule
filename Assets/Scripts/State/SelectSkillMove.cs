@@ -15,7 +15,7 @@ public class SelectSkillMove : MonoBehaviour
         SelectSkillImage = GetComponent<Image>();
     }
 
-    public void ClickSkill(Skill skill)
+    public void SkillClick(Skill skill)
     {
         SelectSkill = skill;
         SelectSkillImage.sprite = skill.Icon;      
