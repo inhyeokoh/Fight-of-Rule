@@ -47,28 +47,28 @@ public class UI_Inventory : UI_Entity
             };
         }
 
-        // ÀÎº¥Åä¸® Ã¢ µå·¡±×
+        // ì¸ë²¤í† ë¦¬ ì°½ ë“œë˜ê·¸
         _entities[(int)Enum_UI_Inventory.Interact].DragAction = (PointerEventData data) =>
         {
             transform.position = data.position;
         };
 
-        // ÀÎº¥Åä¸® ´İ±â
+        // ì¸ë²¤í† ë¦¬ ë‹«ê¸°
         _entities[(int)Enum_UI_Inventory.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Inventory);
         };
 
-        // UIÀ§¿¡ Ä¿¼­ ÀÖÀ» ½Ã Ä³¸¯ÅÍ Çàµ¿ Á¦¾à
+        // UIìœ„ì— ì»¤ì„œ ìˆì„ ì‹œ ìºë¦­í„° í–‰ë™ ì œì•½
         _entities[(int)Enum_UI_Inventory.Panel].PointerEnterAction = (PointerEventData data) =>
         {
-            Debug.Log("ui À§");
+            Debug.Log("ui ìœ„");
             GameManager.UI.PointerOnUI(true);
         };
 
         _entities[(int)Enum_UI_Inventory.Panel].PointerExitAction = (PointerEventData data) =>
         {
-            Debug.Log("ui ¹Û");
+            Debug.Log("ui ë°–");
             GameManager.UI.PointerOnUI(false);
         };
 
@@ -77,10 +77,10 @@ public class UI_Inventory : UI_Entity
     }
 
 
-    // ÀÎº¥Åä¸® ³» ½½·Ô ¹øÈ£¿¡ ¸Â°Ô ¾ÆÀÌÅÛ ¹èÄ¡
+    // ì¸ë²¤í† ë¦¬ ë‚´ ìŠ¬ë¡¯ ë²ˆí˜¸ì— ë§ê²Œ ì•„ì´í…œ ë°°ì¹˜
     void _DrawItemSlots()
     {
-        // ½½·Ô »ı¼º
+        // ìŠ¬ë¡¯ ìƒì„±
         for (int i = 0; i < _totalSlotCount; i++)
         {
             GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _invenPanel.transform);
@@ -89,13 +89,13 @@ public class UI_Inventory : UI_Entity
         }
     }
 
-    public void UpdateInvenInfo(int slotIndex) // ¾ÆÀÌÅÛ ¹è¿­ Á¤º¸¿¡ ¸Â°Ô UI °»½Å ½ÃÅ°´Â ¸Ş¼­µå
+    public void UpdateInvenInfo(int slotIndex) // ì•„ì´í…œ ë°°ì—´ ì •ë³´ì— ë§ê²Œ UI ê°±ì‹  ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     {
         UI_ItemSlot slot = _invenPanel.transform.GetChild(slotIndex).GetComponent<UI_ItemSlot>();
         slot._ItemRender();
     }
 
-    // TODO : ÀÎº¥ È®Àå
+    // TODO : ì¸ë²¤ í™•ì¥
 
     void _ExtendSlot(int newSlot = 5)
     {

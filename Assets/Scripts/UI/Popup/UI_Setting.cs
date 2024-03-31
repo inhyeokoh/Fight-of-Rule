@@ -37,7 +37,7 @@ public class UI_Setting : UI_Entity
         togNames = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<TMP_Text>();
         toggles = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<Toggle>();
         volSliders = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<Slider>();
-        // ÅØ½ºÆ® ¼öÁ¤ ¿ëµµ (ÀÎ½ºÆåÅÍ Ã¢¿¡¼­ ÇÏ´Â°Íº¸´Ù ÅëÀÏ¼º ¸é¿¡¼­ È®ÀÎÇÏ±â ½¬¿ò )
+        // í…ìŠ¤íŠ¸ ìˆ˜ì • ìš©ë„ (ì¸ìŠ¤í™í„° ì°½ì—ì„œ í•˜ëŠ”ê²ƒë³´ë‹¤ í†µì¼ì„± ë©´ì—ì„œ í™•ì¸í•˜ê¸° ì‰¬ì›€ )
         volNames = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<TMP_Text>();
 
         SetPanel_L();
@@ -50,7 +50,7 @@ public class UI_Setting : UI_Entity
                 GameManager.UI.GetPopupForward(GameManager.UI.Setting);
             };
         }
-        // ¹öÆ° ±â´É ÇÒ´ç      
+        // ë²„íŠ¼ ê¸°ëŠ¥ í• ë‹¹      
         _entities[(int)Enum_UI_Settings.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
@@ -71,7 +71,7 @@ public class UI_Setting : UI_Entity
 
         _entities[(int)Enum_UI_Settings.Interact].DragAction = (PointerEventData data) =>
         {
-            transform.position = data.position;   // TODO: µå·¡±× ¼öÁ¤ ÇÊ¿ä
+            transform.position = data.position;   // TODO: ë“œë˜ê·¸ ìˆ˜ì • í•„ìš”
         };
 
         gameObject.SetActive(false);
@@ -90,7 +90,7 @@ public class UI_Setting : UI_Entity
         }
     }
 
-    // Panel_L¿¡ ÀÖ´Â Åä±Û ¼±ÅÃ ¿©ºÎ¿¡ µû¶ó¼­ ÇØ´çµÇ´Â ³»¿ëÀ» Panel_R ¿¡ È°¼ºÈ­
+    // Panel_Lì— ìˆëŠ” í† ê¸€ ì„ íƒ ì—¬ë¶€ì— ë”°ë¼ì„œ í•´ë‹¹ë˜ëŠ” ë‚´ìš©ì„ Panel_R ì— í™œì„±í™”
     void ToggleValueChanged(int toggleIndex)
     {   
         bool isToggleOn = toggles[toggleIndex].isOn;                
@@ -125,20 +125,20 @@ public class UI_Setting : UI_Entity
         volNames[8].text = $"{volNames[6].text} On";
     }
 
-    // ±âÁ¸°ªÀÌ¶û ºñ±³ÇØ¼­ ´Ù¸¥ºÎºĞÀÌ ÀÖÀ» ¶§¸¸ ¼­¹ö¿¡ ÀúÀåÇÏµµ·Ï (float ¿ÀÂ÷ À¯ÀÇ)
+    // ê¸°ì¡´ê°’ì´ë‘ ë¹„êµí•´ì„œ ë‹¤ë¥¸ë¶€ë¶„ì´ ìˆì„ ë•Œë§Œ ì„œë²„ì— ì €ì¥í•˜ë„ë¡ (float ì˜¤ì°¨ ìœ ì˜)
     void SaveOptionsVol()
     {
         if (GameManager.Data.setting.totalVol - volSliders[0].value > 0.01f || 
             GameManager.Data.setting.backgroundVol - volSliders[1].value > 0.01f ||
-            GameManager.Data.setting.effectVol - volSliders[2].value > 0.01f) // °ªÀÇ Â÷ÀÌ°¡ 1% ÀÌ»ó ³ª´Â ºÎºĞÀÌ ÀÖ´Ù¸é,
+            GameManager.Data.setting.effectVol - volSliders[2].value > 0.01f) // ê°’ì˜ ì°¨ì´ê°€ 1% ì´ìƒ ë‚˜ëŠ” ë¶€ë¶„ì´ ìˆë‹¤ë©´,
         {
             GameManager.Data.setting.totalVol = volSliders[0].value;
             GameManager.Data.setting.backgroundVol = volSliders[1].value;
             GameManager.Data.setting.effectVol = volSliders[2].value;
 
-            GameManager.Data.SaveData("Setting", GameManager.Data.setting); // ·ÎÄÃ¿¡ ÀúÀåÇÏ´Â ºÎºĞ -> ¼­¹ö ¼Û¼ö½ÅÀ¸·Î º¯°æ ¿¹Á¤
+            GameManager.Data.SaveData("Setting", GameManager.Data.setting); // ë¡œì»¬ì— ì €ì¥í•˜ëŠ” ë¶€ë¶„ -> ì„œë²„ ì†¡ìˆ˜ì‹ ìœ¼ë¡œ ë³€ê²½ ì˜ˆì •
         }
     }
     
-    // TODO »ç¿îµå ¸Å´ÏÀú Á¦ÀÛ ÀÌÈÄ Ãß°¡ÀÛ¾÷
+    // TODO ì‚¬ìš´ë“œ ë§¤ë‹ˆì € ì œì‘ ì´í›„ ì¶”ê°€ì‘ì—…
 }

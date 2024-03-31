@@ -14,7 +14,7 @@ public class CoolTimeCheck : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // ½ºÅ³ ÄğÅ¸ÀÓ fixedUpdate·Î Ã¼Å©
+        // ìŠ¤í‚¬ ì¿¨íƒ€ì„ fixedUpdateë¡œ ì²´í¬
         if (skill != null)
         {
             if (skill.CoolTime > 0)
@@ -42,12 +42,12 @@ public class CoolTimeCheck : MonoBehaviour
             skillCoolTimeText.text = " ";
         }
     }
-    // ÇöÀç ½ºÅ³ °´Ã¼ Á¤º¸
+    // í˜„ì¬ ìŠ¤í‚¬ ê°ì²´ ì •ë³´
     public void CoolTimeChanage(Skill currentSKill)
     {      
         skill = currentSKill;     
     }
-    // ½ºÅ³À» »¬¶§ null ¹Ù²Ş
+    // ìŠ¤í‚¬ì„ ëº„ë•Œ null ë°”ê¿ˆ
     public void SkillReset()
     {
         skill = null;

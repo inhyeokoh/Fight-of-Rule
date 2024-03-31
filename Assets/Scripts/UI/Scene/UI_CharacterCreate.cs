@@ -41,13 +41,13 @@ public class UI_CharacterCreate : UI_Entity
         jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
         _SetDefalut();
 
-        // ÆË¾÷ ¿­°í ´İ±â
+        // íŒì—… ì—´ê³  ë‹«ê¸°
         _entities[(int)Enum_UI_JobSelect.Setting].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.OpenOrClose(GameManager.UI.Setting);
         };
 
-        // ¹öÆ° ¼±ÅÃ¿¡ ¸Â°Ô ÀÌ¹ÌÁö, ¼³¸í¶õ ¹× ÀúÀåÇÒ µ¥ÀÌÅÍ º¯°æ
+        // ë²„íŠ¼ ì„ íƒì— ë§ê²Œ ì´ë¯¸ì§€, ì„¤ëª…ë€ ë° ì €ì¥í•  ë°ì´í„° ë³€ê²½
         _entities[(int)Enum_UI_JobSelect.Warrior].ClickAction = (PointerEventData data) => {
             _SaveOptions("Warrior");
         };
@@ -60,7 +60,7 @@ public class UI_CharacterCreate : UI_Entity
         _entities[(int)Enum_UI_JobSelect.Men].ClickAction = (PointerEventData data) => { character.gender = true; };
         _entities[(int)Enum_UI_JobSelect.Women].ClickAction = (PointerEventData data) => { character.gender = false; };
 
-        // ÀÌ¸§ »ı¼º ÆË¾÷ ¶ç¿ì±â
+        // ì´ë¦„ ìƒì„± íŒì—… ë„ìš°ê¸°
         _entities[(int)Enum_UI_JobSelect.Select].ClickAction = (PointerEventData data) => {
             GameManager.UI.OpenPopup(GameManager.UI.InputName);
         };
@@ -91,10 +91,10 @@ public class UI_CharacterCreate : UI_Entity
     {
         character.job = jobName;
 
-        // ÀÌ¹ÌÁö º¯°æ
+        // ì´ë¯¸ì§€ ë³€ê²½
         jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{jobName}");
 
-        // ¼³¸í¶õ º¯°æ
+        // ì„¤ëª…ë€ ë³€ê²½
         switch (jobName)
         {
             case "Warrior":

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// È®ÀÎ ¹öÆ°¸¸ ÀÖ´Â ÆË¾÷
+// í™•ì¸ ë²„íŠ¼ë§Œ ìˆëŠ” íŒì—…
 public class UI_ConfirmY : UI_Entity
 {
     TMP_Text _mainText;

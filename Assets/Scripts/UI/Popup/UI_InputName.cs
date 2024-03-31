@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class UI_InputName : UI_Entity
 {
-    // TODO : »ı¼º°¡´É,Áßº¹´Ğ³×ÀÓ,»ı¼ººÒ°¡ÇÑ ÄÉÀÌ½º·Î ³ª´µ¾î¾ßÇÔ
+    // TODO : ìƒì„±ê°€ëŠ¥,ì¤‘ë³µë‹‰ë„¤ì„,ìƒì„±ë¶ˆê°€í•œ ì¼€ì´ìŠ¤ë¡œ ë‚˜ë‰˜ì–´ì•¼í•¨
     public bool canCreate = true;
     public string nickname;
     TMP_Text _instruction;
@@ -47,7 +47,7 @@ public class UI_InputName : UI_Entity
                 GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
                 GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Please enter at least 4 characters and no more than 12 characters.");
             }
-            // Æ¯¼ö¹®ÀÚ ¾ÈµÇ°Ô
+            // íŠ¹ìˆ˜ë¬¸ì ì•ˆë˜ê²Œ
             else
             {
 #if CLIENTONLY

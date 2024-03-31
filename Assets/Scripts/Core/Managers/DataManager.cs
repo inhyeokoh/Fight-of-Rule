@@ -5,11 +5,11 @@ using System.IO;
 
 public class DataManager : SubClass<GameManager>
 {
-    // DataManager ¾È¿¡ ¼±¾ğÇØ¾ß Á¢±ÙÇÏ±â ¿ëÀÌÇÔ
-    public LoginData login; // ·Î±×ÀÎ Á¤º¸
-    public CharData[] characters; // Ä³¸¯ÅÍ »ı¼º Á¤º¸
-    public SettingsData setting; // È¯°æ¼³Á¤ Á¤º¸
-    public TextAsset ItemDB; // ¾ÆÀÌÅÛ DB
+    // DataManager ì•ˆì— ì„ ì–¸í•´ì•¼ ì ‘ê·¼í•˜ê¸° ìš©ì´í•¨
+    public LoginData login; // ë¡œê·¸ì¸ ì •ë³´
+    public CharData[] characters; // ìºë¦­í„° ìƒì„± ì •ë³´
+    public SettingsData setting; // í™˜ê²½ì„¤ì • ì •ë³´
+    public TextAsset ItemDB; // ì•„ì´í…œ DB
 
     public int selectedSlotNum;
 
@@ -33,13 +33,13 @@ public class DataManager : SubClass<GameManager>
         characters = new CharData[4];
         selectedSlotNum = 0;
 
-        // À¯´ÏÆ¼ ±âº» ¼³Á¤ °æ·Î. PC³ª ¸ğ¹ÙÀÏ µîµî ¾îµğµç ÇÁ·ÎÁ§Æ® ÀÌ¸§À¸·Î µÈ Æú´õ »ı±è
+        // ìœ ë‹ˆí‹° ê¸°ë³¸ ì„¤ì • ê²½ë¡œ. PCë‚˜ ëª¨ë°”ì¼ ë“±ë“± ì–´ë””ë“  í”„ë¡œì íŠ¸ ì´ë¦„ìœ¼ë¡œ ëœ í´ë” ìƒê¹€
         path = Application.persistentDataPath + "/";
 
         LoadAllSavedData();
     }
 
-    // ÀúÀåÇÒ ÆÄÀÏ ÀÌ¸§°ú ÀúÀåÇÒ Å¬·¡½º¸¦ ÀÔ·Â ¹Ş¾Æ JSON Çü½ÄÀÇ ¹®ÀÚ¿­·Î ¹Ù²Û ÈÄ, ·ÎÄÃ¿¡ ÀúÀå
+    // ì €ì¥í•  íŒŒì¼ ì´ë¦„ê³¼ ì €ì¥í•  í´ë˜ìŠ¤ë¥¼ ì…ë ¥ ë°›ì•„ JSON í˜•ì‹ì˜ ë¬¸ìì—´ë¡œ ë°”ê¾¼ í›„, ë¡œì»¬ì— ì €ì¥
     public void SaveData(string fileName, Data info)
     {
         string data = JsonUtility.ToJson(info);
@@ -49,7 +49,7 @@ public class DataManager : SubClass<GameManager>
     public void SaveData(string fileName, Data[] info)
     {
         string data = JsonUtility.ToJson(info);
-        File.WriteAllText(path + fileName, data); // ÀÌ°Ç ·ÎÄÃ¿¡ ÀúÀå. ÃßÈÄ ¼­¹ö·Î
+        File.WriteAllText(path + fileName, data); // ì´ê±´ ë¡œì»¬ì— ì €ì¥. ì¶”í›„ ì„œë²„ë¡œ
     }
 
     public string LoadData(string fileName)
@@ -69,7 +69,7 @@ public class DataManager : SubClass<GameManager>
 
     void LoadAllSavedData()
     {
-        if (GameManager.Data.CheckData("LoginData")) // ·Î±×ÀÎ ±â·ÏÀÌ ÀÖÀ¸¸é ¸¸µé¾îµĞ ½½·Ô °¹¼ö°¡ ÀÖÀ»°ÍÀÌ¹Ç·Î ºÒ·¯¿È
+        if (GameManager.Data.CheckData("LoginData")) // ë¡œê·¸ì¸ ê¸°ë¡ì´ ìˆìœ¼ë©´ ë§Œë“¤ì–´ë‘” ìŠ¬ë¡¯ ê°¯ìˆ˜ê°€ ìˆì„ê²ƒì´ë¯€ë¡œ ë¶ˆëŸ¬ì˜´
         {
             login = JsonUtility.FromJson<LoginData>(GameManager.Data.LoadData("LoginData"));
         }

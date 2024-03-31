@@ -21,7 +21,7 @@ public class Quest : MonoBehaviour
     public string hint;
     public string congratulation;
     public string summary;
-    public int nextQuest; // Ã¼ÀÎ Äù½ºÆ®
+    public int nextQuest; // ì²´ì¸ í€˜ìŠ¤íŠ¸
 
     public string questObj;
     public int questObjCount;

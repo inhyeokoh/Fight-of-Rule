@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-//¸ó½ºÅÍµéÀÇ ¹°¸®¿£ÁøµéÀ» °ü¸®ÇÏ´Â Å¬·¡½º
+//ëª¬ìŠ¤í„°ë“¤ì˜ ë¬¼ë¦¬ì—”ì§„ë“¤ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
 public class MonsterMovement : SubMono<MonsterController>
 {
     [SerializeField]
@@ -48,7 +48,7 @@ public class MonsterMovement : SubMono<MonsterController>
         spawn = gameObject.transform.position;
     }
 
-    // ¸ó½ºÅÍµéÀ» ¿òÁ÷ÀÌ°ÔÇÏ´Â ¸Ş¼­µå
+    // ëª¬ìŠ¤í„°ë“¤ì„ ì›€ì§ì´ê²Œí•˜ëŠ” ë©”ì„œë“œ
     public void Move(int speed)
     {
         ai.isStopped = false;
@@ -72,7 +72,7 @@ public class MonsterMovement : SubMono<MonsterController>
         //monsterRigidbody.velocity = (direction.normalized) * speed;
     }
 
-    // ¹«ºêÇßÀ»¶§ È¸ÀüÇÏ´Â ¸Ş¼­µå
+    // ë¬´ë¸Œí–ˆì„ë•Œ íšŒì „í•˜ëŠ” ë©”ì„œë“œ
     public void MoveRotation()
     {
         Vector3 direction = ai.desiredVelocity;
@@ -83,7 +83,7 @@ public class MonsterMovement : SubMono<MonsterController>
     }
 
 
-    // °ø°İÀÌ³ª °¡¸¸È÷ ÀÖÀ»¶§ È¸Àü
+    // ê³µê²©ì´ë‚˜ ê°€ë§Œíˆ ìˆì„ë•Œ íšŒì „
     public void Rotation()
     {
         Vector3 direction = characterPosition.position - monsterTransform.position;
@@ -96,7 +96,7 @@ public class MonsterMovement : SubMono<MonsterController>
         monsterTransform.rotation = Quaternion.Euler(newRotation);
     }
 
-    //¸ó½ºÅÍÀÇ ¼Óµµ°¡ ºü¸¦¶§ È¸ÀüÀ» Á¶ÀıÇÏ±â À§ÇÑ ¸Ş¼­µå
+    //ëª¬ìŠ¤í„°ì˜ ì†ë„ê°€ ë¹ ë¥¼ë•Œ íšŒì „ì„ ì¡°ì ˆí•˜ê¸° ìœ„í•œ ë©”ì„œë“œ
     public void Slerp()
     {
         Vector3 direction = characterPosition.position - monsterTransform.position;
@@ -110,7 +110,7 @@ public class MonsterMovement : SubMono<MonsterController>
     }
 
 
-    //´Ù½Ã ÀÚ±â À§Ä¡·Î µ¹¾Æ°¡±â À§ÇÑ ¸Ş¼­µå
+    //ë‹¤ì‹œ ìê¸° ìœ„ì¹˜ë¡œ ëŒì•„ê°€ê¸° ìœ„í•œ ë©”ì„œë“œ
     public void Return(int speed)
     {
         ai.isStopped = false;
@@ -129,7 +129,7 @@ public class MonsterMovement : SubMono<MonsterController>
          monsterRigidbody.velocity = (direction.normalized) * speed;*/
     }
 
-    // µ¥¹ÌÁö¸¦ ¹Ş¾ÒÀ»¶§ ¹Ğ·Á³ª±âÀ§ÇÑ ¸Ş¼­µå
+    // ë°ë¯¸ì§€ë¥¼ ë°›ì•˜ì„ë•Œ ë°€ë ¤ë‚˜ê¸°ìœ„í•œ ë©”ì„œë“œ
     public void AddForce(float addforce)
     {
         Vector3 direction = characterPosition.position - monsterTransform.position;
@@ -137,7 +137,7 @@ public class MonsterMovement : SubMono<MonsterController>
         monsterRigidbody.velocity = -(direction.normalized) * addforce;
     }
 
-    // °ø°İÇÒ¶§ ¹°¸®¿£Áø
+    // ê³µê²©í• ë•Œ ë¬¼ë¦¬ì—”ì§„
     public void Attack(float attackSpeed)
     {
         Stop();
@@ -160,13 +160,13 @@ public class MonsterMovement : SubMono<MonsterController>
         StopAllCoroutines();
     }
 
-    // ¿ø·¡´Â Ä³¸¯µéÀÌ ¹Ğ·Á³ªÁö ¾Ê±âÀ§ÇÑ ¸Ş¼­µå¿´´Âµ¥ ÀÌ°É Ã¼Å©ÇØÁÖ¸é Æ®¸®°Å°¡ µÎ¹ø Ã¼Å©µÇ´Â ¹ö±×°¡ »ı°Ü¼­ ÀÏ´Ü Ã¶È¸
+    // ì›ë˜ëŠ” ìºë¦­ë“¤ì´ ë°€ë ¤ë‚˜ì§€ ì•Šê¸°ìœ„í•œ ë©”ì„œë“œì˜€ëŠ”ë° ì´ê±¸ ì²´í¬í•´ì£¼ë©´ íŠ¸ë¦¬ê±°ê°€ ë‘ë²ˆ ì²´í¬ë˜ëŠ” ë²„ê·¸ê°€ ìƒê²¨ì„œ ì¼ë‹¨ ì² íšŒ
     public void IsKinematic(bool on)
     {
         monsterRigidbody.isKinematic = on;
     }
 
-    // ¸ó½ºÅÍÀÇ ½ºÅ³À» ¾²°ÔÇÒÁö ¸ø¾²°ÔÇÒÁö Ã¼Å©
+    // ëª¬ìŠ¤í„°ì˜ ìŠ¤í‚¬ì„ ì“°ê²Œí• ì§€ ëª»ì“°ê²Œí• ì§€ ì²´í¬
     public void Ablilty(float abliltyDelay)
     {
         Stop();        

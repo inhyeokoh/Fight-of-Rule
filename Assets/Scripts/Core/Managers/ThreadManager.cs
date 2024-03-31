@@ -31,7 +31,7 @@ public class ThreadManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        //completion port thread´Â ÃÊ±âÄ¡¿Í ´Ş¶óÁü. thread ºÎÁ· ½Ã Áö ¸Ú´ë·Î ¸¸µë. ½ÈÀ¸¸é ÀûÁ¤Ä¡¸¦ Ã£¾Æ¼­ ¾Ë¾Æ¼­ ³Ö¾î¾ßÇÔ
+        //completion port threadëŠ” ì´ˆê¸°ì¹˜ì™€ ë‹¬ë¼ì§. thread ë¶€ì¡± ì‹œ ì§€ ë©‹ëŒ€ë¡œ ë§Œë“¬. ì‹«ìœ¼ë©´ ì ì •ì¹˜ë¥¼ ì°¾ì•„ì„œ ì•Œì•„ì„œ ë„£ì–´ì•¼í•¨
         ThreadPool.SetMinThreads(1, 1);
         ThreadPool.SetMaxThreads(THREAD_WORKER, THREAD_IOCP);
     }
@@ -76,7 +76,7 @@ public class ThreadManager : SubClass<GameManager>
     }
 
     /// <summary>
-    /// tick after ¸¸Å­ Áö¿¬ ÈÄ ½ÇÇà
+    /// tick after ë§Œí¼ ì§€ì—° í›„ ì‹¤í–‰
     /// </summary>
     /// <param name="lambdaAsync"></param>
     /// <param name="tick_after"></param>
@@ -95,7 +95,7 @@ public class ThreadManager : SubClass<GameManager>
             return;
         }
 
-        //³­ Ã¥ÀÓ ¾ÈÁø´Ù ¤»¤»
+        //ë‚œ ì±…ì„ ì•ˆì§„ë‹¤ ã…‹ã…‹
         _board.EnqueueAsync(async () => {
             await UniTask.Delay(tick_after);
             lambdaAsync?.Invoke();
@@ -103,7 +103,7 @@ public class ThreadManager : SubClass<GameManager>
     }
 
     /// <summary>
-    /// looplambda°¡ false¸¦ ¹İÈ¯ÇÒ ¶§ ±îÁö ÁöÁ¤ÇÑ timing¸¶´Ù ¼öÇà
+    /// looplambdaê°€ falseë¥¼ ë°˜í™˜í•  ë•Œ ê¹Œì§€ ì§€ì •í•œ timingë§ˆë‹¤ ìˆ˜í–‰
     /// </summary>
     /// <param name="looplambda"></param>
     /// <param name="validator"></param>
@@ -121,7 +121,7 @@ public class ThreadManager : SubClass<GameManager>
             return;
         }
 
-        //³­ Ã¥ÀÓ ¾ÈÁø´Ù ¤»¤»
+        //ë‚œ ì±…ì„ ì•ˆì§„ë‹¤ ã…‹ã…‹
         _board.EnqueueAsync(async () => {
             while (looplambda.Invoke())
                 await UniTask.Yield(timing);
@@ -129,7 +129,7 @@ public class ThreadManager : SubClass<GameManager>
     }
 
     /// <summary>
-    /// ÁöÁ¤ÇÑ task¸¦ Àü´Ş¸¸ ÇØÁÜ
+    /// ì§€ì •í•œ taskë¥¼ ì „ë‹¬ë§Œ í•´ì¤Œ
     /// </summary>
     /// <param name="asynclambda"></param>
     public void UniAsyncTask(Func<UniTask> asynclambda)
@@ -141,7 +141,7 @@ public class ThreadManager : SubClass<GameManager>
     }
 
     /// <summary>
-    /// ÁöÁ¤ÇÑ Task¸¦ Àü´Ş¸¸ ÇØÁÜ + ÀÎÀÚ·Î ÀÚµ¿À¸·Î cancellationTokenÀ» ÃßÃâÇØ¼­ ´øÁ®ÁÜ
+    /// ì§€ì •í•œ Taskë¥¼ ì „ë‹¬ë§Œ í•´ì¤Œ + ì¸ìë¡œ ìë™ìœ¼ë¡œ cancellationTokenì„ ì¶”ì¶œí•´ì„œ ë˜ì ¸ì¤Œ
     /// </summary>
     /// <param name="asynclambda"></param>
     /// <param name="validator"></param>
@@ -162,7 +162,7 @@ public class ThreadManager : SubClass<GameManager>
         {
             while (true)
             {
-                var loadAsync = SceneManager.LoadSceneAsync("·ÎµåÇÒ ¾À");
+                var loadAsync = SceneManager.LoadSceneAsync("ë¡œë“œí•  ì”¬");
                 if (loadAsync.isDone)
                     return;
 
@@ -178,7 +178,7 @@ public class ThreadManager : SubClass<GameManager>
         {
             while(true)
             {
-                var loadAsync = SceneManager.LoadSceneAsync("·ÎµåÇÒ ¾À");
+                var loadAsync = SceneManager.LoadSceneAsync("ë¡œë“œí•  ì”¬");
                 if (loadAsync.isDone)
                     return;
 
@@ -189,18 +189,18 @@ public class ThreadManager : SubClass<GameManager>
 
     private void Example3()
     {
-        UniAsyncJob(() => { Debug.Log("Å×½ºÆ® ·Î±×"); }, 1000);
+        UniAsyncJob(() => { Debug.Log("í…ŒìŠ¤íŠ¸ ë¡œê·¸"); }, 1000);
 
         GameObject test3 = new GameObject("test3");
-        UniAsyncJob(() => { Debug.Log("Å×½ºÆ® ·Î±×"); }, 1000, test3);
+        UniAsyncJob(() => { Debug.Log("í…ŒìŠ¤íŠ¸ ë¡œê·¸"); }, 1000, test3);
     }
 
     private void Example4()
     {
         UniAsyncLoopJob(() =>
         {
-            var loadAsync = SceneManager.LoadSceneAsync("·ÎµåÇÒ ¾À");
-            //falseÀÏ °æ¿ì return true;
+            var loadAsync = SceneManager.LoadSceneAsync("ë¡œë“œí•  ì”¬");
+            //falseì¼ ê²½ìš° return true;
             return loadAsync.isDone == false;
         },GameManager.Instance.gameObject);
     }

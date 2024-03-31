@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class InGameItemConsumption : ItemObject
 {   
-    //ÇöÀç Æ÷¼Ç Å¸ÀÔ
+    //í˜„ìž¬ í¬ì…˜ íƒ€ìž…
     public Enum_PotionType postionType;
 
-    //Å¸ÀÔ¸¶´Ù ´Ù¸¥ Æ÷¼Ç¼¼ÆÃ
+    //íƒ€ìž…ë§ˆë‹¤ ë‹¤ë¥¸ í¬ì…˜ì„¸íŒ…
     public override void Setting()
     {     
         state = new State(() => 

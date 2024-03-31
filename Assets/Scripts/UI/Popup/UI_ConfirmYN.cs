@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// È®ÀÎ Ãë¼Ò ¹öÆ° ÀÖ´Â ÆË¾÷
+// í™•ì¸ ì·¨ì†Œ ë²„íŠ¼ ìˆëŠ” íŒì—…
 public class UI_ConfirmYN : UI_Entity
 {
     TMP_Text _mainText;

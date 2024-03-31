@@ -4,9 +4,9 @@ using UnityEngine;
 
 /// <summary>
 /// warning
-/// »óÀ§ Å¬·¡½º¿¡ Á¢±ÙÀÌ °¡´ÉÇÏµµ·Ï ¼³°èÇßÁö¸¸
-/// °øÅë ±â´ÉÀ» °¡Áö°í, °øÀ¯ÇØ¾ßÇÏ´Â Å¬·¡½º´Â ÃÖ´ëÇÑ »óÀ§ Å¬·¡½º Á¢±ÙÀ» ±İÁö
-/// µû¶ó¼­ Mount ÇÔ¼ö´Â ÇÊ¼ö È£ÃâÀÌ ¾Æ´Ô(ºñ Ãß»óÇÔ¼ö)
+/// ìƒìœ„ í´ë˜ìŠ¤ì— ì ‘ê·¼ì´ ê°€ëŠ¥í•˜ë„ë¡ ì„¤ê³„í–ˆì§€ë§Œ
+/// ê³µí†µ ê¸°ëŠ¥ì„ ê°€ì§€ê³ , ê³µìœ í•´ì•¼í•˜ëŠ” í´ë˜ìŠ¤ëŠ” ìµœëŒ€í•œ ìƒìœ„ í´ë˜ìŠ¤ ì ‘ê·¼ì„ ê¸ˆì§€
+/// ë”°ë¼ì„œ Mount í•¨ìˆ˜ëŠ” í•„ìˆ˜ í˜¸ì¶œì´ ì•„ë‹˜(ë¹„ ì¶”ìƒí•¨ìˆ˜)
 /// </summary>
 /// <typeparam name="T"></typeparam>
 public abstract class SubClass<T> : ISubClass where T : class
@@ -54,17 +54,17 @@ public abstract class SubClass<T> : ISubClass where T : class
         return () => { Excute(); };
     }
 
-    //ÃÊ±âÈ­
+    //ì´ˆê¸°í™”
     public void Init() { _Init(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Init(); }
-    //½ÇÇà
+    //ì‹¤í–‰
     public void Excute() { _Excute(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Excute(); }
-    //Á¤¸®
+    //ì •ë¦¬
     public void Clear() { _Clear(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Clear(); }
 
 
     /*======================
      * 
-     *     ¹İµå½Ã Á¤ÀÇ
+     *     ë°˜ë“œì‹œ ì •ì˜
      * 
     =======================*/
     protected abstract void _Init();

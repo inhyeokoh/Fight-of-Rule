@@ -11,11 +11,11 @@ namespace ServerCore
 
         public void Connect(IPEndPoint endPoint, Func<Session> sessionFactory)
         {
-            // TCP ¿¬°á ¹æ½ÄÀ» »ç¿ëÇÏ´Â ¼ÒÄ¹ »ı¼º
+            // TCP ì—°ê²° ë°©ì‹ì„ ì‚¬ìš©í•˜ëŠ” ì†Œìº£ ìƒì„±
             Socket socket = new Socket(endPoint.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
             _sessionFactory = sessionFactory;
 
-            // ºñµ¿±â ¼ÒÄ¹
+            // ë¹„ë™ê¸° ì†Œìº£
             SocketAsyncEventArgs args = new SocketAsyncEventArgs();
             args.Completed += OnConnectCompleted;
             args.RemoteEndPoint = endPoint;
@@ -33,7 +33,7 @@ namespace ServerCore
             }
 
             bool pending = socket.ConnectAsync(args);
-            if (pending == false) // º¸·ù == false ¸é ¹Ù·Î Ã³¸®
+            if (pending == false) // ë³´ë¥˜ == false ë©´ ë°”ë¡œ ì²˜ë¦¬
             {
                 OnConnectCompleted(null, args);
             }

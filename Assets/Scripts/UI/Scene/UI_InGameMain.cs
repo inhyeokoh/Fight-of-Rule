@@ -8,14 +8,14 @@ using TMPro;
 
 public class UI_InGameMain : UI_Entity
 {
-    //ÄÄÆ÷³ÍÆ®µéÀÌ ÇÊ¿äÇÑ ¿ÀºêÁ§Æ®µé
+    //ì»´í¬ë„ŒíŠ¸ë“¤ì´ í•„ìš”í•œ ì˜¤ë¸Œì íŠ¸ë“¤
 
     Slider HPSbr;
     Slider MPSbr;
     TMP_Text HPText;
     TMP_Text MPText;
 
-    // ÇöÀç ÇÃ·¹ÀÌ¾î Á¤º¸
+    // í˜„ì¬ í”Œë ˆì´ì–´ ì •ë³´
     CharacterStatus Player;
 
 
@@ -38,7 +38,7 @@ public class UI_InGameMain : UI_Entity
 
 
     /// <summary>
-    ///  ÇöÀç ÀÚ½ÄµéÀÇ ÄÄÆ÷³ÍÆ®µéÀ» °¡Á®¿È
+    ///  í˜„ì¬ ìì‹ë“¤ì˜ ì»´í¬ë„ŒíŠ¸ë“¤ì„ ê°€ì ¸ì˜´
     /// </summary>
     protected override void Init()
     {
@@ -55,7 +55,7 @@ public class UI_InGameMain : UI_Entity
     }
 
     /// <summary>
-    /// ÇöÀç ÇÃ·¹ÀÌ¾î¸¦ Å½»ö
+    /// í˜„ì¬ í”Œë ˆì´ì–´ë¥¼ íƒìƒ‰
     /// </summary>
     
     public void PlayerCheck()

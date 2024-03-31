@@ -21,8 +21,8 @@ public enum Enum_CharacterState
 public abstract class CharacterState : SubMono<PlayerController>
 {
     //Caracter
-    //Ä³¸¯ÅÍ¿¡¼­´Â Ä³¸¯ÅÍ¿¡ »óÅÂ°¡ °¡Àå Áß½ÉÀûÀ¸·Î ÀÖ¾î¾ßÇÏ´Â ±â´É
-    //Ä³¸¯ÅÍÀÇ ³×Æ®¿öÅ©¿¡ ¿¬°áÀ»ÇØ¼­ hp mp exp damage defense speed level ·»´õ·¯ ¹éÅÍ°ª ¹°¸®¿£ÁøÀ» ¹Ş¾Æ¿Â´Ù.
+    //ìºë¦­í„°ì—ì„œëŠ” ìºë¦­í„°ì— ìƒíƒœê°€ ê°€ì¥ ì¤‘ì‹¬ì ìœ¼ë¡œ ìˆì–´ì•¼í•˜ëŠ” ê¸°ëŠ¥
+    //ìºë¦­í„°ì˜ ë„¤íŠ¸ì›Œí¬ì— ì—°ê²°ì„í•´ì„œ hp mp exp damage defense speed level ë Œë”ëŸ¬ ë°±í„°ê°’ ë¬¼ë¦¬ì—”ì§„ì„ ë°›ì•„ì˜¨ë‹¤.
     Collider playerCollider;
 
     protected int attackCombo;
@@ -187,7 +187,7 @@ public abstract class CharacterState : SubMono<PlayerController>
 
     public void ChangeState(int newState)
     {
-        //print($"ÇöÀç»óÅÂ {(Enum_CharacterState)newState}");
+        //print($"í˜„ì¬ìƒíƒœ {(Enum_CharacterState)newState}");
         stateMachine.ChangeState(state[newState]);
     }
 

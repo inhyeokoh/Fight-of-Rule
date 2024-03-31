@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CharacterMovement : SubMono<PlayerController>
 {
-    //±¸¸£±â Áö¼Ó½Ã°£
+    //êµ¬ë¥´ê¸° ì§€ì†ì‹œê°„
     private float avoidTime = 0.5f;
 
-    //°ø°İ Áö¼Ó½Ã°£
+    //ê³µê²© ì§€ì†ì‹œê°„
     public float attackTime;
 
-    //ÇöÀç °ø°İ Ä«¿îÆ®
+    //í˜„ì¬ ê³µê²© ì¹´ìš´íŠ¸
     private int comboNumber = 0;
 
     public Transform playerTransform;
@@ -55,7 +55,7 @@ public class CharacterMovement : SubMono<PlayerController>
       }
   */
 
-    // Ä³¸¯À» ÀÌµ¿ÇÏ´Â ¹°¸®¿£Áø
+    // ìºë¦­ì„ ì´ë™í•˜ëŠ” ë¬¼ë¦¬ì—”ì§„
     public void Move(int playerSpeed)
     {       
         targetPosition.y += 0;         
@@ -65,7 +65,7 @@ public class CharacterMovement : SubMono<PlayerController>
                 Time.deltaTime);
     }
      
-    // ±¸¸£±â ¹°¸®¿£Áø
+    // êµ¬ë¥´ê¸° ë¬¼ë¦¬ì—”ì§„
     public void Avoid(float playerSpeed)
     { 
         if (avoidTime > 0)
@@ -82,7 +82,7 @@ public class CharacterMovement : SubMono<PlayerController>
 
     }
 
-    // ÇöÀç Ä³¸¯ÀÌ ¹Ù¶óº¸°íÀÖ´Â ¹æÇâ
+    // í˜„ì¬ ìºë¦­ì´ ë°”ë¼ë³´ê³ ìˆëŠ” ë°©í–¥
     public void Direction(Vector3 target)
     {
         target.y += 0;
@@ -90,19 +90,19 @@ public class CharacterMovement : SubMono<PlayerController>
         playerTransform.LookAt(target);
     }
 
-    //ÇöÀç Ä³¸¯ °ø°İÄŞº¸°¡ ¸î¹ø¤ŠÀÎÁö
+    //í˜„ì¬ ìºë¦­ ê³µê²©ì½¤ë³´ê°€ ëª‡ë²ˆì¨°ì¸ì§€
     public void AttackCombo(int number)
     {        
         _board._animationController.ChanageAttackAnimation(comboNumber);
         AttackTime(number);
     }
-    //Ä³¸¯ÅÍÀÇ ¿òÁ÷ÀÓÀ» °íÁ¤½ÃÅ°±âÀ§ÇÑ ¸Ş¼­µå¿´´Âµ¥ ¹ö±×°¡ ¸¹ÀÌ»ı±è
+    //ìºë¦­í„°ì˜ ì›€ì§ì„ì„ ê³ ì •ì‹œí‚¤ê¸°ìœ„í•œ ë©”ì„œë“œì˜€ëŠ”ë° ë²„ê·¸ê°€ ë§ì´ìƒê¹€
     public void IsKinematic(bool on)
     {
         playerRigidbody.isKinematic = on;
     }
 
-    //ÀÏ¹İ °ø°İÀ» ÇßÀ»¶§ °ø°İ ÄŞº¸¸¦ ÃÊ±âÈ­ÇØ¾ßÇÒÁö È®ÀÎÇÏ´Â ¸Ş¼­µå
+    //ì¼ë°˜ ê³µê²©ì„ í–ˆì„ë•Œ ê³µê²© ì½¤ë³´ë¥¼ ì´ˆê¸°í™”í•´ì•¼í• ì§€ í™•ì¸í•˜ëŠ” ë©”ì„œë“œ
     public void AttackTime(int number)
     {
         if (attackCoroutine != null)
@@ -110,7 +110,7 @@ public class CharacterMovement : SubMono<PlayerController>
             StopCoroutine(attackCoroutine);
         }
         attackCoroutine = StartCoroutine("AttackComboTime", number);
-       // print("AttackTime½áÁü");
+       // print("AttackTimeì¨ì§");
        /* StopCoroutine("AttackComboTime");
         StartCoroutine("AttackComboTime", number);*/
     }
@@ -130,7 +130,7 @@ public class CharacterMovement : SubMono<PlayerController>
         playerRigidbody.velocity = Vector3.zero;
     }   
 
-    //¾Ö´Ï¸ŞÀÌ¼Ç °ø°İ ¼ø¼­¿Í °ø°İ ÃÊ±âÈ­
+    //ì• ë‹ˆë©”ì´ì…˜ ê³µê²© ìˆœì„œì™€ ê³µê²© ì´ˆê¸°í™”
     IEnumerator AttackComboTime(int number)
     {
         attackTime = 1.4f;

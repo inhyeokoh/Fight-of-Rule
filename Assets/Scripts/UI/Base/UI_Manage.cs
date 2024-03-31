@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-// InputAction È£Ãâ ¹Ş±â, ¾À °£ ¿¬°á, ¾À º°·Î »óÀÌÇÑ ÆË¾÷ È£Ãâ ½ÇÇà 
+// InputAction í˜¸ì¶œ ë°›ê¸°, ì”¬ ê°„ ì—°ê²°, ì”¬ ë³„ë¡œ ìƒì´í•œ íŒì—… í˜¸ì¶œ ì‹¤í–‰ 
 public class UI_Manage : MonoBehaviour
 {
     public int curSceneNum;
@@ -44,12 +44,12 @@ public class UI_Manage : MonoBehaviour
         {
             if (GameManager.UI._activePopupList.Count > 0)
             {
-                // ESC ´©¸¦ °æ¿ì ¸µÅ©µå¸®½ºÆ®ÀÇ First ´İ±â
+                // ESC ëˆ„ë¥¼ ê²½ìš° ë§í¬ë“œë¦¬ìŠ¤íŠ¸ì˜ First ë‹«ê¸°
                 GameManager.UI.ClosePopup(GameManager.UI._activePopupList.Last.Value);
             }
             else
             {
-                // ÀÌÀü¿¡ À§Ä¡Çß´ø ¾ÀÀ¸·Î
+                // ì´ì „ì— ìœ„ì¹˜í–ˆë˜ ì”¬ìœ¼ë¡œ
                 GameManager.Scene.GetLocatedScene();
             }           
         }

@@ -31,20 +31,20 @@ public class MonsterEffector : SubMono<MonsterController>
        
     }
 
-    //¹Ù·Î ³ª°¡´Â ÀÌÆåÆ®µé ÀÌº¥Æ®·Î Ã¼Å©
+    //ë°”ë¡œ ë‚˜ê°€ëŠ” ì´í™íŠ¸ë“¤ ì´ë²¤íŠ¸ë¡œ ì²´í¬
     public void EffectBurstOn(int index)
     {
         effetcBurst[index].SetActive(true);
     }
 
-    //ÀÏÁ¤ ½Ã°£¿¡ ÀÌÆåÆ®¸¦ Áö¿ì±â À§ÇÑ ¸Ş¼­µå
+    //ì¼ì • ì‹œê°„ì— ì´í™íŠ¸ë¥¼ ì§€ìš°ê¸° ìœ„í•œ ë©”ì„œë“œ
     public void EffectBurstOff(int index)
     {
         effetcBurst[index].SetActive(false);
     }
 
 
-    // ÇöÀç Áö¼ÓµÇ¾ßÇÏ´Â ÀÌÆåÆ®ÀÏ¶§
+    // í˜„ì¬ ì§€ì†ë˜ì•¼í•˜ëŠ” ì´í™íŠ¸ì¼ë•Œ
     public void EffectDurationInstance(int transformIndex)
     {
         GameObject clone = effectDuration[instanceEffect];
@@ -54,7 +54,7 @@ public class MonsterEffector : SubMono<MonsterController>
         
     }
 
-    // ¸ó½ºÅÍ°¡ µµÁß¿¡ ¸ÂÀ¸¸é ½ºÅ³À» Áö¿ö¾ßÇÏ´Â ¸Ş¼­µå
+    // ëª¬ìŠ¤í„°ê°€ ë„ì¤‘ì— ë§ìœ¼ë©´ ìŠ¤í‚¬ì„ ì§€ì›Œì•¼í•˜ëŠ” ë©”ì„œë“œ
     public void EffectBurstStop()
     {
         for(int i = 0; i < effetcBurst.Length; i++)

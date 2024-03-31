@@ -46,18 +46,18 @@ public class SceneManager2 : SubClass<GameManager>
         }
     }
 
-    // ÀÌÀü¿¡ ÀÖ´ø ¾ÀÀ¸·Î ÀÌµ¿
+    // ì´ì „ì— ìˆë˜ ì”¬ìœ¼ë¡œ ì´ë™
     public void GetLocatedScene()
     {
         if (uiManage.scenes.Count > 0)
         {
-            if (SceneManager.GetActiveScene().name == "Loading") // ·ÎµùÀº ÇÑ¹ø ´õ ÀÌÀü¾À±îÁö ÀÌµ¿
+            if (SceneManager.GetActiveScene().name == "Loading") // ë¡œë”©ì€ í•œë²ˆ ë” ì´ì „ì”¬ê¹Œì§€ ì´ë™
             {
                 uiManage.scenes.Pop();
                 SceneManager.LoadScene(uiManage.scenes.Pop());
             }
-            uiManage.scenes.Pop(); //ÇöÀç¾À popÇØ¼­ ¹ö¸®°í
-            SceneManager.LoadScene(uiManage.scenes.Pop()); //ÀÌÀü¾ÀÀ¸·Î ÀÌµ¿
+            uiManage.scenes.Pop(); //í˜„ì¬ì”¬ popí•´ì„œ ë²„ë¦¬ê³ 
+            SceneManager.LoadScene(uiManage.scenes.Pop()); //ì´ì „ì”¬ìœ¼ë¡œ ì´ë™
         }
         else
         {

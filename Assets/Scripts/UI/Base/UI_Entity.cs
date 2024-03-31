@@ -17,18 +17,18 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
     public Action<PointerEventData> DropAction = null;
     public Action<BaseEventData> SelectAction = null;
 
-    //³ªÀÇ UI_Type
+    //ë‚˜ì˜ UI_Type
     public Type UIType = null;
 
-    //ºÎ¸ğ UI_Entity
+    //ë¶€ëª¨ UI_Entity
     UI_Entity _mother;
 
-    //¸ğµç ÇÏÀ§ UI ¿ä¼Òµé + ÇöÀç UI·ÎºÎÅÍ ÆÄ»ıµÈ ÆË¾÷ UI
+    //ëª¨ë“  í•˜ìœ„ UI ìš”ì†Œë“¤ + í˜„ì¬ UIë¡œë¶€í„° íŒŒìƒëœ íŒì—… UI
     protected List<UI_Entity> _subUIs = new List<UI_Entity>();
-    //ÇöÀç UIÀÇ ÇÏÀ§ UI¿ä¼Òµé
+    //í˜„ì¬ UIì˜ í•˜ìœ„ UIìš”ì†Œë“¤
     protected Dictionary<int, UI_Entity> _entities = new Dictionary<int, UI_Entity>();
 
-    //UIÄÄÆ÷³ÍÆ®µé ¸ğÀ½
+    //UIì»´í¬ë„ŒíŠ¸ë“¤ ëª¨ìŒ
     static List<Type> _components = new List<Type>()
     {
         typeof(Button),
@@ -47,32 +47,32 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
             Init();
     }
 
-    //¸¸¾à »óÀ§UI°¡ ÀÖ´Ù¸é ÇÏÀ§ UI¿¡°Ô Àü´ŞÇØÁÖ´Â ¿ëµµ
+    //ë§Œì•½ ìƒìœ„UIê°€ ìˆë‹¤ë©´ í•˜ìœ„ UIì—ê²Œ ì „ë‹¬í•´ì£¼ëŠ” ìš©ë„
     protected void Mount(UI_Entity mother)
     {
-        _mother = mother;   //ºÎ¸ğ UI_Entity¸¦ ¹Ş¾Æ¿È
+        _mother = mother;   //ë¶€ëª¨ UI_Entityë¥¼ ë°›ì•„ì˜´
     }
 
     protected virtual void Init()
     {
         var tnames = GetUINamesAsType();
-        //ÀÌ¸§ ¸ñ·Ï °¡Á®¿À±â
+        //ì´ë¦„ ëª©ë¡ ê°€ì ¸ì˜¤ê¸°
         string[] names = tnames == null ? null : Enum.GetNames(tnames);
 
-        //ÀÚ½ÄµéÀ» ¸ğµÎ ¼øÈ¸ÇÏ¸ç UI_Entity¸¦ Å½»öÇÏ°Å³ª, UI_Entity¸¦ ºÙÀÏÁö ÆÇº°
+        //ìì‹ë“¤ì„ ëª¨ë‘ ìˆœíšŒí•˜ë©° UI_Entityë¥¼ íƒìƒ‰í•˜ê±°ë‚˜, UI_Entityë¥¼ ë¶™ì¼ì§€ íŒë³„
         for (int i = 0; i < transform.childCount; i++)
         {
             var go = transform.GetChild(i).gameObject;
             var comp = go.GetComponent<UI_Entity>();
 
-            //¸¸¾à UI_Entity°¡ ¾Æ´Ï¶ó¸é ºÙÀÏÁö ¸»Áö ÆÇº° ÈÄ ºÎÂø
+            //ë§Œì•½ UI_Entityê°€ ì•„ë‹ˆë¼ë©´ ë¶™ì¼ì§€ ë§ì§€ íŒë³„ í›„ ë¶€ì°©
             if (comp == null)
                 comp = Distinguisher(go, ref names);
 
-            //UI_Entity ´ë»óÀÌ ¾Æ´Ï¶ó¸é »ı·«
+            //UI_Entity ëŒ€ìƒì´ ì•„ë‹ˆë¼ë©´ ìƒëµ
             if (comp == null) continue;
 
-            // UI¿ä¼Ò¶ó¸é ´ÙÀ½ ÄÚµå°¡ ½ÇÇàµÊ
+            // UIìš”ì†Œë¼ë©´ ë‹¤ìŒ ì½”ë“œê°€ ì‹¤í–‰ë¨
             comp.Mount(this);
             _subUIs.Add(comp);
         }
@@ -97,10 +97,10 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
 
             for (int str = 0; str < names.Length; str++)
             {
-                // ÇÏÀÌ¾î¶óÅ° »óÀÇ ÀÌ¸§°ú enum ¾ÈÀÇ ÀÌ¸§ÀÌ ÀÏÄ¡ÇÏ¸é,
+                // í•˜ì´ì–´ë¼í‚¤ ìƒì˜ ì´ë¦„ê³¼ enum ì•ˆì˜ ì´ë¦„ì´ ì¼ì¹˜í•˜ë©´,
                 if (component.gameObject.name == names[str])
                 {
-                    if (!_entities.ContainsKey(str))  // Å°°¡ ÀÌ¹Ì Á¸ÀçÇÏ´ÂÁö È®ÀÎ
+                    if (!_entities.ContainsKey(str))  // í‚¤ê°€ ì´ë¯¸ ì¡´ì¬í•˜ëŠ”ì§€ í™•ì¸
                     {
                         _entities.Add(str, uientity);
                     }
@@ -114,7 +114,7 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
         return null;
     }
 
-    //¿À·ù°ËÁõ ÇÏÁö¾ÊÀ½. ¹Ş¾Æ¼­ nullÃ¼Å©
+    //ì˜¤ë¥˜ê²€ì¦ í•˜ì§€ì•ŠìŒ. ë°›ì•„ì„œ nullì²´í¬
     public T GetComp<T>() where T : Component
     {
         return GetComponent<T>();
@@ -136,49 +136,49 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     protected abstract Type GetUINamesAsType();
 
-    // Æ÷ÀÎÅÍ°¡ ¿ÀºêÁ§Æ®¿¡ µé¾î¿ÔÀ» ¶§ È£Ãâ ex) ÀÎº¥ ¾ÆÀÌÅÛ Á¤º¸ º¸±â
+    // í¬ì¸í„°ê°€ ì˜¤ë¸Œì íŠ¸ì— ë“¤ì–´ì™”ì„ ë•Œ í˜¸ì¶œ ex) ì¸ë²¤ ì•„ì´í…œ ì •ë³´ ë³´ê¸°
     public void OnPointerEnter(PointerEventData eventData)
     {
         PointerEnterAction?.Invoke(eventData);
     }
 
-    // Æ÷ÀÎÅÍ°¡ ¿ÀºêÁ§Æ® ¹ÛÀ¸·Î ³ª°¥ ¶§ È£Ãâ
+    // í¬ì¸í„°ê°€ ì˜¤ë¸Œì íŠ¸ ë°–ìœ¼ë¡œ ë‚˜ê°ˆ ë•Œ í˜¸ì¶œ
     public void OnPointerExit(PointerEventData eventData)
     {
         PointerExitAction?.Invoke(eventData);
     }
 
-    // ¿ÀºêÁ§Æ®¿¡¼­ Æ÷ÀÎÅÍ¸¦ ´©¸£°í µ¿ÀÏÇÑ ¿ÀºêÁ§Æ®¿¡¼­ ¶¿ ¶§ È£Ãâ
+    // ì˜¤ë¸Œì íŠ¸ì—ì„œ í¬ì¸í„°ë¥¼ ëˆ„ë¥´ê³  ë™ì¼í•œ ì˜¤ë¸Œì íŠ¸ì—ì„œ ë—„ ë•Œ í˜¸ì¶œ
     public void OnPointerClick(PointerEventData eventData)
     {
         ClickAction?.Invoke(eventData);
     }
 
-    // µå·¡±× ½ÃÀÛµÇ¸é È£Ãâ
+    // ë“œë˜ê·¸ ì‹œì‘ë˜ë©´ í˜¸ì¶œ
     public void OnBeginDrag(PointerEventData eventData)
     {
         BeginDragAction?.Invoke(eventData);
     }
 
-    // µå·¡±× ´ë»óÀÌ µå·¡±×µÇ´Â µ¿¾È È£Ãâ
+    // ë“œë˜ê·¸ ëŒ€ìƒì´ ë“œë˜ê·¸ë˜ëŠ” ë™ì•ˆ í˜¸ì¶œ
     public void OnDrag(PointerEventData eventData)
     {
         DragAction?.Invoke(eventData);
     }
 
-    // µå·¡±× ³¡³ª¸é È£Ãâ
+    // ë“œë˜ê·¸ ëë‚˜ë©´ í˜¸ì¶œ
     public void OnEndDrag(PointerEventData eventData)
     {
         EndDragAction?.Invoke(eventData);
     }
 
-    // ¿ÀºêÁ§Æ® ³»ºÎ¿¡ µå¶øÀ» ÇßÀ»¶§ 1È¸ È£Ãâ
+    // ì˜¤ë¸Œì íŠ¸ ë‚´ë¶€ì— ë“œëì„ í–ˆì„ë•Œ 1íšŒ í˜¸ì¶œ
     public void OnDrop(PointerEventData eventData)
     {
         DropAction?.Invoke(eventData);
     }
 
-    // ¿ÀºêÁ§Æ®°¡ ¼±ÅÃµÈ ¼ø°£, ±× ¿ÀºêÁ§Æ®¿¡¼­ È£Ãâ
+    // ì˜¤ë¸Œì íŠ¸ê°€ ì„ íƒëœ ìˆœê°„, ê·¸ ì˜¤ë¸Œì íŠ¸ì—ì„œ í˜¸ì¶œ
     public void OnSelect(BaseEventData eventData)
     {
         SelectAction?.Invoke(eventData);

@@ -7,12 +7,12 @@ using UnityEngine.EventSystems;
 using TMPro;
 
 /// <summary>
-/// ÇöÀç ½ºÅ³Ã¢¾È¿¡ ÀÖ´Â ½ºÅ³½½·Ôµé
+/// í˜„ì¬ ìŠ¤í‚¬ì°½ì•ˆì— ìˆëŠ” ìŠ¤í‚¬ìŠ¬ë¡¯ë“¤
 /// </summary>
 public class UI_SkillUISlot : UI_Entity
 {
 
-    // ÇöÀç ½ºÅ³½½·Ô UI¿¡ ÇÊ¿äÇÑ ¿ÀºêÁ§Æ®µé
+    // í˜„ì¬ ìŠ¤í‚¬ìŠ¬ë¡¯ UIì— í•„ìš”í•œ ì˜¤ë¸Œì íŠ¸ë“¤
     UI_Entity IconObject;
     UI_SkillWindow SkillUIObject;
     TMP_Text[] skillText;
@@ -21,13 +21,13 @@ public class UI_SkillUISlot : UI_Entity
     SelectSkillMove MoveSkillObject;
 
     
-    // µå¶ø¾Ø µå·¡±×¸¦ ÇßÀ»¶§ À§Ä¡¸¦ º¯°æ½ÃÅ°±â À§ÇÑ Æ®·£½ºÆû
+    // ë“œëì•¤ ë“œë˜ê·¸ë¥¼ í–ˆì„ë•Œ ìœ„ì¹˜ë¥¼ ë³€ê²½ì‹œí‚¤ê¸° ìœ„í•œ íŠ¸ëœìŠ¤í¼
     Transform canvas;
     Transform previousParent;
 
 
    
-    // ÇöÀç ½½·Ô¾È¿¡ ÀÖ´Â ½ºÅ³
+    // í˜„ì¬ ìŠ¬ë¡¯ì•ˆì— ìˆëŠ” ìŠ¤í‚¬
     Skill skill;
 
     enum Enum_UI_SkillUISolt
@@ -42,15 +42,15 @@ public class UI_SkillUISlot : UI_Entity
 
     private void Update()
     {
-       // print($"ÇöÀç ½ºÅ³ ¾ÆÀÌÄÜ À§Ä¡ {imageRect.position}");
+       // print($"í˜„ì¬ ìŠ¤í‚¬ ì•„ì´ì½˜ ìœ„ì¹˜ {imageRect.position}");
     }
 
 
     protected override void Init()
     {
 
-        // ÇöÀç ½ºÅ³À» ¹è¿öµµ Å°½½·Ô¿¡´Â ½ºÅ³ÀÌ ´Ş¸®Áö¸¸ ¿ø·¡ ½ºÅ³½½·Ô¿¡ ÀÖ´ø ÀÌ¹ÌÁö´Â µ¹¾Æ¿Í¾ß ÇÏ±â ‹š¹®¿¡
-        // ¿ø·¡ ½ºÅ³½½·Ô¾È¿¡ ÀÖ´ø Æ÷Áö¼ÇÀ» ÀúÀåÇÏ´Â ±â´É
+        // í˜„ì¬ ìŠ¤í‚¬ì„ ë°°ì›Œë„ í‚¤ìŠ¬ë¡¯ì—ëŠ” ìŠ¤í‚¬ì´ ë‹¬ë¦¬ì§€ë§Œ ì›ë˜ ìŠ¤í‚¬ìŠ¬ë¡¯ì— ìˆë˜ ì´ë¯¸ì§€ëŠ” ëŒì•„ì™€ì•¼ í•˜ê¸° ë–„ë¬¸ì—
+        // ì›ë˜ ìŠ¤í‚¬ìŠ¬ë¡¯ì•ˆì— ìˆë˜ í¬ì§€ì…˜ì„ ì €ì¥í•˜ëŠ” ê¸°ëŠ¥
 
         base.Init();
         IconObject = _entities[(int)Enum_UI_SkillUISolt.SkillIcon];
@@ -64,12 +64,12 @@ public class UI_SkillUISlot : UI_Entity
         canvas = gameObject.transform.root;
         previousParent = transform.parent.parent.parent.parent;
             
-        // ÇöÀç ½ºÅ³ ·¹º§ ÀÎÆ÷
+        // í˜„ì¬ ìŠ¤í‚¬ ë ˆë²¨ ì¸í¬
         SkillLevelInfo();
 
 
         print(previousParent.name);
-        // ½ºÅ³½½·ÔÀ» ´­·¶À»¶§ ½ºÅ³Ã¢¿¡ ÇöÀç ½ºÅ³ Á¤º¸µéÀ» º¸³»ÁÜ
+        // ìŠ¤í‚¬ìŠ¬ë¡¯ì„ ëˆŒë €ì„ë•Œ ìŠ¤í‚¬ì°½ì— í˜„ì¬ ìŠ¤í‚¬ ì •ë³´ë“¤ì„ ë³´ë‚´ì¤Œ
         _entities[(int)Enum_UI_SkillUISolt.Panel].ClickAction = (PointerEventData data) =>
         {
             SkillUIObject.SelctSkill(skill);
@@ -117,13 +117,13 @@ public class UI_SkillUISlot : UI_Entity
         };
     }
 
-    // ÇöÀç ½ºÅ³ ·¹º§ °»½Å
+    // í˜„ì¬ ìŠ¤í‚¬ ë ˆë²¨ ê°±ì‹ 
     public void SkillLevelInfo()
     {
-        skillText[1].text = $"ÇöÀç ·¹º§ : {skill.Level}";
+        skillText[1].text = $"í˜„ì¬ ë ˆë²¨ : {skill.Level}";
     }
 
-    // ½ºÅ³ÀÌ ·¹º§¾÷À» ÇÏ¿´À¸¸é Á¤º¸¸¦ °»½ÅÇÏ±âÀ§ÇØ ½ºÅ³ ½ºÅİ Á¤º¸µéÀ» º¸³»ÁÖ´Â ¸Ş¼­µå
+    // ìŠ¤í‚¬ì´ ë ˆë²¨ì—…ì„ í•˜ì˜€ìœ¼ë©´ ì •ë³´ë¥¼ ê°±ì‹ í•˜ê¸°ìœ„í•´ ìŠ¤í‚¬ ìŠ¤í…Ÿ ì •ë³´ë“¤ì„ ë³´ë‚´ì£¼ëŠ” ë©”ì„œë“œ
     public void SelectSkillText(UI_SkillUISlot texts)
     {
         SkillUIObject.SelectSkillUIInfoMationText(texts);

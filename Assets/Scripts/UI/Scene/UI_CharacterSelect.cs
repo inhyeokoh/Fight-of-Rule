@@ -32,6 +32,6 @@ public class UI_CharacterSelect : UI_Entity
             UI_Loading.LoadScene("StatePattern");
         };
 
-        // TODO ƒ≥∏Ø≈Õ ªË¡¶
+        // TODO Ï∫êÎ¶≠ÌÑ∞ ÏÇ≠Ï†ú
     }
 }

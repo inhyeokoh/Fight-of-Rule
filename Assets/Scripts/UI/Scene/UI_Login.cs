@@ -37,7 +37,7 @@ public class UI_Login : UI_Entity
 
             // GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
 
-            //¼­¹ö ¾øÀÌ ¾À ³Ñ¾î°¡±â
+            //ì„œë²„ ì—†ì´ ì”¬ ë„˜ì–´ê°€ê¸°
             var loadAsync = SceneManager.LoadSceneAsync("Create");
             GameManager.ThreadPool.UniAsyncLoopJob(() =>
             {

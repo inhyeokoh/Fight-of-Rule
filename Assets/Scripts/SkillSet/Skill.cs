@@ -4,11 +4,11 @@ using UnityEngine;
 
 public abstract class Skill : MonoBehaviour
 {
-    // ÇöÀç ½ºÅ³ ·¹º§
+    // í˜„ì¬ ìŠ¤í‚¬ ë ˆë²¨
     [SerializeField]
     protected int level = 1;
 
-    // ÃÖ´ë ·¹º§
+    // ìµœëŒ€ ë ˆë²¨
     [SerializeField]
     protected int maxLevel;
 
@@ -17,26 +17,26 @@ public abstract class Skill : MonoBehaviour
 
     [Header("Skill ID")]
     [SerializeField]
-    protected int skillID; //½ºÅ³ ¹øÈ£
+    protected int skillID; //ìŠ¤í‚¬ ë²ˆí˜¸
     
     [Header("Skill String")]
     [SerializeField]
-    protected string skillName; //½ºÅ³ ÀÌ¸§
+    protected string skillName; //ìŠ¤í‚¬ ì´ë¦„
     [SerializeField]
-    protected string skillDESC; // ½ºÅ³ ¼³¸í¼­ 
+    protected string skillDESC; // ìŠ¤í‚¬ ì„¤ëª…ì„œ 
     [SerializeField]
-    protected Sprite icon; // ½ºÅ³ ¾ÆÀÌÄÜ
+    protected Sprite icon; // ìŠ¤í‚¬ ì•„ì´ì½˜
 
 
     [Header("Skill Array")]
     [SerializeField]
-    protected int[] skillMP; // µå´Â ¸¶³ª  
+    protected int[] skillMP; // ë“œëŠ” ë§ˆë‚˜  
     [SerializeField]
-    protected int[] skillPoint; // ÇÊ¿ä ½ºÅ³ Æ÷ÀÎÆ®
+    protected int[] skillPoint; // í•„ìš” ìŠ¤í‚¬ í¬ì¸íŠ¸
     [SerializeField]
-    protected int[] skillLevelCondition; // ÇÊ¿ä ·¹º§
+    protected int[] skillLevelCondition; // í•„ìš” ë ˆë²¨
     [SerializeField]
-    protected float[] cool; // ½ºÅ³ ·¹º§ ÄğÅ¸ÀÓ  
+    protected float[] cool; // ìŠ¤í‚¬ ë ˆë²¨ ì¿¨íƒ€ì„  
     [SerializeField]
     protected bool IsInstanceEffect;
     [SerializeField]
@@ -45,8 +45,8 @@ public abstract class Skill : MonoBehaviour
     protected int[] skillDamage;
 
 
-    private float maxCoolTime; // ÇöÀç ½ºÅ³ ·¹º§ ÄğÅ¸ÀÓ
-    protected float coolTime; // ÇöÀç µ¹¾Æ°¡°í ÀÖ´Â ÄğÅ¸ÀÓ
+    private float maxCoolTime; // í˜„ì¬ ìŠ¤í‚¬ ë ˆë²¨ ì¿¨íƒ€ì„
+    protected float coolTime; // í˜„ì¬ ëŒì•„ê°€ê³  ìˆëŠ” ì¿¨íƒ€ì„
    
     public int Level { get { return level; }}
     public int SkillPoint { get; protected set; }
@@ -71,7 +71,7 @@ public abstract class Skill : MonoBehaviour
 
 
     public abstract Skill Init();
-    // ÇöÀç ½ºÅ³ÀÌ 1·¹º§ ÀÌ»óÀÏ¶§ Á¤º¸µé
+    // í˜„ì¬ ìŠ¤í‚¬ì´ 1ë ˆë²¨ ì´ìƒì¼ë•Œ ì •ë³´ë“¤
     public void SkillStat()
     {
         SkillEffectIndex = skillEffectIndex;
@@ -95,9 +95,9 @@ public abstract class Skill : MonoBehaviour
     
     public void Use()
     {
-        print($"½ºÅ³ µ¥¹ÌÁö : {SkillDamage}");
-        print($"½ºÅ³ ¸¶³ª : {SKillMP}");
-        print($"½ºÅ³ ÄğÅ¸ÀÓ : {SkillCoolTime}");
+        print($"ìŠ¤í‚¬ ë°ë¯¸ì§€ : {SkillDamage}");
+        print($"ìŠ¤í‚¬ ë§ˆë‚˜ : {SKillMP}");
+        print($"ìŠ¤í‚¬ ì¿¨íƒ€ì„ : {SkillCoolTime}");
         PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
         SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
         SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);
@@ -107,7 +107,7 @@ public abstract class Skill : MonoBehaviour
         StartCoroutine(CoolTimeTimer());
     }
 
-    // ½ºÅ³ ÄğÅ¸ÀÓ
+    // ìŠ¤í‚¬ ì¿¨íƒ€ì„
     IEnumerator CoolTimeTimer()
     {
         while (coolTime > 0)
@@ -119,7 +119,7 @@ public abstract class Skill : MonoBehaviour
         coolTime = 0;
     }
 
-    // ½ºÅ³ÀÌ 0·¹º§ÀÏ‹š
+    // ìŠ¤í‚¬ì´ 0ë ˆë²¨ì¼ë–„
     public void SkillZeroStat()
     {
         SkillLevelCondition = skillLevelCondition[level];

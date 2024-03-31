@@ -15,7 +15,7 @@ public abstract class PacketSession : Session
         int processedLen = 0;
         while (true)
         {
-            if (buffer.Count < HeaderLen)   //ÃÖ¼ÒÇÑ Çì´õ»çÀÌÁî ¸¸Å­Àº ÀÖ¾î¾ß °ËÁõÀÌ °¡´É
+            if (buffer.Count < HeaderLen)   //ìµœì†Œí•œ í—¤ë”ì‚¬ì´ì¦ˆ ë§Œí¼ì€ ìˆì–´ì•¼ ê²€ì¦ì´ ê°€ëŠ¥
                 break;
 
             int dataSize = BitConverter.ToUInt16(buffer.Array, buffer.Offset);
@@ -23,7 +23,7 @@ public abstract class PacketSession : Session
             if (dataSize > buffer.Count)
                 break;
 
-            //º¹»çÇÏ¸é thread ºĞ¸® °¡´É => Áö±İÀº ±×³É »ç¿ë (OnPacketRecv¿¡¼­ °í¹Î)
+            //ë³µì‚¬í•˜ë©´ thread ë¶„ë¦¬ ê°€ëŠ¥ => ì§€ê¸ˆì€ ê·¸ëƒ¥ ì‚¬ìš© (OnPacketRecvì—ì„œ ê³ ë¯¼)
             OnPacketRecv(new ArraySegment<byte>(buffer.Array, buffer.Offset, dataSize));
             processedLen += dataSize;
             buffer = new ArraySegment<byte>(buffer.Array, buffer.Offset + dataSize, buffer.Count - dataSize);
@@ -64,12 +64,12 @@ public abstract class Session
     public void Start(Socket socket)
     {
         _socket = socket;
-        //ºñµ¿±â ¼Û½Å
+        //ë¹„ë™ê¸° ì†¡ì‹ 
         _sendargs.Completed += new EventHandler<SocketAsyncEventArgs>(OnSendCompleted);
-        //ºñµ¿±â ¼ö½Å
+        //ë¹„ë™ê¸° ìˆ˜ì‹ 
         _recvargs.Completed += new EventHandler<SocketAsyncEventArgs>(OnRecvCompleted);
 
-        //1°³¸¸ µî·Ï
+        //1ê°œë§Œ ë“±ë¡
         GameManager.ThreadPool.EnqueueJob(() => { RecvRegister(_recvargs); });
     }
     public void Send(ArraySegment<byte> buffer)
@@ -94,9 +94,9 @@ public abstract class Session
         SendRegister();
     }
 
-    void _Send(List<ArraySegment<byte>> sendingList) //¸ğ¾Æ½î±â
+    void _Send(List<ArraySegment<byte>> sendingList) //ëª¨ì•„ì˜ê¸°
     {
-        if (sendingList.Count == 0) return;     //PendingList¿¡ ¾Æ¹«°Åµµ ¾ø°Ô ÇÏÁö ¾Ê±â À§ÇØ.
+        if (sendingList.Count == 0) return;     //PendingListì— ì•„ë¬´ê±°ë„ ì—†ê²Œ í•˜ì§€ ì•Šê¸° ìœ„í•´.
 
         lock (_sendlock)
         {
@@ -114,30 +114,30 @@ public abstract class Session
 
         lock (_sendlock)
         {
-            //Àü¼ÛÁßÀÌ°Å³ª, Àü¼ÛÇÒ°Ô ¾ø´Â °æ¿ì
+            //ì „ì†¡ì¤‘ì´ê±°ë‚˜, ì „ì†¡í• ê²Œ ì—†ëŠ” ê²½ìš°
             if (_sendQueue.Count == 0 || PendingList.Count > 0)
                 return;
 
             while (_sendQueue.Count > 0)
                 PendingList.Add(_sendQueue.Dequeue()); 
 
-            _sendargs.BufferList = PendingList; //¹İµå½Ã º¹»ç·Î ³Ñ°ÜÁà¾ß °íÀå¾È³²
+            _sendargs.BufferList = PendingList; //ë°˜ë“œì‹œ ë³µì‚¬ë¡œ ë„˜ê²¨ì¤˜ì•¼ ê³ ì¥ì•ˆë‚¨
         }
 
-        try    //Àü¼ÛÁß DisconnectÀÏ °æ¿ì Ã³¸®
+        try    //ì „ì†¡ì¤‘ Disconnectì¼ ê²½ìš° ì²˜ë¦¬
         {
-            bool pending = _socket.SendAsync(_sendargs);//ºñµ¿±â ¼Û½Å
+            bool pending = _socket.SendAsync(_sendargs);//ë¹„ë™ê¸° ì†¡ì‹ 
             if (pending == false)
                 OnSendCompleted(null, _sendargs);
         }
-        catch (Exception ex)     /*Áö±İÀº ÄÜ¼Ö¿¡´Ù ±×³É Ãâ·ÂÇÏÁö¸¸ ¿À·ù ³»¿ëÀº ÆÄÀÏ¿¡´Ù°¡ Ãâ·ÂÇÏ´Â°Ô ÁÁ´Ù.*/
+        catch (Exception ex)     /*ì§€ê¸ˆì€ ì½˜ì†”ì—ë‹¤ ê·¸ëƒ¥ ì¶œë ¥í•˜ì§€ë§Œ ì˜¤ë¥˜ ë‚´ìš©ì€ íŒŒì¼ì—ë‹¤ê°€ ì¶œë ¥í•˜ëŠ”ê²Œ ì¢‹ë‹¤.*/
         {
             _PrintLog($"Socket handle Failed. Exception : {ex.Message} \n {ex.StackTrace}");
         }
     }
 
 
-    //iocp thread°¡ ¹°¾úÀ» °¡´É¼ºÀÌ ÀÖÀ¸¹Ç·Î, ´Ù½Ã ½º·¹µå·Î Àü´Ş(stack overflow¹æÁö)
+    //iocp threadê°€ ë¬¼ì—ˆì„ ê°€ëŠ¥ì„±ì´ ìˆìœ¼ë¯€ë¡œ, ë‹¤ì‹œ ìŠ¤ë ˆë“œë¡œ ì „ë‹¬(stack overflowë°©ì§€)
     void OnSendCompleted(object sender, SocketAsyncEventArgs args)
     {
         if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)
@@ -146,14 +146,14 @@ public abstract class Session
             {
 
                 OnSend(args.BytesTransferred);
-                args.BufferList = null;     //±»ÀÌ ¾ÈÇØµµ µÇ´Âµ¥ ±ò²ûÇÏ°Ô ÇÏ·Á°í
+                args.BufferList = null;     //êµ³ì´ ì•ˆí•´ë„ ë˜ëŠ”ë° ê¹”ë”í•˜ê²Œ í•˜ë ¤ê³ 
 
                 lock( _sendlock)
                 {
-                    PendingList.Clear();    //ÃÊ±âÈ­
+                    PendingList.Clear();    //ì´ˆê¸°í™”
                 }
 
-                GameManager.ThreadPool.EnqueueJob(() => { SendRegister(); }); //Àçµî·Ï
+                GameManager.ThreadPool.EnqueueJob(() => { SendRegister(); }); //ì¬ë“±ë¡
             }
             catch (Exception ex)
             {
@@ -167,20 +167,20 @@ public abstract class Session
         }
     }
     #region Network(Receive)
-    //´Ü ÇÏ³ª¸¸ Receive¸¦ ¼öÇàÇÑ´Ù°í »ı°¢ÇØº¸ÀÚ.
+    //ë‹¨ í•˜ë‚˜ë§Œ Receiveë¥¼ ìˆ˜í–‰í•œë‹¤ê³  ìƒê°í•´ë³´ì.
     void RecvRegister(SocketAsyncEventArgs args)
     {
         if (disconnected > 0) return;
 
-        _recvBuffer.Clear();    //ÀÏ´Ü ÃÊ±âÈ­
-        ArraySegment<byte> segment = _recvBuffer.RecvSegment;   //°¡¿ë ¼¼±×¸ÕÆ® ÂüÁ¶ ¹İÈ¯
+        _recvBuffer.Clear();    //ì¼ë‹¨ ì´ˆê¸°í™”
+        ArraySegment<byte> segment = _recvBuffer.RecvSegment;   //ê°€ìš© ì„¸ê·¸ë¨¼íŠ¸ ì°¸ì¡° ë°˜í™˜
         args.SetBuffer(segment.Array, segment.Offset, segment.Count);
 
         try
         {
-            bool pending = _socket.ReceiveAsync(args);  //ºñµ¿±â ¼ö½Å.
+            bool pending = _socket.ReceiveAsync(args);  //ë¹„ë™ê¸° ìˆ˜ì‹ .
 
-            if (pending == false)      //¹Ù·Î ¼ö½Åµ¥ÀÌÅÍ°¡ ÀÖ´Ù¸é
+            if (pending == false)      //ë°”ë¡œ ìˆ˜ì‹ ë°ì´í„°ê°€ ìˆë‹¤ë©´
                 OnRecvCompleted(null, args);
         }
         catch (Exception ex)
@@ -192,20 +192,20 @@ public abstract class Session
     void OnRecvCompleted(object sender, SocketAsyncEventArgs args)
     {
 
-        if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)   //0º¸´Ù Å« µ¥ÀÌÅÍ°¡ ¿Ô´Â°¡(À¯È¿ÇÑ°¡). ¿¬°áÇØÁ¦µîÀÇ ¿äÃ»Àº 0ÀÌ¹Ç·Î À¯È¿ÇÑ°Å¸¸ ÃßÃâ
+        if (args.BytesTransferred > 0 && args.SocketError == SocketError.Success)   //0ë³´ë‹¤ í° ë°ì´í„°ê°€ ì™”ëŠ”ê°€(ìœ íš¨í•œê°€). ì—°ê²°í•´ì œë“±ì˜ ìš”ì²­ì€ 0ì´ë¯€ë¡œ ìœ íš¨í•œê±°ë§Œ ì¶”ì¶œ
         {
-            //OnRecv ÆĞÅ¶À» ºĞ¼®ÇØ¼­ ¾î¶²Á¾·ùÀÇ µ¥ÀÌÅÍÀÎÁö È®ÀÎ. ±×¿¡¸Â´Â ÀÛ¾÷½ÃÀÛ
-            //¸¸¾à ÀÇ¹Ì¾ø´Â ÆĞÅ¶µéÀÌ ¸ô·Á¼­ ¿À°Å³ª
-            //µğµµ½º °ø°İÃ³·³ ÀÛÁ¤ÇÏ°í ¼­¹ö¸¦ ºÎ¼ö·Á°í ÇÏ¸é ±×¸¦ °Å¸£´Â ÀÛ¾÷ÀÌ ÇÊ¿äÇÏ´Ù.
+            //OnRecv íŒ¨í‚·ì„ ë¶„ì„í•´ì„œ ì–´ë–¤ì¢…ë¥˜ì˜ ë°ì´í„°ì¸ì§€ í™•ì¸. ê·¸ì—ë§ëŠ” ì‘ì—…ì‹œì‘
+            //ë§Œì•½ ì˜ë¯¸ì—†ëŠ” íŒ¨í‚·ë“¤ì´ ëª°ë ¤ì„œ ì˜¤ê±°ë‚˜
+            //ë””ë„ìŠ¤ ê³µê²©ì²˜ëŸ¼ ì‘ì •í•˜ê³  ì„œë²„ë¥¼ ë¶€ìˆ˜ë ¤ê³  í•˜ë©´ ê·¸ë¥¼ ê±°ë¥´ëŠ” ì‘ì—…ì´ í•„ìš”í•˜ë‹¤.
             try
             {
-                if (_recvBuffer.OnWrite(args.BytesTransferred) == false) //ºñÁ¤»óÀûÀÌ¶ó¸é(ÀÏ¹İÀûÀÌ¶ó¸é Àı´ë ¾ÈÀÏ¾î³²)
+                if (_recvBuffer.OnWrite(args.BytesTransferred) == false) //ë¹„ì •ìƒì ì´ë¼ë©´(ì¼ë°˜ì ì´ë¼ë©´ ì ˆëŒ€ ì•ˆì¼ì–´ë‚¨)
                 {
-                    Disconnect();   //Á¾·á
+                    Disconnect();   //ì¢…ë£Œ
                     return;
                 }
 
-                //ÄÁÅÙÃ÷ ÂÊÀ¸·Î µ¥ÀÌÅÍ¸¦ ³Ñ°ÜÁÖ°í ¾ó¸¶³ª Ã³¸®Çß´ÂÁö¸¦ ¹Ş´Â´Ù.
+                //ì»¨í…ì¸  ìª½ìœ¼ë¡œ ë°ì´í„°ë¥¼ ë„˜ê²¨ì£¼ê³  ì–¼ë§ˆë‚˜ ì²˜ë¦¬í–ˆëŠ”ì§€ë¥¼ ë°›ëŠ”ë‹¤.
                 int processLen = OnRecv(_recvBuffer.DataSegment);
                 if (processLen < 0)
                 {
@@ -213,8 +213,8 @@ public abstract class Session
                     return;
                 }
 
-                //ReadÄ¿¼­ ÀÌµ¿
-                if (_recvBuffer.OnRead(processLen) == false) //Á¦´ë·Î ¾È¿Å°ÜÁ³À¸¸é.
+                //Readì»¤ì„œ ì´ë™
+                if (_recvBuffer.OnRead(processLen) == false) //ì œëŒ€ë¡œ ì•ˆì˜®ê²¨ì¡Œìœ¼ë©´.
                 {
                     Disconnect();
                     return;
@@ -222,7 +222,7 @@ public abstract class Session
                     
                 GameManager.ThreadPool.EnqueueJob(() => { RecvRegister(args); });
             }
-            catch (Exception ex)    //À¯È¿ÇÏÁö ¾ÊÀº°æ¿ì( Disconect ¿Í °°Àº ¸Ş¼¼Áö¸¦ ¹ŞÀº °æ¿ì)
+            catch (Exception ex)    //ìœ íš¨í•˜ì§€ ì•Šì€ê²½ìš°( Disconect ì™€ ê°™ì€ ë©”ì„¸ì§€ë¥¼ ë°›ì€ ê²½ìš°)
             {
                 _PrintLog($"OnRecvCompleteRecursive {ex.Message}" + "\n" + ex.StackTrace);
                 Disconnect();

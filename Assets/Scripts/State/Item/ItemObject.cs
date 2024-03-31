@@ -33,18 +33,18 @@ public abstract class ItemObject : MonoBehaviour
 
     public Item item;
 
-    public int itemID; //¾ÆÀÌÅÛ ¹øÈ£
+    public int itemID; //ì•„ì´í…œ ë²ˆí˜¸
 
     public Enum_ItemType itemType;
 
     protected static bool stateComplete;
 
 
-    //»óÅÂ ÆĞÅÏ »ı¼º±â
+    //ìƒíƒœ íŒ¨í„´ ìƒì„±ê¸°
     protected StateMachine stateMachine;
     protected State state;
 
-    //Æ÷¼ÇÀÌ³ª Àåºñµîµî ½ºÅİ Á¤º¸¸¦ ³Ñ°ÜÁÖ±âÀ§ÇÑ ÇÃ·¹ÀÌ¾î
+    //í¬ì…˜ì´ë‚˜ ì¥ë¹„ë“±ë“± ìŠ¤í…Ÿ ì •ë³´ë¥¼ ë„˜ê²¨ì£¼ê¸°ìœ„í•œ í”Œë ˆì´ì–´
     [SerializeField]
 
     protected CharacterStatus player;   
@@ -52,7 +52,7 @@ public abstract class ItemObject : MonoBehaviour
     private void Awake()
     {       
         stateMachine = new StateMachine();
-        item = new Item(null, 0, "¹«±â", "¼³¸í", 0, 0, 5, 0, 0, 0, 0, 0, 0,/*temp*/0,/*temp*/false,/*temp*/0,/*temp*/0);
+        item = new Item(null, 0, "ë¬´ê¸°", "ì„¤ëª…", 0, 0, 5, 0, 0, 0, 0, 0, 0,/*temp*/0,/*temp*/false,/*temp*/0,/*temp*/0);
 
       /*  try
         {
@@ -60,7 +60,7 @@ public abstract class ItemObject : MonoBehaviour
         }
         catch
         {
-            print("ÇöÀç ÇÃ·¹ÀÌ¾î¸¦ Ã£À»¼ö ¾ø½À´Ï´Ù");
+            print("í˜„ì¬ í”Œë ˆì´ì–´ë¥¼ ì°¾ì„ìˆ˜ ì—†ìŠµë‹ˆë‹¤");
         }*/
 
     }
@@ -120,19 +120,19 @@ public abstract class ItemObject : MonoBehaviour
 
     public abstract void Setting();
 
-    // Áö¿öµµ µÇ´Â ¸Ş¼­µå
+    // ì§€ì›Œë„ ë˜ëŠ” ë©”ì„œë“œ
     public abstract void Check();
 
 
     
-    //¾ÆÀÌÅÛÀÇ Á¤º¸µé
-    //¾ÆÀÌÅÛÀÇ È¿°ú
-    //¾ÆÀÌÅÛÀÇ ÀÌ¸§
-    //ÇöÀç ¾ÆÀÌÅÛÀ» Àû¿ëÇÒ Ä³¸¯ÅÍ
+    //ì•„ì´í…œì˜ ì •ë³´ë“¤
+    //ì•„ì´í…œì˜ íš¨ê³¼
+    //ì•„ì´í…œì˜ ì´ë¦„
+    //í˜„ì¬ ì•„ì´í…œì„ ì ìš©í•  ìºë¦­í„°
 
-    //¾ÆÀÌÅÛ º£ÀÌ½º¿¡´Â ¼Òºñ ±âÅ¸ ÀåºñÀÇ °øÅëµÈ ±â´ÉÀ» ³Ö´Â ½ºÅ©¸³Æ®
-    //¼Òºñ Àåºñ ±âÅ¸ ¾ÆÀÌÅÛÀº »ó¼ÓÀ» ¹Ş¾Æ µû·Î ¸¸µé¾îÁà¾ß‰Î
+    //ì•„ì´í…œ ë² ì´ìŠ¤ì—ëŠ” ì†Œë¹„ ê¸°íƒ€ ì¥ë¹„ì˜ ê³µí†µëœ ê¸°ëŠ¥ì„ ë„£ëŠ” ìŠ¤í¬ë¦½íŠ¸
+    //ì†Œë¹„ ì¥ë¹„ ê¸°íƒ€ ì•„ì´í…œì€ ìƒì†ì„ ë°›ì•„ ë”°ë¡œ ë§Œë“¤ì–´ì¤˜ì•¼ëŒ
 
-    //ÁÖ¿ä ±â´É »óÅÂÆĞÅÏÀ» ÀÌ¿ëÇØ¶ó
+    //ì£¼ìš” ê¸°ëŠ¥ ìƒíƒœíŒ¨í„´ì„ ì´ìš©í•´ë¼
 }
 

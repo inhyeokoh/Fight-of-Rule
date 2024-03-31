@@ -19,9 +19,9 @@ public class UIManager : SubClass<GameManager>
     public GameObject InGameMain;
 
     GameObject popupCanvas;
-    bool _leafPopup; // ´Ü¸» ÆË¾÷. ex) È®ÀÎ ¿©ºÎ ¹¯´Â Ã¢
+    bool _leafPopup; // ë‹¨ë§ íŒì—…. ex) í™•ì¸ ì—¬ë¶€ ë¬»ëŠ” ì°½
 
-    // ½Ç½Ã°£ ÆË¾÷ °ü¸® ¸µÅ©µå ¸®½ºÆ®
+    // ì‹¤ì‹œê°„ íŒì—… ê´€ë¦¬ ë§í¬ë“œ ë¦¬ìŠ¤íŠ¸
     public LinkedList<GameObject> _activePopupList;
     public List<GameObject> _linkedPopupList;
 
@@ -40,7 +40,7 @@ public class UIManager : SubClass<GameManager>
         _activePopupList = new LinkedList<GameObject>();
         _linkedPopupList = new List<GameObject>();
 #else
-        GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI °ü·ÃµÈ ±â´ÉµéÀ» ¼öÇàÇÒ ¼ö ÀÖ´Â ÇÁ¸®ÆÕ »ı¼º
+        GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI ê´€ë ¨ëœ ê¸°ëŠ¥ë“¤ì„ ìˆ˜í–‰í•  ìˆ˜ ìˆëŠ” í”„ë¦¬íŒ¹ ìƒì„±
         Object.DontDestroyOnLoad(uiManage);
         popupCanvas = GameObject.Find("PopupCanvas");
         Object.DontDestroyOnLoad(popupCanvas);
@@ -86,7 +86,7 @@ public class UIManager : SubClass<GameManager>
         }
     }
     
-    // Á¾¼ÓµÈ ÆË¾÷ ¿­±â
+    // ì¢…ì†ëœ íŒì—… ì—´ê¸°
     public void OpenChildPopup(GameObject popup, bool leaf = false)
     {        
         if (!_leafPopup)
@@ -94,10 +94,10 @@ public class UIManager : SubClass<GameManager>
             if (_linkedPopupList.Count == 0)
             {
                 var latest = _activePopupList.Last.Value;
-                _linkedPopupList.Add(latest); //Root°¡ µÉ ÆË¾÷À» linkedPopupList¿¡ Ãß°¡
+                _linkedPopupList.Add(latest); //Rootê°€ ë  íŒì—…ì„ linkedPopupListì— ì¶”ê°€
             }
 
-            _activePopupList.AddLast(popup); // OpenPopup°ú µ¿ÀÏ
+            _activePopupList.AddLast(popup); // OpenPopupê³¼ ë™ì¼
             popup.SetActive(true);
             SortPopupView();
 
@@ -108,7 +108,7 @@ public class UIManager : SubClass<GameManager>
 
     public void ClosePopup(GameObject popup)
     {
-        if (_linkedPopupList.Count > 0) // ex) È®ÀÎ ¿©ºÎ ¹¯´Â Ã¢¿¡¼­ Ãë¼Ò ´©¸¦ °æ¿ì
+        if (_linkedPopupList.Count > 0) // ex) í™•ì¸ ì—¬ë¶€ ë¬»ëŠ” ì°½ì—ì„œ ì·¨ì†Œ ëˆ„ë¥¼ ê²½ìš°
         {
             _linkedPopupList.Remove(popup);
         }
@@ -119,14 +119,14 @@ public class UIManager : SubClass<GameManager>
 
     public void CloseLinkedPopup()
     {
-        for (int i = _linkedPopupList.Count - 1; i >= 0; i--) // linkedPopupList.Count°¡ °è¼Ó º¯ÇÔÀ» ÁÖÀÇ
+        for (int i = _linkedPopupList.Count - 1; i >= 0; i--) // linkedPopupList.Countê°€ ê³„ì† ë³€í•¨ì„ ì£¼ì˜
         {
             ClosePopup(_linkedPopupList[i]);
         }
         _leafPopup = false;
     }
 
-    // ¸ğµç ÆË¾÷ ´İ±â
+    // ëª¨ë“  íŒì—… ë‹«ê¸°
     public void CloseAll()
     {
         foreach (var popup in _activePopupList)
@@ -135,14 +135,14 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
-    // °¡Àå ¸¶Áö¸·¿¡ ¿¬ ÆË¾÷ÀÌ È­¸é»ó °¡Àå À§¿¡ ¿Àµµ·Ï
+    // ê°€ì¥ ë§ˆì§€ë§‰ì— ì—° íŒì—…ì´ í™”ë©´ìƒ ê°€ì¥ ìœ„ì— ì˜¤ë„ë¡
     public void SortPopupView()
     {
         var popup = _activePopupList.Last.Value;
         popup.transform.SetAsLastSibling();
     }
 
-    // Å¬¸¯ÇÑ ÆË¾÷ÀÌ °¡Àå ¾ÕÀ¸·Î ¿Àµµ·Ï
+    // í´ë¦­í•œ íŒì—…ì´ ê°€ì¥ ì•ìœ¼ë¡œ ì˜¤ë„ë¡
     public void GetPopupForward(GameObject go)
     {
         _activePopupList.Remove(go);
@@ -180,7 +180,7 @@ public class UIManager : SubClass<GameManager>
         {
             if (_activePopupList.Count > 0)
             {
-                // Enter ´©¸¦ °æ¿ì ¼ö¶ô ±â´É ½ÇÇà ÈÄ ÆË¾÷ ´İ±â
+                // Enter ëˆ„ë¥¼ ê²½ìš° ìˆ˜ë½ ê¸°ëŠ¥ ì‹¤í–‰ í›„ íŒì—… ë‹«ê¸°
                 ClosePopup(_activePopupList.First.Value);
             }
         }*/

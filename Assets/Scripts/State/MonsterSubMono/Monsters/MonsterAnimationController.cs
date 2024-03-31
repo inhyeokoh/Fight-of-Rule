@@ -15,35 +15,35 @@ public class MonsterAnimationController : SubMono<MonsterController>
     }
 
 
-    // °ø°İ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» µ¿ÀÛ½ÃÅ°°í ¹Ù²Ù´Â ¸Ş¼­µå
+    // ê³µê²© ì• ë‹ˆë©”ì´ì…˜ì„ ë™ì‘ì‹œí‚¤ê³  ë°”ê¾¸ëŠ” ë©”ì„œë“œ
     public void ChanageAttackAnimation(int attackCombo)
     {
         _anim.SetInteger("AttackCombo", attackCombo);
         _anim.SetTrigger("Attack");
     }
 
-    // ¸ó½ºÅÍÀÇ ½ºÅ³ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» µ¿ÀÛ½ÃÅ°´Â ¸Ş¼­µå
+    // ëª¬ìŠ¤í„°ì˜ ìŠ¤í‚¬ ì• ë‹ˆë©”ì´ì…˜ì„ ë™ì‘ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     public void ChangeAbliltyAnimation(int abliltyNumber)
     {
         _anim.SetInteger("AbliltyNumber", abliltyNumber);
         _anim.SetTrigger("Ablilty");       
     }
 
-    // ÇöÀç ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ Àß ÀÛµ¿µÇÁö¾Ê´Â°É ·çÆ®¸ğ¼ÇÀ¸·Î Ã¼Å©ÇÏ´Â°Çµ¥ ÀÌ°Å¶§¹®¿¡µµ ¹ö±×°¡ »ı±â´Â°Å°°À½
+    // í˜„ì¬ ì• ë‹ˆë©”ì´ì…˜ì´ ì˜ ì‘ë™ë˜ì§€ì•ŠëŠ”ê±¸ ë£¨íŠ¸ëª¨ì…˜ìœ¼ë¡œ ì²´í¬í•˜ëŠ”ê±´ë° ì´ê±°ë•Œë¬¸ì—ë„ ë²„ê·¸ê°€ ìƒê¸°ëŠ”ê±°ê°™ìŒ
     public void RootMotion(bool check)
     {
-        //print("RootMotion½áÁü");
+        //print("RootMotionì¨ì§");
         _anim.applyRootMotion = check;
     }
 
-    // ÀÌµ¿ÇÏ´Â ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÀÛµ¿½ÃÅ°´Â ¸Ş¼­µå
+    // ì´ë™í•˜ëŠ” ì• ë‹ˆë©”ì´ì…˜ì„ ì‘ë™ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     public void ChangeMoveAnimation(int stateId)
     {
         RootMotion(false);
         _anim.SetInteger("Move", stateId);
     }
 
-    // ÇöÀç ¹Ù·Î ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÀüÈ¯ÇÏ±âÀ§ÇÑ ¸Ş¼­µå
+    // í˜„ì¬ ë°”ë¡œ ì• ë‹ˆë©”ì´ì…˜ì„ ì „í™˜í•˜ê¸°ìœ„í•œ ë©”ì„œë“œ
     public void ChangeTrrigerAnimation(string state)
     {
         _anim.SetTrigger(state);

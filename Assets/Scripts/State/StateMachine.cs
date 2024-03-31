@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class StateMachine
 {       
-    private State currentState; // ÇöÀç »óÅÂ    
-    private State previousState; // ÀÌÀü »óÅÂ
+    private State currentState; // í˜„ì¬ ìƒíƒœ    
+    private State previousState; // ì´ì „ ìƒíƒœ
 
-    //Ã³À½¿¡ ½ºÅ×ÀÌÆ®¸Ó½ÅÀ» »ı¼º ÇÒ¶§ ÀÚ±âÀÚ½Å°ú µñ¼Å³Ê¸®,¹è¿­,¸®½ºÆ®¿¡ ÀÎµ¦½º¿¡ ³Ö¾î³ù´ø Ã³À½¿¡ ½ÇÇàÇØ¾ßÇÏ´Â »óÅÂ¸¦ ³Ö°í È£Ãâ
+    //ì²˜ìŒì— ìŠ¤í…Œì´íŠ¸ë¨¸ì‹ ì„ ìƒì„± í• ë•Œ ìê¸°ìì‹ ê³¼ ë”•ì…”ë„ˆë¦¬,ë°°ì—´,ë¦¬ìŠ¤íŠ¸ì— ì¸ë±ìŠ¤ì— ë„£ì–´ë†¨ë˜ ì²˜ìŒì— ì‹¤í–‰í•´ì•¼í•˜ëŠ” ìƒíƒœë¥¼ ë„£ê³  í˜¸ì¶œ
     public void Setup(State entryState)
     {    
         currentState = null;
@@ -16,7 +16,7 @@ public class StateMachine
         ChangeState(entryState);
     }
 
-    //Stay¿Í FixedStay´Â À¯´ÏÆ¼¿¡¼­ Áö¿øÇÏ´Â Update,FixedUpdate¿¡ ¿¬°áÇØ¾ßÇÔ
+    //Stayì™€ FixedStayëŠ” ìœ ë‹ˆí‹°ì—ì„œ ì§€ì›í•˜ëŠ” Update,FixedUpdateì— ì—°ê²°í•´ì•¼í•¨
     public void FixedStay()
     {
         if (currentState != null)
@@ -34,8 +34,8 @@ public class StateMachine
     }
 
 
-    //ChangeState ÇÔ¼ö´Â µñ¼Å³Ê¸®,¹è¿­,¸®½ºÆ®¿¡¼­ °´Ã¼¸¦ »ı¼ºÇÏ°í ÀúÀåÇß´ø State<T>Å¬·¡½º¸¦ °¡Á®¿Í¼­ 
-    //±× ÀÎµ¦½º¿¡ ÇÒ´çµÇÀÖ¾ú´ø State<T> Enter,Exit¸¦ È£ÃâÇÏ°í Stay,FixedStay¸¦ ÇÁ·¹ÀÓ¸¶´Ù È£Ãâ
+    //ChangeState í•¨ìˆ˜ëŠ” ë”•ì…”ë„ˆë¦¬,ë°°ì—´,ë¦¬ìŠ¤íŠ¸ì—ì„œ ê°ì²´ë¥¼ ìƒì„±í•˜ê³  ì €ì¥í–ˆë˜ State<T>í´ë˜ìŠ¤ë¥¼ ê°€ì ¸ì™€ì„œ 
+    //ê·¸ ì¸ë±ìŠ¤ì— í• ë‹¹ë˜ìˆì—ˆë˜ State<T> Enter,Exitë¥¼ í˜¸ì¶œí•˜ê³  Stay,FixedStayë¥¼ í”„ë ˆì„ë§ˆë‹¤ í˜¸ì¶œ
     public void ChangeState(State newState)
     {
         if (newState == null)
@@ -54,7 +54,7 @@ public class StateMachine
 
     }
 
-    //¾ÆÀÌÅÛ¸¸ ¾µ°æ¿ì
+    //ì•„ì´í…œë§Œ ì“¸ê²½ìš°
     public void EnterState(State newState)
     {
         if (newState == null)
@@ -67,14 +67,14 @@ public class StateMachine
     }
     
 
-    //»óÅÂ¸¦ Ã¼ÀÎÁö ÇÏÁö¸»°í Exit¸¸ ¹ßµ¿ÇÏ°í ½ÍÀ»¶§? 
+    //ìƒíƒœë¥¼ ì²´ì¸ì§€ í•˜ì§€ë§ê³  Exitë§Œ ë°œë™í•˜ê³  ì‹¶ì„ë•Œ? 
     public void ExitState()
     {
         currentState.Exit();
         currentState = null;
     }
 
-    //ReversState´Â ChangeState¿¡¼­ previousStateº¯¼ö¿¡ ÀúÀå‰ç¾ú´ø ÀÌÀü»óÅÂ¸¦ ´Ù½Ã ÀüÈ¯ÇÏ°í ½ÍÀ»¶§ È£ÃâÇÏ¸é‰Î
+    //ReversStateëŠ” ChangeStateì—ì„œ previousStateë³€ìˆ˜ì— ì €ì¥ë¬ì—ˆë˜ ì´ì „ìƒíƒœë¥¼ ë‹¤ì‹œ ì „í™˜í•˜ê³  ì‹¶ì„ë•Œ í˜¸ì¶œí•˜ë©´ëŒ
     public void ReversState()
     {
         ChangeState(previousState);

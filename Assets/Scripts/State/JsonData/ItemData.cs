@@ -6,7 +6,7 @@ public class ItemData : MonoBehaviour
 {
     public WarriorWeaponItems warriorWeapons;
 
-    // °³º° ¾ÆÀÌÅÛ Á¤º¸
+    // ê°œë³„ ì•„ì´í…œ ì •ë³´
     public class WarriorWeaponItems
     {
         public ItemWeaponData[] warriorWeaponItems;

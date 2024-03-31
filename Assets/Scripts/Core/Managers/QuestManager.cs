@@ -7,7 +7,7 @@ public class QuestManager : MonoBehaviour
     public static QuestManager questManager;
 
     public List<Quest> questList = new List<Quest>();
-    // ÁøÇàÁß ¶Ç´Â ¿Ï·áµÈ Äù½ºÆ® ¸ñ·Ï
+    // ì§„í–‰ì¤‘ ë˜ëŠ” ì™„ë£Œëœ í€˜ìŠ¤íŠ¸ ëª©ë¡
     public List<Quest> currentQuestList = new List<Quest>();
 
     void Awake()
@@ -41,7 +41,7 @@ public class QuestManager : MonoBehaviour
         }    
     }
 
-    // TODO: ÀÎº¥Åä¸®¿¡¼­ Á¦°Å½ÃÀÇ ÄÚµå ÀÛ¼º
+    // TODO: ì¸ë²¤í† ë¦¬ì—ì„œ ì œê±°ì‹œì˜ ì½”ë“œ ì‘ì„±
 
 
     public bool RequestAvailableQuest(int questID)

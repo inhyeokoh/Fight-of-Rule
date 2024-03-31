@@ -11,7 +11,7 @@ public class UI_SkillKeySlot : UI_Entity
     bool skillChange;
 
 
-    // ÇöÀç Å°½½·Ô¿¡ ÀúÀåµÇÀÖ´Â ½ºÅ³
+    // í˜„ì¬ í‚¤ìŠ¬ë¡¯ì— ì €ì¥ë˜ìˆëŠ” ìŠ¤í‚¬
     public Skill skill;
     public CoolTimeCheck coolTimeCheck;
         
@@ -21,7 +21,7 @@ public class UI_SkillKeySlot : UI_Entity
     Image skillIcon;
     RectTransform keySlotImageRect;
 
-    // µå¶ø¾Ø µå·¡±×¸¦ ÇßÀ»¶§ À§Ä¡¸¦ º¯°æ½ÃÅ°±â À§ÇÑ Æ®·£½ºÆû
+    // ë“œëì•¤ ë“œë˜ê·¸ë¥¼ í–ˆì„ë•Œ ìœ„ì¹˜ë¥¼ ë³€ê²½ì‹œí‚¤ê¸° ìœ„í•œ íŠ¸ëœìŠ¤í¼
     Transform canvas;
     Transform previousParent;
 
@@ -45,7 +45,7 @@ public class UI_SkillKeySlot : UI_Entity
 
     private void Update()
     {
-       // print($"ÇöÀç ½ºÅ³ Å°½½·Ô À§Ä¡{imageRect.position}");
+       // print($"í˜„ì¬ ìŠ¤í‚¬ í‚¤ìŠ¬ë¡¯ ìœ„ì¹˜{imageRect.position}");
     }
 
     protected override void Init()
@@ -61,23 +61,23 @@ public class UI_SkillKeySlot : UI_Entity
 
 
 
-        // ÇöÀç ½ºÅ³ Á¤º¸°¡ ´ê¾ÒÀ»¶§
+        // í˜„ì¬ ìŠ¤í‚¬ ì •ë³´ê°€ ë‹¿ì•˜ì„ë•Œ
         _entities[(int)Enum_UI_SKillKeySlot.SkillIcon].DropAction = (PointerEventData data) =>
         {
             if (data.pointerDrag != null)
             {
-                print("¹ß»ıÇÔ");
+                print("ë°œìƒí•¨");
             }
             else
             {
-                print("¹ß»ı ¾ÈÇÔ");
+                print("ë°œìƒ ì•ˆí•¨");
             }
        
-            // ¿¢Æ¼ºê ½ºÅ³ÀÌ¶û ÆĞ½Ãºê ½ºÅ³ÀÌ¸é
+            // ì—‘í‹°ë¸Œ ìŠ¤í‚¬ì´ë‘ íŒ¨ì‹œë¸Œ ìŠ¤í‚¬ì´ë©´
             if (data.pointerDrag.gameObject.tag == "ActiveSkill" || data.pointerDrag.gameObject.tag == "PassiveSkill")
             {
                 print(data.pointerDrag.gameObject.name);
-                // ¾Æ±î ´ê¾Ò´ø ½ºÅ³ Á¤º¸¸¦ °¡Á®¿À°í
+                // ì•„ê¹Œ ë‹¿ì•˜ë˜ ìŠ¤í‚¬ ì •ë³´ë¥¼ ê°€ì ¸ì˜¤ê³ 
                 skill = data.pointerDrag.transform.parent.GetComponent<UI_SkillUISlot>().SkillReturn();
                 coolTimeCheck.CoolTimeChanage(skill);
 
@@ -165,22 +165,22 @@ public class UI_SkillKeySlot : UI_Entity
         if (skill == null)
         {
             playerState.ChangeState((int)Enum_CharacterState.Idle);
-            print("½ºÅ³ÀÌ ¾ø½À´Ï´Ù.");
+            print("ìŠ¤í‚¬ì´ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
         else
         {
             if (playerState.SkillUseCheck)
             {
-                print("½ºÅ³ »ç¿ëÁß ÀÔ´Ï´Ù.");
+                print("ìŠ¤í‚¬ ì‚¬ìš©ì¤‘ ì…ë‹ˆë‹¤.");
             }
             else if (skill.CoolTime > 0)
             {
-                print("½ºÅ³ÀÌ ¾ÆÁ÷ ÄğÅ¸ÀÓ ÀÔ´Ï´Ù.");
+                print("ìŠ¤í‚¬ì´ ì•„ì§ ì¿¨íƒ€ì„ ì…ë‹ˆë‹¤.");
             }
             else if (playerStat.MP < skill.SKillMP)
             {
-                print("¸¶³ª°¡ ºÎÁ·ÇÕ´Ï´Ù.");
+                print("ë§ˆë‚˜ê°€ ë¶€ì¡±í•©ë‹ˆë‹¤.");
             }
             else
             {

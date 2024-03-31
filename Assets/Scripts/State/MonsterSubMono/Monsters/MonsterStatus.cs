@@ -209,7 +209,7 @@ public class MonsterStatus : SubMono<MonsterController>
     }
 
 
-    //µ¥¹ÌÁö¸¦ ¹Ş°í Á×¾ú´ÂÁö ¾ÈÁ×¾ú´ÂÁö Ã¼Å©ÇØÁÖ´Â ¸Ş¼­µå
+    //ë°ë¯¸ì§€ë¥¼ ë°›ê³  ì£½ì—ˆëŠ”ì§€ ì•ˆì£½ì—ˆëŠ”ì§€ ì²´í¬í•´ì£¼ëŠ” ë©”ì„œë“œ
     public void DeadCheck(int damage, CharacterStatus expCharacter, float addforce)
     {
        
@@ -234,7 +234,7 @@ public class MonsterStatus : SubMono<MonsterController>
     }
 
 
-    //ÇöÀç ±â¼úÀ» ¾µ¶§ µ¥¹ÌÁöÀÇ Á¤º¸¸¦ ÀÌÆåÆ®µéÇÑÅ× ³Ñ°ÜÁÖ´Â ¸Ş¼­µå
+    //í˜„ì¬ ê¸°ìˆ ì„ ì“¸ë•Œ ë°ë¯¸ì§€ì˜ ì •ë³´ë¥¼ ì´í™íŠ¸ë“¤í•œí…Œ ë„˜ê²¨ì£¼ëŠ” ë©”ì„œë“œ
     public int EffectDamage(int EffectDamage = 1)
     {
         return damage = attack * EffectDamage;

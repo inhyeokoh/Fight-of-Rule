@@ -12,12 +12,12 @@ public class UI_ItemSlot : UI_Entity
     UI_Inventory _inven;
     List<Item> _invenItems;
 
-    // ÇöÀç ½½·Ô
+    // í˜„ì¬ ìŠ¬ë¡¯
     Image _iconImg;
     GameObject _amountText;
     public int index;
 
-    // µå·Ó ½Ã À§Ä¡ÇÑ ½½·Ô
+    // ë“œë¡­ ì‹œ ìœ„ì¹˜í•œ ìŠ¬ë¡¯
     int _otherIndex;
 
     enum Enum_UI_ItemSlot
@@ -46,17 +46,17 @@ public class UI_ItemSlot : UI_Entity
 
         _ItemRender();
 
-        //µå·¡±× ½ÃÀÛ
+        //ë“œë˜ê·¸ ì‹œì‘
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
         {
             if (!CheckItemNull())
             {
                 _dragImg.SetActive(true);
-                _dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // µå·¡±× ÀÌ¹ÌÁö¸¦ ÇöÀç ÀÌ¹ÌÁö·Î
+                _dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // ë“œë˜ê·¸ ì´ë¯¸ì§€ë¥¼ í˜„ì¬ ì´ë¯¸ì§€ë¡œ
             }
         };
 
-        //µå·¡±× Áß
+        //ë“œë˜ê·¸ ì¤‘
         _entities[(int)Enum_UI_ItemSlot.IconImg].DragAction = (PointerEventData data) =>
         {
             if (!CheckItemNull())
@@ -65,10 +65,10 @@ public class UI_ItemSlot : UI_Entity
             }
         };
 
-        //µå·¡±× ³¡
+        //ë“œë˜ê·¸ ë
         _entities[(int)Enum_UI_ItemSlot.IconImg].EndDragAction = (PointerEventData data) =>
         {
-            if (!CheckItemNull() && CheckCorrectDrop(data)) // µå·¡±× µå·ÓÇÑ ¿ÀºêÁ§Æ®°¡ ½½·ÔÀÌ¾î¾ßÇÔ
+            if (!CheckItemNull() && CheckCorrectDrop(data)) // ë“œë˜ê·¸ ë“œë¡­í•œ ì˜¤ë¸Œì íŠ¸ê°€ ìŠ¬ë¡¯ì´ì–´ì•¼í•¨
             {
                 _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
                 GameManager.Inven.DragAndDropItems(index, _otherIndex);
@@ -76,7 +76,7 @@ public class UI_ItemSlot : UI_Entity
             _dragImg.SetActive(false);
         };
 
-        // ½½·Ô ÇÏÀÌ¶óÀÌÆ®
+        // ìŠ¬ë¡¯ í•˜ì´ë¼ì´íŠ¸
         _entities[(int)Enum_UI_ItemSlot.IconImg].PointerEnterAction = (PointerEventData data) =>
         {
             if (!CheckItemNull())
@@ -94,14 +94,14 @@ public class UI_ItemSlot : UI_Entity
         };
     }
 
-    // ½½·Ô ¹øÈ£¿¡ ¸Â°Ô ¾ÆÀÌÅÛ ±×¸®±â
+    // ìŠ¬ë¡¯ ë²ˆí˜¸ì— ë§ê²Œ ì•„ì´í…œ ê·¸ë¦¬ê¸°
     public void _ItemRender()
     {
         if (_invenItems[index] != null)
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
             _iconImg.sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[index].ItemName}"); // ÇØ´ç ¾ÆÀÌÅÛ ÀÌ¸§°ú ÀÏÄ¡ÇÏ´Â ÀÌ¹ÌÁö ·Îµå
+                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[index].ItemName}"); // í•´ë‹¹ ì•„ì´í…œ ì´ë¦„ê³¼ ì¼ì¹˜í•˜ëŠ” ì´ë¯¸ì§€ ë¡œë“œ
             _amountText.SetActive(true);
             _amountText.GetComponent<TMP_Text>().text = $"{_invenItems[index].Count}";            
         }
@@ -119,7 +119,7 @@ public class UI_ItemSlot : UI_Entity
     }
 
 
-    // µå·Ó ½Ã ½½·Ô¿¡ ¹ş¾î³ªÁö ¾Ê¾Ò´ÂÁö È®ÀÎ
+    // ë“œë¡­ ì‹œ ìŠ¬ë¡¯ì— ë²—ì–´ë‚˜ì§€ ì•Šì•˜ëŠ”ì§€ í™•ì¸
     bool CheckCorrectDrop(PointerEventData data)
     {
         return data.pointerCurrentRaycast.gameObject.name == "IconImg";

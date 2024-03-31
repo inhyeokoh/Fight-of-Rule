@@ -307,7 +307,7 @@ public abstract class MonsterState : SubMono<MonsterController>
         }, () => { }, () => {  }, 
         () => 
         {
-            print("Dead¿¡¼­ ºüÁ®³ª¿È");       
+            print("Deadì—ì„œ ë¹ ì ¸ë‚˜ì˜´");       
         }));
     }
     public void ChangeState(int newState)

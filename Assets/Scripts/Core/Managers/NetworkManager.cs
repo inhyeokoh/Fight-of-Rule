@@ -35,11 +35,11 @@ public class NetworkManager : SubClass<GameManager>
     {
         mainSession = null;
 
-        //ÃÊ±âÈ­(¿¬°á¼³Á¤ µîµî)
-        //¼­¹ö ip or µµ¸ÞÀÎ ¼³Á¤
+        //ì´ˆê¸°í™”(ì—°ê²°ì„¤ì • ë“±ë“±)
+        //ì„œë²„ ip or ë„ë©”ì¸ ì„¤ì •
         IPAddress ipaddr = IPAddress.Parse(ip);
-        IPEndPoint ipendpoint = new IPEndPoint(ipaddr, port);  //ipendpoint·Î ÀÚµ¿À¸·Î ipv4 ÆÐ¹Ð¸®·Î ÁöÁ¤µÊ
-        Connector connector = new Connector();                  //¿¬°á ¼³Á¤¸¸ ±×´ë·Î ¹Þ¾Æ¼­ ¿¬°á
+        IPEndPoint ipendpoint = new IPEndPoint(ipaddr, port);  //ipendpointë¡œ ìžë™ìœ¼ë¡œ ipv4 íŒ¨ë°€ë¦¬ë¡œ ì§€ì •ë¨
+        Connector connector = new Connector();                  //ì—°ê²° ì„¤ì •ë§Œ ê·¸ëŒ€ë¡œ ë°›ì•„ì„œ ì—°ê²°
         GameManager.ThreadPool.EnqueueJob(() => { connector.Connect(ipendpoint, () => { return new ServerSession(nstate, vrf); }); });
     }
 }

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public abstract class BasePlayerEntity : SubMono<PlayerController>
 {
-    //ÇÃ·¹ÀÌ¾î ´Ğ³×ÀÓ
+    //í”Œë ˆì´ì–´ ë‹‰ë„¤ì„
     private string ninkName;
-    //ÇÃ·¹ÀÌ¾î °íÀ¯ ¹øÈ£
+    //í”Œë ˆì´ì–´ ê³ ìœ  ë²ˆí˜¸
     private static int ID;
 
     private int saveHp = 5;
@@ -37,16 +37,16 @@ public abstract class BasePlayerEntity : SubMono<PlayerController>
     public abstract void FixedUpdated();
 
     /// <summary>
-    /// GameController¿¡ ÀÖ´Â ¸ğµç Å¬·¡½ºµé ¾÷µ¥ÀÌÆ®·Î ±¸µ¿
+    /// GameControllerì— ìˆëŠ” ëª¨ë“  í´ë˜ìŠ¤ë“¤ ì—…ë°ì´íŠ¸ë¡œ êµ¬ë™
     /// </summary>
     public abstract void Updated();
 
     /// <summary>
-    /// ÀÏ´Ü Å×½ºÆ®·Î ±× Á÷¾÷ ÅØ½ºÆ® Ãâ·Â
+    /// ì¼ë‹¨ í…ŒìŠ¤íŠ¸ë¡œ ê·¸ ì§ì—… í…ìŠ¤íŠ¸ ì¶œë ¥
     /// </summary>
     public void Print(string text)
     {
-        print($"{name}´Â : {text}  ");
+        print($"{name}ëŠ” : {text}  ");
     }
 
 }

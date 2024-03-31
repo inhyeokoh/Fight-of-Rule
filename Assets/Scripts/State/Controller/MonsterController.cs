@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class MonsterController : MonoBehaviour
 {
-    //¸ó½ºÅÍ ÄÁÆ®·Ñ·¯´Â ¸ó½ºÅÍ¿¡ ¿¬°áµÇÀÖ´Â ±â´ÉµéÀ» ¿¬°áÇÏ°í ÀÔÃâ·ÂÀ» ´ã´çÇÏ´Â
-    //¸ŞÀÎº¸µå ±â´É
+    //ëª¬ìŠ¤í„° ì»¨íŠ¸ë¡¤ëŸ¬ëŠ” ëª¬ìŠ¤í„°ì— ì—°ê²°ë˜ìˆëŠ” ê¸°ëŠ¥ë“¤ì„ ì—°ê²°í•˜ê³  ì…ì¶œë ¥ì„ ë‹´ë‹¹í•˜ëŠ”
+    //ë©”ì¸ë³´ë“œ ê¸°ëŠ¥
 
     List<SubMono<MonsterController>> _monsterController;
 
@@ -17,7 +17,7 @@ public class MonsterController : MonoBehaviour
     public MonsterMovement _monsterMovement;
     public MonsterItemDrop _monsterItemDrop;
    
-    // ÇöÀç ¹üÀ§¾È¿¡ ÀÖ´Â ÇÃ·¹ÀÌ¾îµé È®ÀÎ
+    // í˜„ì¬ ë²”ìœ„ì•ˆì— ìˆëŠ” í”Œë ˆì´ì–´ë“¤ í™•ì¸
     public Collider[] players;
 
 

@@ -32,7 +32,7 @@ public class KeySlotUISetting : MonoBehaviour
 
         for (int i = 0; i < keySlots.Length; i++)
         {
-            // ¸¸¾à¿¡ ÀÖ´Ù¸é ¿ø·¡ ½ºÅ³ÀÌ ÀÖ´ø Å°½½·ÔÀº ³Î½ÃÅ°°í ´Ù½Ã ½ºÅ³ÀÌ ¾ø´ø È­¸éÀ¸·Î ¹Ù²Þ
+            // ë§Œì•½ì— ìžˆë‹¤ë©´ ì›ëž˜ ìŠ¤í‚¬ì´ ìžˆë˜ í‚¤ìŠ¬ë¡¯ì€ ë„ì‹œí‚¤ê³  ë‹¤ì‹œ ìŠ¤í‚¬ì´ ì—†ë˜ í™”ë©´ìœ¼ë¡œ ë°”ê¿ˆ
             if (keySlots[i].skill == skill)
             {
                 if (keySlots[i] == currentKeySlot)

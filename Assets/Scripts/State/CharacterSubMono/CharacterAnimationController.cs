@@ -6,8 +6,8 @@ public class CharacterAnimationController : SubMono<PlayerController>
 {
     private Animator _anim;
 
-    // ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÄÁÆ®·ÑÇÏ´Â ±â´É
-    // Ä³¸¯ÅÍµéÀÇ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÅëÇÕÀ¸·Î ¹­¾î¼­ °ü¸®ÇØ¾ßÇÔ
+    // ì• ë‹ˆë©”ì´ì…˜ì„ ì»¨íŠ¸ë¡¤í•˜ëŠ” ê¸°ëŠ¥
+    // ìºë¦­í„°ë“¤ì˜ ì• ë‹ˆë©”ì´ì…˜ì„ í†µí•©ìœ¼ë¡œ ë¬¶ì–´ì„œ ê´€ë¦¬í•´ì•¼í•¨
 
     public void AnimationSpeed()
     {
@@ -15,7 +15,7 @@ public class CharacterAnimationController : SubMono<PlayerController>
     }
 
 
-    // Ä³¸¯ÅÍÀÇ ÀÌµ¿ ¾Ö´Ï¸ŞÀÌ¼Ç Ã¼Å©
+    // ìºë¦­í„°ì˜ ì´ë™ ì• ë‹ˆë©”ì´ì…˜ ì²´í¬
     public bool MoveCheck()
     {
         if (_anim.GetInteger("Move") == 1)
@@ -28,21 +28,21 @@ public class CharacterAnimationController : SubMono<PlayerController>
         }
     }
 
-    // Ä³¸¯ÅÍÀÇ °ø°İ ¾Ö´Ï¸ŞÀÌ¼Ç ¹× °ø°İ ¼ø¼­¿¡ µû¸¥ ¾Ö´Ï¸ŞÀÌ¼Ç ÀÛµ¿
+    // ìºë¦­í„°ì˜ ê³µê²© ì• ë‹ˆë©”ì´ì…˜ ë° ê³µê²© ìˆœì„œì— ë”°ë¥¸ ì• ë‹ˆë©”ì´ì…˜ ì‘ë™
     public void ChanageAttackAnimation(int attackCombo)
     {
         _anim.SetInteger("AttackCombo", attackCombo);
         _anim.SetTrigger("Attack");
     }
     
-    // ·çÆ®¸ğ¼Ç »ç¿ëÇÏ´Â ¸Ş¼­µå ±Ùµ¥ ¹ö±×°¡ ¸¹ÀÌ»ı±è
+    // ë£¨íŠ¸ëª¨ì…˜ ì‚¬ìš©í•˜ëŠ” ë©”ì„œë“œ ê·¼ë° ë²„ê·¸ê°€ ë§ì´ìƒê¹€
     public void RootMotion(bool check)
     {
-        //print("RootMotion½áÁü");
+        //print("RootMotionì¨ì§");
         _anim.applyRootMotion = check;          
     }
 
-    //ÀÌµ¿»óÅÂ¸¦ È®ÀÎÇÏ±â À§ÇÑ ¸Ş¼­µå
+    //ì´ë™ìƒíƒœë¥¼ í™•ì¸í•˜ê¸° ìœ„í•œ ë©”ì„œë“œ
 
     public void ChangeMoveAnimation(int stateId)
     {
@@ -50,14 +50,14 @@ public class CharacterAnimationController : SubMono<PlayerController>
         _anim.SetInteger("Move", stateId);
     }
 
-    // Æ®¸®°Å¸¦ ÀÎÇÑ ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÀüÈ¯½ÃÅ°´Â ¸Ş¼­µå
+    // íŠ¸ë¦¬ê±°ë¥¼ ì¸í•œ ì• ë‹ˆë©”ì´ì…˜ì„ ì „í™˜ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     public void ChangeTrrigerAnimation(string state)
     {
         RootMotion(false);
         _anim.SetTrigger(state);      
     }
 
-    // ½ºÅ³ »óÅÂÆĞÅÏ¿¡¼­ ½ºÅ³ ¹øÈ£µéÀ» °¡Á®¿Í ¾Ö´Ï¸ŞÀÌ¼ÇÀ» ÀÛµ¿½ÃÅ°´Â ¸Ş¼­µå
+    // ìŠ¤í‚¬ ìƒíƒœíŒ¨í„´ì—ì„œ ìŠ¤í‚¬ ë²ˆí˜¸ë“¤ì„ ê°€ì ¸ì™€ ì• ë‹ˆë©”ì´ì…˜ì„ ì‘ë™ì‹œí‚¤ëŠ” ë©”ì„œë“œ
     public void ChangeSkillAnimation(int abliltyNumber)
     {
         _anim.SetInteger("SkillNumber", abliltyNumber);

@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class CharacterEffector : SubMono<PlayerController>
 {
-    //Áï½Ã ÀÌÆåÆ®
+    //ì¦‰ì‹œ ì´í™íŠ¸
     [SerializeField]
     private GameObject[] effetcBurst;
 
-    //Áö¼Ó ÀÌÆåÆ®
+    //ì§€ì† ì´í™íŠ¸
     [SerializeField]
     private GameObject[] effectDuration;
  
     [SerializeField]
     private List<Transform> effectTransform;
 
-    //ÇöÀç ½ºÅ³ ÀÌÆåÆ® ÀÎµ¦½º
+    //í˜„ì¬ ìŠ¤í‚¬ ì´í™íŠ¸ ì¸ë±ìŠ¤
     private int instanceEffect;
 
     private bool isSkillInstance;

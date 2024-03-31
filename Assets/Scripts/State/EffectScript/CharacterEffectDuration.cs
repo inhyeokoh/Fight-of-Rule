@@ -71,7 +71,7 @@ public class CharacterEffectDuration : MonoBehaviour
         {
             if (!delayTime)
             {
-                print("ÀÛµ¿‰Î");
+                print("ì‘ë™ëŒ");
                 delayTime = true;
                 StartCoroutine("DurationDamage", durationTime);
             }

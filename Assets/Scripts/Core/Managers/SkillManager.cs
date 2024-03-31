@@ -5,15 +5,15 @@ using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
-    //ÇÃ·¹ÀÌ¾îÀÇ ½ºÅ³µéÀ» °ü¸®ÇÏ±âÀ§ÇØ ¸¸µç ¸Å´ÏÀú
+    //í”Œë ˆì´ì–´ì˜ ìŠ¤í‚¬ë“¤ì„ ê´€ë¦¬í•˜ê¸°ìœ„í•´ ë§Œë“  ë§¤ë‹ˆì €
 
-    //ÇÃ·¹ÀÌ¾î°¡ Á¶°ÇÀ¸·Î ÀÎÇØ¼­ ½ÀµæÇÏ´Â°Å¶û
-    //ÇÃ·¹ÀÌ¾î°¡ ÀÌ ·¹º§ Á¶°Ç°ú ÀÌ ½ºÅ³À» °¡Áö°í ÀÖÀ»½Ã¿¡ ½Àµæ°¡´É
+    //í”Œë ˆì´ì–´ê°€ ì¡°ê±´ìœ¼ë¡œ ì¸í•´ì„œ ìŠµë“í•˜ëŠ”ê±°ë‘
+    //í”Œë ˆì´ì–´ê°€ ì´ ë ˆë²¨ ì¡°ê±´ê³¼ ì´ ìŠ¤í‚¬ì„ ê°€ì§€ê³  ìˆì„ì‹œì— ìŠµë“ê°€ëŠ¥
 
-    //·¹º§ Á¶°Ç
+    //ë ˆë²¨ ì¡°ê±´
 
-    //¸¸¾à¿¡ ½ºÅ³À» ¾òÀ¸¸é ÀÌ ½ºÅ³À» »ç¿ëÇØ¾ßÇÑ´Ù
-    //ÇÃ·¹ÀÌ¾î°¡ Ä³¸¯ÅÍ Á÷¾÷¿¡ µû¶ó ¾²´Â ½ºÅ³µéÀÌ ´Ş¶óÁø´Ù.
+    //ë§Œì•½ì— ìŠ¤í‚¬ì„ ì–»ìœ¼ë©´ ì´ ìŠ¤í‚¬ì„ ì‚¬ìš©í•´ì•¼í•œë‹¤
+    //í”Œë ˆì´ì–´ê°€ ìºë¦­í„° ì§ì—…ì— ë”°ë¼ ì“°ëŠ” ìŠ¤í‚¬ë“¤ì´ ë‹¬ë¼ì§„ë‹¤.
 
     [SerializeField]
     private KeySlotUISetting keySlotUISetting;
@@ -24,10 +24,10 @@ public class SkillManager : MonoBehaviour
 
     public static SkillManager Skill { get { return _skill; } }    
 
-    //½ºÅ³À» ¾²´Â ´ë»óÀ» Ã£±âÀ§ÇÑ ÇöÀç ÇÃ·¹ÀÌ¾î
+    //ìŠ¤í‚¬ì„ ì“°ëŠ” ëŒ€ìƒì„ ì°¾ê¸°ìœ„í•œ í˜„ì¬ í”Œë ˆì´ì–´
     public CharacterState PlayerState { get; private set; }
 
-    //½ºÅ³À» ¾²´Â ´ë»óÀ» Ã£±âÀ§ÇÑ ÇöÀç ÇÃ·¹ÀÌ¾î
+    //ìŠ¤í‚¬ì„ ì“°ëŠ” ëŒ€ìƒì„ ì°¾ê¸°ìœ„í•œ í˜„ì¬ í”Œë ˆì´ì–´
     public CharacterStatus PlayerStat { get; private set; }
 
 
@@ -111,18 +111,18 @@ public class SkillManager : MonoBehaviour
         }
 
 #if UNITY_EDITOR
-        //Debug.Log("»ı¼º"); //ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ¸¦ °¡Á®¿ÔÀ»¶§ »ı¼º Ãâ·Â
+        //Debug.Log("ìƒì„±"); //í”Œë ˆì´ì–´ ë°ì´í„°ë¥¼ ê°€ì ¸ì™”ì„ë•Œ ìƒì„± ì¶œë ¥
 #endif
     }
 
     
-    // ÇöÀç Ä³¸¯ÅÍ ½ºÅ³ ¸®ÅÏ
+    // í˜„ì¬ ìºë¦­í„° ìŠ¤í‚¬ ë¦¬í„´
     public Skill[] CharacterSkillSet()
     {
         return characterSkills;
     }
 
-    // ½ºÅ³Ã¢ ½ºÅ³µé ·¹º§ ¿Ã¸®¼Â
+    // ìŠ¤í‚¬ì°½ ìŠ¤í‚¬ë“¤ ë ˆë²¨ ì˜¬ë¦¬ì…‹
     public void SkillAllReset()
     {
         keySlotUISetting.KeySlotAllReset();
@@ -133,13 +133,13 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    // ÇöÀç ½ºÅ³ ·¹º§¾÷
+    // í˜„ì¬ ìŠ¤í‚¬ ë ˆë²¨ì—…
     public void SkillLevelUp(Skill skill)
     {
         skill.LevelUp();
     }
  
-    // ÇöÀç ½ºÅ³ ¸®¼Â
+    // í˜„ì¬ ìŠ¤í‚¬ ë¦¬ì…‹
     public void SkillReset(Skill skill)
     {
         keySlotUISetting.KeySlotSkillReset(skill);

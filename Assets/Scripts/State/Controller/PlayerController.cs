@@ -13,7 +13,7 @@ public enum Enum_Class
     Wizard
 }
 
-//ÇöÀç ÇÃ·¹ÀÌ¾îÀÇ ¸ŞÀÎº¸µå ¿ªÇÒÀ» ÇÏ´Â Å¬·¡½º
+//í˜„ì¬ í”Œë ˆì´ì–´ì˜ ë©”ì¸ë³´ë“œ ì—­í• ì„ í•˜ëŠ” í´ë˜ìŠ¤
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance = null;
@@ -30,14 +30,14 @@ public class PlayerController : MonoBehaviour
     public CharacterEffector _effector;
     public LevelSystem _levelSystem;
 
-    //ÇöÀç ¾Æ·¡ ¶¥ÀÌ ±×¶ó¿îµåÀÎÁö ¾Æ´ÑÁö Ã¼Å©
+    //í˜„ì¬ ì•„ë˜ ë•…ì´ ê·¸ë¼ìš´ë“œì¸ì§€ ì•„ë‹Œì§€ ì²´í¬
     public RaycastHit[] ground;
 
-    // Å°½½·Ô¿¡ ½ºÅ³ÀÌ ÀÖ´ÂÁö Ã¼Å©
+    // í‚¤ìŠ¬ë¡¯ì— ìŠ¤í‚¬ì´ ìˆëŠ”ì§€ ì²´í¬
     [SerializeField]
     private UI_SkillKeySlot[] ketSlots;
 
-    // Á÷¾÷¿¡ ¸Â°Ô Ä³¸¯ÅÍ¸¦ °¡Á®¿À´Â ÇÁ¸®ÆÕ
+    // ì§ì—…ì— ë§ê²Œ ìºë¦­í„°ë¥¼ ê°€ì ¸ì˜¤ëŠ” í”„ë¦¬íŒ¹
     [SerializeField]
     private GameObject[] ClassPrefabs;
 
@@ -135,14 +135,14 @@ public class PlayerController : MonoBehaviour
         SkillManager.Skill.PlayerData();
     }
 
-    // ÇöÀç »óÅÂÆĞÅÏ ±×¸®°í Àåºñ »óÅÂÆĞÅÏ È£Ãâ
+    // í˜„ì¬ ìƒíƒœíŒ¨í„´ ê·¸ë¦¬ê³  ì¥ë¹„ ìƒíƒœíŒ¨í„´ í˜¸ì¶œ
     private void FixedUpdate()
     {      
         _playerState.FixedUpdated();
         _playerEquipment.EquipmentFixedStay();
     }
 
-    //ÇöÀç »óÅÂÆĞÅÏ ±×¸®°í Àåºñ »óÅÂÆĞÅÏ ±×¸®°í ±¸¸£±â ÄğÅ¸ÀÓ(ÀÌ°Ç ´Ù¸¥µ¥·Î ¿Å°Ü¾ßÇÔ) ¸¶¿ì½º À§Ä¡ Ã¼Å©
+    //í˜„ì¬ ìƒíƒœíŒ¨í„´ ê·¸ë¦¬ê³  ì¥ë¹„ ìƒíƒœíŒ¨í„´ ê·¸ë¦¬ê³  êµ¬ë¥´ê¸° ì¿¨íƒ€ì„(ì´ê±´ ë‹¤ë¥¸ë°ë¡œ ì˜®ê²¨ì•¼í•¨) ë§ˆìš°ìŠ¤ ìœ„ì¹˜ ì²´í¬
     private void Update()
     {
         ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -156,20 +156,20 @@ public class PlayerController : MonoBehaviour
         _playerEquipment.EquipmentStay();
     }
 
-    // ·¹º§¾÷À» ÇßÀ»¶§ (ÀÌ°Íµµ ´Ù¸¥µ¥·Î ¿Å°Ü¾ßÇÔ)
+    // ë ˆë²¨ì—…ì„ í–ˆì„ë•Œ (ì´ê²ƒë„ ë‹¤ë¥¸ë°ë¡œ ì˜®ê²¨ì•¼í•¨)
     public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenese, bool firstLevel)
     {
         _playerStat.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenese, firstLevel);
     }
 
-    // ·¹º§¾÷ Ã¼Å©Çß´ÂÁö È®ÀÎ (ÀÌ°Íµµ ´Ù¸¥µ¥·Î ¿Å°Ü¾ßÇÔ)
+    // ë ˆë²¨ì—… ì²´í¬í–ˆëŠ”ì§€ í™•ì¸ (ì´ê²ƒë„ ë‹¤ë¥¸ë°ë¡œ ì˜®ê²¨ì•¼í•¨)
     public void LevelUpCheck(int level)
     {
         _levelSystem.LevelUpCheck(level);
     }
 
 
-    //ÇÃ·¹ÀÌ¾îÀÇ ÀÔÃâ·ÂºÎºĞÀ» ´ã´çÇÏ´Â ¸Ş¼­µåµéÀÎµ¥ ÀÌ°É ÀÔÃâ·Â Å¬·¡½º¸¦ ÇÏ³ª ¸¸µé¾î¼­ ¿Å°Ü¾ß µÉ°Å°°À½
+    //í”Œë ˆì´ì–´ì˜ ì…ì¶œë ¥ë¶€ë¶„ì„ ë‹´ë‹¹í•˜ëŠ” ë©”ì„œë“œë“¤ì¸ë° ì´ê±¸ ì…ì¶œë ¥ í´ë˜ìŠ¤ë¥¼ í•˜ë‚˜ ë§Œë“¤ì–´ì„œ ì˜®ê²¨ì•¼ ë ê±°ê°™ìŒ
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -378,17 +378,17 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.phase == InputActionPhase.Started)
         {
-            print("´­·¶À½");
+            print("ëˆŒë €ìŒ");
             _playerState.ChangeState((int)Enum_CharacterState.Idle);
         }
     }
 
 
 
-    // ÀÌº¥Æ®µé¿¡ Á¤º¸µéÀ» ¹Ş±âÀ§ÇÑ ¸Ş¼­µåµé
+    // ì´ë²¤íŠ¸ë“¤ì— ì •ë³´ë“¤ì„ ë°›ê¸°ìœ„í•œ ë©”ì„œë“œë“¤
     public void DistributeState(int Event)
     {
-        print("ÀÛµ¿‰Î");
+        print("ì‘ë™ëŒ");
         _playerState.ChangeState(Event);
     }
 

@@ -14,23 +14,23 @@ namespace ServerCore
             {
                 string host = Dns.GetHostName();
                 IPHostEntry ipHost = Dns.GetHostEntry(host);
-                IPAddress ipAddr = ipHost.AddressList[0]; // ip ÁÖ¼Ò°¡ ¿©·¯°³ ÀÖÀ» ¼ö ÀÖÀ¸´Ï Ã¹¹øÂ°
+                IPAddress ipAddr = ipHost.AddressList[0]; // ip ì£¼ì†Œê°€ ì—¬ëŸ¬ê°œ ìˆì„ ìˆ˜ ìˆìœ¼ë‹ˆ ì²«ë²ˆì§¸
                 IPEndPoint endPoint = new IPEndPoint(ipAddr, 7000);
 
                 Connector connector = new Connector();
 
                 // connector.Connect(endPoint, () => { return new GameSession(); });
 
-                // ¿¬°á ¹®ÀÇ
+                // ì—°ê²° ë¬¸ì˜
                 socket.Connect(endPoint);
                 Console.WriteLine($"Connected To {socket.RemoteEndPoint.ToString()}");
 
-                // º¸³¾ ³»¿ë
+                // ë³´ë‚¼ ë‚´ìš©
                 byte[] sendBuff = Encoding.UTF8.GetBytes("Hello World");
                 int sendBytes = socket.Send(sendBuff);
 
-                // ¹ŞÀ» ³»¿ë
-                byte[] recvBuff = new byte[1024]; // ¾î´À Á¤µµÀÇ Å©±â°¡ µé¾î¿ÃÁö ¸ğ¸£¹Ç·Î 1024·Î ¼³Á¤
+                // ë°›ì„ ë‚´ìš©
+                byte[] recvBuff = new byte[1024]; // ì–´ëŠ ì •ë„ì˜ í¬ê¸°ê°€ ë“¤ì–´ì˜¬ì§€ ëª¨ë¥´ë¯€ë¡œ 1024ë¡œ ì„¤ì •
                 int recvBytes = socket.Receive(recvBuff);
                 string recvData = Encoding.UTF8.GetString(recvBuff, 0, recvBytes);
                 Console.WriteLine($"[From Server] {recvData}");

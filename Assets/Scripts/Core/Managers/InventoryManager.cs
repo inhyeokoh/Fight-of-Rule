@@ -6,7 +6,7 @@ using UnityEngine;
 public class InventoryManager : SubClass<GameManager>
 {
     public int totalSlot = 30;
-    public List<Item> items; // slot index¿¡ µû¸¥ ¾ÆÀÌÅÛ ¸®½ºÆ®
+    public List<Item> items; // slot indexì— ë”°ë¥¸ ì•„ì´í…œ ë¦¬ìŠ¤íŠ¸
 
     UI_Inventory _inven;
     protected override void _Clear()
@@ -21,7 +21,7 @@ public class InventoryManager : SubClass<GameManager>
     {
     }
 
-    //·ÎÄÃ·ÎºÎÅÍ ³» ÀÎº¥ ¾ÆÀÌÅÛ Á¤º¸ °¡Á®¿Í¼­ ÀÎº¥ ¸®½ºÆ®¿¡ Áı¾î³ÖÀ½
+    //ë¡œì»¬ë¡œë¶€í„° ë‚´ ì¸ë²¤ ì•„ì´í…œ ì •ë³´ ê°€ì ¸ì™€ì„œ ì¸ë²¤ ë¦¬ìŠ¤íŠ¸ì— ì§‘ì–´ë„£ìŒ
     public void ConnectInvenUI()
     {
         items = new List<Item>(new Item[totalSlot]);
@@ -33,12 +33,12 @@ public class InventoryManager : SubClass<GameManager>
     void _GetInvenDataFromDB()
     {
         GameManager.Data.ItemDB = GameManager.Resources.Load<TextAsset>("Data/ItemDB");
-        string[] lines = GameManager.Data.ItemDB.text.Substring(0, GameManager.Data.ItemDB.text.Length - 1).Split('\n'); // textÆÄÀÏ·Î µÈ DBÀÇ Line
+        string[] lines = GameManager.Data.ItemDB.text.Substring(0, GameManager.Data.ItemDB.text.Length - 1).Split('\n'); // textíŒŒì¼ë¡œ ëœ DBì˜ Line
 
-        for (int i = 0; i < lines.Length; i++) // 0¹øºÎÅÍ Â÷·Ê·Î ³ÖÀ½
+        for (int i = 0; i < lines.Length; i++) // 0ë²ˆë¶€í„° ì°¨ë¡€ë¡œ ë„£ìŒ
         {
-            string[] row = lines[i].Split('\t'); // Tab ±âÁØÀ¸·Î ³ª´©±â
-            // ¾ÆÀÌÅÛ Áı¾î ³Ö±â
+            string[] row = lines[i].Split('\t'); // Tab ê¸°ì¤€ìœ¼ë¡œ ë‚˜ëˆ„ê¸°
+            // ì•„ì´í…œ ì§‘ì–´ ë„£ê¸°
             items[Convert.ToInt32(row[7])] = new Item(null, Convert.ToInt32(row[0]), row[2], row[3], 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(row[4]), Convert.ToInt32(row[5]), row[6] == "TRUE", Convert.ToInt32(row[7]),/*temp*/0);
         }
     }
@@ -55,23 +55,23 @@ public class InventoryManager : SubClass<GameManager>
     {
         if (oldPos == newPos) return;
 
-        if (items[newPos] == null) // newPos°¡ ºñ¾îÀÖ´Â ½½·ÔÀÌ¸é ¿Å±â±â
+        if (items[newPos] == null) // newPosê°€ ë¹„ì–´ìˆëŠ” ìŠ¬ë¡¯ì´ë©´ ì˜®ê¸°ê¸°
         {
             _ChangeSlotNum(oldPos, newPos);
         }
-        // ¼¿ ¼ö ÀÖ´Â ¾ÆÀÌÅÛÀÌ°í °°Àº ¾ÆÀÌÅÛÀÌ¸é ¼ö·® ÇÕÄ¡±â
+        // ì…€ ìˆ˜ ìˆëŠ” ì•„ì´í…œì´ê³  ê°™ì€ ì•„ì´í…œì´ë©´ ìˆ˜ëŸ‰ í•©ì¹˜ê¸°
         else if (_CheckSameAndCountable(oldPos, newPos))
         {
             _AddUpItems(oldPos, newPos);
         }
-        else  // ´Ù¸¥ ¾ÆÀÌÅÛÀÌ¸é À§Ä¡ ±³È¯
+        else  // ë‹¤ë¥¸ ì•„ì´í…œì´ë©´ ìœ„ì¹˜ êµí™˜
         {
             _ExchangeSlotNum(oldPos, newPos);
         }
-        _inven.UpdateInvenInfo(oldPos); // ÀÌ¹ÌÁö °»½Å
+        _inven.UpdateInvenInfo(oldPos); // ì´ë¯¸ì§€ ê°±ì‹ 
         _inven.UpdateInvenInfo(newPos);
 
-        // TODO ¹Ù²ï ³»¿ë ¼­¹ö·Î Àü¼Û
+        // TODO ë°”ë€ ë‚´ìš© ì„œë²„ë¡œ ì „ì†¡
     }
 
     void _ChangeSlotNum(int oldKey, int newKey)
@@ -94,7 +94,7 @@ public class InventoryManager : SubClass<GameManager>
 
     void _AddUpItems(int a, int b)
     {
-        if (items[b].Count == items[b].MaxCount) // ¹Ù²Ü À§Ä¡¿¡ ÀÌ¹Ì ²Ë Â÷ÀÖ´Â °æ¿ì, ¼ö·®¸¸ ±³È¯
+        if (items[b].Count == items[b].MaxCount) // ë°”ê¿€ ìœ„ì¹˜ì— ì´ë¯¸ ê½‰ ì°¨ìˆëŠ” ê²½ìš°, ìˆ˜ëŸ‰ë§Œ êµí™˜
         {
             int temp = items[b].Count;
             items[b].Count = items[a].Count;
@@ -114,10 +114,10 @@ public class InventoryManager : SubClass<GameManager>
             }
         }
     }
-    // ¾ÆÀÌÅÛ ½Àµæ
+    // ì•„ì´í…œ ìŠµë“
     /*    void AddItem/Item data, int amount)
         {
-            if (¼ö·® ÀÖ´Â ¾ÆÀÌÅÛ) -> µ¿ÀÏ ¾ÆÀÌÅÛ Ã£¾Æ¼­ ¼ö·® ÇÕ»ê
+            if (ìˆ˜ëŸ‰ ìˆëŠ” ì•„ì´í…œ) -> ë™ì¼ ì•„ì´í…œ ì°¾ì•„ì„œ ìˆ˜ëŸ‰ í•©ì‚°
 
             if (data._countable == true)
             {
@@ -127,7 +127,7 @@ public class InventoryManager : SubClass<GameManager>
 
 
 
-            else if (µ¿ÀÏ ¾ÆÀÌÅÛ ¾ø°Å³ª, ÀÌ¹Ì ÃÖ´ë¼ö·® ÀÌ°Å³ª, ¼ö·®ÀÌ ¾ø´Â ¾ÆÀÌÅÛ) -> ¹è¿­ÀÇ ¾ÕºÎÅÍ ºó ½½·Ô Ã£¾Æ¼­ ³Ö±â
+            else if (ë™ì¼ ì•„ì´í…œ ì—†ê±°ë‚˜, ì´ë¯¸ ìµœëŒ€ìˆ˜ëŸ‰ ì´ê±°ë‚˜, ìˆ˜ëŸ‰ì´ ì—†ëŠ” ì•„ì´í…œ) -> ë°°ì—´ì˜ ì•ë¶€í„° ë¹ˆ ìŠ¬ë¡¯ ì°¾ì•„ì„œ ë„£ê¸°
         }*/
 
 }

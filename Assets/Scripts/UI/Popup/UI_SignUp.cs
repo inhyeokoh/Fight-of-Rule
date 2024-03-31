@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 public class UI_SignUp : UI_Entity
 {
-    // TODO : »ı¼º°¡´É,Áßº¹´Ğ³×ÀÓ,»ı¼ººÒ°¡ÇÑ ÄÉÀÌ½º·Î ³ª´µ¾î¾ßÇÔ
+    // TODO : ìƒì„±ê°€ëŠ¥,ì¤‘ë³µë‹‰ë„¤ì„,ìƒì„±ë¶ˆê°€í•œ ì¼€ì´ìŠ¤ë¡œ ë‚˜ë‰˜ì–´ì•¼í•¨
     bool canCreate = true;
     public TMP_Text msg;
 
@@ -42,7 +42,7 @@ public class UI_SignUp : UI_Entity
 
         msg = _entities[(int)Enum_UI_SignUp.CheckResult].GetComponentInChildren<TMP_Text>();
 
-        //¼­¹ö¿¡ È¸¿ø°¡ÀÔ ¿äÃ»
+        //ì„œë²„ì— íšŒì›ê°€ì… ìš”ì²­
         _entities[(int)Enum_UI_SignUp.Create].ClickAction = (PointerEventData data) => {
             C_SIGNUP signup_ask_pkt = new C_SIGNUP();
             signup_ask_pkt.SignupId = _entities[(int)Enum_UI_SignUp.IDField].GetComponent<TMP_InputField>().text;

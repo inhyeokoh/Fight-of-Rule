@@ -29,7 +29,7 @@ public class UI_SkillWindow : UI_Entity
     GameObject skillContent;
 
     /// <summary>
-    /// ½ºÅ³Ã¢ ¿ÀºêÁ§Æ® µé 
+    /// ìŠ¤í‚¬ì°½ ì˜¤ë¸Œì íŠ¸ ë“¤ 
     /// </summary>
     UI_SkillUISlot selectSkillInfo;
     GameObject _skillPanal;
@@ -43,7 +43,7 @@ public class UI_SkillWindow : UI_Entity
 
 
     /// <summary>
-    /// Å°½½·Ô°ú ½ºÅ³¿¬µ¿À» À§ÇÑ Å¬·¡½ºµé
+    /// í‚¤ìŠ¬ë¡¯ê³¼ ìŠ¤í‚¬ì—°ë™ì„ ìœ„í•œ í´ë˜ìŠ¤ë“¤
     /// </summary>
  
     public Skill selectSkill;
@@ -61,7 +61,7 @@ public class UI_SkillWindow : UI_Entity
         _skillPanal = _entities[(int)Enum_UI_SkillWindow.BackGroundPanel].gameObject;
 
      
-        // ½ºÅ³¸Å´ÏÀú¿¡ ÀÖ´ø Ä³¸¯ÅÍ ½ºÅ³ ¹è¿­ °¡Á®¿ÂÈÄ ½ºÅ³½½·Ô »ı¼º
+        // ìŠ¤í‚¬ë§¤ë‹ˆì €ì— ìˆë˜ ìºë¦­í„° ìŠ¤í‚¬ ë°°ì—´ ê°€ì ¸ì˜¨í›„ ìŠ¤í‚¬ìŠ¬ë¡¯ ìƒì„±
         foreach(Skill skill in SkillManager.Skill.CharacterSkillSet())
         {
             UI_SkillUISlot skillClone = GameManager.Resources.Instantiate
@@ -75,22 +75,22 @@ public class UI_SkillWindow : UI_Entity
         {
             // GameManager.UI.ClosePopup(GameManager.UI.SkillWindow);
         };
-        //ÇöÀç Å¬¸¯ ¸Ş¼­µåµé
+        //í˜„ì¬ í´ë¦­ ë©”ì„œë“œë“¤
         _entities[(int)Enum_UI_SkillWindow.LearnBtn].ClickAction = (PointerEventData data) =>
         {
             if (selectSkill == null)
             {
-                print("¹è¿ï ½ºÅ³ÀÌ ¾ø½À´Ï´Ù");
+                print("ë°°ìš¸ ìŠ¤í‚¬ì´ ì—†ìŠµë‹ˆë‹¤");
                 return;
             }
 
             if (selectSkill.Level == selectSkill.MAXLevel)
             {
-                print("ÃÖ´ë·¹º§ ÀÔ´Ï´Ù.");
+                print("ìµœëŒ€ë ˆë²¨ ì…ë‹ˆë‹¤.");
             }
             /*else if (selectSkill.SkillLevelCondition > player.Level)
             {
-                print("·¹º§ÀÌ ºÎÁ·ÇÕ´Ï´Ù.");
+                print("ë ˆë²¨ì´ ë¶€ì¡±í•©ë‹ˆë‹¤.");
             }*/
             else
             {       
@@ -104,13 +104,13 @@ public class UI_SkillWindow : UI_Entity
         {
             if (selectSkill == null)
             {
-                print("¸®¼ÂÇÒ ½ºÅ³ÀÌ ¾ø½À´Ï´Ù");
+                print("ë¦¬ì…‹í•  ìŠ¤í‚¬ì´ ì—†ìŠµë‹ˆë‹¤");
                 return;
             }
 
             if (selectSkill.Level == 0)
             {
-                print("¸®¼ÂÇÒ Æ÷ÀÎÆ®°¡ ¾ø½À´Ï´Ù.");
+                print("ë¦¬ì…‹í•  í¬ì¸íŠ¸ê°€ ì—†ìŠµë‹ˆë‹¤.");
             }
             else
             {
@@ -130,7 +130,7 @@ public class UI_SkillWindow : UI_Entity
         skillPoint = _entities[(int)Enum_UI_SkillWindow.NecessaryPointPanel].GetComponentInChildren<TMP_Text>();
     }
 
-    // ½ºÅ³ ÀÎÆ÷Ã¢À» °»½ÅÇÏ±â À§ÇÑ ¸Ş¼­µå
+    // ìŠ¤í‚¬ ì¸í¬ì°½ì„ ê°±ì‹ í•˜ê¸° ìœ„í•œ ë©”ì„œë“œ
     public void SelctSkill(Skill skill)
     {
         this.selectSkill = skill;
@@ -138,35 +138,35 @@ public class UI_SkillWindow : UI_Entity
     }
 
 
-    // ½ºÅ³ ÀÎÆ÷Ã¢ °»½ÅÁß
+    // ìŠ¤í‚¬ ì¸í¬ì°½ ê°±ì‹ ì¤‘
     private void SkillInfomation()
     {
         skillToolTip.text = selectSkill.SKillDESC;
         skillName.text = selectSkill.SkillName;
-        skillLevel.text = $"·¹º§ {selectSkill.SkillLevelCondition} ÀÌ»ó";
-        skillPoint.text = $"ÇÊ¿ä Æ÷ÀÎÆ® \n {selectSkill.SkillPoint}";
-        skillReset.text = "¸®¼ÂÇÏ±â";
+        skillLevel.text = $"ë ˆë²¨ {selectSkill.SkillLevelCondition} ì´ìƒ";
+        skillPoint.text = $"í•„ìš” í¬ì¸íŠ¸ \n {selectSkill.SkillPoint}";
+        skillReset.text = "ë¦¬ì…‹í•˜ê¸°";
 
 
         if (selectSkill.Level == 0)
         {
-            skillLearn.text = "¹è¿ì±â";
+            skillLearn.text = "ë°°ìš°ê¸°";
         }
         else if (selectSkill.Level == selectSkill.MAXLevel)
         {
-            skillLearn.text = "ÃÖ´ëÀÔ´Ï´Ù";
+            skillLearn.text = "ìµœëŒ€ì…ë‹ˆë‹¤";
             skillPoint.text = "MAX";
             skillLevel.text = "MAX";
         }
         else
         {
-            skillLearn.text = "·¹º§¾÷";
+            skillLearn.text = "ë ˆë²¨ì—…";
         }
 
     }
 
 
-    // ½ºÅ³ÀÌ ¾÷Çß°Å³ª ¸®¼ÂÀ» ÇßÀ¸¸é À§¿¡ ÀÎÆ÷Ã¢µéÀ» °»½ÅÇÏ±âÀ§ÇØ ½ºÅ³¿¡ ÀÖ´Â Á¤º¸µéÀ» °¡Á®¿Â´Ù
+    // ìŠ¤í‚¬ì´ ì—…í–ˆê±°ë‚˜ ë¦¬ì…‹ì„ í–ˆìœ¼ë©´ ìœ„ì— ì¸í¬ì°½ë“¤ì„ ê°±ì‹ í•˜ê¸°ìœ„í•´ ìŠ¤í‚¬ì— ìˆëŠ” ì •ë³´ë“¤ì„ ê°€ì ¸ì˜¨ë‹¤
     public void SelectSkillUIInfoMationText(UI_SkillUISlot texts)
     {
         if (selectSkillInfo != null)

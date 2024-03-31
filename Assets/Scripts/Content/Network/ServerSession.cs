@@ -64,11 +64,11 @@ public class ServerSession : PacketSession
         
 
 
-        //Àü¼Û¹ý 1
+        //ì „ì†¡ë²• 1
         //var sdata = PacketHandler.Instance.SerializePacket(login_ask_pkt);
         //Send(sdata);
 
-        //Àü¼Û¹ý 2
+        //ì „ì†¡ë²• 2
         //Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
     }
 
