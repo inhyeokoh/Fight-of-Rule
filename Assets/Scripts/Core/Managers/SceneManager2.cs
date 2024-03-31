@@ -1,3 +1,4 @@
+#define TEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,10 +21,16 @@ public class SceneManager2 : SubClass<GameManager>
 
     protected override void _Init()
     {
+#if TEST
+        maxIdx = SceneManager.sceneCountInBuildSettings;
+        curIdx = SceneManager.GetActiveScene().buildIndex;
+#else
         maxIdx = SceneManager.sceneCountInBuildSettings;
         curIdx = SceneManager.GetActiveScene().buildIndex;
 
         uiManage = GameObject.Find("UI_Manage").GetComponent<UI_Manage>();
+#endif
+
     }
 
     public void GetPreviousScene(int numToSkip = 1)

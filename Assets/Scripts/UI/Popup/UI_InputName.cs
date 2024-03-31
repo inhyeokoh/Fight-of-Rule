@@ -1,3 +1,4 @@
+#define CLIENTONLY
 using System;
 using TMPro;
 using UnityEngine;
@@ -49,9 +50,16 @@ public class UI_InputName : UI_Entity
             // 특수문자 안되게
             else
             {
+#if CLIENTONLY
+                GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
+                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+                GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().choice = 0;
+                GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
+#else
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = nickname;
                 GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+#endif
             }
         };
 

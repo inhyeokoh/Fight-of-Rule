@@ -25,6 +25,11 @@ public class UI_Inventory : UI_Entity
         return typeof(Enum_UI_Inventory);
     }
 
+    private void OnDisable()
+    {
+        GameManager.UI.PointerOnUI(false);
+    }
+
     protected override void Init()
     {
         base.Init();
@@ -57,11 +62,13 @@ public class UI_Inventory : UI_Entity
         // UI위에 커서 있을 시 캐릭터 행동 제약
         _entities[(int)Enum_UI_Inventory.Panel].PointerEnterAction = (PointerEventData data) =>
         {
+            Debug.Log("ui 위");
             GameManager.UI.PointerOnUI(true);
         };
 
         _entities[(int)Enum_UI_Inventory.Panel].PointerExitAction = (PointerEventData data) =>
         {
+            Debug.Log("ui 밖");
             GameManager.UI.PointerOnUI(false);
         };
 

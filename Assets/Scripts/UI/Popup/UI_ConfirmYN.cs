@@ -1,3 +1,4 @@
+#define CLIENTONLY
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -53,10 +54,16 @@ public class UI_ConfirmYN : UI_Entity
         switch (choice)
         {
             case (int)AcceptCase.newCharacter:
+#if CLIENTONLY
+                GameManager.UI.CloseLinkedPopup();
+                GameManager.Scene.LoadScene("Select");
+                break;
+#else
                 GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
                 GameManager.UI.CloseLinkedPopup();
                 GameManager.Scene.LoadScene("Select");
                 break;
+#endif
             default:
                 break;
         }

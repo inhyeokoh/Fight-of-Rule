@@ -1,3 +1,4 @@
+#define TEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -35,8 +36,11 @@ public class UIManager : SubClass<GameManager>
 
     protected override void _Init()
     {
+#if TEST
+        _activePopupList = new LinkedList<GameObject>();
+        _linkedPopupList = new List<GameObject>();
+#else
         GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
-        moveAction = uiManage.GetComponent<PlayerInput>().currentActionMap.FindAction("Move");
         Object.DontDestroyOnLoad(uiManage);
         popupCanvas = GameObject.Find("PopupCanvas");
         Object.DontDestroyOnLoad(popupCanvas);
@@ -44,7 +48,7 @@ public class UIManager : SubClass<GameManager>
 
         _activePopupList = new LinkedList<GameObject>();
         _linkedPopupList = new List<GameObject>();
-
+#endif
     }
 
     public void SetOutGamePopups()
