@@ -1,4 +1,5 @@
-#define TEST
+//#define TEST
+#define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -37,6 +38,12 @@ public class UIManager : SubClass<GameManager>
     protected override void _Init()
     {
 #if TEST
+        _activePopupList = new LinkedList<GameObject>();
+        _linkedPopupList = new List<GameObject>();
+#elif INVENTEST
+        GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
+        popupCanvas = GameObject.Find("PopupCanvas");
+        Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
         _activePopupList = new LinkedList<GameObject>();
         _linkedPopupList = new List<GameObject>();
 #else
