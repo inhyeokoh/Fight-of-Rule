@@ -6,7 +6,7 @@ public class Item
 {
     private Sprite itemImage;
     private int itemId;
-
+    private string type;
     private string itemName;
     private string itemDescription; 
 
@@ -36,6 +36,8 @@ public class Item
 
     public int ItemId { get { return itemId; } }
 
+    public string Type { get { return type; } }
+
     public string ItemName { get { return itemName; } }
 
     public string ItemDescription { get { return itemDescription; } }
@@ -58,11 +60,12 @@ public class Item
 
     public bool Countable { get { return countable; } set { countable = value; } }
 
-    public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
+    public Item(Sprite itemImage, int itemId, string type ,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
         int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum, int stateIndex)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;
+        this.type = type;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.level = level;

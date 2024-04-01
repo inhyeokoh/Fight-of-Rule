@@ -44,7 +44,7 @@ public class UI_ItemSlot : UI_Entity
         _invenItems = GameManager.Inven.items;
         _dragImg = _inven.dragImg;
 
-        _ItemRender();
+        ItemRender();
 
         //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
@@ -95,7 +95,7 @@ public class UI_ItemSlot : UI_Entity
     }
 
     // 슬롯 번호에 맞게 아이템 그리기
-    public void _ItemRender()
+    public void ItemRender()
     {
         if (_invenItems[index] != null)
         {
@@ -111,6 +111,15 @@ public class UI_ItemSlot : UI_Entity
             _iconImg.color = new Color32(12, 15, 29, 0);
             _amountText.gameObject.SetActive(false);
         }
+    }
+    public void RenderBright()
+    {
+        _iconImg.color = new Color32(255, 255, 255, 255);
+    }
+
+    public void RenderDark()
+    {
+        _iconImg.color = new Color32(50, 50, 50, 255);
     }
 
     bool CheckItemNull()
