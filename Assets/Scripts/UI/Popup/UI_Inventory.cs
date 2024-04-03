@@ -9,8 +9,8 @@ public class UI_Inventory : UI_Entity
 {
     GameObject _content;
     public GameObject dragImg;
-    TMP_Text[] togNames;
-    Toggle[] toggles;
+    TMP_Text[] upTogNames;
+    Toggle[] upToggles;
 
     List<Item> _items;
     int _totalSlotCount;
@@ -20,6 +20,9 @@ public class UI_Inventory : UI_Entity
         Interact,
         Panel,
         Panel_U,
+        Panel_D,
+        Sort,
+        Expansion,
         ScrollView,
         DragImg,
         Close
@@ -39,8 +42,8 @@ public class UI_Inventory : UI_Entity
     {
         base.Init();
         _content = _entities[(int)Enum_UI_Inventory.ScrollView].transform.GetChild(0).GetChild(0).gameObject; // Content 담기는 오브젝트
-        togNames = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<TMP_Text>();
-        toggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
+        upTogNames = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<TMP_Text>();
+        upToggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
         _items = GameManager.Inven.items;
         _totalSlotCount = GameManager.Inven.totalSlot;
 
@@ -72,6 +75,18 @@ public class UI_Inventory : UI_Entity
             transform.position = data.position;
         };
 
+        // 인벤토리 정렬
+        _entities[(int)Enum_UI_Inventory.Sort].ClickAction = (PointerEventData data) =>
+        {
+            GameManager.Inven.SortItems();
+        };
+
+        // 인벤토리 확장
+        _entities[(int)Enum_UI_Inventory.Expansion].ClickAction = (PointerEventData data) =>
+        {
+            _ExpandSlot();
+        };
+
         // 인벤토리 닫기
         _entities[(int)Enum_UI_Inventory.Close].ClickAction = (PointerEventData data) =>
         {
@@ -84,17 +99,17 @@ public class UI_Inventory : UI_Entity
 
     void _SetPanel_U()
     {
-        togNames[0].text = "All";
-        togNames[1].text = "Equipment";
-        togNames[2].text = "Consumption";
-        togNames[3].text = "Material";
-        togNames[4].text = "Etc";
+        upTogNames[0].text = "All";
+        upTogNames[1].text = "Equipment";
+        upTogNames[2].text = "Consumption";
+        upTogNames[3].text = "Material";
+        upTogNames[4].text = "Etc";
 
-        toggles[0].onValueChanged.AddListener((value) => _ToggleValueChanged(value, "All"));
-        for (int i = 1; i < toggles.Length; i++) // 전체보기는 제외
+        upToggles[0].onValueChanged.AddListener((value) => _ToggleValueChanged(value, "All")); // 전체보기
+        for (int i = 1; i < upToggles.Length; i++) // 전체보기를 제외한 분류
         {
-            string typeName = togNames[i].text;
-            toggles[i].onValueChanged.AddListener((value) => _ToggleValueChanged(value, typeName));
+            string typeName = upTogNames[i].text;
+            upToggles[i].onValueChanged.AddListener((value) => _ToggleValueChanged(value, typeName));
         }
     }
 
@@ -132,7 +147,6 @@ public class UI_Inventory : UI_Entity
             }
 
             UI_ItemSlot slot = _content.transform.GetChild(i).GetComponent<UI_ItemSlot>();
-            // Debug.Log($"{i}번째 아이템  {_items[i].Type} , {typeName}");
             if (_items[i].Type != typeName) // 다른 타입은 어둡게 그리기
             {
                 slot.RenderDark();
@@ -144,8 +158,7 @@ public class UI_Inventory : UI_Entity
         }
     }
 
-
-    // 인벤토리 내 슬롯 번호에 맞게 아이템 배치
+    // 인벤토리 내 초기 슬롯 생성
     void _DrawSlots()
     {
         // 슬롯 생성
@@ -157,15 +170,15 @@ public class UI_Inventory : UI_Entity
         }
     }
 
-    public void UpdateInvenInfo(int slotIndex) // 아이템 배열 정보에 맞게 UI 갱신 시키는 메서드
+    // 아이템 배열 정보에 맞게 UI 갱신 시키는 메서드
+    public void UpdateInvenUI(int slotIndex)
     {
         UI_ItemSlot slot = _content.transform.GetChild(slotIndex).GetComponent<UI_ItemSlot>();
         slot.ItemRender();
     }
 
-    // TODO : 인벤 확장
-
-    void _ExtendSlot(int newSlot = 5)
+    // 인벤 확장
+    void _ExpandSlot(int newSlot = 6)
     {
         for (int i = _totalSlotCount; i < _totalSlotCount + newSlot; i++)
         {

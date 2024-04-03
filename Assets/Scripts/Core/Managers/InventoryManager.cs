@@ -68,8 +68,8 @@ public class InventoryManager : SubClass<GameManager>
         {
             _ExchangeSlotNum(oldPos, newPos);
         }
-        _inven.UpdateInvenInfo(oldPos); // 이미지 갱신
-        _inven.UpdateInvenInfo(newPos);
+        _inven.UpdateInvenUI(oldPos); // 이미지 갱신
+        _inven.UpdateInvenUI(newPos);
 
         // TODO 바뀐 내용 서버로 전송
     }
@@ -103,7 +103,7 @@ public class InventoryManager : SubClass<GameManager>
         else
         {
             items[b].Count = items[a].Count + items[b].Count;
-            if (items[b].Count > items[b].MaxCount)
+            if (items[b].Count > items[b].MaxCount) // 합쳤을 때 수가 MaxCount보다 크면
             {
                 items[a].Count = items[b].Count - items[b].MaxCount;
                 items[b].Count = items[b].MaxCount;
@@ -114,6 +114,73 @@ public class InventoryManager : SubClass<GameManager>
             }
         }
     }
+
+    // 아이템 정렬
+    public void SortItems()
+    {
+        // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + slotNum 변경 + 같은 아이템이면 합쳐줌
+        // 한번이라도 정렬 거친 경우에 정리가 되어 있기 때문에 삽입 정렬 방향으로 가는게 가장 괜찮다고 판단
+        // null을 싹 뒤로 뺄까..? -> 삽입 삭제 n번
+        // 해당 index에 작은수 찾아서 교환? -> 선택 정렬이라 n제곱
+        // null 아닌걸 찾아서 index 0번부터 null만날때까지 비교해서 insert
+
+
+        for (int i = 1; i < items.Count; i++)
+        {
+            if (items[i] == null)
+            {
+                continue;
+            }
+
+            if (items[0] == null) // 리스트에서 처음으로 접근한 아이템은 인벤 첫번째칸에 배치, 비교할 기준이 필요하기 때문
+            {
+                items[0] = items[i];
+                items[i] = null;
+                continue;
+            }
+
+            int pivot = 0;
+            while (items[i].ItemId >= items[pivot].ItemId && pivot < i) // 비교하는 아이템의 번호보다 작을때까지 반복
+            {
+                if (items[i].ItemId == items[pivot].ItemId && items[pivot].Count != items[pivot].MaxCount)
+                {
+                    _AddUpItems(i, pivot);
+                    if (items[i] == null) // 아이템 합치기를 수행해서 하나에 완전히 합쳐지면, 같은 아이템이 더 있다라도 합칠건지 검사할 필요X
+                    {
+                        break;
+                    }
+                }
+
+                if (items[pivot + 1] == null)
+                {
+                    break;
+                }
+                pivot++;
+            }
+
+            if (items[i] != null)
+            {
+                items.Insert(pivot, items[i]);
+                items.RemoveAt(i + 1);
+            }
+        }
+
+        // UI 갱신
+        for (int i = 0; i < items.Count; i++)
+        {
+            _inven.UpdateInvenUI(i);
+        }
+
+        // 아이템 슬롯 번호 갱신
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] != null)
+            {
+                items[i].SlotNum = i; // 아이템 슬롯 번호 갱신
+            }
+        }
+    }
+
     // 아이템 습득
     /*    void AddItem/Item data, int amount)
         {
