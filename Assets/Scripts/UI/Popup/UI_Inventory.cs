@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class UI_Inventory : UI_Entity
 {
     GameObject _content;
     public GameObject dragImg;
+    public GameObject descrPanel;
+    Vector2 _descrPanelSize;
+
     TMP_Text[] upTogNames;
     Toggle[] upToggles;
 
@@ -25,6 +29,7 @@ public class UI_Inventory : UI_Entity
         Expansion,
         ScrollView,
         DragImg,
+        DescrPanel,
         Close
     }
 
@@ -44,6 +49,10 @@ public class UI_Inventory : UI_Entity
         _content = _entities[(int)Enum_UI_Inventory.ScrollView].transform.GetChild(0).GetChild(0).gameObject; // Content 담기는 오브젝트
         upTogNames = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<TMP_Text>();
         upToggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
+        dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
+        descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
+        _descrPanelSize = _GetUISize(descrPanel);
+
         _items = GameManager.Inven.items;
         _totalSlotCount = GameManager.Inven.totalSlot;
 
@@ -92,9 +101,48 @@ public class UI_Inventory : UI_Entity
         {
             GameManager.UI.ClosePopup(GameManager.UI.Inventory);
         };
-
-        dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;               
+           
         gameObject.SetActive(false);
+    }
+
+    // 인벤토리 내 초기 슬롯 생성
+    void _DrawSlots()
+    {
+        // 슬롯 생성
+        for (int i = 0; i < _totalSlotCount; i++)
+        {
+            GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform);
+            _itemSlot.name = "ItemSlot_" + i;
+            _itemSlot.GetComponent<UI_ItemSlot>().index = i;
+        }
+    }
+
+    public void RestrictItemDescrPos()
+    {
+        StartCoroutine(RestrictUIPos(descrPanel, _descrPanelSize));
+    }
+
+    public void StopRestrictItemDescrPos()
+    {
+        StopCoroutine(RestrictUIPos(descrPanel, _descrPanelSize));
+    }
+
+    // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
+    Vector2 _GetUISize(GameObject UI)
+    {
+        Vector2 leftBottom = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.min);
+        Vector2 rightTop = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.max);
+        Vector2 UISize = rightTop - leftBottom;
+        return UISize;
+    }
+
+    // UI가 화면 밖으로 넘어가지 않도록 위치 제한
+    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize)
+    {
+        float x = Math.Clamp(UI.transform.position.x, UISize.x / 2, Screen.width - (UISize.x / 2));
+        float y = Math.Clamp(UI.transform.position.y, UISize.y / 2, Screen.height - (UISize.y / 2));
+        UI.transform.position = new Vector3(x, y, transform.position.z);
+        yield return null;
     }
 
     void _SetPanel_U()
@@ -136,7 +184,7 @@ public class UI_Inventory : UI_Entity
         }
     }
 
-    // 해당 아이템은 색 밝게, 나머지는 약간 어둡게
+    // 선택한 타입에 해당 아이템은 색 밝게, 나머지는 약간 어둡게
     void _RenderByType(string typeName)
     {
         for (int i = 0; i < _items.Count; i++)
@@ -155,18 +203,6 @@ public class UI_Inventory : UI_Entity
             {
                 slot.RenderBright();
             }
-        }
-    }
-
-    // 인벤토리 내 초기 슬롯 생성
-    void _DrawSlots()
-    {
-        // 슬롯 생성
-        for (int i = 0; i < _totalSlotCount; i++)
-        {
-            GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform);
-            _itemSlot.name = "ItemSlot_" + i;
-            _itemSlot.GetComponent<UI_ItemSlot>().index = i;
         }
     }
 

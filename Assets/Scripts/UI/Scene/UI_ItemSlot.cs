@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class UI_ItemSlot : UI_Entity
 {
-    GameObject _dragImg;
     Image _highlightImg;
     UI_Inventory _inven;
     List<Item> _invenItems;
@@ -35,14 +34,13 @@ public class UI_ItemSlot : UI_Entity
     protected override void Init()
     {
         base.Init();
-
         _iconImg = _entities[(int)Enum_UI_ItemSlot.IconImg].GetComponent<Image>();
         _highlightImg = _entities[(int)Enum_UI_ItemSlot.HighlightImg].GetComponent<Image>();
         _amountText = _iconImg.transform.GetChild(0).gameObject;
 
         _inven = transform.GetComponentInParent<UI_Inventory>();
         _invenItems = GameManager.Inven.items;
-        _dragImg = _inven.dragImg;
+        
 
         ItemRender();
 
@@ -51,8 +49,8 @@ public class UI_ItemSlot : UI_Entity
         {
             if (!CheckItemNull())
             {
-                _dragImg.SetActive(true);
-                _dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
+                _inven.dragImg.SetActive(true);
+                _inven.dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
             }
         };
 
@@ -61,7 +59,7 @@ public class UI_ItemSlot : UI_Entity
         {
             if (!CheckItemNull())
             {
-                _dragImg.transform.position = data.position;
+                _inven.dragImg.transform.position = data.position;
             }
         };
 
@@ -73,23 +71,29 @@ public class UI_ItemSlot : UI_Entity
                 _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
                 GameManager.Inven.DragAndDropItems(index, _otherIndex);
             }
-            _dragImg.SetActive(false);
+            _inven.dragImg.SetActive(false);
         };
 
-        // 슬롯 하이라이트
+        // 커서가 들어오면 아이템 설명 이미지 띄우기 + 하이라이트 효과
         _entities[(int)Enum_UI_ItemSlot.IconImg].PointerEnterAction = (PointerEventData data) =>
         {
             if (!CheckItemNull())
             {
+                _inven.descrPanel.SetActive(true);
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0.4f);
+                ShowItemInfo();
+                _inven.RestrictItemDescrPos();
             }
         };
 
+        // 커서가 나갔을때 아이템 설명 내리기 + 하이라이트 효과 끄기
         _entities[(int)Enum_UI_ItemSlot.IconImg].PointerExitAction = (PointerEventData data) =>
         {
             if (!CheckItemNull())
             {
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
+                _inven.descrPanel.SetActive(false);
+                _inven.StopRestrictItemDescrPos();
             }
         };
     }
@@ -127,10 +131,19 @@ public class UI_ItemSlot : UI_Entity
         return _iconImg.sprite == null;
     }
 
-
     // 드롭 시 슬롯에 벗어나지 않았는지 확인
     bool CheckCorrectDrop(PointerEventData data)
     {
         return data.pointerCurrentRaycast.gameObject.name == "IconImg";
+    }
+
+    void ShowItemInfo()
+    {
+        _inven.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].ItemName; // 아이템 이름
+        _inven.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
+        _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].ItemDescription; // 아이템 설명
+
+        _inven.descrPanel.transform.position = transform.position + new Vector3(300f, -165f, 0f);
+        // TODO 장비 아이템일 경우 추가 비교 이미지
     }
 }
