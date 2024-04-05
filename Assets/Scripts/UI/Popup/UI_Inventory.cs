@@ -19,6 +19,11 @@ public class UI_Inventory : UI_Entity
     List<Item> _items;
     int _totalSlotCount;
 
+    // 드래그 Field
+    private Vector2 _invenPos;
+    private Vector2 _dragBeginPos;
+    private Vector2 _offset;
+
     enum Enum_UI_Inventory
     {
         Interact,
@@ -78,10 +83,18 @@ public class UI_Inventory : UI_Entity
             };
         }
 
+        // 인벤토리 창 드래그 시작
+        _entities[(int)Enum_UI_Inventory.Interact].BeginDragAction = (PointerEventData data) =>
+        {
+            _invenPos = transform.position;
+            _dragBeginPos = data.position;
+        };
+
         // 인벤토리 창 드래그
         _entities[(int)Enum_UI_Inventory.Interact].DragAction = (PointerEventData data) =>
         {
-            transform.position = data.position;
+            _offset = data.position - _dragBeginPos;
+            transform.position = _invenPos + _offset;
         };
 
         // 인벤토리 정렬
