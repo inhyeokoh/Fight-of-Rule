@@ -42,4 +42,9 @@ public class PassivSkill : Skill
     {
         SkillManager.Skill.PlayerStat.HP -= statsDown;
     }
+
+    public override void SKillDB(WarriorSkillData data)
+    {
+        
+    }
 }

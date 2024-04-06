@@ -7,7 +7,7 @@ public class InGameItemDuraction : ItemObject
     public int duractionTime;
     public bool drinkOn;
     public float coolTime;
-    public Enum_PotionType duractionPostionType;
+   // public Enum_PotionType duractionPostionType;
 
     public override void Setting()
     {
@@ -15,15 +15,15 @@ public class InGameItemDuraction : ItemObject
         {
             if (!drinkOn)
             {
-                switch (duractionPostionType)
+               /* switch (duractionPostionType)
                 {
-                    case Enum_PotionType.Defenes:
+                  *//*  case Enum_PotionType.Defenes:
                         player.SumDefense += item.PortionStat;
                         break;
                     case Enum_PotionType.Attack:
                         player.SumAttack += item.PortionStat;
-                        break;
-                }
+                        break;*//*
+                }*/
 
                 drinkOn = true;
             }            
@@ -43,15 +43,15 @@ public class InGameItemDuraction : ItemObject
         }, 
         () => 
         { 
-            switch (duractionPostionType)
+           /* switch (duractionPostionType)
             {
-                case Enum_PotionType.Defenes:
+               *//* case Enum_PotionType.Defenes:
                     player.SumDefense -= item.PortionStat;
                     break;
                 case Enum_PotionType.Attack:
                     player.SumAttack -= item.PortionStat;
-                    break;
-            }
+                    break;*//*
+            }*/
             coolTime = 0;
             drinkOn = false;
         });

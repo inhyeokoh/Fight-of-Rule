@@ -103,7 +103,7 @@ public class UI_ItemSlot : UI_Entity
             _iconImg.sprite
                 = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[index].ItemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
             _amountText.SetActive(true);
-            _amountText.GetComponent<TMP_Text>().text = $"{_invenItems[index].Count}";            
+            //_amountText.GetComponent<TMP_Text>().text = $"{_invenItems[index].Count}";            
         }
         else
         {

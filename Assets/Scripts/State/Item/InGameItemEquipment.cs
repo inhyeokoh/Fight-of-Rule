@@ -5,11 +5,7 @@ using UnityEngine;
 
 public class InGameItemEquipment : ItemObject
 {
-    protected static List<State> weaponState = new List<State>();
-    protected static List<State> headState = new List<State>();
-    protected static List<State> bodyState = new List<State>();
-    protected static List<State> handState = new List<State>();
-    protected static List<State> footState = new List<State>();
+    protected static Dictionary<int, State> ItemStates = new Dictionary<int, State>();
 
 
     //장비의 직업 확인
@@ -41,15 +37,14 @@ public class InGameItemEquipment : ItemObject
         }
         else
         {
-            print("이미 적용됌" + " " + gameObject.name);
-            print("현재 무기 카운터" + weaponState.Count + " " + gameObject.name);
+            print("이미 적용됌" + " " + gameObject.name);        
         }
 
         playerEquipment = PlayerController.instance._playerEquipment;
 
         switch (equipmentType)
         {
-            case Enum_EquipmentType.Weapon:
+          /*  case Enum_EquipmentType.Weapon:
                 state = weaponState[item.StateIndex];
                 break;
             case Enum_EquipmentType.Head:
@@ -63,7 +58,7 @@ public class InGameItemEquipment : ItemObject
                 break;
             case Enum_EquipmentType.Foot:
                 state = footState[item.StateIndex];
-                break;
+                break;*/
         }
     }
 
@@ -77,9 +72,6 @@ public class InGameItemEquipment : ItemObject
 
     public void StateSetting()
     {
-        weaponState.Add(new State(() => { player.SumAttack += item.Attack; }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
-        weaponState.Add(new State(() => { player.SumAttack += item.Attack; }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
-        weaponState.Add(new State(() => { player.SumAttack += item.Attack; }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
-        weaponState.Add(new State(() => { player.SumAttack += item.Attack; }, () => { }, () => { }, () => { player.SumAttack -= item.Attack; }));
+       
     }
 }

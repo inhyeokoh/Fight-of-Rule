@@ -39,7 +39,7 @@ public class InventoryManager : SubClass<GameManager>
         {
             string[] row = lines[i].Split('\t'); // Tab 기준으로 나누기
             // 아이템 집어 넣기
-            items[Convert.ToInt32(row[7])] = new Item(null, Convert.ToInt32(row[0]), row[2], row[3], 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(row[4]), Convert.ToInt32(row[5]), row[6] == "TRUE", Convert.ToInt32(row[7]),/*temp*/0);
+            //items[Convert.ToInt32(row[7])] = new Item(null, Convert.ToInt32(row[0]), row[2], row[3], 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(row[4]), Convert.ToInt32(row[5]), row[6] == "TRUE", Convert.ToInt32(row[7]),/*temp*/0);
         }
     }
 

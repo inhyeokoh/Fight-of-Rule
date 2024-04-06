@@ -8,26 +8,29 @@ public class Item
     private int itemId;
 
     private string itemName;
-    private string itemDescription; 
+    private string itemDescription;
+
+    private int purchasePrice;
+    private int sellingPrice;
+
 
     private int level;
-
-    private int portionStat;
-
+ 
     private int attack;
     private int defense;
     private int speed;
     private int attackSpeed;
+    private int hp;
+    private int mp;
     private int maxHp;
     private int maxMp;
     private int maxCount;
     private int count;
     private int slotNum;
     private bool countable;
-    private int stateIndex;
+    //private int stateIndex;
 
-    Enum_ItemType itemType;
-    Enum_PotionType potionType;
+    Enum_ItemType itemType; 
     Enum_EquipmentType equipmentType;
 
 
@@ -40,11 +43,11 @@ public class Item
 
     public string ItemDescription { get { return itemDescription; } }
 
-    public int StateIndex { get { return stateIndex; } }
+    public int PurchasePrice { get { return purchasePrice; } }
+
+    public int SellingPrice { get { return sellingPrice; } }
 
     public int Level { get { return level; } set { level = value; } }
-
-    public int PortionStat { get { return portionStat; } set { portionStat = value; } }
     public int Attack { get { return attack; } set { attack = value; } }
     public int Defense { get { return defense; } set { defense = value; } }
     public int Speed { get { return speed; } set { speed = value; } }
@@ -58,15 +61,14 @@ public class Item
 
     public bool Countable { get { return countable; } set { countable = value; } }
 
-    public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
-        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum, int stateIndex)
+    public Item(Sprite itemImage, int itemId,string itemName, string itemDescription, int level, int attack,int defense,int speed,
+        int attackSpeed,int maxHp,int maxMp, int maxCount)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.level = level;
-        this.portionStat = portionStat;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
@@ -74,9 +76,5 @@ public class Item
         this.maxHp = maxHp;
         this.maxMp = maxMp;
         this.maxCount = maxCount;
-        this.count = count;
-        this.countable = countable;
-        this.slotNum = slotNum;
-        this.stateIndex = stateIndex;
     }
 }

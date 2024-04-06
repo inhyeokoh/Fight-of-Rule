@@ -2,15 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Enum_PotionType
-{
-    Defult,
-    Heal,
-    Mana,
-    Exp,
-    Defenes,
-    Attack
-}
 
 public enum Enum_EquipmentType
 {
@@ -26,7 +17,7 @@ public enum Enum_ItemType
 {    
     Consumption,    
     Equipment,   
-    Etc  
+    ETC
 }
 public abstract class ItemObject : MonoBehaviour
 {
@@ -52,8 +43,7 @@ public abstract class ItemObject : MonoBehaviour
     private void Awake()
     {       
         stateMachine = new StateMachine();
-        item = new Item(null, 0, "무기", "설명", 0, 0, 5, 0, 0, 0, 0, 0, 0,/*temp*/0,/*temp*/false,/*temp*/0,/*temp*/0);
-
+       
       /*  try
         {
             Setting();
@@ -66,8 +56,7 @@ public abstract class ItemObject : MonoBehaviour
     }
 
     private void Start()
-    {      
-           
+    {                
         Setting();       
     }
 

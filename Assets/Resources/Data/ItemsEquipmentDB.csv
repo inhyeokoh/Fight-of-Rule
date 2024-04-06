@@ -1,0 +1,18 @@
+item_id,item_name,item_desc,item_icon,item_type,item_equipmenttype,item_purchaseprice,item_sellingprice,item_level,item_attack,item_defense,item_speed,item_attackspeed,item_hp,item_mp,item_exp,item_maxhp,item_maxmp,item_maxcount
+1000,낡은 검,모험의 시작,path,Equipment,Weapon,1000,200,0,10,0,0,0,0,0,0,0,0,1
+1001,철 검,철로 된 검,path,Equipment,Weapon,5000,500,10,18,0,0,0,0,0,0,0,0,1
+1002,은 검,은으로 된 검,path,Equipment,Weapon,10000,1000,20,30,0,0,0,0,0,0,0,0,1
+1003,비파형동검,청동기 시대 전설의 무기,path,Equipment,Weapon,99999999999,6000,30,100,0,0,0,0,0,0,0,0,1
+1004,칠지도,백제산 철제 검,path,Equipment,Weapon,900000000000,120000,50,500,200,0,0,0,0,0,200,50,1
+1005,낡은 모자,모험의 시작,path,Equipment,Head,500,50,0,0,5,0,0,0,0,0,100,0,1
+1006,철 모자,철로 된 모자,path,Equipment,Head,2000,200,10,0,20,0,0,0,0,0,300,0,1
+1007,장군의 투구,장군의 혼이 담긴 투구,path,Equipment,Head,900000000000,100000,50,20,50,0,0,0,0,0,2000,100,1
+1008,낡은 갑옷,모험의 시작,path,Equipment,Body,800,80,0,0,20,0,0,0,0,0,0,0,1
+1009,철 갑옷,철로 된 갑옷,path,Equipment,Body,3000,300,10,0,50,0,0,0,0,0,0,0,1
+1010,장군의 갑옷,장군의 혼이 담긴 갑옷,path,Equipment,Body,900000000000,100000,50,30,200,0,0,0,0,0,3000,200,1
+1011,낡은 장갑,모험의 시작,path,Equipment,Hand,200,20,0,2,2,0,0,0,0,0,0,0,1
+1012,철 장갑,철로 된 장갑,path,Equipment,Hand,1000,100,10,5,5,0,0,0,0,0,0,0,1
+1013,장군의 장갑,장군의 혼이 담긴 장갑,path,Equipment,Hand,900000000000,100000,50,20,100,0,0,0,0,0,0,0,1
+1014,슬리퍼,발이 너무 아파,path,Equipment,Foot,100,10,0,0,1,0,0,0,0,0,0,0,1
+1015,철 신발,철로 된 신발,path,Equipment,Foot,1500,150,10,0,3,0,0,0,0,0,0,0,1
+1016,장군의 신발,장군의 혼이 담긴 신발,path,Equipment,Foot,900000000000,100000,50,0,50,4,0,0,0,0,0,0,1

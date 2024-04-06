@@ -4,8 +4,8 @@ using UnityEngine;
 public enum WarriorSkill
 {
     AssaultBlade = 9,
-    DubleSlash,
     DivingSlash,
+    DubleSlash,
     SwordStorm,
     WheelWind,
 }

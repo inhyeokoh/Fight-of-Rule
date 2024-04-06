@@ -5,16 +5,16 @@ using UnityEngine;
 public class InGameItemConsumption : ItemObject
 {   
     //현재 포션 타입
-    public Enum_PotionType postionType;
+    //public Enum_PotionType postionType;
 
     //타입마다 다른 포션세팅
     public override void Setting()
     {     
         state = new State(() => 
         {
-            switch(postionType)
+            /*switch(postionType)
             {
-                case Enum_PotionType.Heal:
+                *//*case Enum_PotionType.Heal:
                     player.HP += item.PortionStat;
                     break;
 
@@ -32,8 +32,8 @@ public class InGameItemConsumption : ItemObject
 
                 case Enum_PotionType.Attack:
                     player.Attack += item.PortionStat;
-                    break;
-            }      
+                    break;*//*
+            }     */ 
         }, () => { }, () => { }, () => 
         { 
             gameObject.SetActive(false);       

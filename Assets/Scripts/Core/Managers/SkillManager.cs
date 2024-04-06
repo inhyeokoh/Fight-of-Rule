@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,11 +15,16 @@ public class SkillManager : MonoBehaviour
 
     //만약에 스킬을 얻으면 이 스킬을 사용해야한다
     //플레이어가 캐릭터 직업에 따라 쓰는 스킬들이 달라진다.
+    [SerializeField]
+    public List<WarriorSkillData> warriorSkillData = new List<WarriorSkillData>();
 
     [SerializeField]
     private KeySlotUISetting keySlotUISetting;
 
     private static SkillManager _skill = null;
+
+    [SerializeField]
+    private Skill activeSkill;
 
     public Collider[] players;   
 
@@ -31,15 +37,6 @@ public class SkillManager : MonoBehaviour
     public CharacterStatus PlayerStat { get; private set; }
 
 
-    [SerializeField]
-    Skill[] warriorSkills; 
-
-    [SerializeField]
-    Skill[] archerSkills;
-
-    [SerializeField]
-    Skill[] wizardSkills;
-    
     [SerializeField]
     Skill[] characterSkills;
 
@@ -71,41 +68,31 @@ public class SkillManager : MonoBehaviour
     }
     public void PlayerData()
     {
+        WarriorSkillDBParsing();
+
+
         PlayerState = PlayerController.instance._playerState;
         PlayerStat = PlayerController.instance._playerStat;
         switch (PlayerController.instance._class)
         {
             case Enum_Class.Warrior:
                 {
-                    characterSkills = new Skill[warriorSkills.Length];
+                    characterSkills = new Skill[warriorSkillData.Count];
 
-                    for (int i = 0; i < warriorSkills.Length; i++)
-                    {                       
-                        characterSkills[i] = warriorSkills[i].Init();
+                    for (int i = 0; i < warriorSkillData.Count; i++)
+                    {
+                        characterSkills[i] = activeSkill.Init();
+                        characterSkills[i].SKillDB(warriorSkillData[i]);
                         characterSkills[i].SkillStat();
-                    }
+                    }              
                     break;
                 }
             case Enum_Class.Archer:
-                {
-                    characterSkills = new Skill[archerSkills.Length];
-
-                    for (int i = 0; i < archerSkills.Length; i++)
-                    {
-                        characterSkills[i] = archerSkills[i].Init();
-                        characterSkills[i].SkillStat();
-                    }
+                {                
                     break;
                 }
             case Enum_Class.Wizard:
                 {
-                    characterSkills = new Skill[wizardSkills.Length];
-
-                    for (int i = 0; i < wizardSkills.Length; i++)
-                    {
-                        characterSkills[i] = wizardSkills[i].Init();
-                        characterSkills[i].SkillStat();
-                    }
                     break;
                 }
         }
@@ -146,5 +133,36 @@ public class SkillManager : MonoBehaviour
 
         skill.LevelReset();
     }
+  
+    
+    public void WarriorSkillDBParsing()
+    {
+        List<Dictionary<string, string>> skill = CSVReader.Read("Data/SkillWarriorDB");
 
+        for (int i = 0; i < skill.Count; i++)
+        {
+            WarriorSkillData warrirSkill;
+
+            int id = int.Parse(skill[i]["skill_id"]);
+            string name = skill[i]["skill_name"];
+            string desc = skill[i]["skill_desc"];
+            string iconString = skill[i]["skill_icon"];
+
+            //print(Resources.Load(iconString).name);
+            Sprite icon = Resources.Load<Sprite>(iconString);
+            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]); ;
+            int skillMaxLevel = int.Parse(skill[i]["skill_maxlevel"]);
+
+            int[] skillLevelCondition = Array.ConvertAll(skill[i]["skill_levelcondition"].Split(","), int.Parse);
+            int[] skillPoint = Array.ConvertAll(skill[i]["skill_point"].Split(","), int.Parse);
+            int[] skillMP = Array.ConvertAll(skill[i]["skill_mp"].Split(","), int.Parse);
+            float[] skillCool = Array.ConvertAll(skill[i]["skill_cool"].Split(","), float.Parse);
+            int[] skillDamage = Array.ConvertAll(skill[i]["skill_damage"].Split(","), int.Parse);
+
+            warrirSkill = new WarriorSkillData(id, name, desc, icon, skillNumber, skillMaxLevel, skillLevelCondition, skillPoint, skillMP, skillCool, skillDamage);
+
+
+            warriorSkillData.Add(warrirSkill);
+        }
+    }
 }

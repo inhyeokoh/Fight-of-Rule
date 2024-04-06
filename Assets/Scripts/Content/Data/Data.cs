@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI; 
 
 public class Data
 {
@@ -14,6 +15,116 @@ public class LoginData : Data
     public string pw;
     public int slotCount;
 }
+
+[System.Serializable]
+public class StateItemData : Data
+{
+    public int id;
+    public string name;
+    public string desc;
+    public Sprite icon;
+    public Enum_ItemType itemType;
+    public Enum_EquipmentType equipmentType;
+    public long purchaseprice;
+    public long sellingprice;
+    public int level;
+    public int attack;
+    public int defense;
+    public int speed;
+    public int attackSpeed;
+    public int exp;
+    public int hp;
+    public int mp;
+    public int maxHp;
+    public int maxMp;
+    public int maxCount;
+
+   
+    public StateItemData(int id,string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_EquipmentType equipmentType, long purchaseprice, long sellingprice, int level, int attack, int defense
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount)
+    {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.icon = icon;
+        this.itemType = itemType;
+        this.equipmentType = equipmentType;
+        this.purchaseprice = purchaseprice;
+        this.sellingprice = sellingprice;
+        this.level = level;
+        this.attack = attack;
+        this.defense = defense;
+        this.speed = speed;
+        this.attackSpeed = attackSpeed;
+
+        this.exp = exp;
+        this.hp = hp;
+        this.mp = mp;
+        this.maxHp = maxHp;
+        this.maxMp = maxMp;
+        this.maxCount = maxCount;
+    }
+}
+
+[System.Serializable]
+public class ETCItemData
+{
+    public int id;
+    public string name;
+    public string desc;
+    public Sprite icon;
+    public Enum_ItemType itemType;
+    public long purchaseprice;
+    public long sellingprice;
+    public int maxCount;
+    public ETCItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, long purchaseprice, long sellingprice, int maxCount)
+    {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.icon = icon;
+        this.itemType = itemType;
+        this.purchaseprice = purchaseprice;
+        this.sellingprice = sellingprice;
+        this.maxCount = maxCount;
+    }
+}
+
+
+
+[System.Serializable]
+public class WarriorSkillData : Data
+{
+    public int id;
+    public string name;
+    public string desc;
+    public Sprite icon;
+    public WarriorSkill number;
+    public int maxLevel;
+    public int[] levelCondition;
+    public int[] skillPoint;
+    public int[] skillMP;
+    public float[] skillCool;
+    public int[] skillDamage;
+
+    public WarriorSkillData(int id, string name, string desc, Sprite icon, WarriorSkill number, int maxLevel, int[] levelCondition,
+        int[] skillPoint, int[] skillMP, float[] skillCool, int[] skillDamage)
+    {
+        this.id = id;
+        this.name = name;
+        this.desc = desc;
+        this.icon = icon;
+        this.number = number;
+        this.maxLevel = maxLevel;
+        this.levelCondition = levelCondition;
+        this.skillPoint = skillPoint;
+        this.skillMP = skillMP;
+        this.skillCool = skillCool;
+        this.skillDamage = skillDamage;
+    }
+}
+
+
 
 [Serializable]
 public class SettingsData : Data
@@ -71,76 +182,4 @@ public class CharData : Data
     }
 }
 
-
-public class ItemsData
-{
-    public int itemID;
-    public string itemType;
-    public string itemName;
-    public string itemDescription;
-}
-
-[System.Serializable]
-public class ItemWeaponData : ItemsData
-{
-    public int level;
-   
-    public string equipmentClass;
-    public string equipmentType;
-
-    public int attack;
-}
-[System.Serializable]
-public class ItemHeadData : ItemsData
-{   
-    public int level;
- 
-    public string equipmentClass;
-    public string equipmentType;
-
-    public int maxHP;
-    public int defenes;
-}
-[System.Serializable]
-public class ItemBodyData : ItemsData
-{   
-    public int level;
-  
-    public string equipmentClass;
-    public string equipmentType;
-
-    public int maxHP;
-    public int defenes;
-    public int attack;
-    
-
-}
-[System.Serializable]
-public class ItemHandData : ItemsData
-{
-    public int level;
-
-    public string equipmentClass;
-    public string equipmentType;
-
-    public int attack;
-    public int maxMP;
-}
-[System.Serializable]
-public class ItemFootData : ItemsData
-{  
-    public int level; 
-
-    public string equipmentClass;
-    public string equipmentType;
-
-    public int speed;
-    public int defenes;
-}
-
-[System.Serializable]
-public class ItemETC : ItemData
-{
-
-}
 

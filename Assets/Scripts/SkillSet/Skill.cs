@@ -37,10 +37,10 @@ public abstract class Skill : MonoBehaviour
     protected int[] skillLevelCondition; // 필요 레벨
     [SerializeField]
     protected float[] cool; // 스킬 레벨 쿨타임  
-    [SerializeField]
-    protected bool IsInstanceEffect;
-    [SerializeField]
-    protected int skillEffectIndex;
+   /* [SerializeField]
+    protected bool IsInstanceEffect;*/
+   /* [SerializeField]
+    protected int skillEffectIndex;*/
     [SerializeField]
     protected int[] skillDamage;
 
@@ -71,10 +71,12 @@ public abstract class Skill : MonoBehaviour
 
 
     public abstract Skill Init();
+
+    public abstract void SKillDB(WarriorSkillData data);
     // 현재 스킬이 1레벨 이상일때 정보들
     public void SkillStat()
     {
-        SkillEffectIndex = skillEffectIndex;
+      //  SkillEffectIndex = skillEffectIndex;
         SkillDamage = skillDamage[level];
         SKillMP = skillMP[level];
         SkillCoolTime = cool[level];
@@ -98,8 +100,10 @@ public abstract class Skill : MonoBehaviour
         print($"스킬 데미지 : {SkillDamage}");
         print($"스킬 마나 : {SKillMP}");
         print($"스킬 쿨타임 : {SkillCoolTime}");
-        PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
+       // PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
         SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
+
+     
         SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);
 
         maxCoolTime = SkillCoolTime;
@@ -131,5 +135,5 @@ public abstract class Skill : MonoBehaviour
    
     public virtual void BuffOff(int statsUp) { }
 
-
+    
 }
