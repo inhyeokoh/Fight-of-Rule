@@ -93,7 +93,7 @@ public class UI_ItemSlot : UI_Entity
             {
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
                 _inven.descrPanel.SetActive(false);
-                _inven.StopRestrictItemDescrPos();
+                _inven.StopRestrictItemDescrPos(data);
             }
         };
     }
@@ -143,7 +143,6 @@ public class UI_ItemSlot : UI_Entity
         _inven.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
         _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].ItemDescription; // 아이템 설명
 
-        _inven.descrPanel.transform.position = transform.position + new Vector3(300f, -165f, 0f);
         // TODO 장비 아이템일 경우 추가 비교 이미지
     }
 }

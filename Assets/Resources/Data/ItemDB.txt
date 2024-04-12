@@ -1,12 +1,16 @@
-2000	Equipment	Armor	Armor입니다	1	1	FALSE	3
-3000	Equipment	Boots	Boots입니다	1	1	FALSE	1
-1000	Equipment	Helmets	Helmets입니다	1	1	FALSE	2
-5	Consumption	Apple	사과입니다	100	1	TRUE	8
-1	Consumption	Hp	HP포션입니다	100	100	TRUE	4
-1	Consumption	Hp	HP포션입니다	100	92	TRUE	5
-1	Consumption	Hp	HP포션입니다	100	1	TRUE	6
-100	Consumption	Mp	MP포션입니다	100	100	TRUE	20
-100	Consumption	Mp	MP포션입니다	100	2	TRUE	13
-100	Consumption	Mp	MP포션입니다	100	50	TRUE	25
-100	Consumption	Mp	MP포션입니다	100	50	TRUE	24
-100	Consumption	Mp	MP포션입니다	100	27	TRUE	23
+2000	Equipment	BeginnerArmor	Armor입니다	1	1	FALSE	3	Normal	Armor
+3000	Equipment	BeginnerBoots	Boots입니다	1	1	FALSE	1	Normal	Boots
+1000	Equipment	BeginnerHelmet	Helmet입니다	1	1	FALSE	2	Normal	Helmet
+5	Consumption	Apple	사과입니다	100	1	TRUE	8	Normal	Potion
+1	Consumption	Hp	HP포션입니다	100	100	TRUE	4	Normal	Potion
+1	Consumption	Hp	HP포션입니다	100	92	TRUE	5	Normal	Potion
+1	Consumption	Hp	HP포션입니다	100	1	TRUE	6	Normal	Potion
+100	Consumption	Mp	MP포션입니다	100	100	TRUE	20	Normal	Potion
+100	Consumption	Mp	MP포션입니다	100	2	TRUE	13	Normal	Potion
+100	Consumption	Mp	MP포션입니다	100	50	TRUE	25	Normal	Potion
+100	Consumption	Mp	MP포션입니다	100	50	TRUE	24	Normal	Potion
+100	Consumption	Mp	MP포션입니다	100	27	TRUE	23	Normal	Potion
+4000	Equipment	BeginnerBelt	Belt입니다	1	1	FALSE	15	Normal	Belt
+4001	Equipment	YellowBelt	YellowBelt입니다 등급은 Rare	1	1	FALSE	16	Rare	Belt
+4003	Equipment	BlackBelt	BlackBelt입니다 등급은 Legendary	1	1	FALSE	17	Legendary	Belt
+500	Consumption	BeginnerBag	초보자용 아이템들이 들어있는 가방입니다	100	2	TRUE	11	Normal	Box

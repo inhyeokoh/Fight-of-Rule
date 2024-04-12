@@ -25,12 +25,45 @@ public class Item
     private int slotNum;
     private bool countable;
     private int stateIndex;
+    private string grade;
+    private string detailType;
 
     Enum_ItemType itemType;
     Enum_PotionType potionType;
     Enum_EquipmentType equipmentType;
 
+    public enum Enum_ItemType // 아이템 대분류
+    {
+        Equipment,
+        Consumption,
+        Materials,
+        Etc
+    }
 
+    public enum Enum_EquipType // 장비
+    {
+        Weapon,
+        Head,
+        Body,
+        Belt,
+        Hand,
+        Foot
+    }
+
+    public enum Enum_ConsumType  // 소비
+    {
+        Potion,
+        Box,
+        None
+    }
+
+    public enum Enum_ItemGrade // 아이템 등급
+    {
+        Normal,
+        Rare,
+        Unique,
+        Legendary
+    }
 
     public Sprite ItemImage { get { return itemImage; } }
 
@@ -60,8 +93,11 @@ public class Item
 
     public bool Countable { get { return countable; } set { countable = value; } }
 
+    public string Grade { get { return grade; } set { grade = value; } }
+    public string DetailType { get { return detailType; } set { detailType = value; } }
+
     public Item(Sprite itemImage, int itemId, string type ,string itemName, string itemDescription, int level, int portionStat, int attack,int defense,int speed,
-        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum, int stateIndex)
+        int attackSpeed,int maxHp,int maxMp, int maxCount, int count, bool countable, int slotNum, int stateIndex, string grade, string detailType)
     {
         this.itemImage = itemImage;
         this.itemId = itemId;
@@ -81,5 +117,7 @@ public class Item
         this.countable = countable;
         this.slotNum = slotNum;
         this.stateIndex = stateIndex;
+        this.grade = grade;
+        this.detailType = detailType;
     }
 }

@@ -11,7 +11,8 @@ public class UI_Inventory : UI_Entity
     GameObject _content;
     public GameObject dragImg;
     public GameObject descrPanel;
-    Vector2 _descrPanelSize;
+    Vector2 _invenUISize;
+    Vector2 _descrUISize;
 
     TMP_Text[] upTogNames;
     Toggle[] upToggles;
@@ -56,7 +57,8 @@ public class UI_Inventory : UI_Entity
         upToggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
         dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
-        _descrPanelSize = _GetUISize(descrPanel);
+        _invenUISize = _GetUISize(descrPanel);
+        _descrUISize = _GetUISize(descrPanel);
 
         _items = GameManager.Inven.items;
         _totalSlotCount = GameManager.Inven.totalSlot;
@@ -121,7 +123,6 @@ public class UI_Inventory : UI_Entity
     // 인벤토리 내 초기 슬롯 생성
     void _DrawSlots()
     {
-        // 슬롯 생성
         for (int i = 0; i < _totalSlotCount; i++)
         {
             GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform);
@@ -132,12 +133,13 @@ public class UI_Inventory : UI_Entity
 
     public void RestrictItemDescrPos()
     {
-        StartCoroutine(RestrictUIPos(descrPanel, _descrPanelSize));
+        Vector2 option = new Vector2(300f, -165f);
+        StartCoroutine(RestrictUIPos(descrPanel, _descrUISize, option));
     }
 
-    public void StopRestrictItemDescrPos()
+    public void StopRestrictItemDescrPos(PointerEventData data)
     {
-        StopCoroutine(RestrictUIPos(descrPanel, _descrPanelSize));
+        StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
     }
 
     // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
@@ -150,12 +152,16 @@ public class UI_Inventory : UI_Entity
     }
 
     // UI가 화면 밖으로 넘어가지 않도록 위치 제한
-    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize)
+    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize, Vector2? option = null)
     {
-        float x = Math.Clamp(UI.transform.position.x, UISize.x / 2, Screen.width - (UISize.x / 2));
-        float y = Math.Clamp(UI.transform.position.y, UISize.y / 2, Screen.height - (UISize.y / 2));
-        UI.transform.position = new Vector3(x, y, transform.position.z);
-        yield return null;
+        while (true)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            float x = Math.Clamp(mousePos.x + option.Value.x, UISize.x / 2, Screen.width - (UISize.x / 2));
+            float y = Math.Clamp(mousePos.y + option.Value.y, UISize.y / 2, Screen.height - (UISize.y / 2));
+            UI.transform.position = new Vector2(x, y);
+            yield return null;
+        }
     }
 
     void _SetPanel_U()

@@ -37,6 +37,7 @@ public class UIManager : SubClass<GameManager>
 
     protected override void _Init()
     {
+        Cursor.lockState = CursorLockMode.Confined;
 #if TEST
         _activePopupList = new LinkedList<GameObject>();
         _linkedPopupList = new List<GameObject>();
