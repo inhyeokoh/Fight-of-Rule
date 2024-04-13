@@ -100,8 +100,20 @@ public class ItemData : MonoBehaviour
 #if Dictionary
     public static StateItemData StateItemDataReader(int item_id)
     {
-       return stateItemDatas[item_id];
+        StateItemData item = new StateItemData(stateItemDatas[item_id].id, stateItemDatas[item_id].name, stateItemDatas[item_id].desc,
+            stateItemDatas[item_id].icon, stateItemDatas[item_id].itemType, stateItemDatas[item_id].equipmentType, stateItemDatas[item_id].purchaseprice,
+            stateItemDatas[item_id].sellingprice, stateItemDatas[item_id].level, stateItemDatas[item_id].attack, stateItemDatas[item_id].defense,
+            stateItemDatas[item_id].speed, stateItemDatas[item_id].attackSpeed, stateItemDatas[item_id].hp, stateItemDatas[item_id].mp, stateItemDatas[item_id].exp,
+            stateItemDatas[item_id].maxHp, stateItemDatas[item_id].maxMp, stateItemDatas[item_id].maxCount);
+
+        return item;
     }
+
+    public static ETCItemData ETCItemDataReader(int item_id)
+    {
+        return etcItemDatas[item_id];
+    }
+
 #endif
 
     public void ETCItemDataParsing()
@@ -132,6 +144,5 @@ public class ItemData : MonoBehaviour
             etcItemDatas.Add(ectItem_id, etcItemData);
 #endif
         }
-    }
-
+    } 
 }

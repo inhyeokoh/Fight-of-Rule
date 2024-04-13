@@ -28,7 +28,7 @@ public class CSVReader
             var entry = new Dictionary<string, string>();
             for (var j = 0; j < header.Length && j < values.Length; j++)
             {
-                string value = values[j];
+                string value = $"{values[j]}";
                 value = value.TrimStart(TRIM_CHARS).TrimEnd(TRIM_CHARS).Replace("\\", "");         
                 entry[header[j]] = value; 
             }

@@ -12,10 +12,6 @@ public class MonsterStatus : SubMono<MonsterController>
     private int mp;
     private int exp;
 
-    private int damage;
-
-    private int attackNumber;
-
     private int attack;
     private float attackSpeed;
     private float delay;
@@ -24,10 +20,14 @@ public class MonsterStatus : SubMono<MonsterController>
     private int speed;
     protected int level;
 
-
     protected int detectDistance;
     protected int attackDistance;
 
+    private int damage;
+
+
+
+    private int attackNumber;
 
     public int HP
     {

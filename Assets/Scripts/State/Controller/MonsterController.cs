@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum Enum_MosterType
+{
+    Slime,
+    Goblin,
+    Orc,
+    Undead,
+}
+
 public class MonsterController : MonoBehaviour
 {
     //몬스터 컨트롤러는 몬스터에 연결되있는 기능들을 연결하고 입출력을 담당하는

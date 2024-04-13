@@ -58,14 +58,17 @@ public class UI_StatusWindow : UI_Entity
 
     private void SetPlayerStat()
     {
-        status[0].text = @$"HP: {player.SumMaxHP} /
+        status[0].text = $"Level: {player.Level}";
+        status[1].text = @$"HP: {player.SumMaxHP} /
            / {player.HP}";           
-        status[1].text = @$"MP: {player.SumMaxMP} /
+        status[2].text = @$"MP: {player.SumMaxMP} /
            / {player.MP}";
-        status[2].text = $"Attack : {player.SumAttack}";
-        status[3].text = $"Defense : {player.SumDefense}";
-        status[4].text = $"Speed : {player.SumSpeed}";
-        status[5].text = $"AttackSpeed : {player.SumAttackSpeed}";
+        status[3].text = $"Attack : {player.SumAttack}";
+        status[4].text = $"Defense : {player.SumDefense}";
+        status[5].text = $"Speed : {player.SumSpeed}";
+        status[6].text = $"AttackSpeed : {player.SumAttackSpeed}";
+        status[7].text = $"MaxExp : {player.MaxEXP}";
+        status[8].text = $"Exp : {player.EXP}";
     }
 }
 

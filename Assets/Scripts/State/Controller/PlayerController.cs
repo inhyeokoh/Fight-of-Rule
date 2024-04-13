@@ -135,6 +135,11 @@ public class PlayerController : MonoBehaviour
         SkillManager.Skill.PlayerData();
     }
 
+    private void Start()
+    {
+        
+    }
+
     // 현재 상태패턴 그리고 장비 상태패턴 호출
     private void FixedUpdate()
     {      
@@ -154,12 +159,17 @@ public class PlayerController : MonoBehaviour
 
         _playerState.Updated();
         _playerEquipment.EquipmentStay();
+
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            _playerStat.EXP += 40000;
+        }
     }
 
     // 레벨업을 했을때 (이것도 다른데로 옮겨야함)
-    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenese, bool firstLevel)
+    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defenese)
     {
-        _playerStat.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenese, firstLevel);
+        _playerStat.LevelStatUP(maxEXP, maxHP, maxMP, attack, defenese);
     }
 
     // 레벨업 체크했는지 확인 (이것도 다른데로 옮겨야함)

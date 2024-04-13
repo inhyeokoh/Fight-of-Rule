@@ -26,7 +26,9 @@ public class SkillManager : MonoBehaviour
     [SerializeField]
     private Skill activeSkill;
 
-    public Collider[] players;   
+    public Collider[] players;
+
+    public event Action DESCUIDamageUpdate;
 
     public static SkillManager Skill { get { return _skill; } }    
 
@@ -134,6 +136,16 @@ public class SkillManager : MonoBehaviour
         skill.LevelReset();
     }
   
+    public void SkillDamageUpdate()
+    {
+        for (int i = 0; i < characterSkills.Length; i++)
+        {
+            characterSkills[i].DESCUpdate();
+        }
+
+        DESCUIDamageUpdate();
+    }
+
     
     public void WarriorSkillDBParsing()
     {

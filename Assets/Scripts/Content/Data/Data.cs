@@ -90,6 +90,26 @@ public class ETCItemData
     }
 }
 
+[System.Serializable]
+public class LevelData : Data
+{
+    public int level;
+    public int maxhp;
+    public int maxmp;
+    public int maxexp;
+    public int attack;
+    public int defense;
+
+    public LevelData(int level, int maxhp, int maxmp, int maxexp,int attack, int defense)
+    {
+        this.level = level;
+        this.maxhp = maxhp;
+        this.maxmp = maxmp;
+        this.maxexp = maxexp;
+        this.attack = attack;
+        this.defense = defense;
+    }
+}
 
 
 [System.Serializable]
@@ -123,6 +143,7 @@ public class WarriorSkillData : Data
         this.skillDamage = skillDamage;
     }
 }
+
 
 
 

@@ -70,7 +70,10 @@ public class UI_SkillWindow : UI_Entity
 
             skillClone.CurrentSkill(skill);
         }
-      
+
+        SkillManager.Skill.DESCUIDamageUpdate += SkillInfomation;
+
+
         _entities[(int)Enum_UI_SkillWindow.Close].ClickAction =(PointerEventData data) =>
         {
             // GameManager.UI.ClosePopup(GameManager.UI.SkillWindow);
@@ -141,7 +144,7 @@ public class UI_SkillWindow : UI_Entity
     // 스킬 인포창 갱신중
     private void SkillInfomation()
     {
-        skillToolTip.text = selectSkill.SKillDESC;
+        skillToolTip.text = selectSkill.SkillDESCSkillText;
         skillName.text = selectSkill.SkillName;
         skillLevel.text = $"레벨 {selectSkill.SkillLevelCondition} 이상";
         skillPoint.text = $"필요 포인트 \n {selectSkill.SkillPoint}";

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum Enum_EquipmentType
 {
-    Defult,
+    Default,
     Weapon,
     Head,
     Body,
@@ -21,19 +21,18 @@ public enum Enum_ItemType
 }
 public abstract class ItemObject : MonoBehaviour
 {
-
-    public Item item;
+    public StateItemData item;
 
     public int itemID; //아이템 번호
+    public int Attack;
 
-    public Enum_ItemType itemType;
 
     protected static bool stateComplete;
 
 
     //상태 패턴 생성기
-    protected StateMachine stateMachine;
-    protected State state;
+    protected StateItemMachine stateMachine;
+    protected StateItem stateItem;
 
     //포션이나 장비등등 스텟 정보를 넘겨주기위한 플레이어
     [SerializeField]
@@ -42,8 +41,7 @@ public abstract class ItemObject : MonoBehaviour
 
     private void Awake()
     {       
-        stateMachine = new StateMachine();
-       
+        stateMachine = new StateItemMachine();
       /*  try
         {
             Setting();
@@ -56,8 +54,15 @@ public abstract class ItemObject : MonoBehaviour
     }
 
     private void Start()
-    {                
+    {
+        item = ItemData.StateItemDataReader(itemID);
+        item.attack += Attack;
         Setting();       
+    }
+
+    private void FixedUpdate()
+    {
+        FixedStay();
     }
 
     private void OnEnable()
@@ -69,22 +74,11 @@ public abstract class ItemObject : MonoBehaviour
         if (other.CompareTag("Player")) 
         {
             player = PlayerController.instance._playerStat;
-
-
-
-            if (itemType == Enum_ItemType.Consumption)
-            {
-                Enter();
-            }           
-            else if (itemType == Enum_ItemType.Equipment)
-            {
-                Check();
-            }
         }     
     }
     public void Enter()
     {
-        stateMachine.EnterState(state);
+        stateMachine.EnterState(stateItem, item);
     }
 
     public  void FixedStay()
@@ -101,10 +95,6 @@ public abstract class ItemObject : MonoBehaviour
     public  void Exit()
     {
         stateMachine.ExitState();
-    }
-    public void Data(int itemID)
-    {
-
     }
 
     public abstract void Setting();

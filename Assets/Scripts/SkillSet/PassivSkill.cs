@@ -45,6 +45,5 @@ public class PassivSkill : Skill
 
     public override void SKillDB(WarriorSkillData data)
     {
-        
-    }
+            }
 }
