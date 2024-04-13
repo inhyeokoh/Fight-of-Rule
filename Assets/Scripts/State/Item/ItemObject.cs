@@ -21,9 +21,10 @@ public enum Enum_ItemType
 }
 public abstract class ItemObject : MonoBehaviour
 {
+    // 아이템 정보
     public StateItemData item;
 
-    public int itemID; //아이템 번호
+    public int itemID; // 아이템 ID들을 분류 해놨지만 캐릭터가 가지고있는 아이템 개별 ID들을 어떻게 저장해야할지 모르겠음
     public int Attack;
 
 
@@ -55,7 +56,10 @@ public abstract class ItemObject : MonoBehaviour
 
     private void Start()
     {
+        //현재 아이템정보를 깊은 복사같은 방식으로 데이터를 불러옴
         item = ItemData.StateItemDataReader(itemID);
+
+        //이건 아이템들 마다 정보들이 따로 적용되는지 확인
         item.attack += Attack;
         Setting();       
     }

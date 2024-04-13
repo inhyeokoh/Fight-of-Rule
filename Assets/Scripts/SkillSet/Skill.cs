@@ -87,6 +87,7 @@ public abstract class Skill : MonoBehaviour
         DESCUpdate();
     }
 
+    // 데이터를 받은 스킬 설명과 다른 자세한 부분들을 다른 string 변수에다 할당
     public void DESCUpdate()
     {
         if (level == 0)

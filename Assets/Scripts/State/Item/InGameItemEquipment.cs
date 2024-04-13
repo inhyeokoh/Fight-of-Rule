@@ -3,12 +3,12 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+//클래스 이름을 StateItemObject으로 바꿀 예정
 public class InGameItemEquipment : ItemObject
 {
+
+    //현재 아이템들의 state패턴을 담을 딕셔너리
     protected static Dictionary<int, StateItem> StateItems = new Dictionary<int, StateItem>();
-
-
-    //장비의 직업 확인
 
     //현재 플레이어의 직업확인과 장비를 꼇을때 스텟들을 넘겨주기위한 클래스
     public CharacterEquipment playerEquipment;
@@ -56,6 +56,7 @@ public class InGameItemEquipment : ItemObject
         playerEquipment.EquipmentCheck(ap);
     }
 
+    // 다른 아이템들도 잘 연동되는지 확인
     public void StateSetting()
     {
         StateItems.Add(1000, new StateItem((item) => 

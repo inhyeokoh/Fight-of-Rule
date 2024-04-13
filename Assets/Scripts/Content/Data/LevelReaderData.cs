@@ -24,7 +24,7 @@ public class LevelReaderData : MonoBehaviour
         Reader("Data/WarriorLevelDB");
     }
 
-
+    //레벨 CSV 불러오기
     private void Reader(string characterClass)
     {
         List<Dictionary<string,string>> levelDatas = CSVReader.Read(characterClass);
@@ -56,6 +56,8 @@ public class LevelReaderData : MonoBehaviour
         }
     }
 
+    // 직업마다 맞는 레벨 데이터 불러오기
+    // 데이터를 깊은 복사 방식으로 리턴하게함
     public static LevelData CurrentLevelData(int level, Enum_Class characterClass)
     {
         LevelData currentLevelData;

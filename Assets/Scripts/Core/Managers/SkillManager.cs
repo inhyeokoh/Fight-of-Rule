@@ -136,6 +136,7 @@ public class SkillManager : MonoBehaviour
         skill.LevelReset();
     }
   
+    // 캐릭터의 공격력이 올라갔을때나 내려갔을때 스킬 데미지를 갱신
     public void SkillDamageUpdate()
     {
         for (int i = 0; i < characterSkills.Length; i++)

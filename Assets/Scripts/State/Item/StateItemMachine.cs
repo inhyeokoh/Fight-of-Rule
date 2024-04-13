@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class StateItemMachine : MonoBehaviour
 {
+    //분류한 아이템 스테이트 머신
+
     private StateItem currentState; // 현재 상태    
     private StateItem previousState; // 이전 상태
 

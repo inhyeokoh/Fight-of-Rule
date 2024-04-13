@@ -5,6 +5,7 @@ using System;
 
 public class StateItem
 {
+    // 어렵게 생각하지 말고 아이템 스테이트와 아이템 스테이트 머신을 따로 분류해서 만들었음
     Action<StateItemData> enterAction;
     Action<StateItemData> fixedstayAction;
     Action<StateItemData> stayAction;
@@ -17,8 +18,6 @@ public class StateItem
         this.stayAction = stayAction;
         this.exitAction = exitAction;
     }
-
-    // 굳이 생성자에 넣지말고 그냥 메서드를 하나 만들어서 매개변수를 넣을까 그냥 그래도 될거같은데
     public void Enter(StateItemData item)
     {
         enterAction?.Invoke(item);
