@@ -36,8 +36,9 @@ public class UIManager : SubClass<GameManager>
     }
 
     protected override void _Init()
-    {
-        Cursor.lockState = CursorLockMode.Confined;
+    {   
+        // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
+        // Cursor.lockState = CursorLockMode.Confined;
 #if TEST
         _activePopupList = new LinkedList<GameObject>();
         _linkedPopupList = new List<GameObject>();

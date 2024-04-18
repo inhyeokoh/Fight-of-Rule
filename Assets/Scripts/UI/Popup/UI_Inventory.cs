@@ -11,7 +11,11 @@ public class UI_Inventory : UI_Entity
     GameObject _content;
     public GameObject dragImg;
     public GameObject descrPanel;
-    Vector2 _invenUISize;
+    public GameObject dropConfirmPanel;
+    public GameObject dropCountConfirmPanel;
+
+    public Vector2 invenUI_leftBottom;
+    public Vector2 invenUI_rightTop;
     Vector2 _descrUISize;
 
     TMP_Text[] upTogNames;
@@ -34,9 +38,12 @@ public class UI_Inventory : UI_Entity
         Sort,
         Expansion,
         ScrollView,
+        TempAdd,
+        Close,
         DragImg,
         DescrPanel,
-        Close
+        DropConfirm,
+        DropCountConfirm
     }
 
     protected override Type GetUINamesAsType()
@@ -57,7 +64,8 @@ public class UI_Inventory : UI_Entity
         upToggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
         dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
-        _invenUISize = _GetUISize(descrPanel);
+        dropConfirmPanel = _entities[(int)Enum_UI_Inventory.DropConfirm].gameObject;
+        dropCountConfirmPanel = _entities[(int)Enum_UI_Inventory.DropCountConfirm].gameObject;
         _descrUISize = _GetUISize(descrPanel);
 
         _items = GameManager.Inven.items;
@@ -111,12 +119,18 @@ public class UI_Inventory : UI_Entity
             _ExpandSlot();
         };
 
+        // 아이템 획득 - 임시
+        _entities[(int)Enum_UI_Inventory.TempAdd].ClickAction = (PointerEventData data) =>
+        {
+            _PressGetItem();
+        };
+
         // 인벤토리 닫기
         _entities[(int)Enum_UI_Inventory.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Inventory);
         };
-           
+
         gameObject.SetActive(false);
     }
 
@@ -140,6 +154,12 @@ public class UI_Inventory : UI_Entity
     public void StopRestrictItemDescrPos(PointerEventData data)
     {
         StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
+    }
+
+    public void GetUIPos()
+    {
+        invenUI_leftBottom = transform.TransformPoint(GetComponent<RectTransform>().rect.min);
+        invenUI_rightTop = transform.TransformPoint(GetComponent<RectTransform>().rect.max);
     }
 
     // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
@@ -206,6 +226,13 @@ public class UI_Inventory : UI_Entity
     // 선택한 타입에 해당 아이템은 색 밝게, 나머지는 약간 어둡게
     void _RenderByType(string typeName)
     {
+        // 문자열을 해당 열거형으로 변환
+        Item.Enum_ItemType targetType;
+        if (!Enum.TryParse(typeName, out targetType))
+        {
+            return; //못 바꾸면 return
+        }
+
         for (int i = 0; i < _items.Count; i++)
         {
             if (_items[i] == null)
@@ -214,7 +241,7 @@ public class UI_Inventory : UI_Entity
             }
 
             UI_ItemSlot slot = _content.transform.GetChild(i).GetComponent<UI_ItemSlot>();
-            if (_items[i].Type != typeName) // 다른 타입은 어둡게 그리기
+            if (_items[i].ItemType != targetType) // 다른 타입은 어둡게 그리기
             {
                 slot.RenderDark();
             }
@@ -244,5 +271,10 @@ public class UI_Inventory : UI_Entity
         GameManager.Inven.totalSlot += newSlot;
         _totalSlotCount = GameManager.Inven.totalSlot;
         GameManager.Inven.ExtendItemList();
+    }
+
+    void _PressGetItem()
+    {
+        GameManager.Inven.GetItem(new Item(null, 1, "Consumption", "Hp", "HP포션입니다", 0, 0, 0, 0, 0, 0, 0, 0, 100, /*포션갯수*/12, true, 4, 0, "Normal", "Potion")); // 포션
     }
 }

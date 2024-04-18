@@ -66,11 +66,32 @@ public class UI_ItemSlot : UI_Entity
         //드래그 끝
         _entities[(int)Enum_UI_ItemSlot.IconImg].EndDragAction = (PointerEventData data) =>
         {
-            if (!CheckItemNull() && CheckCorrectDrop(data)) // 드래그 드롭한 오브젝트가 슬롯이어야함
+            if (CheckItemNull())
+            {
+                return;
+            }
+
+            if (CheckSlotDrop(data)) // 드래그 드롭한 오브젝트가 슬롯이어야함
             {
                 _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
                 GameManager.Inven.DragAndDropItems(index, _otherIndex);
             }
+            else if (CheckSceneDrop(data)) // 인벤토리 UI 밖에 드롭할 경우
+            {
+                if (_invenItems[index].Count == 1)
+                {
+                    // 버릴지 되묻는 팝업
+                    _inven.dropConfirmPanel.SetActive(true);
+                    _inven.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(index);
+                }
+                else
+                {
+                    // 버릴 아이템 이름 + 수량 적는 팝업
+                    _inven.dropCountConfirmPanel.SetActive(true);
+                    _inven.dropCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(index);
+                }
+            }
+
             _inven.dragImg.SetActive(false);
         };
 
@@ -132,9 +153,30 @@ public class UI_ItemSlot : UI_Entity
     }
 
     // 드롭 시 슬롯에 벗어나지 않았는지 확인
-    bool CheckCorrectDrop(PointerEventData data)
+    bool CheckSlotDrop(PointerEventData data)
     {
+        if (data.pointerCurrentRaycast.gameObject == null)
+        {
+            return false;
+        }
+
         return data.pointerCurrentRaycast.gameObject.name == "IconImg";
+    }
+
+    bool CheckSceneDrop(PointerEventData data)
+    {
+        _inven.GetUIPos();
+        Debug.Log("드랍 체크");
+        Debug.Log(data.position);
+        Debug.Log(_inven.invenUI_leftBottom);
+        Debug.Log(_inven.invenUI_rightTop);
+        if (data.position.x < _inven.invenUI_leftBottom.x || data.position.y < _inven.invenUI_leftBottom.y ||
+            data.position.x > _inven.invenUI_rightTop.x || data.position.y > _inven.invenUI_rightTop.y)
+        {
+            return true;
+        }
+
+        return false;
     }
 
     void ShowItemInfo()
