@@ -69,7 +69,7 @@ public class UI_Inventory : UI_Entity
         _descrUISize = _GetUISize(descrPanel);
 
         _items = GameManager.Inven.items;
-        _totalSlotCount = GameManager.Inven.totalSlot;
+        _totalSlotCount = GameManager.Inven.totalSlotCount;
 
         _SetPanel_U();
         _DrawSlots();
@@ -268,8 +268,8 @@ public class UI_Inventory : UI_Entity
             _itemSlot.name = "ItemSlot_" + i;
             _itemSlot.GetComponent<UI_ItemSlot>().index = i;
         }
-        GameManager.Inven.totalSlot += newSlot;
-        _totalSlotCount = GameManager.Inven.totalSlot;
+        GameManager.Inven.totalSlotCount += newSlot;
+        _totalSlotCount = GameManager.Inven.totalSlotCount;
         GameManager.Inven.ExtendItemList();
     }
 

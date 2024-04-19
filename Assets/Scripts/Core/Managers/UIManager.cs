@@ -11,6 +11,7 @@ public class UIManager : SubClass<GameManager>
     InputAction fireAction;
     public GameObject SignUp;
     public GameObject Inventory;
+    public GameObject PlayerInfo;
     public GameObject Setting;
     public GameObject InputName;
     public GameObject ConfirmYN;
@@ -46,6 +47,7 @@ public class UIManager : SubClass<GameManager>
         GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
         popupCanvas = GameObject.Find("PopupCanvas");
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
+        PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform);
         _activePopupList = new LinkedList<GameObject>();
         _linkedPopupList = new List<GameObject>();
 #else
@@ -72,6 +74,7 @@ public class UIManager : SubClass<GameManager>
     public void SetInGamePopups()
     {
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
+        PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform);
         StatusWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/StatusWindow", popupCanvas.transform);
         // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
         StatusWindow.SetActive(false);

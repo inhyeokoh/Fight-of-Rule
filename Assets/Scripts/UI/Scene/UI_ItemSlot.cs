@@ -39,8 +39,7 @@ public class UI_ItemSlot : UI_Entity
         _amountText = _iconImg.transform.GetChild(0).gameObject;
 
         _inven = transform.GetComponentInParent<UI_Inventory>();
-        _invenItems = GameManager.Inven.items;
-        
+        _invenItems = GameManager.Inven.items;        
 
         ItemRender();
 
@@ -110,11 +109,24 @@ public class UI_ItemSlot : UI_Entity
         // 커서가 나갔을때 아이템 설명 내리기 + 하이라이트 효과 끄기
         _entities[(int)Enum_UI_ItemSlot.IconImg].PointerExitAction = (PointerEventData data) =>
         {
-            if (!CheckItemNull())
+            _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
+            _inven.descrPanel.SetActive(false);
+            _inven.StopRestrictItemDescrPos(data);
+        };
+
+        // 우클릭으로 아이템 장착
+        _entities[(int)Enum_UI_ItemSlot.IconImg].ClickAction = (PointerEventData data) =>
+        {
+            if (CheckItemNull())
             {
-                _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
-                _inven.descrPanel.SetActive(false);
-                _inven.StopRestrictItemDescrPos(data);
+                return;
+            }
+
+            if (data.button == PointerEventData.InputButton.Right && _invenItems[index].ItemType == Item.Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
+            {
+                // TODO 장착 불가 경우
+
+                GameManager.Inven.EquipItem(index);
             }
         };
     }
@@ -134,9 +146,12 @@ public class UI_ItemSlot : UI_Entity
         {
             _iconImg.sprite = null;
             _iconImg.color = new Color32(12, 15, 29, 0);
+            _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
+            _inven.descrPanel.SetActive(false);
             _amountText.gameObject.SetActive(false);
         }
     }
+
     public void RenderBright()
     {
         _iconImg.color = new Color32(255, 255, 255, 255);
@@ -149,7 +164,7 @@ public class UI_ItemSlot : UI_Entity
 
     bool CheckItemNull()
     {
-        return _iconImg.sprite == null;
+        return GameManager.Inven.items[index] == null;
     }
 
     // 드롭 시 슬롯에 벗어나지 않았는지 확인
@@ -166,10 +181,7 @@ public class UI_ItemSlot : UI_Entity
     bool CheckSceneDrop(PointerEventData data)
     {
         _inven.GetUIPos();
-        Debug.Log("드랍 체크");
-        Debug.Log(data.position);
-        Debug.Log(_inven.invenUI_leftBottom);
-        Debug.Log(_inven.invenUI_rightTop);
+
         if (data.position.x < _inven.invenUI_leftBottom.x || data.position.y < _inven.invenUI_leftBottom.y ||
             data.position.x > _inven.invenUI_rightTop.x || data.position.y > _inven.invenUI_rightTop.y)
         {

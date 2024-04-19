@@ -40,11 +40,11 @@ public class Item
     public enum Enum_DetailType // 상세타입
     {
         Weapon,
-        Head,
-        Body,
+        Helmet,
+        Clothes,
         Belt,
-        Hand,
-        Foot,
+        Gloves,
+        Boots,
         Potion,
         Box,
         None
@@ -148,15 +148,15 @@ public class Item
             case "Weapon":
                 return Enum_DetailType.Weapon;
             case "Helmet":
-                return Enum_DetailType.Head;
-            case "Armor":
-                return Enum_DetailType.Body;
+                return Enum_DetailType.Helmet;
+            case "Clothes":
+                return Enum_DetailType.Clothes;
             case "Belt":
                 return Enum_DetailType.Belt;
             case "Boots":
-                return Enum_DetailType.Foot;
+                return Enum_DetailType.Boots;
             case "Gloves":
-                return Enum_DetailType.Hand;
+                return Enum_DetailType.Gloves;
             case "Potion":
                 return Enum_DetailType.Potion;
             case "Box":

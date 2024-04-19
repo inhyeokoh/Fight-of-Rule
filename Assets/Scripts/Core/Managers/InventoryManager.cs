@@ -5,10 +5,14 @@ using UnityEngine;
 
 public class InventoryManager : SubClass<GameManager>
 {
-    public int totalSlot = 30;
+    public int totalSlotCount = 30;
     public List<Item> items; // slot index에 따른 아이템 리스트
 
+    public int equipSlotCount = 9;
+    public List<Item> equips;
+
     UI_Inventory _inven;
+    UI_PlayerInfo _playerInfo;
 
     enum Enum_Sort // 아이템 정렬 방법
     {
@@ -28,12 +32,12 @@ public class InventoryManager : SubClass<GameManager>
 
     enum Enum_DetailType // 상세타입
     {
-        Weapon,
-        Head,
-        Body,
+        Helmet,
+        Clothes,
         Belt,
-        Hand,
-        Foot,
+        Gloves,
+        Boots,
+        Weapon,
         Potion,
         Box,
         None
@@ -62,9 +66,11 @@ public class InventoryManager : SubClass<GameManager>
     //로컬로부터 내 인벤 아이템 정보 가져와서 인벤 리스트에 집어넣음
     public void ConnectInvenUI()
     {
-        items = new List<Item>(new Item[totalSlot]);
+        items = new List<Item>(new Item[totalSlotCount]);
+        equips = new List<Item>(new Item[equipSlotCount]);
 
         _inven = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_Inventory>();
+        _playerInfo = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_PlayerInfo>();
         _GetInvenDataFromDB();
     }
 
@@ -77,13 +83,13 @@ public class InventoryManager : SubClass<GameManager>
         {
             string[] row = lines[i].Split('\t'); // Tab 기준으로 나누기
             // 아이템 집어 넣기
-            items[Convert.ToInt32(row[7])] = new Item(null, Convert.ToInt32(row[0]), row[1], row[2], row[3], 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(row[4]), Convert.ToInt32(row[5]), row[6] == "TRUE", Convert.ToInt32(row[7]),/*temp*/0, row[8], row[9]);
+            items[Convert.ToInt32(row[7])] = new Item(null, Convert.ToInt32(row[0]), row[1], row[2], row[3], 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(row[4]), Convert.ToInt32(row[5]), row[6] == "TRUE", Convert.ToInt32(row[7]),/*temp*/0, row[8], row[9].Trim());
         }
     }
 
     public void ExtendItemList()
     {
-        while (items.Count < totalSlot)
+        while (items.Count < totalSlotCount)
         {
             items.Add(null);
         }
@@ -505,5 +511,79 @@ public class InventoryManager : SubClass<GameManager>
 
         // UI 갱신
         _inven.UpdateInvenUI(index);
+    }
+
+    public void EquipItem(int index)
+    {
+        int equipType = -1;
+        switch (items[index].DetailType)
+        {
+            case Item.Enum_DetailType.Helmet:
+                equipType = 0;
+                break;
+            case Item.Enum_DetailType.Clothes:
+                equipType = 1;
+                break;
+            case Item.Enum_DetailType.Belt:
+                equipType = 2;
+                break;
+            case Item.Enum_DetailType.Gloves:
+                equipType = 3;
+                break;
+            case Item.Enum_DetailType.Boots:
+                equipType = 4;
+                break;
+            case Item.Enum_DetailType.Weapon:
+                equipType = 5;
+                break;
+            default:
+                equipType = -1;
+                break;
+        }
+
+        // 장착 아이템 아니면 반환
+        if (equipType == -1)
+        {            
+            return;
+        }
+
+        Item temp = null;
+        // 장착하고 있던 아이템이 있다면 잠시 보관
+        if (equips[equipType] != null)
+        {
+            temp = equips[equipType];
+        }
+        equips[equipType] = items[index];
+        items[index] = null;
+
+        if (temp != null)
+        {
+            items[index] = temp;
+        }
+
+        // 장비창 UI 갱신
+        if (_playerInfo.gameObject.activeSelf)
+        {
+            _playerInfo.UpdateEquipUI(equipType);
+        }
+
+        // 인벤토리 UI 갱신
+        _inven.UpdateInvenUI(index);
+    }
+
+    public void UnEquipItem(int index)
+    {
+        // 인벤토리 비어 있는 칸 찾아서 넣기
+        int invenEmptySlot = GetEmptySlotIndex();
+        items[invenEmptySlot] = equips[index];
+        equips[index] = null;
+
+        // 장비창 UI 갱신
+        _playerInfo.UpdateEquipUI(index);
+
+        // 인벤토리 UI 갱신
+        _inven.UpdateInvenUI(invenEmptySlot);
+
+        // TODO : 인벤토리 꽉 찬 경우
     }
 }
