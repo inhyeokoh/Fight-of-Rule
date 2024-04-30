@@ -1,3 +1,4 @@
+#define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -31,6 +32,13 @@ public class UI_Manage : MonoBehaviour
             GameManager.UI.SetInGamePopups();
             GameManager.Inven.ConnectInvenUI();
         }
+#if INVENTEST
+        if (scene.name == "Inventory")
+        {
+            GameManager.UI.ConnectPlayerInput();
+            GameManager.Inven.ConnectInvenUI();
+        }
+#endif
     }
 
     void OnDisable()

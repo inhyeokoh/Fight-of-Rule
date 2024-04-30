@@ -6,9 +6,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, ISelectHandler, IDropHandler
+public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerUpHandler, IPointerExitHandler, IPointerClickHandler, IBeginDragHandler, IDragHandler, IEndDragHandler, ISelectHandler, IDropHandler
 {
     public Action<PointerEventData> PointerEnterAction = null;
+    public Action<PointerEventData> PointerUpAction = null;
     public Action<PointerEventData> PointerExitAction = null;
     public Action<PointerEventData> ClickAction = null;
     public Action<PointerEventData> BeginDragAction = null;
@@ -136,10 +137,16 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     protected abstract Type GetUINamesAsType();
 
-    // 포인터가 오브젝트에 들어왔을 때 호출 ex) 인벤 아이템 정보 보기
+    // 포인터가 오브젝트에 들어왔을 때 호출
     public void OnPointerEnter(PointerEventData eventData)
     {
         PointerEnterAction?.Invoke(eventData);
+    }
+
+    // 포인터가 올려져 있을때 호출
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        PointerUpAction?.Invoke(eventData);
     }
 
     // 포인터가 오브젝트 밖으로 나갈 때 호출

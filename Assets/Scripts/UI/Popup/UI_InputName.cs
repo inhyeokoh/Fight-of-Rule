@@ -1,13 +1,12 @@
 #define CLIENTONLY
 using System;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class UI_InputName : UI_Entity
 {
-    // TODO : 생성가능,중복닉네임,생성불가한 케이스로 나뉘어야함
-    public bool canCreate = true;
     public string nickname;
     TMP_Text _instruction;
 
@@ -42,12 +41,19 @@ public class UI_InputName : UI_Entity
 
         _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
             nickname = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().text;
-            if (nickname.Length < 4 || nickname.Length > 12)
+            string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-R]{1,12}", "", RegexOptions.Singleline);
+
+            // 특수문자 안되게
+            if (nickname.Equals(nickChecker) == false)
             {
                 GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
-                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Please enter at least 4 characters and no more than 12 characters.");
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Special characters and spaces are not allowed.");
             }
-            // 특수문자 안되게
+            else if (nickname.Length < 2 || nickname.Length > 12)
+            {
+                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Please enter at least 2 characters and no more than 12 characters.");
+            }
             else
             {
 #if CLIENTONLY
@@ -58,9 +64,9 @@ public class UI_InputName : UI_Entity
 #else
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = nickname;
-                GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+                GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));            
 #endif
-            }
+            };
         };
 
         _entities[(int)Enum_UI_InputName.Cancel].ClickAction = (PointerEventData data) => {

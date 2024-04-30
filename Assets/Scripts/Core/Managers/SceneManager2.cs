@@ -1,4 +1,5 @@
-#define TEST
+//#define TEST
+#define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,6 +23,9 @@ public class SceneManager2 : SubClass<GameManager>
     protected override void _Init()
     {
 #if TEST
+        maxIdx = SceneManager.sceneCountInBuildSettings;
+        curIdx = SceneManager.GetActiveScene().buildIndex;
+#elif INVENTEST
         maxIdx = SceneManager.sceneCountInBuildSettings;
         curIdx = SceneManager.GetActiveScene().buildIndex;
 #else

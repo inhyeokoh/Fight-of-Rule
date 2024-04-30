@@ -40,8 +40,8 @@ public class UI_Setting : UI_Entity
         // 텍스트 수정 용도 (인스펙터 창에서 하는것보다 통일성 면에서 확인하기 쉬움 )
         volNames = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<TMP_Text>();
 
-        SetPanel_L();
-        LoadOptionsVol();
+        _SetPanel_L();
+        _LoadOptionsVol();
 
         foreach (var _subUI in _subUIs)
         {
@@ -57,11 +57,11 @@ public class UI_Setting : UI_Entity
         };
         _entities[(int)Enum_UI_Settings.Reset].ClickAction = (PointerEventData data) =>
         {
-            ResetOptionsVol(0.5f);
+            _ResetOptionsVol(0.5f);
         };
         _entities[(int)Enum_UI_Settings.Accept].ClickAction = (PointerEventData data) =>
         {
-            SaveOptionsVol();
+            _SaveOptionsVol();
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
         _entities[(int)Enum_UI_Settings.Cancel].ClickAction = (PointerEventData data) =>
@@ -77,7 +77,7 @@ public class UI_Setting : UI_Entity
         gameObject.SetActive(false);
     }
 
-    void SetPanel_L()
+    void _SetPanel_L()
     {
         togNames[0].text = "Audio";
         togNames[1].text = "GamePlay";
@@ -86,19 +86,19 @@ public class UI_Setting : UI_Entity
         for (int i = 0; i < toggles.Length; i++)
         {
             int index = i;
-            toggles[i].onValueChanged.AddListener((value) => ToggleValueChanged(index));
+            toggles[i].onValueChanged.AddListener((value) => _ToggleValueChanged(index));
         }
     }
 
     // Panel_L에 있는 토글 선택 여부에 따라서 해당되는 내용을 Panel_R 에 활성화
-    void ToggleValueChanged(int toggleIndex)
+    void _ToggleValueChanged(int toggleIndex)
     {   
         bool isToggleOn = toggles[toggleIndex].isOn;                
         Transform childObject = _entities[(int)Enum_UI_Settings.Panel_R].transform.GetChild(toggleIndex);
         childObject.gameObject.SetActive(isToggleOn);
     }
 
-    void ResetOptionsVol(float value)
+    void _ResetOptionsVol(float value)
     {
         foreach (var slider in volSliders)
         {
@@ -106,7 +106,7 @@ public class UI_Setting : UI_Entity
         }
     }
 
-    void LoadOptionsVol()
+    void _LoadOptionsVol()
     {
         volSliders[0].value = GameManager.Data.setting.totalVol;
         volSliders[1].value = GameManager.Data.setting.backgroundVol;
@@ -126,7 +126,7 @@ public class UI_Setting : UI_Entity
     }
 
     // 기존값이랑 비교해서 다른부분이 있을 때만 서버에 저장하도록 (float 오차 유의)
-    void SaveOptionsVol()
+    void _SaveOptionsVol()
     {
         if (GameManager.Data.setting.totalVol - volSliders[0].value > 0.01f || 
             GameManager.Data.setting.backgroundVol - volSliders[1].value > 0.01f ||
