@@ -417,7 +417,7 @@ public class InventoryManager : SubClass<GameManager>
             }
         }
 
-        Debug.Log("비어있는 슬롯 없음");
+        // 비어있는 슬롯 없음
         return -1;
     }
 
@@ -428,9 +428,9 @@ public class InventoryManager : SubClass<GameManager>
             return; // 획득한 아이템이 없는 경우
         }
 
+        // 수량이 있는 아이템 처리
         if (acquired.Countable)
         {
-            // 수량이 있는 아이템 처리
             bool foundExist = false;
             foreach (var item in items)
             {
@@ -585,5 +585,6 @@ public class InventoryManager : SubClass<GameManager>
         _inven.UpdateInvenUI(invenEmptySlot);
 
         // TODO : 인벤토리 꽉 찬 경우
+        // 해제 불가 팝업
     }
 }

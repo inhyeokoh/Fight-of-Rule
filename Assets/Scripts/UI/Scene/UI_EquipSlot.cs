@@ -64,16 +64,25 @@ public class UI_EquipSlot : UI_Entity
                 return;
             }
 
-            if (CheckSlotDrop(data)) // 드롭한 오브젝트가 장비 슬롯
+            if (CheckSlotDrop(data)) // 드롭한 위치가 장비 슬롯
             {
                 _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
                 GameManager.Inven.DragAndDropItems(index, _otherIndex);
             }
-            else if (true)  // 드롭한 오브젝트가 인벤 슬롯
+            // 플레이어 정보 UI 밖에 드롭할 경우
+            else if (CheckSceneDrop(data))
             {
+                if (true)  // 드롭한 위치가 인벤 슬롯
+                {
 
+                }
+                else
+                {
+                    // 버릴지 되묻는 팝업
+/*                    _playerInfoUI.dropConfirmPanel.SetActive(true);
+                    _playerInfoUI.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(index);*/
+                }
             }
-            // 인벤토리 UI 밖에 드롭할 경우
 
 
             _playerInfoUI.dragImg.SetActive(false);
@@ -154,7 +163,20 @@ public class UI_EquipSlot : UI_Entity
 
     bool CheckItemNull()
     {
-        return _iconImg.sprite == null;
+        return GameManager.Inven.equips[index] == null;
+    }
+
+    bool CheckSceneDrop(PointerEventData data)
+    {
+        _playerInfoUI.GetUIPos();
+
+/*        if (data.position.x < _playerInfoUI. || data.position.y < _playerInfoUI.invenUI_leftBottom.y ||
+            data.position.x > _playerInfoUI.invenUI_rightTop.x || data.position.y > _playerInfoUI.invenUI_rightTop.y)
+        {
+            return true;
+        }*/
+
+        return false;
     }
 
     // 드롭 시 슬롯에 벗어나지 않았는지 확인

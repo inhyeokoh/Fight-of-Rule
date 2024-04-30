@@ -18,6 +18,9 @@ public class UI_PlayerInfo : UI_Entity
     private Vector2 _dragBeginPos;
     private Vector2 _offset;
 
+    Vector2 playerInfoUI_leftBottom;
+    Vector2 playerInfoUI_rightTop;
+
     enum Enum_UI_PlayerInfo
     {
         Interact,
@@ -118,6 +121,12 @@ public class UI_PlayerInfo : UI_Entity
             _equipSlot.name = "EquipSlot_" + i;
             _equipSlot.GetComponent<UI_EquipSlot>().index = i;
         }
+    }
+
+    public void GetUIPos()
+    {
+        playerInfoUI_leftBottom = transform.TransformPoint(GetComponent<RectTransform>().rect.min);
+        playerInfoUI_rightTop = transform.TransformPoint(GetComponent<RectTransform>().rect.max);
     }
 
     // 아이템 배열 정보에 맞게 UI 갱신 시키는 메서드

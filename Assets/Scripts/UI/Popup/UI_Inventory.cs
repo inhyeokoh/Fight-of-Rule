@@ -275,6 +275,6 @@ public class UI_Inventory : UI_Entity
 
     void _PressGetItem()
     {
-        GameManager.Inven.GetItem(new Item(null, 1, "Consumption", "Hp", "HP포션입니다", 0, 0, 0, 0, 0, 0, 0, 0, 100, /*포션갯수*/12, true, 4, 0, "Normal", "Potion")); // 포션
+        GameManager.Inven.GetItem(new Item(null, 1, "Consumption", "Hp", "HP포션입니다", 0, 0, 0, 0, 0, 0, 0, 0, 100, /*포션갯수*/300, true, 4, 0, "Normal", "Potion")); // 포션
     }
 }
