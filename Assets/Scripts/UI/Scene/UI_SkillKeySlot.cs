@@ -178,13 +178,13 @@ public class UI_SkillKeySlot : UI_Entity
             {
                 print("스킬이 아직 쿨타임 입니다.");
             }
-            else if (playerStat.MP < skill.SKillMP)
+            else if (playerStat.MP < skill.SkillMP)
             {
                 print("마나가 부족합니다.");
             }
             else
             {
-                playerStat.MP -= skill.SKillMP;
+                playerStat.MP -= skill.SkillMP;
                 PlayerController.instance._effector.EffectBurstStop();
                 skill.Use();
             }

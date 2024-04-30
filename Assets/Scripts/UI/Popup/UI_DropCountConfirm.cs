@@ -48,7 +48,7 @@ public class UI_DropCountConfirm : UI_Entity
     public void ChangeText(int slotIndex)
     {
         _slotIndex = slotIndex;
-        _mainText.text = $"{GameManager.Inven.items[slotIndex].ItemName} 아이템을 몇개나 버리시겠습니까?";
+        _mainText.text = $"{GameManager.Inven.items[slotIndex].name} 아이템을 몇개나 버리시겠습니까?";
     }
 }
 

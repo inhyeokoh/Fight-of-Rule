@@ -9,7 +9,7 @@ public class UI_ItemSlot : UI_Entity
 {
     Image _highlightImg;
     UI_Inventory _inven;
-    List<Item> _invenItems;
+    List<ItemData> _invenItems;
 
     // 현재 슬롯
     Image _iconImg;
@@ -77,7 +77,7 @@ public class UI_ItemSlot : UI_Entity
             }
             else if (CheckSceneDrop(data)) // 인벤토리 UI 밖에 드롭할 경우
             {
-                if (_invenItems[index].Count == 1)
+                if (_invenItems[index].count == 1)
                 {
                     // 버릴지 되묻는 팝업
                     _inven.dropConfirmPanel.SetActive(true);
@@ -122,7 +122,7 @@ public class UI_ItemSlot : UI_Entity
                 return;
             }
 
-            if (data.button == PointerEventData.InputButton.Right && _invenItems[index].ItemType == Item.Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
+            if (data.button == PointerEventData.InputButton.Right && _invenItems[index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
             {
                 // TODO 장착 불가 경우
 
@@ -138,9 +138,9 @@ public class UI_ItemSlot : UI_Entity
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
             _iconImg.sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[index].ItemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
+                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{_invenItems[index].name}"); // 해당 아이템 이름과 일치하는 이미지 로드
             _amountText.SetActive(true);
-            _amountText.GetComponent<TMP_Text>().text = $"{_invenItems[index].Count}";            
+            //_amountText.GetComponent<TMP_Text>().text = $"{_invenItems[index].Count}";            
         }
         else
         {
@@ -193,9 +193,9 @@ public class UI_ItemSlot : UI_Entity
 
     void ShowItemInfo()
     {
-        _inven.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].ItemName; // 아이템 이름
+        _inven.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].name; // 아이템 이름
         _inven.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
-        _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].ItemDescription; // 아이템 설명
+        _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].desc; // 아이템 설명
 
         // TODO 장비 아이템일 경우 추가 비교 이미지
     }

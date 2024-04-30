@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
@@ -74,5 +76,7 @@ public class DataManager : SubClass<GameManager>
             login = JsonUtility.FromJson<LoginData>(GameManager.Data.LoadData("LoginData"));
         }
     }
+
+
 
 }

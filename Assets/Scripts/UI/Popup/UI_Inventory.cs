@@ -21,7 +21,7 @@ public class UI_Inventory : UI_Entity
     TMP_Text[] upTogNames;
     Toggle[] upToggles;
 
-    List<Item> _items;
+    List<ItemData> _items;
     int _totalSlotCount;
 
     // 드래그 Field
@@ -227,7 +227,7 @@ public class UI_Inventory : UI_Entity
     void _RenderByType(string typeName)
     {
         // 문자열을 해당 열거형으로 변환
-        Item.Enum_ItemType targetType;
+        Enum_ItemType targetType;
         if (!Enum.TryParse(typeName, out targetType))
         {
             return; //못 바꾸면 return
@@ -241,7 +241,7 @@ public class UI_Inventory : UI_Entity
             }
 
             UI_ItemSlot slot = _content.transform.GetChild(i).GetComponent<UI_ItemSlot>();
-            if (_items[i].ItemType != targetType) // 다른 타입은 어둡게 그리기
+            if (_items[i].itemType != targetType) // 다른 타입은 어둡게 그리기
             {
                 slot.RenderDark();
             }
@@ -275,6 +275,6 @@ public class UI_Inventory : UI_Entity
 
     void _PressGetItem()
     {
-        GameManager.Inven.GetItem(new Item(null, 1, "Consumption", "Hp", "HP포션입니다", 0, 0, 0, 0, 0, 0, 0, 0, 100, /*포션갯수*/300, true, 4, 0, "Normal", "Potion")); // 포션
+        new ItemData(1, "Hp", "HP포션입니다", Resources.Load<Sprite>($"Materials/ItemIcons/HP"), (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), "Consumption"), (Enum_Grade)Enum.Parse(typeof(Enum_Grade), "Normal"), 100, 100, 100, 1);
     }
 }

@@ -119,7 +119,7 @@ public class UI_EquipSlot : UI_Entity
                 return;
             }
 
-            if (data.button == PointerEventData.InputButton.Right && GameManager.Inven.equips[index].ItemType == Item.Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
+            if (data.button == PointerEventData.InputButton.Right && GameManager.Inven.equips[index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
             {
                 // TODO 장착 불가 경우
 
@@ -140,7 +140,7 @@ public class UI_EquipSlot : UI_Entity
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
             _iconImg.sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{GameManager.Inven.equips[index].ItemName}"); // 해당 아이템 이름과 일치하는 이미지 로드
+                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{GameManager.Inven.equips[index].name}"); // 해당 아이템 이름과 일치하는 이미지 로드
         }
         else
         {
@@ -192,9 +192,9 @@ public class UI_EquipSlot : UI_Entity
 
     void ShowItemInfo()
     {
-        _playerInfoUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].ItemName; // 아이템 이름
+        _playerInfoUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].name; // 아이템 이름
         _playerInfoUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
-        _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].ItemDescription; // 아이템 설명
+        _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].desc; // 아이템 설명
 
         // TODO 장비 아이템일 경우 추가 비교 이미지
     }

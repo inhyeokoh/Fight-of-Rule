@@ -28,6 +28,10 @@ public class CharacterStatus : SubMono<PlayerController>
     private int sumDefense;
     private int sumSpeed;
 
+    private int skillPoint;
+
+    public int SkillPoint { get { return skillPoint; } set { skillPoint = value; } }
+
     public int MaxEXP { get { return characterMaxEXP; } }
 
     // 현재 순수 스텟은 그대루 두고
@@ -148,6 +152,7 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             sumAttack = value;
+            SkillManager.Skill.SkillDamageUpdate();
         }
     }
 
@@ -190,27 +195,35 @@ public class CharacterStatus : SubMono<PlayerController>
 
 
     //레벨업할때 능력치를 상승시키는 메서드
-    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defense, bool firstLevel)
+    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defense)
     {
         int previousEXP = this.characterMaxEXP;
-
-        if (firstLevel)
-        {
-            this.characterMaxEXP = maxEXP;
-        }
-        else
-        {
-            this.characterMaxEXP += maxEXP;
-        }
+   
+        this.characterMaxEXP = maxEXP;       
 
         this.characterMaxHP += maxHP;
         this.characterMaxMP += maxMP;
         this.characterAttack += attack;
         this.characterDefense += defense;
 
-        HP = this.characterMaxHP;
-        MP = this.characterMaxMP;
-        EXP -= previousEXP;
+      
+
+        SumMaxHP += maxHP;
+        SumMaxMP += maxMP;
+        SumAttack += attack;  
+        SumDefense += defense;
+
+        HP = SumMaxHP;
+        MP = SumMaxMP;
+
+        if (level == 50)
+        {
+            EXP = maxEXP;
+        }
+        else
+        {
+            EXP -= previousEXP;
+        }
     }
 
     //데미지 계산
@@ -221,7 +234,7 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        level = 50;
+        level = 1;
         characterMaxHP = 50;
         characterMaxMP = 50;
         characterMaxEXP = 100;

@@ -2,12 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public enum Enum_MonsterType
+{
+    Slime,
+    Goblin,
+    Orc,
+    Undead,
+}
+
 public class MonsterController : MonoBehaviour
 {
     //몬스터 컨트롤러는 몬스터에 연결되있는 기능들을 연결하고 입출력을 담당하는
     //메인보드 기능
+    
 
     List<SubMono<MonsterController>> _monsterController;
+
+    public MonsterData monsterDB;
+    public MonsterItemDropData monsterItemDropDB;
 
     public MonsterState _monsterState;
     public MonsterStatus _monsterStatus;
@@ -16,6 +29,8 @@ public class MonsterController : MonoBehaviour
     public MonsterEffector _effector;
     public MonsterMovement _monsterMovement;
     public MonsterItemDrop _monsterItemDrop;
+
+    public bool DBRederOn;
    
     // 현재 범위안에 있는 플레이어들 확인
     public Collider[] players;
@@ -41,17 +56,20 @@ public class MonsterController : MonoBehaviour
             _effector,
             _monsterMovement,
             _monsterItemDrop,
-        };
+        };       
+    }
 
-     
+    private void OnEnable()
+    {
         for (int i = 0; i < _monsterController.Count; i++)
         {
             _monsterController[i].Mount(this);
             _monsterController[i].Init();
         }
 
+        DBRederOn = true;
+
         _monsterState.StateAdd();
-    
     }
     private void FixedUpdate()
     {     
@@ -62,6 +80,12 @@ public class MonsterController : MonoBehaviour
     {
         players = Physics.OverlapSphere(gameObject.transform.position, 40f, 1 << 7);
         _monsterState.Updated();
+    }
+
+    public void MonsterDBReader(MonsterData data, MonsterItemDropData itemDropData)
+    {
+        monsterDB = data;
+        monsterItemDropDB = itemDropData;
     }
 
     public void DistributeState(int Event)

@@ -6,10 +6,10 @@ using UnityEngine;
 public class InventoryManager : SubClass<GameManager>
 {
     public int totalSlotCount = 30;
-    public List<Item> items; // slot index에 따른 아이템 리스트
+    public List<ItemData> items; // slot index에 따른 아이템 리스트
 
     public int equipSlotCount = 9;
-    public List<Item> equips;
+    public List<ItemData> equips;
 
     UI_Inventory _inven;
     UI_PlayerInfo _playerInfo;
@@ -22,7 +22,7 @@ public class InventoryManager : SubClass<GameManager>
     }
 
     // 정렬 순서
-    enum Enum_ItemType // 아이템 대분류
+/*    enum Enum_ItemType // 아이템 대분류
     {
         Equipment,
         Consumption,
@@ -49,7 +49,7 @@ public class InventoryManager : SubClass<GameManager>
         Rare,
         Unique,
         Legendary
-    }
+    }*/
 
     protected override void _Clear()
     {        
@@ -66,8 +66,8 @@ public class InventoryManager : SubClass<GameManager>
     //로컬로부터 내 인벤 아이템 정보 가져와서 인벤 리스트에 집어넣음
     public void ConnectInvenUI()
     {
-        items = new List<Item>(new Item[totalSlotCount]);
-        equips = new List<Item>(new Item[equipSlotCount]);
+        items = new List<ItemData>(new ItemData[totalSlotCount]);
+        equips = new List<ItemData>(new ItemData[equipSlotCount]);
 
         _inven = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_Inventory>();
         _playerInfo = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_PlayerInfo>();
@@ -83,7 +83,10 @@ public class InventoryManager : SubClass<GameManager>
         {
             string[] row = lines[i].Split('\t'); // Tab 기준으로 나누기
             // 아이템 집어 넣기
-            items[Convert.ToInt32(row[7])] = new Item(null, Convert.ToInt32(row[0]), row[1], row[2], row[3], 0, 0, 0, 0, 0, 0, 0, 0, Convert.ToInt32(row[4]), Convert.ToInt32(row[5]), row[6] == "TRUE", Convert.ToInt32(row[7]),/*temp*/0, row[8], row[9].Trim());
+
+
+            items[Convert.ToInt32(row[7])] = new ItemData(Convert.ToInt32(row[0]), row[2], row[3], Resources.Load<Sprite>($"Materials/ItemIcons/{row[2]}"), (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), row[1]), (Enum_Grade)Enum.Parse(typeof(Enum_Grade), row[8]), Convert.ToInt64(row[10]), Convert.ToInt64(row[11].Trim()), Convert.ToInt32(row[3]), Convert.ToInt32(row[4]));
+                // .Trim()
         }
     }
 
@@ -103,7 +106,7 @@ public class InventoryManager : SubClass<GameManager>
         {
             _ChangeSlotNum(oldPos, newPos);
         }
-        // 셀 수 있는 아이템이고 같은 아이템이면 수량 합치기
+        // 아이템 id가 같은 아이템이고 장비 아이템이 아니면 수량 합치기
         else if (_CheckSameAndCountable(oldPos, newPos))
         {
             _AddUpItems(oldPos, newPos);
@@ -126,31 +129,31 @@ public class InventoryManager : SubClass<GameManager>
 
     void _ExchangeSlotNum(int oldKey, int newKey)
     {
-        Item temp = items[oldKey];
+        ItemData temp = items[oldKey];
         items[oldKey] = items[newKey];
         items[newKey] = temp;
     }
 
     bool _CheckSameAndCountable(int a, int b)
     {
-        return items[a].ItemId == items[b].ItemId && (items[a].Countable && items[b].Countable) == true;
+        return items[a].id == items[b].id && (items[a].itemType != Enum_ItemType.Equipment);
     }
 
     void _AddUpItems(int a, int b)
     {
-        if (items[b].Count == items[b].MaxCount) // 바꿀 위치에 이미 꽉 차있는 경우, 수량만 교환
+        if (items[b].count == items[b].maxCount) // 바꿀 위치에 이미 꽉 차있는 경우, 수량만 교환
         {
-            int temp = items[b].Count;
-            items[b].Count = items[a].Count;
-            items[a].Count = temp;
+            int temp = items[b].count;
+            items[b].count = items[a].count;
+            items[a].count = temp;
         }
         else
         {
-            items[b].Count = items[a].Count + items[b].Count;
-            if (items[b].Count > items[b].MaxCount) // 합쳤을 때 수가 MaxCount보다 크면
+            items[b].count = items[a].count + items[b].count;
+            if (items[b].count > items[b].maxCount) // 합쳤을 때 수가 MaxCount보다 크면
             {
-                items[a].Count = items[b].Count - items[b].MaxCount;
-                items[b].Count = items[b].MaxCount;
+                items[a].count = items[b].count - items[b].maxCount;
+                items[b].count = items[b].maxCount;
             }
             else
             {
@@ -164,17 +167,17 @@ public class InventoryManager : SubClass<GameManager>
     public void SortItems()
     {
         // 아이템을 Enum_Itemtype에 따라 분류할 딕셔너리 생성
-        Dictionary<Enum_ItemType, List<Item>> itemDictionary = new Dictionary<Enum_ItemType, List<Item>>();
+        Dictionary<Enum_ItemType, List<ItemData>> itemDictionary = new Dictionary<Enum_ItemType, List<ItemData>>();
 
         // 각 아이템을 해당하는 Enum_Itemtype의 리스트에 추가
-        foreach (Item item in items)
+        foreach (ItemData item in items)
         {
             if (item != null)
             {
-                Enum_ItemType itemType = (Enum_ItemType)item.ItemType; // 아이템의 타입 가져오기
+                Enum_ItemType itemType = (Enum_ItemType)item.itemType; // 아이템의 타입 가져오기
                 if (!itemDictionary.ContainsKey(itemType))
                 {
-                    itemDictionary[itemType] = new List<Item>();
+                    itemDictionary[itemType] = new List<ItemData>();
                 }
                 itemDictionary[itemType].Add(item);
             }
@@ -183,12 +186,12 @@ public class InventoryManager : SubClass<GameManager>
         // 대분류(장비,소비 등등)된 항목들 순회
         foreach (Enum_ItemType itemType in itemDictionary.Keys)
         {
-            List<Item> itemList = itemDictionary[itemType];
+            List<ItemData> itemList = itemDictionary[itemType];
             if (itemType == Enum_ItemType.Equipment)
             {
                 // ID -> Equipment(Helmet,Boots,etc) -> Grade 순으로 정렬 시켜버리는게 빠르진 못해도 간단하지 않을까..
                 MergeSortItems(itemList, Enum_Sort.ID); // 아이템 등급 순서대로 병합 정렬
-                MergeSortItems(itemList, Enum_Sort.DetailType); // 아이템 등급 순서대로 병합 정렬
+                // MergeSortItems(itemList, Enum_Sort.DetailType); // 아이템 등급 순서대로 병합 정렬
                 MergeSortItems(itemList, Enum_Sort.Grade); // 아이템 등급 순서대로 병합 정렬
             }
             else if (itemType == Enum_ItemType.Consumption)
@@ -208,7 +211,7 @@ public class InventoryManager : SubClass<GameManager>
         {
             if (itemDictionary.ContainsKey(itemType))
             {
-                List<Item> itemList = itemDictionary[itemType];
+                List<ItemData> itemList = itemDictionary[itemType];
                 items.AddRange(itemList);
             }
         }
@@ -224,7 +227,7 @@ public class InventoryManager : SubClass<GameManager>
     }
 
     // 특정 순서대로 병합 정렬하는 메서드
-    void MergeSortItems(List<Item> itemList, Enum_Sort sort)
+    void MergeSortItems(List<ItemData> itemList, Enum_Sort sort)
     {
         if (itemList.Count <= 1)
         {
@@ -232,8 +235,8 @@ public class InventoryManager : SubClass<GameManager>
         }
 
         int mid = itemList.Count / 2;
-        List<Item> leftList = new List<Item>();
-        List<Item> rightList = new List<Item>();
+        List<ItemData> leftList = new List<ItemData>();
+        List<ItemData> rightList = new List<ItemData>();
 
         for (int i = 0; i < mid; i++)
         {
@@ -253,9 +256,9 @@ public class InventoryManager : SubClass<GameManager>
             case Enum_Sort.Grade:
                 itemList.AddRange(MergeItemsByGrade(leftList, rightList));
                 break;
-            case Enum_Sort.DetailType:
+/*            case Enum_Sort.DetailType:
                 itemList.AddRange(MergeItemsByDetailType(leftList, rightList));
-                break;
+                break;*/
             case Enum_Sort.ID:
                 itemList.AddRange(MergeItemsById(leftList, rightList));
                 break;
@@ -264,16 +267,16 @@ public class InventoryManager : SubClass<GameManager>
         }
     }
 
-    List<Item> MergeItemsById(List<Item> leftList, List<Item> rightList)
+    List<ItemData> MergeItemsById(List<ItemData> leftList, List<ItemData> rightList)
     {
-        List<Item> mergedList = new List<Item>();
+        List<ItemData> mergedList = new List<ItemData>();
 
         int leftIndex = 0;
         int rightIndex = 0;
 
         while (leftIndex < leftList.Count && rightIndex < rightList.Count)
         {
-            if (leftList[leftIndex].ItemId < rightList[rightIndex].ItemId)
+            if (leftList[leftIndex].id < rightList[rightIndex].id)
             {
                 mergedList.Add(leftList[leftIndex]);
                 leftIndex++;
@@ -300,17 +303,17 @@ public class InventoryManager : SubClass<GameManager>
         return mergedList;
     }
 
-    List<Item> MergeItemsByGrade(List<Item> leftList, List<Item> rightList)
+    List<ItemData> MergeItemsByGrade(List<ItemData> leftList, List<ItemData> rightList)
     {
-        List<Item> mergedList = new List<Item>();
+        List<ItemData> mergedList = new List<ItemData>();
 
         int leftIndex = 0;
         int rightIndex = 0;
 
         while (leftIndex < leftList.Count && rightIndex < rightList.Count)
         {
-            Enum_ItemGrade left = (Enum_ItemGrade)leftList[leftIndex].ItemGrade;
-            Enum_ItemGrade right = (Enum_ItemGrade)rightList[rightIndex].ItemGrade;
+            var left = leftList[leftIndex].itemGrade;
+            var right = rightList[rightIndex].itemGrade;
             // 낮은 등급일수록 왼쪽에 배치
             if (left < right)
             {
@@ -339,17 +342,17 @@ public class InventoryManager : SubClass<GameManager>
         return mergedList;
     }
 
-    List<Item> MergeItemsByDetailType(List<Item> leftList, List<Item> rightList)
+/*    List<ItemData> MergeItemsByDetailType(List<ItemData> leftList, List<ItemData> rightList)
     {
-        List<Item> mergedList = new List<Item>();
+        List<ItemData> mergedList = new List<ItemData>();
 
         int leftIndex = 0;
         int rightIndex = 0;
 
         while (leftIndex < leftList.Count && rightIndex < rightList.Count)
         {
-            Enum_DetailType left = (Enum_DetailType)leftList[leftIndex].DetailType;
-            Enum_DetailType right = (Enum_DetailType)rightList[rightIndex].DetailType;
+            var left = leftList[leftIndex].ty;
+            var right = rightList[rightIndex].DetailType;
             if (left < right)
             {
                 mergedList.Add(leftList[leftIndex]);
@@ -375,9 +378,9 @@ public class InventoryManager : SubClass<GameManager>
         }
 
         return mergedList;
-    }
+    }*/
 
-    void _CombineQuantities(List<Item> itemList)
+    void _CombineQuantities(List<ItemData> itemList)
     {
         if (itemList.Count < 2)
         {
@@ -388,7 +391,7 @@ public class InventoryManager : SubClass<GameManager>
         while (i < itemList.Count)
         {
             // 같은 ItemID이고 더 앞쪽에 있는 아이템의 수량이 최대가 아닐 경우 앞에다가 합치기
-            if (itemList[i].ItemId == itemList[i - 1].ItemId && itemList[i - 1].Count != itemList[i - 1].MaxCount)
+            if (itemList[i].id == itemList[i - 1].id && itemList[i - 1].count != itemList[i - 1].maxCount)
             {
                 _AddUpItems(i, i - 1);
                 if (itemList[i] == null)
@@ -421,7 +424,7 @@ public class InventoryManager : SubClass<GameManager>
         return -1;
     }
 
-    public void GetItem(Item acquired)
+    public void GetItem(ItemData acquired)
     {
         if (acquired == null)
         {
@@ -429,27 +432,27 @@ public class InventoryManager : SubClass<GameManager>
         }
 
         // 수량이 있는 아이템 처리
-        if (acquired.Countable)
+        if (acquired.itemType != Enum_ItemType.Equipment)
         {
             bool foundExist = false;
             foreach (var item in items)
             {
-                if (item != null && item.ItemId == acquired.ItemId && item.Count < item.MaxCount)
+                if (item != null && item.id == acquired.id && item.count < item.maxCount)
                 {
                     // 동일 아이템이 이미 있고 최대 수량이 아닌 경우
-                    int remainSpace = item.MaxCount - item.Count; // 잔여공간 크기
-                    if (acquired.Count <= remainSpace)
+                    int remainSpace = item.maxCount - item.count; // 잔여공간 크기
+                    if (acquired.count <= remainSpace)
                     {
                         // 획득한 수량이 잔여 공간에 들어갈 수 있는 경우
-                        item.Count += acquired.Count;
+                        item.count += acquired.count;
                         foundExist = true;
                         break;
                     }
                     else
                     {
                         // 획득한 수량이 잔여 공간보다 큰 경우
-                        item.Count = item.MaxCount;
-                        acquired.Count -= remainSpace;
+                        item.count = item.maxCount;
+                        acquired.count -= remainSpace;
                     }
                 }
             }
@@ -460,7 +463,7 @@ public class InventoryManager : SubClass<GameManager>
                 int emptySlotIndex = GetEmptySlotIndex();
                 if (emptySlotIndex != -1)
                 {
-                    if (acquired.Count <= acquired.MaxCount)
+                    if (acquired.count <= acquired.maxCount)
                     {
                         items[emptySlotIndex] = acquired;
                     }
@@ -468,7 +471,7 @@ public class InventoryManager : SubClass<GameManager>
                     {
                         // 아이템의 최대 수량을 초과하는 경우
                         items[emptySlotIndex] = acquired;
-                        acquired.Count -= acquired.MaxCount;
+                        acquired.count -= acquired.maxCount;
                         GetItem(acquired); // 재귀 호출로 남은 수량 처리
                     }
                 }
@@ -503,8 +506,8 @@ public class InventoryManager : SubClass<GameManager>
 
     public void DropItem(int index, int dropCount = 1)
     {
-        items[index].Count -= dropCount;
-        if (items[index].Count <= 0)
+        items[index].count -= dropCount;
+        if (items[index].count <= 0)
         {
             items[index] = null;
         }
@@ -516,24 +519,26 @@ public class InventoryManager : SubClass<GameManager>
     public void EquipItem(int index)
     {
         int equipType = -1;
-        switch (items[index].DetailType)
+
+        StateItemData sid = items[index] as StateItemData;
+        switch (sid.equipmentType)
         {
-            case Item.Enum_DetailType.Helmet:
+            case Enum_EquipmentType.Head:
                 equipType = 0;
                 break;
-            case Item.Enum_DetailType.Clothes:
+            case Enum_EquipmentType.Body:
                 equipType = 1;
                 break;
-            case Item.Enum_DetailType.Belt:
+            case Enum_EquipmentType.Hand:
                 equipType = 2;
                 break;
-            case Item.Enum_DetailType.Gloves:
+            case Enum_EquipmentType.Foot:
                 equipType = 3;
                 break;
-            case Item.Enum_DetailType.Boots:
+            case Enum_EquipmentType.Weapon:
                 equipType = 4;
                 break;
-            case Item.Enum_DetailType.Weapon:
+            case Enum_EquipmentType.Default:
                 equipType = 5;
                 break;
             default:
@@ -547,7 +552,7 @@ public class InventoryManager : SubClass<GameManager>
             return;
         }
 
-        Item temp = null;
+        ItemData temp = null;
         // 장착하고 있던 아이템이 있다면 잠시 보관
         if (equips[equipType] != null)
         {

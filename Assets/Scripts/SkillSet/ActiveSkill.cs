@@ -29,4 +29,19 @@ public class ActiveSkill : Skill
         clone.transform.parent = SkillManager.Skill.transform.GetChild(0);       
         return clone.GetComponent<ActiveSkill>();
     }
+
+    public override void SKillDB(WarriorSkillData data)
+    {
+        skillID = data.id;
+        skillName = data.name;
+        skillDESC = data.desc;
+        icon = data.icon;
+        skillNumber = data.number;
+        maxLevel = data.maxLevel;
+        skillLevelCondition = data.levelCondition;
+        skillPoint = data.skillPoint;
+        skillMP = data.skillMP;
+        cool = data.skillCool;
+        skillDamage = data.skillDamage;
+    } 
 }

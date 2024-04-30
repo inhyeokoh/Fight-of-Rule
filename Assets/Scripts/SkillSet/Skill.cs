@@ -6,7 +6,7 @@ public abstract class Skill : MonoBehaviour
 {
     // 현재 스킬 레벨
     [SerializeField]
-    protected int level = 1;
+    protected int level = 0;
 
     // 최대 레벨
     [SerializeField]
@@ -23,10 +23,12 @@ public abstract class Skill : MonoBehaviour
     [SerializeField]
     protected string skillName; //스킬 이름
     [SerializeField]
-    protected string skillDESC; // 스킬 설명서 
+    protected string skillDESC; // 스킬 설명
+
+    [SerializeField]
+    protected string skillDESCSkillText; // 스킬 설명 및 현재 스킬 정보
     [SerializeField]
     protected Sprite icon; // 스킬 아이콘
-
 
     [Header("Skill Array")]
     [SerializeField]
@@ -37,10 +39,10 @@ public abstract class Skill : MonoBehaviour
     protected int[] skillLevelCondition; // 필요 레벨
     [SerializeField]
     protected float[] cool; // 스킬 레벨 쿨타임  
-    [SerializeField]
-    protected bool IsInstanceEffect;
-    [SerializeField]
-    protected int skillEffectIndex;
+   /* [SerializeField]
+    protected bool IsInstanceEffect;*/
+   /* [SerializeField]
+    protected int skillEffectIndex;*/
     [SerializeField]
     protected int[] skillDamage;
 
@@ -52,7 +54,7 @@ public abstract class Skill : MonoBehaviour
     public int SkillPoint { get; protected set; }
     public int SkillLevelCondition { get; protected set; }
     public int MAXLevel { get { return maxLevel; } }
-    public int SKillMP { get; protected set; }
+    public int SkillMP { get; protected set; }
     public int SkillDamage { get; protected set; }
 
     public float CoolTime { get { return coolTime; } }
@@ -67,19 +69,37 @@ public abstract class Skill : MonoBehaviour
 
     public string SkillName { get { return skillName; } }
 
-    public string SKillDESC { get { return skillDESC; } }
+    public string SkillDESCSkillText { get { return skillDESCSkillText; } }
 
 
     public abstract Skill Init();
+
+    public abstract void SKillDB(WarriorSkillData data);
     // 현재 스킬이 1레벨 이상일때 정보들
     public void SkillStat()
     {
-        SkillEffectIndex = skillEffectIndex;
+      //  SkillEffectIndex = skillEffectIndex;
         SkillDamage = skillDamage[level];
-        SKillMP = skillMP[level];
+        SkillMP = skillMP[level];
         SkillCoolTime = cool[level];
         SkillLevelCondition = skillLevelCondition[level];
         SkillPoint = skillPoint[level];
+        DESCUpdate();
+    }
+
+    // 데이터를 받은 스킬 설명과 다른 자세한 부분들을 다른 string 변수에다 할당
+    public void DESCUpdate()
+    {
+        if (level == 0)
+        {
+            skillDESCSkillText = string.Format(skillDESC, level, SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage), SkillMP, SkillCoolTime);
+
+        }
+        else
+        {
+            skillDESCSkillText = string.Format(skillDESC, level, SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage), SkillMP, SkillCoolTime);      
+        }
+
     }
     public void LevelUp()
     {
@@ -90,16 +110,19 @@ public abstract class Skill : MonoBehaviour
     public void LevelReset()
     {
         level = 0;
-        SkillZeroStat();
+        SkillStat();
+       //SkillZeroStat();
     }
     
     public void Use()
     {
         print($"스킬 데미지 : {SkillDamage}");
-        print($"스킬 마나 : {SKillMP}");
+        print($"스킬 마나 : {SkillMP}");
         print($"스킬 쿨타임 : {SkillCoolTime}");
-        PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
+       // PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
         SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
+
+     
         SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);
 
         maxCoolTime = SkillCoolTime;
@@ -131,5 +154,5 @@ public abstract class Skill : MonoBehaviour
    
     public virtual void BuffOff(int statsUp) { }
 
-
+    
 }

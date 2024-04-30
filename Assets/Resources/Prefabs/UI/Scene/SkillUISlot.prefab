@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Skill Level
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 818a62485c6ed6f4c9200204c3ce9062, type: 2}
-  m_sharedMaterial: {fileID: -3045121458587402318, guid: 818a62485c6ed6f4c9200204c3ce9062,
+  m_fontAsset: {fileID: 11400000, guid: 17a42be41f4c13e4b82f1e5879ccc19c, type: 2}
+  m_sharedMaterial: {fileID: -3045121458587402318, guid: 17a42be41f4c13e4b82f1e5879ccc19c,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -454,8 +454,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Current Level : 0'
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 818a62485c6ed6f4c9200204c3ce9062, type: 2}
-  m_sharedMaterial: {fileID: -3045121458587402318, guid: 818a62485c6ed6f4c9200204c3ce9062,
+  m_fontAsset: {fileID: 11400000, guid: 17a42be41f4c13e4b82f1e5879ccc19c, type: 2}
+  m_sharedMaterial: {fileID: -3045121458587402318, guid: 17a42be41f4c13e4b82f1e5879ccc19c,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
