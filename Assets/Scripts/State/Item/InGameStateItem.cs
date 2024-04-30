@@ -44,10 +44,10 @@ public class InGameStateItem : MonoBehaviour
     private Enum_Class equipmentClass;
     //장비 부위 확인
     [SerializeField]
-    private Enum_EquipmentType equipmentType;
+    private Enum_DetailType equipmentType;
 
     public Enum_Class EquipmentClass { get { return equipmentClass; } }
-    public Enum_EquipmentType EquipmentType { get { return equipmentType; } }
+    public Enum_DetailType EquipmentType { get { return equipmentType; } }
 
 
     // 장비 세팅

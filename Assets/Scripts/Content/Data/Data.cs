@@ -20,7 +20,7 @@ public class LoginData : Data
 public class StateItemData : ItemData
 {
     public Enum_Class itemClass;
-    public Enum_EquipmentType equipmentType;
+    public Enum_DetailType detailType;
     public int level;
     public int attack;
     public int defense;
@@ -32,11 +32,11 @@ public class StateItemData : ItemData
     public int maxHp;
     public int maxMp;
 
-    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_EquipmentType equipmentType, long purchaseprice, long sellingprice, int level, int attack, int defense
+    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType equipmentType, long purchaseprice, long sellingprice, int level, int attack, int defense
         , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
     {
         this.itemClass = itemClass;   
-        this.equipmentType = equipmentType;      
+        this.detailType = equipmentType;      
         this.level = level;
         this.attack = attack;
         this.defense = defense;

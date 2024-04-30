@@ -1,5 +1,5 @@
-//#define List
-#define Dictionary
+#define List
+//#define Dictionary
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,7 +38,7 @@ public class ItemParsing : MonoBehaviour
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), consumptionData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), consumptionData[i]["item_grade"]);
             Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), consumptionData[i]["item_type"]);
-            Enum_EquipmentType item_equipmenttype = (Enum_EquipmentType)Enum.Parse(typeof(Enum_EquipmentType), consumptionData[i]["item_equipmenttype"]);
+            Enum_DetailType item_equipmenttype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), consumptionData[i]["item_equipmenttype"]);
             long item_purchaseprice = long.Parse(consumptionData[i]["item_purchaseprice"]);
             long item_sellingprice = long.Parse(consumptionData[i]["item_sellingprice"]);
             int item_level = int.Parse(consumptionData[i]["item_level"]);
@@ -80,7 +80,7 @@ public class ItemParsing : MonoBehaviour
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), equipmentData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), equipmentData[i]["item_grade"]);
             Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), equipmentData[i]["item_type"]);
-            Enum_EquipmentType item_equipmenttype = (Enum_EquipmentType)Enum.Parse(typeof(Enum_EquipmentType), equipmentData[i]["item_equipmenttype"]);
+            Enum_DetailType item_equipmenttype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), equipmentData[i]["item_equipmenttype"]);
             long item_purchaseprice = long.Parse(equipmentData[i]["item_purchaseprice"]);
             long item_sellingprice = long.Parse(equipmentData[i]["item_sellingprice"]);
             int item_level = int.Parse(equipmentData[i]["item_level"]);
@@ -134,6 +134,7 @@ public class ItemParsing : MonoBehaviour
 #endif
         }
     }
+}
 
 #if Dictionary
     public static ItemData StateItemDataReader(int item_id)
@@ -145,7 +146,7 @@ public class ItemParsing : MonoBehaviour
             StateItemData itemDataPasing;
 
             itemDataPasing = new StateItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
-                itemData.equipmentType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
+                itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
                 , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount);
 
             return itemDataPasing;

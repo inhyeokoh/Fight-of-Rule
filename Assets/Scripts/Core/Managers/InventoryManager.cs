@@ -521,24 +521,24 @@ public class InventoryManager : SubClass<GameManager>
         int equipType = -1;
 
         StateItemData sid = items[index] as StateItemData;
-        switch (sid.equipmentType)
+        switch (sid.detailType)
         {
-            case Enum_EquipmentType.Head:
+            case Enum_DetailType.Head:
                 equipType = 0;
                 break;
-            case Enum_EquipmentType.Body:
+            case Enum_DetailType.Body:
                 equipType = 1;
                 break;
-            case Enum_EquipmentType.Hand:
+            case Enum_DetailType.Hand:
                 equipType = 2;
                 break;
-            case Enum_EquipmentType.Foot:
+            case Enum_DetailType.Foot:
                 equipType = 3;
                 break;
-            case Enum_EquipmentType.Weapon:
+            case Enum_DetailType.Weapon:
                 equipType = 4;
                 break;
-            case Enum_EquipmentType.Default:
+            case Enum_DetailType.Default:
                 equipType = 5;
                 break;
             default:

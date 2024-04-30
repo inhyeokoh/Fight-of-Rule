@@ -2,16 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public enum Enum_EquipmentType
+public enum Enum_DetailType
 {
     Default,
     Weapon,
     Head,
     Body,
     Hand,
-    Foot
+    Foot,
+    Potion,
+    Box
 }
 
 public enum Enum_Grade
@@ -56,7 +56,7 @@ public class ItemObject : MonoBehaviour
     private void Start()
     {
         //현재 아이템정보를 깊은 복사같은 방식으로 데이터를 불러옴
-        item = ItemParsing.StateItemDataReader(itemID);
+        //item = ItemParsing.StateItemDataReader(itemID);
 
         //이건 아이템들 마다 정보들이 따로 적용되는지 확인
         //Setting();       

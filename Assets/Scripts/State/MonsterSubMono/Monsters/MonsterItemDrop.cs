@@ -39,7 +39,7 @@ public class MonsterItemDrop : SubMono<MonsterController>
 
             for (int i = 0; i < Item.Length; i++)
             {
-                items[i] = ItemParsing.MonsterDropItem(Item[i]);
+                // items[i] = ItemParsing.MonsterDropItem(Item[i]);
             }
         }
         //stateItem = _board.monsterDB.monster_stateitem;
