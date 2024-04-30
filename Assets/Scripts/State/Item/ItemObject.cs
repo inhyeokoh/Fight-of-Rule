@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+
 public enum Enum_EquipmentType
 {
     Default,
@@ -12,29 +13,29 @@ public enum Enum_EquipmentType
     Hand,
     Foot
 }
-   
+
+public enum Enum_Grade
+{
+    Normal,
+    Rare,
+    Epic,
+    Unique,
+    Legendary,
+}
+  
 public enum Enum_ItemType  
 {    
     Consumption,    
     Equipment,   
     ETC
 }
-public abstract class ItemObject : MonoBehaviour
+public class ItemObject : MonoBehaviour
 {
     // 아이템 정보
-    public StateItemData item;
+    public ItemData item;
 
-    public int itemID; // 아이템 ID들을 분류 해놨지만 캐릭터가 가지고있는 아이템 개별 ID들을 어떻게 저장해야할지 모르겠음
-    public int Attack;
-
-
-    protected static bool stateComplete;
-
-
-    //상태 패턴 생성기
-    protected StateItemMachine stateMachine;
-    protected StateItem stateItem;
-
+    private int itemID; // 아이템 ID들을 분류 해놨지만 캐릭터가 가지고있는 아이템 개별 ID들을 어떻게 저장해야할지 모르겠음
+  
     //포션이나 장비등등 스텟 정보를 넘겨주기위한 플레이어
     [SerializeField]
 
@@ -42,7 +43,6 @@ public abstract class ItemObject : MonoBehaviour
 
     private void Awake()
     {       
-        stateMachine = new StateItemMachine();
       /*  try
         {
             Setting();
@@ -57,21 +57,10 @@ public abstract class ItemObject : MonoBehaviour
     private void Start()
     {
         //현재 아이템정보를 깊은 복사같은 방식으로 데이터를 불러옴
-        item = ItemData.StateItemDataReader(itemID);
+        item = ItemParsing.StateItemDataReader(itemID);
 
         //이건 아이템들 마다 정보들이 따로 적용되는지 확인
-        item.attack += Attack;
-        Setting();       
-    }
-
-    private void FixedUpdate()
-    {
-        FixedStay();
-    }
-
-    private void OnEnable()
-    {
-        
+        //Setting();       
     }
     private void OnTriggerEnter(Collider other)
     {
@@ -80,34 +69,7 @@ public abstract class ItemObject : MonoBehaviour
             player = PlayerController.instance._playerStat;
         }     
     }
-    public void Enter()
-    {
-        stateMachine.EnterState(stateItem, item);
-    }
-
-    public  void FixedStay()
-    {
-        stateMachine.FixedStay();
-    }
-
-    public  void Stay()
-    {
-        stateMachine.Stay();
-    }
-
-
-    public  void Exit()
-    {
-        stateMachine.ExitState();
-    }
-
-    public abstract void Setting();
-
-    // 지워도 되는 메서드
-    public abstract void Check();
-
-
-    
+ 
     //아이템의 정보들
     //아이템의 효과
     //아이템의 이름

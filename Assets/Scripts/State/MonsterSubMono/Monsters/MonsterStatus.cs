@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class MonsterStatus : SubMono<MonsterController>
 {
-
     private int maxHP;
     private int maxMP;
 
-    private int hp;
+    public int hp;
     private int mp;
     private int exp;
 
@@ -20,8 +19,8 @@ public class MonsterStatus : SubMono<MonsterController>
     private int speed;
     protected int level;
 
-    protected int detectDistance;
-    protected int attackDistance;
+    protected float detectDistance;
+    protected float attackDistance;
 
     private int damage;
 
@@ -120,7 +119,7 @@ public class MonsterStatus : SubMono<MonsterController>
         }
     }
 
-    public int DetectDistance
+    public float DetectDistance
     {
         get
         {
@@ -132,7 +131,7 @@ public class MonsterStatus : SubMono<MonsterController>
         }
     }
 
-    public int AttackDistance
+    public float AttackDistance
     {
         get
         {
@@ -191,23 +190,27 @@ public class MonsterStatus : SubMono<MonsterController>
 
     protected override void _Init()
     {
-        maxHP = 1;
-        maxMP = 200;
-        hp = maxHP;
-        mp = maxMP;
-        exp = 42;
-        attack = 50;
-        attackSpeed = 3f;
-        delay = 1f;
-        abliltyDelay = 20f;
-        defense = 20;
-        speed = 7;
-        level = 8;
-
-        detectDistance = 20;
-        attackDistance = 10;
+        MonsterStatusApply();
     }
 
+    private void MonsterStatusApply()
+    {
+        maxHP = _board.monsterDB.monster_maxhp;
+        maxMP = _board.monsterDB.monster_maxmp;
+        hp = maxHP;
+        mp = maxMP;
+        exp = _board.monsterDB.monster_exp;
+        attack = _board.monsterDB.monster_attack;
+        attackSpeed = _board.monsterDB.monster_attackspeed;
+        delay = _board.monsterDB.monster_delay;
+        abliltyDelay = _board.monsterDB.monster_abliltydelay;
+        defense = _board.monsterDB.monster_defense;
+        speed = _board.monsterDB.monster_speed;
+        level = _board.monsterDB.monster_level;
+
+        detectDistance = _board.monsterDB.monster_detectdistance;
+        attackDistance = _board.monsterDB.monster_attackdistance;
+    }
 
     //데미지를 받고 죽었는지 안죽었는지 체크해주는 메서드
     public void DeadCheck(int damage, CharacterStatus expCharacter, float addforce)

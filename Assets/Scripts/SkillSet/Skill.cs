@@ -92,16 +92,12 @@ public abstract class Skill : MonoBehaviour
     {
         if (level == 0)
         {
-            skillDESCSkillText = $@"{skillDESC}
-현재 레벨 : {level}";
+            skillDESCSkillText = string.Format(skillDESC, level, SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage), SkillMP, SkillCoolTime);
+
         }
         else
         {
-            skillDESCSkillText = $@"{skillDESC}
-현재 스킬 레벨 : {level}
-현재 스킬 데미지 : {SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage)}
-현재 스킬 마나소비 : {SkillMP}
-현재 스킬 쿨타임 : {SkillCoolTime}";
+            skillDESCSkillText = string.Format(skillDESC, level, SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage), SkillMP, SkillCoolTime);      
         }
 
     }

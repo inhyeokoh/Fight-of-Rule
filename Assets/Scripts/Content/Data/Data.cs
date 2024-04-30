@@ -17,16 +17,10 @@ public class LoginData : Data
 }
 
 [System.Serializable]
-public class StateItemData : Data
+public class StateItemData : ItemData
 {
-    public int id;
-    public string name;
-    public string desc;
-    public Sprite icon;
-    public Enum_ItemType itemType;
+    public Enum_Class itemClass;
     public Enum_EquipmentType equipmentType;
-    public long purchaseprice;
-    public long sellingprice;
     public int level;
     public int attack;
     public int defense;
@@ -37,20 +31,12 @@ public class StateItemData : Data
     public int mp;
     public int maxHp;
     public int maxMp;
-    public int maxCount;
 
-   
-    public StateItemData(int id,string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_EquipmentType equipmentType, long purchaseprice, long sellingprice, int level, int attack, int defense
-        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount)
+    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_EquipmentType equipmentType, long purchaseprice, long sellingprice, int level, int attack, int defense
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
     {
-        this.id = id;
-        this.name = name;
-        this.desc = desc;
-        this.icon = icon;
-        this.itemType = itemType;
-        this.equipmentType = equipmentType;
-        this.purchaseprice = purchaseprice;
-        this.sellingprice = sellingprice;
+        this.itemClass = itemClass;   
+        this.equipmentType = equipmentType;      
         this.level = level;
         this.attack = attack;
         this.defense = defense;
@@ -67,26 +53,31 @@ public class StateItemData : Data
 }
 
 [System.Serializable]
-public class ETCItemData
+public class ItemData : Data
 {
     public int id;
     public string name;
     public string desc;
     public Sprite icon;
     public Enum_ItemType itemType;
+    public Enum_Grade itemGrade;
     public long purchaseprice;
     public long sellingprice;
+    public int count;
     public int maxCount;
-    public ETCItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, long purchaseprice, long sellingprice, int maxCount)
+    public ItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_Grade itemGrade, long purchaseprice, long sellingprice, int maxCount, int count = 1)
     {
         this.id = id;
         this.name = name;
         this.desc = desc;
         this.icon = icon;
         this.itemType = itemType;
+        this.itemGrade = itemGrade;
         this.purchaseprice = purchaseprice;
         this.sellingprice = sellingprice;
         this.maxCount = maxCount;
+
+        this.count = count;
     }
 }
 
@@ -141,6 +132,76 @@ public class WarriorSkillData : Data
         this.skillMP = skillMP;
         this.skillCool = skillCool;
         this.skillDamage = skillDamage;
+    }
+}
+
+
+[System.Serializable]
+public class MonsterData : Data
+{
+    public int monster_id;
+    public string monster_object;
+    public string monster_name;
+    public Enum_MonsterType monster_type;
+    public int monster_level;
+    public int monster_exp;
+    public int monster_maxhp;
+    public int monster_maxmp;
+    public int monster_attack;
+    public float monster_attackspeed;
+    public float monster_delay;
+    public float monster_abliltydelay;
+    public int monster_defense;
+    public int monster_speed;
+    public float monster_detectdistance;
+    public float monster_attackdistance;
+    public int[] monster_stateitem;
+    public int[] moinster_etcitem;
+    public int monster_mingold;
+    public int monster_maxgold;
+
+    public MonsterData(int monster_id, string monster_object, string monster_name, Enum_MonsterType monster_type, int monster_level,
+        int monster_exp, int monster_maxhp, int monster_maxmp, int monster_attack, float monster_attackspeed, float monster_delay, 
+        float monster_abliltydelay, int monster_defense, int monster_speed, float monster_detectdistance, float monster_attackdistance, 
+        int[] monster_stateitem, int[] moinster_etcitem, int monster_mingold, int monster_maxgold)
+    {
+        this.monster_id = monster_id;
+        this.monster_object = monster_object;
+        this.monster_name = monster_name;
+        this.monster_type = monster_type;
+        this.monster_level = monster_level;
+        this.monster_exp = monster_exp;
+        this.monster_maxhp = monster_maxhp;
+        this.monster_maxmp = monster_maxmp;
+        this.monster_attack = monster_attack;
+        this.monster_attackspeed = monster_attackspeed;
+        this.monster_delay = monster_delay;
+        this.monster_abliltydelay = monster_abliltydelay;
+        this.monster_defense = monster_defense;
+        this.monster_speed = monster_speed;
+        this.monster_detectdistance = monster_detectdistance;
+        this.monster_attackdistance = monster_attackdistance;
+        this.monster_stateitem = monster_stateitem;
+        this.moinster_etcitem = moinster_etcitem;
+        this.monster_mingold = monster_mingold;
+        this.monster_maxgold = monster_maxgold;
+    }
+}
+
+[System.Serializable]
+public class MonsterItemDropData
+{
+    public int monster_id;
+    public string[] monster_itemdrop;
+    public int monster_mingold;
+    public int monster_maxgold;
+
+    public MonsterItemDropData(int monster_id, string[] monster_itemdrop,int monster_mingold, int monster_maxgold)
+    {
+        this.monster_id = monster_id;
+        this.monster_itemdrop = monster_itemdrop;
+        this.monster_mingold = monster_mingold;
+        this.monster_maxgold = monster_maxgold;
     }
 }
 
