@@ -83,16 +83,11 @@ public class InventoryManager : SubClass<GameManager>
             int count = int.Parse(item[i]["count"]);
             int slotNum = int.Parse(item[i]["slotNum"]);
 
-/*            if (ItemParsing.itemDatas[id].itemType == Enum_ItemType.Equipment)
-            {
-                // 고유번호
-            }*/
-/*            else
-            {*/
-                // id,count,slotNum받고 해당하는 id로 아이템 생성
-                items[slotNum] = ItemParsing.StateItemDataReader(id);
-                items[slotNum].count = count;
-            //}
+            // id,count,slotNum받고 해당하는 id로 아이템 생성
+            items[slotNum] = ItemParsing.StateItemDataReader(id);
+            items[slotNum].count = count;
+
+            // TODO 장비아이템은 고유번호
         }
     }
 
@@ -237,7 +232,7 @@ public class InventoryManager : SubClass<GameManager>
     {
         if (itemList.Count <= 1)
         {
-            return;        
+            return;
         }
 
         int mid = itemList.Count / 2;
@@ -259,132 +254,134 @@ public class InventoryManager : SubClass<GameManager>
         itemList.Clear();
         switch (sort)
         {
-            case Enum_Sort.Grade:
+/*            case Enum_Sort.Grade:
                 itemList.AddRange(MergeItemsByGrade(leftList, rightList));
-                break;
-/*            case Enum_Sort.DetailType:
-                itemList.AddRange(MergeItemsByDetailType(leftList, rightList));
                 break;*/
-            case Enum_Sort.ID:
-                itemList.AddRange(MergeItemsById(leftList, rightList));
-                break;
-            default:
-                break;
+                /*            case Enum_Sort.DetailType:
+                                itemList.AddRange(MergeItemsByDetailType(leftList, rightList));
+                                break;
+                            case Enum_Sort.ID:
+                                itemList.AddRange(MergeItemsById(leftList, rightList));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+
+                    List<ItemData> MergeItemsById(List<ItemData> leftList, List<ItemData> rightList)
+                    {
+                        List<ItemData> mergedList = new List<ItemData>();
+
+                        int leftIndex = 0;
+                        int rightIndex = 0;
+
+                        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
+                        {
+                            if (leftList[leftIndex].id < rightList[rightIndex].id)
+                            {
+                                mergedList.Add(leftList[leftIndex]);
+                                leftIndex++;
+                            }
+                            else
+                            {
+                                mergedList.Add(rightList[rightIndex]);
+                                rightIndex++;
+                            }
+                        }
+
+                        while (leftIndex < leftList.Count)
+                        {
+                            mergedList.Add(leftList[leftIndex]);
+                            leftIndex++;
+                        }
+
+                        while (rightIndex < rightList.Count)
+                        {
+                            mergedList.Add(rightList[rightIndex]);
+                            rightIndex++;
+                        }
+
+                        return mergedList;
+                    }
+
+                    List<ItemData> MergeItemsByGrade(List<ItemData> leftList, List<ItemData> rightList)
+                    {
+                        List<ItemData> mergedList = new List<ItemData>();
+
+                        int leftIndex = 0;
+                        int rightIndex = 0;
+
+                        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
+                        {
+                            var left = leftList[leftIndex].itemGrade;
+                            var right = rightList[rightIndex].itemGrade;
+                            // 낮은 등급일수록 왼쪽에 배치
+                            if (left < right)
+                            {
+                                mergedList.Add(leftList[leftIndex]);
+                                leftIndex++;
+                            }
+                            else
+                            {
+                                mergedList.Add(rightList[rightIndex]);
+                                rightIndex++;
+                            }
+                        }
+
+                        while (leftIndex < leftList.Count)
+                        {
+                            mergedList.Add(leftList[leftIndex]);
+                            leftIndex++;
+                        }
+
+                        while (rightIndex < rightList.Count)
+                        {
+                            mergedList.Add(rightList[rightIndex]);
+                            rightIndex++;
+                        }
+
+                        return mergedList;
+                    }
+
+                /*    List<ItemData> MergeItemsByDetailType(List<ItemData> leftList, List<ItemData> rightList)
+                    {
+                        List<ItemData> mergedList = new List<ItemData>();
+
+                        int leftIndex = 0;
+                        int rightIndex = 0;
+
+                        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
+                        {
+                            var left = leftList[leftIndex].ty;
+                            var right = rightList[rightIndex].DetailType;
+                            if (left < right)
+                            {
+                                mergedList.Add(leftList[leftIndex]);
+                                leftIndex++;
+                            }
+                            else
+                            {
+                                mergedList.Add(rightList[rightIndex]);
+                                rightIndex++;
+                            }
+                        }
+
+                        while (leftIndex < leftList.Count)
+                        {
+                            mergedList.Add(leftList[leftIndex]);
+                            leftIndex++;
+                        }
+
+                        while (rightIndex < rightList.Count)
+                        {
+                            mergedList.Add(rightList[rightIndex]);
+                            rightIndex++;
+                        }
+
+                        return mergedList;
+                    }*/
         }
     }
-
-    List<ItemData> MergeItemsById(List<ItemData> leftList, List<ItemData> rightList)
-    {
-        List<ItemData> mergedList = new List<ItemData>();
-
-        int leftIndex = 0;
-        int rightIndex = 0;
-
-        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-        {
-            if (leftList[leftIndex].id < rightList[rightIndex].id)
-            {
-                mergedList.Add(leftList[leftIndex]);
-                leftIndex++;
-            }
-            else
-            {
-                mergedList.Add(rightList[rightIndex]);
-                rightIndex++;
-            }
-        }
-
-        while (leftIndex < leftList.Count)
-        {
-            mergedList.Add(leftList[leftIndex]);
-            leftIndex++;
-        }
-
-        while (rightIndex < rightList.Count)
-        {
-            mergedList.Add(rightList[rightIndex]);
-            rightIndex++;
-        }
-
-        return mergedList;
-    }
-
-    List<ItemData> MergeItemsByGrade(List<ItemData> leftList, List<ItemData> rightList)
-    {
-        List<ItemData> mergedList = new List<ItemData>();
-
-        int leftIndex = 0;
-        int rightIndex = 0;
-
-        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-        {
-            var left = leftList[leftIndex].itemGrade;
-            var right = rightList[rightIndex].itemGrade;
-            // 낮은 등급일수록 왼쪽에 배치
-            if (left < right)
-            {
-                mergedList.Add(leftList[leftIndex]);
-                leftIndex++;
-            }
-            else
-            {
-                mergedList.Add(rightList[rightIndex]);
-                rightIndex++;
-            }
-        }
-
-        while (leftIndex < leftList.Count)
-        {
-            mergedList.Add(leftList[leftIndex]);
-            leftIndex++;
-        }
-
-        while (rightIndex < rightList.Count)
-        {
-            mergedList.Add(rightList[rightIndex]);
-            rightIndex++;
-        }
-
-        return mergedList;
-    }
-
-/*    List<ItemData> MergeItemsByDetailType(List<ItemData> leftList, List<ItemData> rightList)
-    {
-        List<ItemData> mergedList = new List<ItemData>();
-
-        int leftIndex = 0;
-        int rightIndex = 0;
-
-        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-        {
-            var left = leftList[leftIndex].ty;
-            var right = rightList[rightIndex].DetailType;
-            if (left < right)
-            {
-                mergedList.Add(leftList[leftIndex]);
-                leftIndex++;
-            }
-            else
-            {
-                mergedList.Add(rightList[rightIndex]);
-                rightIndex++;
-            }
-        }
-
-        while (leftIndex < leftList.Count)
-        {
-            mergedList.Add(leftList[leftIndex]);
-            leftIndex++;
-        }
-
-        while (rightIndex < rightList.Count)
-        {
-            mergedList.Add(rightList[rightIndex]);
-            rightIndex++;
-        }
-
-        return mergedList;
-    }*/
 
     void _CombineQuantities(List<ItemData> itemList)
     {

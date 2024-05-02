@@ -197,7 +197,35 @@ public class UI_ItemSlot : UI_Entity
     {
         _inven.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].name; // 아이템 이름
         _inven.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
-        _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.items[index].desc; // 아이템 설명
+
+        if (GameManager.Inven.items[index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
+        {
+            StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.items[index].id] as StateItemData;
+            int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
+            string descLines = string.Format(GameManager.Inven.items[index].desc, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp);
+            string[] lines = descLines.Split('n');
+            foreach (var line in lines)
+            {
+                Debug.Log(line);
+            }
+
+            string desc = $"{lines[0]} \n";
+            for (int i = 1; i < lines.Length - 1; i++)
+            {
+                if (stats[i] == 0)
+                {
+                    continue;
+                }
+                desc += $"{lines[i]} \n";
+            }
+
+            _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = desc;
+        }
+        else
+        {
+            _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text =
+                GameManager.Inven.items[index].desc; // 아이템 설명
+        }
 
         // TODO 장비 아이템일 경우 추가 비교 이미지
     }
