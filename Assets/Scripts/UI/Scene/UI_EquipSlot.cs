@@ -139,8 +139,7 @@ public class UI_EquipSlot : UI_Entity
         if (GameManager.Inven.equips[index] != null)
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
-            _iconImg.sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{GameManager.Inven.equips[index].name}"); // 해당 아이템 이름과 일치하는 이미지 로드
+            _iconImg.sprite = GameManager.Inven.equips[index].icon;
         }
         else
         {

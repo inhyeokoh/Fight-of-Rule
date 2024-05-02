@@ -1,5 +1,5 @@
-#define List
-//#define Dictionary
+//#define List
+#define Dictionary
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,12 +33,12 @@ public class ItemParsing : MonoBehaviour
             int item_id = int.Parse(consumptionData[i]["item_id"]);
             string item_name = consumptionData[i]["item_name"];
             string item_desc = consumptionData[i]["item_desc"];
-            Sprite item_icon = null;
+            Sprite item_icon = GameManager.Resources.Load<Sprite>(consumptionData[i]["item_icon"]);
 
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), consumptionData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), consumptionData[i]["item_grade"]);
             Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), consumptionData[i]["item_type"]);
-            Enum_DetailType item_equipmenttype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), consumptionData[i]["item_equipmenttype"]);
+            Enum_DetailType item_detailtype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), consumptionData[i]["item_detailtype"]);
             long item_purchaseprice = long.Parse(consumptionData[i]["item_purchaseprice"]);
             long item_sellingprice = long.Parse(consumptionData[i]["item_sellingprice"]);
             int item_level = int.Parse(consumptionData[i]["item_level"]);
@@ -55,7 +55,7 @@ public class ItemParsing : MonoBehaviour
 
 
 
-            ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_equipmenttype, item_purchaseprice, item_sellingprice, item_level,
+            ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_detailtype, item_purchaseprice, item_sellingprice, item_level,
                 item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount);
 
 
@@ -76,11 +76,11 @@ public class ItemParsing : MonoBehaviour
             int item_id = int.Parse(equipmentData[i]["item_id"]);
             string item_name = equipmentData[i]["item_name"];
             string item_desc = equipmentData[i]["item_desc"];
-            Sprite item_icon = null;
+            Sprite item_icon = GameManager.Resources.Load<Sprite>(equipmentData[i]["item_icon"]);
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), equipmentData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), equipmentData[i]["item_grade"]);
             Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), equipmentData[i]["item_type"]);
-            Enum_DetailType item_equipmenttype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), equipmentData[i]["item_equipmenttype"]);
+            Enum_DetailType item_detailtype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), equipmentData[i]["item_detailtype"]);
             long item_purchaseprice = long.Parse(equipmentData[i]["item_purchaseprice"]);
             long item_sellingprice = long.Parse(equipmentData[i]["item_sellingprice"]);
             int item_level = int.Parse(equipmentData[i]["item_level"]);
@@ -95,7 +95,7 @@ public class ItemParsing : MonoBehaviour
             int item_maxmp = int.Parse(equipmentData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(equipmentData[i]["item_maxcount"]);
 
-            ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_equipmenttype, item_purchaseprice, item_sellingprice, item_level,
+            ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_detailtype, item_purchaseprice, item_sellingprice, item_level,
              item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount);
 
 
@@ -114,7 +114,7 @@ public class ItemParsing : MonoBehaviour
             int etcItem_id = int.Parse(etcData[i]["item_id"]);
             string etcItem_name = etcData[i]["item_name"];
             string etcItem_desc = etcData[i]["item_desc"];
-            Sprite etcItem_icon = null;
+            Sprite etcItem_icon = GameManager.Resources.Load<Sprite>(etcData[i]["item_icon"]); ;
             Enum_Grade etcItem_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), etcData[i]["item_grade"]);
             Enum_ItemType etcItem_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), etcData[i]["item_type"]);
             long etcItem_purchaseprice = long.Parse(etcData[i]["item_purchaseprice"]);
@@ -134,7 +134,7 @@ public class ItemParsing : MonoBehaviour
 #endif
         }
     }
-}
+
 
 #if Dictionary
     public static ItemData StateItemDataReader(int item_id)

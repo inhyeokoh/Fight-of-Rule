@@ -32,11 +32,11 @@ public class StateItemData : ItemData
     public int maxHp;
     public int maxMp;
 
-    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType equipmentType, long purchaseprice, long sellingprice, int level, int attack, int defense
+    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
         , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
     {
         this.itemClass = itemClass;   
-        this.detailType = equipmentType;      
+        this.detailType = detailType;      
         this.level = level;
         this.attack = attack;
         this.defense = defense;
@@ -50,6 +50,8 @@ public class StateItemData : ItemData
         this.maxMp = maxMp;
         this.maxCount = maxCount;
     }
+
+
 }
 
 [System.Serializable]
@@ -63,9 +65,10 @@ public class ItemData : Data
     public Enum_Grade itemGrade;
     public long purchaseprice;
     public long sellingprice;
-    public int count;
     public int maxCount;
-    public ItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_Grade itemGrade, long purchaseprice, long sellingprice, int maxCount, int count = 1)
+    public int count;
+    public int slotNum;
+    public ItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_Grade itemGrade, long purchaseprice, long sellingprice, int maxCount, int count = 1, int slotNum = -1)
     {
         this.id = id;
         this.name = name;
@@ -76,8 +79,8 @@ public class ItemData : Data
         this.purchaseprice = purchaseprice;
         this.sellingprice = sellingprice;
         this.maxCount = maxCount;
-
         this.count = count;
+        this.slotNum = slotNum;
     }
 }
 

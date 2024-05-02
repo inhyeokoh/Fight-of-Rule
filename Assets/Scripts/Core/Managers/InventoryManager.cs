@@ -76,17 +76,23 @@ public class InventoryManager : SubClass<GameManager>
 
     void _GetInvenDataFromDB()
     {
-        GameManager.Data.ItemDB = GameManager.Resources.Load<TextAsset>("Data/ItemDB");
-        string[] lines = GameManager.Data.ItemDB.text.Substring(0, GameManager.Data.ItemDB.text.Length - 1).Split('\n'); // text파일로 된 DB의 Line
-
-        for (int i = 0; i < lines.Length; i++) // 0번부터 차례로 넣음
+        var item = CSVReader.Read("Data/InvenItems");
+        for (int i = 0; i < item.Count; i++)
         {
-            string[] row = lines[i].Split('\t'); // Tab 기준으로 나누기
-            // 아이템 집어 넣기
+            int id = int.Parse(item[i]["id"]);
+            int count = int.Parse(item[i]["count"]);
+            int slotNum = int.Parse(item[i]["slotNum"]);
 
-
-            items[Convert.ToInt32(row[7])] = new ItemData(Convert.ToInt32(row[0]), row[2], row[3], Resources.Load<Sprite>($"Materials/ItemIcons/{row[2]}"), (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), row[1]), (Enum_Grade)Enum.Parse(typeof(Enum_Grade), row[8]), Convert.ToInt64(row[10]), Convert.ToInt64(row[11].Trim()), Convert.ToInt32(row[3]), Convert.ToInt32(row[4]));
-                // .Trim()
+/*            if (ItemParsing.itemDatas[id].itemType == Enum_ItemType.Equipment)
+            {
+                // 고유번호
+            }*/
+/*            else
+            {*/
+                // id,count,slotNum받고 해당하는 id로 아이템 생성
+                items[slotNum] = ItemParsing.StateItemDataReader(id);
+                items[slotNum].count = count;
+            //}
         }
     }
 
