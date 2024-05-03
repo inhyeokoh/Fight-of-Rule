@@ -31,7 +31,7 @@ public class CharacterEffectBurst : MonoBehaviour
     {
         characterStat = PlayerController.instance._playerStat;
         skillDamage = characterStat.SkillDamage;
-        print(skillDamage);
+        //print(skillDamage);
     }
 
 

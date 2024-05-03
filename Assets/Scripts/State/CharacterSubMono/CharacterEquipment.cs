@@ -47,7 +47,8 @@ public class CharacterEquipment : SubMono<PlayerController>
 
     protected override void _Init()
     {
-       // 캐릭터가 껴져있는 장비를 불러오기
+        // 캐릭터가 껴져있는 장비를 불러오기
+        equipments = new List<InGameStateItem>();
     }
 
     /// <summary>
@@ -228,10 +229,10 @@ public class CharacterEquipment : SubMono<PlayerController>
     /// <param name="change"></param>
     public void Change(InGameStateItem change)
     {
-        switch (change.EquipmentType)
+        switch (change.StateItemData.detailType)
         {
             case Enum_DetailType.Weapon:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.stateItemData.level)
+                if (_board._class != change.StateItemData.itemClass /*|| _board._playerStat.Level < change.StateItemData.level*/)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -259,7 +260,7 @@ public class CharacterEquipment : SubMono<PlayerController>
             
             
             case Enum_DetailType.Head:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.stateItemData.level)
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -286,7 +287,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
 
             case Enum_DetailType.Body:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.stateItemData.level)
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -314,7 +315,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
            
             case Enum_DetailType.Hand:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.stateItemData.level)
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -343,7 +344,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
 
             case Enum_DetailType.Foot:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.stateItemData.level)
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
                     return;
@@ -371,7 +372,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 break;
             default:
-                print("이 아이템은 데이터상에 존재하지 않습니다.");
+                //print("이 아이템은 데이터상에 존재하지 않습니다.");
                 return;
         }
     }

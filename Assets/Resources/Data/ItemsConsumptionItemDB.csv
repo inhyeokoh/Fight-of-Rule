@@ -1,4 +1,4 @@
-item_id,item_name,item_desc,item_icon,item_class,item_type,item_grade,item_equipmenttype,item_purchaseprice,item_sellingprice,item_level,item_attack,item_defense,item_speed,item_attackspeed,item_hp,item_mp,item_exp,item_maxhp,item_maxmp,item_maxcount
+item_id,item_name,item_desc,item_icon,item_class,item_type,item_grade,item_detailtype,item_purchaseprice,item_sellingprice,item_level,item_attack,item_defense,item_speed,item_attackspeed,item_hp,item_mp,item_exp,item_maxhp,item_maxmp,item_maxcount
 500,빨간물약,HP 50을 회복합니다.,path,Default,Consumption,Normal,Default,100,50,0,0,0,0,0,50,0,0,0,0,200
 501,주황물약,HP 150을 회복합니다.,path,Default,Consumption,Normal,Default,200,100,0,0,0,0,0,150,0,0,0,0,200
 502,하양물약,HP 300을 회복합니다.,path,Default,Consumption,Normal,Default,300,150,0,0,0,0,0,300,0,0,0,0,200

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -37,7 +37,7 @@ public class ObjectMove : MonoBehaviour
     {
         if (Time.time > m_time + time)
         {
-            print(m_time + time + " dz");
+           // print(m_time + time + " dz");
             print(Time.time);
             gameObject.SetActive(false);
         }

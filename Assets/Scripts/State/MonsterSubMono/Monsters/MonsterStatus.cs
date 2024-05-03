@@ -218,7 +218,7 @@ public class MonsterStatus : SubMono<MonsterController>
        
         hp -= damage;
 
-        print(hp);
+      //  print(hp);
 
         if (hp <= 0)
         {

@@ -116,9 +116,9 @@ public abstract class Skill : MonoBehaviour
     
     public void Use()
     {
-        print($"스킬 데미지 : {SkillDamage}");
-        print($"스킬 마나 : {SkillMP}");
-        print($"스킬 쿨타임 : {SkillCoolTime}");
+       // print($"스킬 데미지 : {SkillDamage}");
+       // print($"스킬 마나 : {SkillMP}");
+      //  print($"스킬 쿨타임 : {SkillCoolTime}");
        // PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
         SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
 

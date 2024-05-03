@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     public CharacterState _playerState;    
     public CharacterMovement _playerMovement;
     public CharacterEquipment _playerEquipment;
+    public CharacterExternalStatus _playerExternalStat;
     public CharacterPotion _playerpotion;
     public CharacterEventHandler _eventHandler;
     public CharacterAnimationController _animationController;
@@ -75,6 +76,7 @@ public class PlayerController : MonoBehaviour
                     GameObject clone = Instantiate(ClassPrefabs[0]);
                     _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();
+                    _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
@@ -88,6 +90,7 @@ public class PlayerController : MonoBehaviour
                     GameObject clone = Instantiate(ClassPrefabs[1]);
                     _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();
+                    _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
@@ -101,6 +104,7 @@ public class PlayerController : MonoBehaviour
                     GameObject clone = Instantiate(ClassPrefabs[2]);
                     _playerStat = clone.GetComponent<CharacterStatus>();
                     _playerState = clone.GetComponent<CharacterState>();
+                    _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
@@ -117,6 +121,7 @@ public class PlayerController : MonoBehaviour
         {
             _playerStat,
             _playerState,
+            _playerExternalStat,
             _playerEquipment,
             _playerMovement,
             _eventHandler,

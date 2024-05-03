@@ -32,17 +32,16 @@ public class StateItemData : ItemData
     public int maxHp;
     public int maxMp;
 
-    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType equipmentType, long purchaseprice, long sellingprice, int level, int attack, int defense
+    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
         , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
     {
         this.itemClass = itemClass;   
-        this.detailType = equipmentType;      
+        this.detailType = detailType;      
         this.level = level;
         this.attack = attack;
         this.defense = defense;
         this.speed = speed;
         this.attackSpeed = attackSpeed;
-
         this.exp = exp;
         this.hp = hp;
         this.mp = mp;
@@ -193,13 +192,15 @@ public class MonsterItemDropData
 {
     public int monster_id;
     public string[] monster_itemdrop;
+    public float[] monster_itempercent;
     public int monster_mingold;
     public int monster_maxgold;
 
-    public MonsterItemDropData(int monster_id, string[] monster_itemdrop,int monster_mingold, int monster_maxgold)
+    public MonsterItemDropData(int monster_id, string[] monster_itemdrop,float[] monster_itempercent,int monster_mingold, int monster_maxgold)
     {
         this.monster_id = monster_id;
         this.monster_itemdrop = monster_itemdrop;
+        this.monster_itempercent = monster_itempercent;
         this.monster_mingold = monster_mingold;
         this.monster_maxgold = monster_maxgold;
     }

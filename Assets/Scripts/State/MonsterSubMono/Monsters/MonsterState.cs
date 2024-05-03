@@ -304,6 +304,8 @@ public abstract class MonsterState : SubMono<MonsterController>
             gameObject.GetComponent<Collider>().enabled = false;        
             Invoke("SetActive", 3);
             gameObject.GetComponent<MonsterState>().enabled = false;
+
+            _board._monsterItemDrop.ItemDrop();
         }, () => { }, () => {  }, 
         () => 
         {
