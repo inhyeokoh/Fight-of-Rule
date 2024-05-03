@@ -54,7 +54,7 @@ public class MonsterItemDrop : SubMono<MonsterController>
 
             if (ItemProduce[i])
             {
-                GameObject clone = ItemManager._item.ItemInstance(items[i]);
+                GameObject clone = ItemManager._item.ItemInstance(items[i], Vector3.one, Quaternion.identity);
                 itemObject.Add(clone);
                 clone.SetActive(false);
             }

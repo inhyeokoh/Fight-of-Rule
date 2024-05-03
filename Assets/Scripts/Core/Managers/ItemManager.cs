@@ -21,30 +21,30 @@ public class ItemManager : MonoBehaviour
     }
 
     // Update is called once per frame
-    public GameObject ItemInstance(ItemData data)
+    public GameObject ItemInstance(ItemData data, Vector3 position, Quaternion rotation)
     {
         GameObject gameObject;
 
         switch (data.itemGrade)
         {
             case Enum_Grade.Normal:
-                gameObject = Instantiate(itemObjects[0]);
+                gameObject = Instantiate(itemObjects[0], position, rotation);
                 gameObject.GetComponent<ItemObject>().Setting(data);
                 break;
             case Enum_Grade.Rare:
-                gameObject = Instantiate(itemObjects[1]);
+                gameObject = Instantiate(itemObjects[1], position, rotation);
                 gameObject.GetComponent<ItemObject>().Setting(data);
                 break;
             case Enum_Grade.Epic:
-                gameObject = Instantiate(itemObjects[2]);
+                gameObject = Instantiate(itemObjects[2], position, rotation);
                 gameObject.GetComponent<ItemObject>().Setting(data);      
                 break;
             case Enum_Grade.Unique:
-                gameObject = Instantiate(itemObjects[3]);
+                gameObject = Instantiate(itemObjects[3], position, rotation);
                 gameObject.GetComponent<ItemObject>().Setting(data);
                 break;
             case Enum_Grade.Legendary:
-                gameObject = Instantiate(itemObjects[4]);
+                gameObject = Instantiate(itemObjects[4], position, rotation);
                 gameObject.GetComponent<ItemObject>().Setting(data);
                 break;
             default:
