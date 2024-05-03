@@ -70,24 +70,32 @@ public class UI_ItemSlot : UI_Entity
                 return;
             }
 
-            if (CheckSlotDrop(data)) // 드래그 드롭한 오브젝트가 슬롯이어야함
+            if (CheckSlotDrop(data) && !CheckSceneDrop(data)) // 드래그 드롭한 오브젝트가 아이템 슬롯이어야함
             {
                 _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
                 GameManager.Inven.DragAndDropItems(index, _otherIndex);
             }
             else if (CheckSceneDrop(data)) // 인벤토리 UI 밖에 드롭할 경우
             {
-                if (_invenItems[index].count == 1)
+                if (CheckSlotDrop(data)) // 드래그 드롭한 오브젝트가 장비 슬롯인 경우
                 {
-                    // 버릴지 되묻는 팝업
-                    _inven.dropConfirmPanel.SetActive(true);
-                    _inven.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(index);
+                    _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_EquipSlot>().index;
+                    GameManager.Inven.InvenToEquipSlot(index, _otherIndex);
                 }
                 else
                 {
-                    // 버릴 아이템 이름 + 수량 적는 팝업
-                    _inven.dropCountConfirmPanel.SetActive(true);
-                    _inven.dropCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(index);
+                    if (_invenItems[index].count == 1)
+                    {
+                        // 버릴지 되묻는 팝업
+                        _inven.dropConfirmPanel.SetActive(true);
+                        _inven.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(UI_DropConfirm.Enum_DropUIParent.Inven, index);
+                    }
+                    else
+                    {
+                        // 버릴 아이템 이름 + 수량 적는 팝업
+                        _inven.dropCountConfirmPanel.SetActive(true);
+                        _inven.dropCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(index);
+                    }
                 }
             }
 
@@ -99,6 +107,8 @@ public class UI_ItemSlot : UI_Entity
         {
             if (!CheckItemNull())
             {
+                Debug.Log(_invenItems[index].name);
+                Debug.Log(_invenItems[index].count);
                 _inven.descrPanel.SetActive(true);
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0.4f);
                 ShowItemInfo();
@@ -180,6 +190,7 @@ public class UI_ItemSlot : UI_Entity
         return data.pointerCurrentRaycast.gameObject.name == "IconImg";
     }
 
+
     bool CheckSceneDrop(PointerEventData data)
     {
         _inven.GetUIPos();
@@ -204,10 +215,6 @@ public class UI_ItemSlot : UI_Entity
             int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
             string descLines = string.Format(GameManager.Inven.items[index].desc, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp);
             string[] lines = descLines.Split('n');
-            foreach (var line in lines)
-            {
-                Debug.Log(line);
-            }
 
             string desc = $"{lines[0]} \n";
             for (int i = 1; i < lines.Length - 1; i++)
@@ -226,7 +233,5 @@ public class UI_ItemSlot : UI_Entity
             _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text =
                 GameManager.Inven.items[index].desc; // 아이템 설명
         }
-
-        // TODO 장비 아이템일 경우 추가 비교 이미지
     }
 }

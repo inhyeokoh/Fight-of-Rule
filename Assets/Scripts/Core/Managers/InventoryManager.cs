@@ -163,6 +163,77 @@ public class InventoryManager : SubClass<GameManager>
         }
     }
 
+    public void InvenToEquipSlot(int invenPos, int equipPos)
+    {
+        // 맞는 장착 아이템 아니면 반환
+        if (!_CheckSameEquipType(equipPos, invenPos))
+        {
+            return;
+        }
+
+        ItemData temp = equips[equipPos]; 
+        equips[equipPos] = items[invenPos];
+        items[invenPos] = temp;
+
+        // 이미지 갱신
+        _inven.UpdateInvenUI(invenPos);
+        _playerInfo.UpdateEquipUI(equipPos);
+    }
+
+    public void EquipSlotToInven(int equipPos, int invenPos)
+    {
+        if (items[invenPos] == null) // 드롭한 인벤칸이 비어 있으면 옮기기
+        {
+            items[invenPos] = equips[equipPos];
+            equips[equipPos] = null;
+        }
+        // 같은 타입의 장비 아이템이면 교환
+        else if (_CheckSameEquipType(equipPos, invenPos))
+        {
+            ItemData temp = items[invenPos];
+            items[invenPos] = equips[equipPos];
+            equips[equipPos] = temp;
+        }
+
+        // 이미지 갱신
+        _inven.UpdateInvenUI(invenPos);
+        _playerInfo.UpdateEquipUI(equipPos);
+    }
+
+    bool _CheckSameEquipType(int equipPos, int invenPos)
+    {
+        int equipType = -1;
+
+        StateItemData sid = items[invenPos] as StateItemData;
+        switch (sid.detailType)
+        {
+            case Enum_DetailType.Head:
+                equipType = 0;
+                break;
+            case Enum_DetailType.Body:
+                equipType = 1;
+                break;
+            case Enum_DetailType.Hand:
+                equipType = 2;
+                break;
+            case Enum_DetailType.Foot:
+                equipType = 3;
+                break;
+            case Enum_DetailType.Weapon:
+                equipType = 4;
+                break;
+            case Enum_DetailType.Default:
+                equipType = 5;
+                break;
+            default:
+                equipType = -1;
+                break;
+        }
+
+        return equipPos == equipType;
+    }
+
+
     // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + slotNum 변경 + 같은 아이템이면 합쳐줌
     // 한번이라도 정렬 버튼 누른적 있을거고 아이템 번호에 맞게 정리 되어 있는 상태가 많기 때문에 병합 정렬로 가는게 가장 괜찮다고 판단
     public void SortItems()
@@ -429,65 +500,15 @@ public class InventoryManager : SubClass<GameManager>
 
     public void GetItem(ItemData acquired)
     {
+        // 획득한 아이템이 없는 경우
         if (acquired == null)
         {
-            return; // 획득한 아이템이 없는 경우
+            return;
         }
 
-        // 수량이 있는 아이템 처리
-        if (acquired.itemType != Enum_ItemType.Equipment)
+        // 수량이 합산되지 않는 장비 아이템 처리
+        if (acquired.itemType == Enum_ItemType.Equipment)
         {
-            bool foundExist = false;
-            foreach (var item in items)
-            {
-                if (item != null && item.id == acquired.id && item.count < item.maxCount)
-                {
-                    // 동일 아이템이 이미 있고 최대 수량이 아닌 경우
-                    int remainSpace = item.maxCount - item.count; // 잔여공간 크기
-                    if (acquired.count <= remainSpace)
-                    {
-                        // 획득한 수량이 잔여 공간에 들어갈 수 있는 경우
-                        item.count += acquired.count;
-                        foundExist = true;
-                        break;
-                    }
-                    else
-                    {
-                        // 획득한 수량이 잔여 공간보다 큰 경우
-                        item.count = item.maxCount;
-                        acquired.count -= remainSpace;
-                    }
-                }
-            }
-
-            // 동일 아이템이 없는 경우 새로운 슬롯에 추가
-            if (!foundExist)
-            {
-                int emptySlotIndex = GetEmptySlotIndex();
-                if (emptySlotIndex != -1)
-                {
-                    if (acquired.count <= acquired.maxCount)
-                    {
-                        items[emptySlotIndex] = acquired;
-                    }
-                    else
-                    {
-                        // 아이템의 최대 수량을 초과하는 경우
-                        items[emptySlotIndex] = acquired;
-                        acquired.count -= acquired.maxCount;
-                        GetItem(acquired); // 재귀 호출로 남은 수량 처리
-                    }
-                }
-                else
-                {
-                    // 인벤토리가 가득 찬 경우 처리 (공간 부족 알림 팝업)
-                    return;
-                }
-            }
-        }
-        else
-        {
-            // 수량이 합산되지 않는 아이템 처리
             int emptySlotIndex = GetEmptySlotIndex();
             if (emptySlotIndex != -1)
             {
@@ -496,7 +517,70 @@ public class InventoryManager : SubClass<GameManager>
             else
             {
                 // 인벤토리가 가득 찬 경우 처리 (공간 부족 알림 팝업)
-                return;
+            }
+        }
+        else
+        {
+            // 획득 수량 전부 처리할때까지 반복
+            while (acquired.count > 0) 
+            {
+                for (int i = 0; i < items.Count; i++)
+                {           
+                    // 동일 아이템 확인
+                    if (items[i] != null && items[i].id == acquired.id)
+                    {
+                        // 칸에 최대 수량이 아닌 경우
+                        if (items[i].count < items[i].maxCount)
+                        {
+                            int remainSpace = items[i].maxCount - items[i].count; // 잔여공간 크기
+                            // 획득한 수량이 잔여 공간에 들어갈 수 있는 경우
+                            if (acquired.count <= remainSpace)
+                            {
+                                items[i].count += acquired.count;
+                                acquired.count = 0;
+                                break;
+                            }
+                            // 획득한 수량이 잔여 공간보다 큰 경우
+                            else
+                            {
+                                items[i].count = items[i].maxCount;
+                                acquired.count -= remainSpace;
+                            }
+                        }
+                        // 칸에 이미 꽉 찬 경우
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    // 마지막 칸까지 동일 아이템 안 보이면 새로운 슬롯에 추가
+                    if (i == items.Count - 1)
+                    {
+                        Debug.Log("동일 아이템 없음");
+
+                        int emptySlotIndex = GetEmptySlotIndex();
+                        if (emptySlotIndex != -1)
+                        {
+                            // 획득 수량이 최대 수량 이하인 경우
+                            if (acquired.count <= acquired.maxCount)
+                            {
+                                items[emptySlotIndex] = acquired;
+                                Debug.Log(acquired.count);
+                                Debug.Log(items[emptySlotIndex].count);
+                                items[emptySlotIndex].count = acquired.count;
+                                acquired.count = 0;
+                            }
+                            // 획득 수량이 최대 수량 보다 클 경우
+                            else
+                            {
+                                items[emptySlotIndex] = acquired;
+                                items[emptySlotIndex].count = acquired.maxCount;
+                                acquired.count -= acquired.maxCount;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -507,7 +591,7 @@ public class InventoryManager : SubClass<GameManager>
         }
     }
 
-    public void DropItem(int index, int dropCount = 1)
+    public void DropInvenItem(int index, int dropCount = 1)
     {
         items[index].count -= dropCount;
         if (items[index].count <= 0)
@@ -517,6 +601,14 @@ public class InventoryManager : SubClass<GameManager>
 
         // UI 갱신
         _inven.UpdateInvenUI(index);
+    }
+
+    public void DropEquipItem(int index, int dropCount = 1)
+    {
+        equips[index] = null;
+
+        // UI 갱신
+        _playerInfo.UpdateEquipUI(index);
     }
 
     public void EquipItem(int index)

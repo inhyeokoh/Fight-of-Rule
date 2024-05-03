@@ -9,17 +9,19 @@ public class UI_PlayerInfo : UI_Entity
     bool init;
     public GameObject dragImg;
     public GameObject descrPanel;
+    public GameObject dropConfirmPanel;
+    public GameObject dropCountConfirmPanel;
     GameObject equipSlots;
 
     int _leftSlotCount = 5;
+
+    public Vector2 playerInfoUI_leftBottom;
+    public Vector2 playerInfoUI_rightTop;
 
     // 드래그 Field
     private Vector2 _playerInfoUIPos;
     private Vector2 _dragBeginPos;
     private Vector2 _offset;
-
-    Vector2 playerInfoUI_leftBottom;
-    Vector2 playerInfoUI_rightTop;
 
     enum Enum_UI_PlayerInfo
     {
@@ -29,7 +31,9 @@ public class UI_PlayerInfo : UI_Entity
         Equipments,
         Close,
         DragImg,
-        DescrPanel
+        DescrPanel,
+        DropConfirm,
+        DropCountConfirm
     }
 
     protected override Type GetUINamesAsType()
@@ -61,6 +65,8 @@ public class UI_PlayerInfo : UI_Entity
         equipSlots = _entities[(int)Enum_UI_PlayerInfo.Equipments].gameObject;
         dragImg = _entities[(int)Enum_UI_PlayerInfo.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_PlayerInfo.DescrPanel].gameObject;
+        dropConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropConfirm].gameObject;
+        dropCountConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropCountConfirm].gameObject;
         _DrawSlots();
 
         foreach (var _subUI in _subUIs)

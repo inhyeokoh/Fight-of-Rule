@@ -275,6 +275,10 @@ public class UI_Inventory : UI_Entity
 
     void _PressGetItem()
     {
-        new ItemData(1, "Hp", "HP포션입니다", Resources.Load<Sprite>($"Materials/ItemIcons/HP"), (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), "Consumption"), (Enum_Grade)Enum.Parse(typeof(Enum_Grade), "Normal"), 100, 100, 100, 1);
+        var item = ItemParsing.StateItemDataReader(500);
+        item.count = 70;
+
+        GameManager.Inven.GetItem(item);
+        // TODO 장비아이템은 고유번호
     }
 }
