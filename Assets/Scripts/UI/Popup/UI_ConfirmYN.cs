@@ -10,7 +10,6 @@ using TMPro;
 public class UI_ConfirmYN : UI_Entity
 {
     TMP_Text _mainText;
-    public int choice = -1;
 
     enum Enum_UI_Confirm
     {
@@ -19,11 +18,6 @@ public class UI_ConfirmYN : UI_Entity
         MainText,
         Accept,
         Cancel
-    }
-
-    enum AcceptCase
-    {
-        newCharacter
     }
 
     protected override Type GetUINamesAsType()
@@ -51,22 +45,11 @@ public class UI_ConfirmYN : UI_Entity
 
     void _ExecuteAcceptAction()
     {        
-        switch (choice)
-        {
-            case (int)AcceptCase.newCharacter:
-#if CLIENTONLY
-                GameManager.UI.CloseLinkedPopup();
-                GameManager.Scene.LoadScene("Select");
-                break;
-#else
+/*                GameManager.UI.CloseLinkedPopup();
+                GameManager.Scene.LoadScene("Select");*/
                 GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
                 GameManager.UI.CloseLinkedPopup();
-                GameManager.Scene.LoadScene("Select");
-                break;
-#endif
-            default:
-                break;
-        }
+                GameManager.Scene.LoadScene("Select");        
     }
 
     public void ChangeText(string contents)

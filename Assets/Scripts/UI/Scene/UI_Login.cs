@@ -1,3 +1,5 @@
+#define SERVER
+//#define CLIENT
 using System;
 using TMPro;
 using UnityEngine;
@@ -30,19 +32,20 @@ public class UI_Login : UI_Entity
         };
 
         _entities[(int)Enum_UI_Logins.Login].ClickAction = (PointerEventData data) => {
-
+#if SERVER
             C_LOGIN login_ask_pkt = new C_LOGIN();
             login_ask_pkt.LoginId = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>().text;
             login_ask_pkt.LoginPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256(_entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text), encoding:"ascii");
 
-            // GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
-
-            //서버 없이 씬 넘어가기
+            GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
+# elif CLIENT
+            서버 없이 씬 넘어가기
             var loadAsync = SceneManager.LoadSceneAsync("Create");
             GameManager.ThreadPool.UniAsyncLoopJob(() =>
             {
                 return loadAsync.progress < 0.9f;
             });
+#endif
         };
 
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {

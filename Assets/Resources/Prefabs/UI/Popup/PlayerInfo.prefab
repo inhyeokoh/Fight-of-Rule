@@ -2613,7 +2613,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 67, y: -43.679016}
+  m_AnchoredPosition: {x: -380, y: -43.679016}
   m_SizeDelta: {x: 826.006, y: 723.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8443145797450080163
@@ -3094,6 +3094,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dragImg: {fileID: 0}
   descrPanel: {fileID: 0}
+  dropConfirmPanel: {fileID: 0}
+  dropCountConfirmPanel: {fileID: 0}
   playerInfoUI_leftBottom: {x: 0, y: 0}
   playerInfoUI_rightTop: {x: 0, y: 0}
 --- !u!1 &6970022226303586154

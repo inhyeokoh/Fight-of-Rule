@@ -1,6 +1,7 @@
 syntax = "proto3";
 import "CharacterMessage.proto";
 import "OptionMessage.proto";
+import "ItemMessage.proto";
 
 message C_SIGNUP {
     string signup_id = 1;
@@ -70,9 +71,15 @@ message S_CHARACTERS {
 }
 
 message C_NEW_CHARACTER {
-    CHARACTER_INFO character = 1;
+    CHARACTER_BASE character = 1;
 }
 
 message S_NEW_CHARACTER {
     bool success = 1;
+}
+
+message S_ITEMINFO {
+    EQUIP_ITEM equip_item = 1;
+    CONSUME_ITEM consume_item = 2;
+    ETC_ITEM etc_item = 3;
 }

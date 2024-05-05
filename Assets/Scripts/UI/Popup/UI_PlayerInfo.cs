@@ -17,6 +17,7 @@ public class UI_PlayerInfo : UI_Entity
 
     public Vector2 playerInfoUI_leftBottom;
     public Vector2 playerInfoUI_rightTop;
+    Vector2 _descrUISize;
 
     // 드래그 Field
     private Vector2 _playerInfoUIPos;
@@ -67,6 +68,7 @@ public class UI_PlayerInfo : UI_Entity
         descrPanel = _entities[(int)Enum_UI_PlayerInfo.DescrPanel].gameObject;
         dropConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropConfirm].gameObject;
         dropCountConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropCountConfirm].gameObject;
+        _descrUISize = _GetUISize(descrPanel);
         _DrawSlots();
 
         foreach (var _subUI in _subUIs)
@@ -129,10 +131,43 @@ public class UI_PlayerInfo : UI_Entity
         }
     }
 
+    public void RestrictItemDescrPos()
+    {
+        Vector2 option = new Vector2(300f, -165f);
+        StartCoroutine(RestrictUIPos(descrPanel, _descrUISize, option));
+    }
+
+    public void StopRestrictItemDescrPos(PointerEventData data)
+    {
+        StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
+    }
+
     public void GetUIPos()
     {
         playerInfoUI_leftBottom = transform.TransformPoint(GetComponent<RectTransform>().rect.min);
         playerInfoUI_rightTop = transform.TransformPoint(GetComponent<RectTransform>().rect.max);
+    }
+
+    // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
+    Vector2 _GetUISize(GameObject UI)
+    {
+        Vector2 leftBottom = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.min);
+        Vector2 rightTop = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.max);
+        Vector2 UISize = rightTop - leftBottom;
+        return UISize;
+    }
+
+    // UI가 화면 밖으로 넘어가지 않도록 위치 제한
+    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize, Vector2? option = null)
+    {
+        while (true)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            float x = Math.Clamp(mousePos.x + option.Value.x, UISize.x / 2, Screen.width - (UISize.x / 2));
+            float y = Math.Clamp(mousePos.y + option.Value.y, UISize.y / 2, Screen.height - (UISize.y / 2));
+            UI.transform.position = new Vector2(x, y);
+            yield return null;
+        }
     }
 
     // 아이템 배열 정보에 맞게 UI 갱신 시키는 메서드

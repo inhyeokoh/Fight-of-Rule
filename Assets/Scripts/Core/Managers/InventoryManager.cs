@@ -484,6 +484,8 @@ public class InventoryManager : SubClass<GameManager>
         }
     }
 
+    public void SortItemsWithPriorityQueue() { }
+
     int GetEmptySlotIndex()
     {
         for (int i = 0; i < items.Count; i++)
@@ -565,10 +567,8 @@ public class InventoryManager : SubClass<GameManager>
                             // 획득 수량이 최대 수량 이하인 경우
                             if (acquired.count <= acquired.maxCount)
                             {
-                                items[emptySlotIndex] = acquired;
-                                Debug.Log(acquired.count);
+                                items[emptySlotIndex] = new ItemData(acquired.id, acquired.name, acquired.desc, acquired.icon, acquired.itemType, acquired.itemGrade, acquired.purchaseprice, acquired.sellingprice, acquired.maxCount, acquired.count, acquired.slotNum);
                                 Debug.Log(items[emptySlotIndex].count);
-                                items[emptySlotIndex].count = acquired.count;
                                 acquired.count = 0;
                             }
                             // 획득 수량이 최대 수량 보다 클 경우

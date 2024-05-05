@@ -29,6 +29,7 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_LOGIN(Session session, S_LOGIN message)
     {
+        Utils.Log(message.Uid);
         if (false == message.LoginSuccess)
         {
             //경우에 따라서 재로그인 유도 (지금은 그냥 return)
@@ -100,9 +101,14 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
+    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
+    {
+        return true;
+    }
+
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
-        if (message.CreateNicknameSuccess == false)
+        if (message.Success == false)
         {
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
@@ -117,7 +123,6 @@ public class PacketHandlerImpl : MonoBehaviour
         {
             GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
             GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
-            GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().choice = 0;
             GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
         });
         return true;
@@ -144,6 +149,17 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
     {
+        if (message.Success == false)
+        {
+            GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
+            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
+            GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
+            return false;
+        }
+
+        GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
+        GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+        GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText($"Exist Name");
         return true;
     }
 
@@ -154,7 +170,7 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING message)
     {
-        if(message.Sucess == false)
+        if (message.Sucess == false)
         {
             //TODO 게임 종료시키기
             Utils.Log("cannot verifying");

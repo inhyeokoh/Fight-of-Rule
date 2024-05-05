@@ -91,7 +91,7 @@ public class UI_EquipSlot : UI_Entity
                 _playerInfoUI.descrPanel.SetActive(true);
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0.4f);
                 ShowItemInfo();
-                // _playerInfoUI.RestrictItemDescrPos();
+                _playerInfoUI.RestrictItemDescrPos();
             }
         };
 
@@ -102,7 +102,7 @@ public class UI_EquipSlot : UI_Entity
             {
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
                 _playerInfoUI.descrPanel.SetActive(false);
-                // _playerInfoUI.StopRestrictItemDescrPos(data);
+                _playerInfoUI.StopRestrictItemDescrPos(data);
             }
         };
 
@@ -189,29 +189,21 @@ public class UI_EquipSlot : UI_Entity
         _playerInfoUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].name; // 아이템 이름
         _playerInfoUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
 
-        if (GameManager.Inven.equips[index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
-        {
-            StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.items[index].id] as StateItemData;
-            int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
-            string descLines = string.Format(GameManager.Inven.equips[index].desc, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp);
-            string[] lines = descLines.Split('n');
+        StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.equips[index].id] as StateItemData;
+        int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
+        string descLines = string.Format(GameManager.Inven.equips[index].desc, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp);
+/*        string[] lines = descLines.Split('n');
 
-            string desc = $"{lines[0]} \n";
-            for (int i = 1; i < lines.Length - 1; i++)
+        string desc = $"{lines[0]} \n";
+        for (int i = 1; i < lines.Length - 1; i++)
+        {
+            if (stats[i] == 0)
             {
-                if (stats[i] == 0)
-                {
-                    continue;
-                }
-                desc += $"{lines[i]} \n";
+                continue;
             }
+            desc += $"{lines[i]} \n";
+        }*/
 
-            _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = desc;
-        }
-        else
-        {
-            _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text =
-            GameManager.Inven.equips[index].desc; // 아이템 설명
-        }
+        _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = descLines;
     }
 }
