@@ -26,7 +26,7 @@ public static partial class CharacterMessageReflection {
           "CWJhc2VfaW5mbxgBIAEoCzIPLkNIQVJBQ1RFUl9CQVNFEh8KBHN0YXQYAiAB",
           "KAsyES5DSEFSQUNURVJfU1RBVFVTEhsKA3h5ehgDIAEoCzIOLkNIQVJBQ1RF",
           "Ul9QT1MiZwoOQ0hBUkFDVEVSX0JBU0USFAoMY2hhcmFjdGVyX2lkGAEgASgF",
-          "EhAKCHNsb3RfbnVtGAIgASgFEhAKCG5pY2tuYW1lGAMgASgJEgsKA2pvYhgE",
+          "EhAKCHNsb3RfbnVtGAIgASgFEhAKCG5pY2tuYW1lGAMgASgMEgsKA2pvYhgE",
           "IAEoCRIOCgZnZW5kZXIYBSABKAgiuQEKEENIQVJBQ1RFUl9TVEFUVVMSDQoF",
           "bGV2ZWwYASABKAUSDQoFbWF4SFAYAiABKAUSCgoCaHAYAyABKAUSDQoFbWF4",
           "TVAYBCABKAUSCgoCbXAYBSABKAUSDgoGbWF4RVhQGAYgASgFEgsKA2V4cBgH",
@@ -410,10 +410,10 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
 
   /// <summary>Field number for the "nickname" field.</summary>
   public const int NicknameFieldNumber = 3;
-  private string nickname_ = "";
+  private pb::ByteString nickname_ = pb::ByteString.Empty;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string Nickname {
+  public pb::ByteString Nickname {
     get { return nickname_; }
     set {
       nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -504,7 +504,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
     }
     if (Nickname.Length != 0) {
       output.WriteRawTag(26);
-      output.WriteString(Nickname);
+      output.WriteBytes(Nickname);
     }
     if (Job.Length != 0) {
       output.WriteRawTag(34);
@@ -534,7 +534,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
     }
     if (Nickname.Length != 0) {
       output.WriteRawTag(26);
-      output.WriteString(Nickname);
+      output.WriteBytes(Nickname);
     }
     if (Job.Length != 0) {
       output.WriteRawTag(34);
@@ -561,7 +561,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(SlotNum);
     }
     if (Nickname.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
+      size += 1 + pb::CodedOutputStream.ComputeBytesSize(Nickname);
     }
     if (Job.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Job);
@@ -620,7 +620,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
           break;
         }
         case 26: {
-          Nickname = input.ReadString();
+          Nickname = input.ReadBytes();
           break;
         }
         case 34: {
@@ -655,7 +655,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
           break;
         }
         case 26: {
-          Nickname = input.ReadString();
+          Nickname = input.ReadBytes();
           break;
         }
         case 34: {

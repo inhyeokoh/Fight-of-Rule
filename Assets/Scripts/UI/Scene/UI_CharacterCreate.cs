@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Google.Protobuf;
 
 public class UI_CharacterCreate : UI_Entity
 {
@@ -111,9 +112,10 @@ public class UI_CharacterCreate : UI_Entity
     public void SendCharacterPacket()
     {
         C_NEW_CHARACTER new_character_pkt = new C_NEW_CHARACTER();
+        new_character_pkt.Character = new CHARACTER_BASE();
         new_character_pkt.Character.Gender = character.gender;
         new_character_pkt.Character.Job = character.job;
-        new_character_pkt.Character.Nickname = character.charName;
+        new_character_pkt.Character.Nickname = ByteString.CopyFrom(character.charName, System.Text.Encoding.Unicode);
         new_character_pkt.Character.SlotNum = GameManager.Data.selectedSlotNum;
 
         GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(new_character_pkt));

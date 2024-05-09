@@ -35,7 +35,7 @@ public static partial class MainPacketReflection {
           "VElPThIpCg9zZXR0aW5nX29wdGlvbnMYASABKAsyEC5TRVRUSU5HX09QVElP",
           "TlMiDAoKU19BU0tfVkVSRiIcCgtDX1ZFUklGWUlORxINCgV0b2tlbhgBIAEo",
           "CSIdCgtTX1ZFUklGWUlORxIOCgZzdWNlc3MYASABKAgiHgoKQ19OSUNLTkFN",
-          "RRIQCghuaWNrbmFtZRgBIAEoCSIdCgpTX05JQ0tOQU1FEg8KB3N1Y2Nlc3MY",
+          "RRIQCghuaWNrbmFtZRgBIAEoDCIdCgpTX05JQ0tOQU1FEg8KB3N1Y2Nlc3MY",
           "ASABKAgiDgoMQ19DSEFSQUNURVJTIjIKDFNfQ0hBUkFDVEVSUxIiCgljaGFy",
           "YWN0ZXIYASADKAsyDy5DSEFSQUNURVJfSU5GTyI1Cg9DX05FV19DSEFSQUNU",
           "RVISIgoJY2hhcmFjdGVyGAEgASgLMg8uQ0hBUkFDVEVSX0JBU0UiIgoPU19O",
@@ -2032,10 +2032,10 @@ public sealed partial class C_NICKNAME : pb::IMessage<C_NICKNAME>
 
   /// <summary>Field number for the "nickname" field.</summary>
   public const int NicknameFieldNumber = 1;
-  private string nickname_ = "";
+  private pb::ByteString nickname_ = pb::ByteString.Empty;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string Nickname {
+  public pb::ByteString Nickname {
     get { return nickname_; }
     set {
       nickname_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
@@ -2086,7 +2086,7 @@ public sealed partial class C_NICKNAME : pb::IMessage<C_NICKNAME>
   #else
     if (Nickname.Length != 0) {
       output.WriteRawTag(10);
-      output.WriteString(Nickname);
+      output.WriteBytes(Nickname);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -2100,7 +2100,7 @@ public sealed partial class C_NICKNAME : pb::IMessage<C_NICKNAME>
   void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
     if (Nickname.Length != 0) {
       output.WriteRawTag(10);
-      output.WriteString(Nickname);
+      output.WriteBytes(Nickname);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
@@ -2113,7 +2113,7 @@ public sealed partial class C_NICKNAME : pb::IMessage<C_NICKNAME>
   public int CalculateSize() {
     int size = 0;
     if (Nickname.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Nickname);
+      size += 1 + pb::CodedOutputStream.ComputeBytesSize(Nickname);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -2146,7 +2146,7 @@ public sealed partial class C_NICKNAME : pb::IMessage<C_NICKNAME>
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
         case 10: {
-          Nickname = input.ReadString();
+          Nickname = input.ReadBytes();
           break;
         }
       }
@@ -2165,7 +2165,7 @@ public sealed partial class C_NICKNAME : pb::IMessage<C_NICKNAME>
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
           break;
         case 10: {
-          Nickname = input.ReadString();
+          Nickname = input.ReadBytes();
           break;
         }
       }

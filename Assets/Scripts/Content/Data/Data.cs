@@ -82,6 +82,21 @@ public class ItemData : Data
         this.count = count;
         this.slotNum = slotNum;
     }
+
+    public ItemData(ItemData item)
+    {
+        this.id = item.id;
+        this.name = item.name;
+        this.desc = item.desc;
+        this.icon = item.icon;
+        this.itemType = item.itemType;
+        this.itemGrade = item.itemGrade;
+        this.purchaseprice = item.purchaseprice;
+        this.sellingprice = item.sellingprice;
+        this.maxCount = item.maxCount;
+        this.count = item.count;
+        this.slotNum = item.slotNum;
+    }
 }
 
 [System.Serializable]

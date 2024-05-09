@@ -233,259 +233,6 @@ public class InventoryManager : SubClass<GameManager>
         return equipPos == equipType;
     }
 
-
-    // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + slotNum 변경 + 같은 아이템이면 합쳐줌
-    // 한번이라도 정렬 버튼 누른적 있을거고 아이템 번호에 맞게 정리 되어 있는 상태가 많기 때문에 병합 정렬로 가는게 가장 괜찮다고 판단
-    public void SortItems()
-    {
-        // 아이템을 Enum_Itemtype에 따라 분류할 딕셔너리 생성
-        Dictionary<Enum_ItemType, List<ItemData>> itemDictionary = new Dictionary<Enum_ItemType, List<ItemData>>();
-
-        // 각 아이템을 해당하는 Enum_Itemtype의 리스트에 추가
-        foreach (ItemData item in items)
-        {
-            if (item != null)
-            {
-                Enum_ItemType itemType = (Enum_ItemType)item.itemType; // 아이템의 타입 가져오기
-                if (!itemDictionary.ContainsKey(itemType))
-                {
-                    itemDictionary[itemType] = new List<ItemData>();
-                }
-                itemDictionary[itemType].Add(item);
-            }
-        }
-
-        // 대분류(장비,소비 등등)된 항목들 순회
-        foreach (Enum_ItemType itemType in itemDictionary.Keys)
-        {
-            List<ItemData> itemList = itemDictionary[itemType];
-            if (itemType == Enum_ItemType.Equipment)
-            {
-                // ID -> Equipment(Helmet,Boots,etc) -> Grade 순으로 정렬 시켜버리는게 빠르진 못해도 간단하지 않을까..
-                MergeSortItems(itemList, Enum_Sort.ID); // 아이템 등급 순서대로 병합 정렬
-                // MergeSortItems(itemList, Enum_Sort.DetailType); // 아이템 등급 순서대로 병합 정렬
-                MergeSortItems(itemList, Enum_Sort.Grade); // 아이템 등급 순서대로 병합 정렬
-            }
-            else if (itemType == Enum_ItemType.Consumption)
-            {
-                MergeSortItems(itemList, Enum_Sort.ID);
-                MergeSortItems(itemList, Enum_Sort.DetailType);
-            }
-            else
-            {
-                MergeSortItems(itemList, Enum_Sort.ID);
-            }
-        }
-
-        // Enum_Itemtype에 명시된 순서대로 아이템 리스트 재배열
-        items.Clear();
-        foreach (Enum_ItemType itemType in Enum.GetValues(typeof(Enum_ItemType)))
-        {
-            if (itemDictionary.ContainsKey(itemType))
-            {
-                List<ItemData> itemList = itemDictionary[itemType];
-                items.AddRange(itemList);
-            }
-        }
-
-        _CombineQuantities(items);
-        ExtendItemList(); // 비어있는 칸 다시 null로 채우기
-
-        // UI 갱신
-        for (int i = 0; i < items.Count; i++)
-        {
-            _inven.UpdateInvenUI(i);
-        }
-    }
-
-    // 특정 순서대로 병합 정렬하는 메서드
-    void MergeSortItems(List<ItemData> itemList, Enum_Sort sort)
-    {
-        if (itemList.Count <= 1)
-        {
-            return;
-        }
-
-        int mid = itemList.Count / 2;
-        List<ItemData> leftList = new List<ItemData>();
-        List<ItemData> rightList = new List<ItemData>();
-
-        for (int i = 0; i < mid; i++)
-        {
-            leftList.Add(itemList[i]);
-        }
-        for (int i = mid; i < itemList.Count; i++)
-        {
-            rightList.Add(itemList[i]);
-        }
-
-        MergeSortItems(leftList, sort);
-        MergeSortItems(rightList, sort);
-
-        itemList.Clear();
-        switch (sort)
-        {
-/*            case Enum_Sort.Grade:
-                itemList.AddRange(MergeItemsByGrade(leftList, rightList));
-                break;*/
-                /*            case Enum_Sort.DetailType:
-                                itemList.AddRange(MergeItemsByDetailType(leftList, rightList));
-                                break;
-                            case Enum_Sort.ID:
-                                itemList.AddRange(MergeItemsById(leftList, rightList));
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-
-                    List<ItemData> MergeItemsById(List<ItemData> leftList, List<ItemData> rightList)
-                    {
-                        List<ItemData> mergedList = new List<ItemData>();
-
-                        int leftIndex = 0;
-                        int rightIndex = 0;
-
-                        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-                        {
-                            if (leftList[leftIndex].id < rightList[rightIndex].id)
-                            {
-                                mergedList.Add(leftList[leftIndex]);
-                                leftIndex++;
-                            }
-                            else
-                            {
-                                mergedList.Add(rightList[rightIndex]);
-                                rightIndex++;
-                            }
-                        }
-
-                        while (leftIndex < leftList.Count)
-                        {
-                            mergedList.Add(leftList[leftIndex]);
-                            leftIndex++;
-                        }
-
-                        while (rightIndex < rightList.Count)
-                        {
-                            mergedList.Add(rightList[rightIndex]);
-                            rightIndex++;
-                        }
-
-                        return mergedList;
-                    }
-
-                    List<ItemData> MergeItemsByGrade(List<ItemData> leftList, List<ItemData> rightList)
-                    {
-                        List<ItemData> mergedList = new List<ItemData>();
-
-                        int leftIndex = 0;
-                        int rightIndex = 0;
-
-                        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-                        {
-                            var left = leftList[leftIndex].itemGrade;
-                            var right = rightList[rightIndex].itemGrade;
-                            // 낮은 등급일수록 왼쪽에 배치
-                            if (left < right)
-                            {
-                                mergedList.Add(leftList[leftIndex]);
-                                leftIndex++;
-                            }
-                            else
-                            {
-                                mergedList.Add(rightList[rightIndex]);
-                                rightIndex++;
-                            }
-                        }
-
-                        while (leftIndex < leftList.Count)
-                        {
-                            mergedList.Add(leftList[leftIndex]);
-                            leftIndex++;
-                        }
-
-                        while (rightIndex < rightList.Count)
-                        {
-                            mergedList.Add(rightList[rightIndex]);
-                            rightIndex++;
-                        }
-
-                        return mergedList;
-                    }
-
-                /*    List<ItemData> MergeItemsByDetailType(List<ItemData> leftList, List<ItemData> rightList)
-                    {
-                        List<ItemData> mergedList = new List<ItemData>();
-
-                        int leftIndex = 0;
-                        int rightIndex = 0;
-
-                        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-                        {
-                            var left = leftList[leftIndex].ty;
-                            var right = rightList[rightIndex].DetailType;
-                            if (left < right)
-                            {
-                                mergedList.Add(leftList[leftIndex]);
-                                leftIndex++;
-                            }
-                            else
-                            {
-                                mergedList.Add(rightList[rightIndex]);
-                                rightIndex++;
-                            }
-                        }
-
-                        while (leftIndex < leftList.Count)
-                        {
-                            mergedList.Add(leftList[leftIndex]);
-                            leftIndex++;
-                        }
-
-                        while (rightIndex < rightList.Count)
-                        {
-                            mergedList.Add(rightList[rightIndex]);
-                            rightIndex++;
-                        }
-
-                        return mergedList;
-                    }*/
-        }
-    }
-
-    void _CombineQuantities(List<ItemData> itemList)
-    {
-        if (itemList.Count < 2)
-        {
-            return;
-        }
-
-        int i = 1;
-        while (i < itemList.Count)
-        {
-            // 같은 ItemID이고 더 앞쪽에 있는 아이템의 수량이 최대가 아닐 경우 앞에다가 합치기
-            if (itemList[i].id == itemList[i - 1].id && itemList[i - 1].count != itemList[i - 1].maxCount)
-            {
-                _AddUpItems(i, i - 1);
-                if (itemList[i] == null)
-                {
-                    itemList.RemoveAt(i);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-            else
-            {
-                i++;
-            }
-        }
-    }
-
-    public void SortItemsWithPriorityQueue() { }
-
     int GetEmptySlotIndex()
     {
         for (int i = 0; i < items.Count; i++)
@@ -514,7 +261,7 @@ public class InventoryManager : SubClass<GameManager>
             int emptySlotIndex = GetEmptySlotIndex();
             if (emptySlotIndex != -1)
             {
-                items[emptySlotIndex] = acquired;
+                items[emptySlotIndex] = new ItemData(acquired);
             }
             else
             {
@@ -559,22 +306,19 @@ public class InventoryManager : SubClass<GameManager>
                     // 마지막 칸까지 동일 아이템 안 보이면 새로운 슬롯에 추가
                     if (i == items.Count - 1)
                     {
-                        Debug.Log("동일 아이템 없음");
-
                         int emptySlotIndex = GetEmptySlotIndex();
                         if (emptySlotIndex != -1)
                         {
                             // 획득 수량이 최대 수량 이하인 경우
                             if (acquired.count <= acquired.maxCount)
                             {
-                                items[emptySlotIndex] = new ItemData(acquired.id, acquired.name, acquired.desc, acquired.icon, acquired.itemType, acquired.itemGrade, acquired.purchaseprice, acquired.sellingprice, acquired.maxCount, acquired.count, acquired.slotNum);
-                                Debug.Log(items[emptySlotIndex].count);
+                                items[emptySlotIndex] = new ItemData(acquired);
                                 acquired.count = 0;
                             }
                             // 획득 수량이 최대 수량 보다 클 경우
                             else
                             {
-                                items[emptySlotIndex] = acquired;
+                                items[emptySlotIndex] = new ItemData(acquired);
                                 items[emptySlotIndex].count = acquired.maxCount;
                                 acquired.count -= acquired.maxCount;
                             }
@@ -684,7 +428,158 @@ public class InventoryManager : SubClass<GameManager>
         // 인벤토리 UI 갱신
         _inven.UpdateInvenUI(invenEmptySlot);
 
-        // TODO : 인벤토리 꽉 찬 경우
-        // 해제 불가 팝업
+        // TODO : 인벤토리 꽉 찬 경우 해제 불가 팝업
+    }
+
+    // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + slotNum 변경 + 같은 아이템이면 합쳐줌
+    // 한번이라도 정렬 버튼 누른적 있을거고 아이템 번호에 맞게 정리 되어 있는 상태가 많기 때문에 병합 정렬로 가는게 가장 괜찮다고 판단
+    public void SortItems()
+    {
+        items.RemoveAll(item => item == null);
+
+        List<ItemData> result = MergeSort(items);
+        items.Clear();
+        foreach (var item in result)
+        {
+            items.Add(item);
+        }
+
+
+        _CombineQuantities(items);
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (items[i] != null)
+            {
+                items[i].slotNum = i;
+            }
+        }
+
+        ExtendItemList(); // 비어있는 칸 다시 null로 채우기
+
+        // UI 갱신
+        for (int i = 0; i < items.Count; i++)
+        {
+            _inven.UpdateInvenUI(i);
+        }
+    }
+
+    List<ItemData> MergeSort(List<ItemData> unsorted)
+    {
+        if (unsorted.Count <= 1)
+            return unsorted;
+
+        int middle = unsorted.Count / 2;
+        List<ItemData> left = new List<ItemData>();
+        List<ItemData> right = new List<ItemData>();
+
+        for (int i = 0; i < middle; i++)
+            left.Add(unsorted[i]);
+
+        for (int i = middle; i < unsorted.Count; i++)
+            right.Add(unsorted[i]);
+
+        left = MergeSort(left);
+        right = MergeSort(right);
+
+        return Merge(left, right);
+    }
+
+    List<ItemData> Merge(List<ItemData> left, List<ItemData> right)
+    {
+        List<ItemData> result = new List<ItemData>();
+
+        while (left.Count > 0 || right.Count > 0)
+        {
+            if (left.Count > 0 && right.Count > 0)
+            {
+                if (CompareItem(left[0],right[0]))
+                {
+                    result.Add(left[0]);
+                    left.RemoveAt(0);
+                }
+                else
+                {
+                    result.Add(right[0]);
+                    right.RemoveAt(0);
+                }
+            }
+            else if (left.Count > 0)
+            {
+                result.Add(left[0]);
+                left.RemoveAt(0);
+            }
+            else if (right.Count > 0)
+            {
+                result.Add(right[0]);
+                right.RemoveAt(0);
+            }
+        }
+
+        return result;
+    }
+
+    // 왼쪽에 올 아이템에 대해 true 반환
+    bool CompareItem(ItemData left, ItemData right)
+    {
+        if (left.itemType < right.itemType)
+            return true;
+        if (left.itemType > right.itemType)
+            return false;
+        if (left.itemGrade < right.itemGrade)
+            return true;
+        if (left.itemGrade > right.itemGrade)
+            return false;
+        // 기타아이템에는 상세타입 없으니 제외
+        if (left.itemType != Enum_ItemType.ETC)
+        {
+            StateItemData leftItem = left as StateItemData;
+            StateItemData rightItem = right as StateItemData;
+            /*if (leftItem == null)
+                Debug.Log(left.name);
+            if (rightItem == null)
+                Debug.Log(right.name);*/
+            if (leftItem != null && rightItem != null)
+            {
+                if (leftItem != null && leftItem.detailType < rightItem.detailType)
+                    return true;
+                if (leftItem.detailType > rightItem.detailType)
+                    return false;
+            }
+        }
+        if (left.id < right.id)
+            return true;
+        if (left.id > right.id)
+            return false;
+        return true;
+    }
+
+    void _CombineQuantities(List<ItemData> itemList)
+    {
+        if (itemList.Count < 2)
+        {
+            return;
+        }
+
+        int i = 1;
+        while (i < itemList.Count)
+        {
+            // 같은 ItemID이고 더 앞쪽에 있는 아이템의 수량이 최대가 아닐 경우 앞에다가 합치기
+            if (itemList[i].id == itemList[i - 1].id && itemList[i - 1].count != itemList[i - 1].maxCount)
+            {
+                _AddUpItems(i, i - 1);
+                if (itemList[i] == null)
+                {
+                    itemList.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            else
+            {
+                i++;
+            }
+        }
     }
 }

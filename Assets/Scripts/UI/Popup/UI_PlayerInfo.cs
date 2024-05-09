@@ -15,8 +15,7 @@ public class UI_PlayerInfo : UI_Entity
 
     int _leftSlotCount = 5;
 
-    public Vector2 playerInfoUI_leftBottom;
-    public Vector2 playerInfoUI_rightTop;
+    public Rect panelRect;
     Vector2 _descrUISize;
 
     // 드래그 Field
@@ -68,6 +67,7 @@ public class UI_PlayerInfo : UI_Entity
         descrPanel = _entities[(int)Enum_UI_PlayerInfo.DescrPanel].gameObject;
         dropConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropConfirm].gameObject;
         dropCountConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropCountConfirm].gameObject;
+        panelRect = _entities[(int)Enum_UI_PlayerInfo.Panel].GetComponent<RectTransform>().rect;
         _descrUISize = _GetUISize(descrPanel);
         _DrawSlots();
 
@@ -142,12 +142,6 @@ public class UI_PlayerInfo : UI_Entity
         StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
     }
 
-    public void GetUIPos()
-    {
-        playerInfoUI_leftBottom = transform.TransformPoint(GetComponent<RectTransform>().rect.min);
-        playerInfoUI_rightTop = transform.TransformPoint(GetComponent<RectTransform>().rect.max);
-    }
-
     // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
     Vector2 _GetUISize(GameObject UI)
     {
@@ -183,5 +177,16 @@ public class UI_PlayerInfo : UI_Entity
             UI_EquipSlot equipSlot = equipSlots.transform.GetChild(2).GetChild(slotIndex - _leftSlotCount).GetComponent<UI_EquipSlot>();
             equipSlot.ItemRender();
         }
+    }
+
+    public bool CheckUIOutDrop()
+    {
+        if (dragImg.transform.localPosition.x < panelRect.xMin || dragImg.transform.localPosition.y < panelRect.yMin ||
+            dragImg.transform.localPosition.x > panelRect.xMax || dragImg.transform.localPosition.y > panelRect.yMax)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

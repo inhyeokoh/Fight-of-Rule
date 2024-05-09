@@ -48,6 +48,7 @@ public class UI_ItemSlot : UI_Entity
         {
             if (!CheckItemNull())
             {
+                GameManager.UI.GetPopupForward(GameManager.UI.Inventory);
                 _inven.dragImg.SetActive(true);
                 _inven.dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
             }
@@ -65,17 +66,14 @@ public class UI_ItemSlot : UI_Entity
         //드래그 끝
         _entities[(int)Enum_UI_ItemSlot.IconImg].EndDragAction = (PointerEventData data) =>
         {
-            if (CheckItemNull())
-            {
-                return;
-            }
-
-            if (CheckSlotDrop(data) && !CheckSceneDrop(data)) // 드래그 드롭한 오브젝트가 아이템 슬롯이어야함
+            if (CheckItemNull()) return;
+            
+            if (CheckSlotDrop(data) && !_inven.CheckUIOutDrop()) // 드래그 드롭한 오브젝트가 아이템 슬롯이어야함
             {
                 _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
                 GameManager.Inven.DragAndDropItems(index, _otherIndex);
             }
-            else if (CheckSceneDrop(data)) // 인벤토리 UI 밖에 드롭할 경우
+            else if (_inven.CheckUIOutDrop()) // 인벤토리 UI 밖에 드롭할 경우
             {
                 if (CheckSlotDrop(data)) // 드래그 드롭한 오브젝트가 장비 슬롯인 경우
                 {
@@ -107,8 +105,6 @@ public class UI_ItemSlot : UI_Entity
         {
             if (!CheckItemNull())
             {
-                Debug.Log(_invenItems[index].name);
-                Debug.Log(_invenItems[index].count);
                 _inven.descrPanel.SetActive(true);
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0.4f);
                 ShowItemInfo();
@@ -148,7 +144,12 @@ public class UI_ItemSlot : UI_Entity
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
             _iconImg.sprite = _invenItems[index].icon;
-            if (_invenItems[index].itemType != Enum_ItemType.Equipment)
+            // 장비 타입은 수량 고정1 이라 수량 표기X
+            if (_invenItems[index].itemType == Enum_ItemType.Equipment)
+            {
+                _amountText.SetActive(false);
+            }
+            else
             {
                 _amountText.SetActive(true);
                 _amountText.GetComponent<TMP_Text>().text = $"{_invenItems[index].count}";
@@ -188,20 +189,6 @@ public class UI_ItemSlot : UI_Entity
         }
 
         return data.pointerCurrentRaycast.gameObject.name == "IconImg";
-    }
-
-
-    bool CheckSceneDrop(PointerEventData data)
-    {
-        _inven.GetUIPos();
-
-        if (data.position.x < _inven.invenUI_leftBottom.x || data.position.y < _inven.invenUI_leftBottom.y ||
-            data.position.x > _inven.invenUI_rightTop.x || data.position.y > _inven.invenUI_rightTop.y)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     void ShowItemInfo()

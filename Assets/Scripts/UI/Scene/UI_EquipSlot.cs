@@ -42,6 +42,7 @@ public class UI_EquipSlot : UI_Entity
         {
             if (!CheckItemNull())
             {
+                GameManager.UI.GetPopupForward(GameManager.UI.PlayerInfo);
                 _playerInfoUI.dragImg.SetActive(true);
                 _playerInfoUI.dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
             }
@@ -65,7 +66,7 @@ public class UI_EquipSlot : UI_Entity
             }
 
             // 플레이어 정보 UI 밖에 드롭할 경우
-            if (CheckOutUIDrop(data))
+            if (_playerInfoUI.CheckUIOutDrop())
             {
                 if (CheckSlotDrop(data))  // 드롭한 위치가 인벤 슬롯
                 {
@@ -158,19 +159,6 @@ public class UI_EquipSlot : UI_Entity
     bool CheckItemNull()
     {
         return GameManager.Inven.equips[index] == null;
-    }
-
-    bool CheckOutUIDrop(PointerEventData data)
-    {
-        _playerInfoUI.GetUIPos();
-
-        if (data.position.x < _playerInfoUI.playerInfoUI_leftBottom.x || data.position.y < _playerInfoUI.playerInfoUI_leftBottom.y ||
-            data.position.x > _playerInfoUI.playerInfoUI_rightTop.x || data.position.y > _playerInfoUI.playerInfoUI_rightTop.y)
-        {
-            return true;
-        }
-
-        return false;
     }
 
     // 드롭 시 슬롯에 벗어나지 않았는지 확인

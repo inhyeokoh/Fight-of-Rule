@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Google.Protobuf;
 
 public class UI_InputName : UI_Entity
 {
@@ -56,8 +57,8 @@ public class UI_InputName : UI_Entity
             else
             {*/
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
-                nick_DupAsk_pkt.Nickname = nickname;
-                GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+                nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
+            GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
             /*            };*/
             GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
         };

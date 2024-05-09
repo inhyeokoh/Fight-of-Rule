@@ -56,7 +56,7 @@ message S_VERIFYING
 }
 
 message C_NICKNAME {
-    string nickname = 1;
+    bytes nickname = 1;
 }
 
 message S_NICKNAME {
