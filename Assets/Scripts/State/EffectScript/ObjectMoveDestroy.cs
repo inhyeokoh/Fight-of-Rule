@@ -74,7 +74,7 @@ public class ObjectMoveDestroy : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        print("닿았음");
+       // print("닿았음");
         
         MakeHitObject(transform);
 

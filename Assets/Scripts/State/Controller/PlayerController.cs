@@ -18,6 +18,8 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance = null;
 
+    public ItemData item;
+
     public List<SubMono<PlayerController>> _controller;
 
     public CharacterStatus _playerStat;
@@ -25,10 +27,10 @@ public class PlayerController : MonoBehaviour
     public CharacterMovement _playerMovement;
     public CharacterEquipment _playerEquipment;
     public CharacterExternalStatus _playerExternalStat;
-    public CharacterPotion _playerpotion;
     public CharacterEventHandler _eventHandler;
     public CharacterAnimationController _animationController;
     public CharacterEffector _effector;
+    public Interaction _interaction;
     public LevelSystem _levelSystem;
 
     //현재 아래 땅이 그라운드인지 아닌지 체크
@@ -82,6 +84,7 @@ public class PlayerController : MonoBehaviour
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
+                    _interaction = clone.GetComponent<Interaction>();
                     _levelSystem = clone.GetComponent<LevelSystem>();
                     break;
                 }
@@ -96,6 +99,7 @@ public class PlayerController : MonoBehaviour
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
+                    _interaction = clone.GetComponent<Interaction>();
                     _levelSystem = clone.GetComponent<LevelSystem>();
                     break;
                 }
@@ -110,6 +114,7 @@ public class PlayerController : MonoBehaviour
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
+                    _interaction = clone.GetComponent<Interaction>();
                     _levelSystem = clone.GetComponent<LevelSystem>();
                     break;
                 }
@@ -127,6 +132,7 @@ public class PlayerController : MonoBehaviour
             _eventHandler,
             _animationController,
             _effector,
+            _interaction,
             _levelSystem
         };
 
@@ -155,6 +161,11 @@ public class PlayerController : MonoBehaviour
     //현재 상태패턴 그리고 장비 상태패턴 그리고 구르기 쿨타임(이건 다른데로 옮겨야함) 마우스 위치 체크
     private void Update()
     {
+        for(int i = 0; i < _controller.Count; i++)
+        {
+            _controller[i].Excute();
+        }
+
         ray = camera.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         if (avoid >= 0)

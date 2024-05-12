@@ -47,8 +47,16 @@ public class ItemObject : MonoBehaviour
     {
         if (other.CompareTag("Player")) 
         {
-            player = PlayerController.instance._playerStat;
+            PlayerController.instance._interaction.InGameItemEnter(gameObject);
         }     
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerController.instance._interaction.InGameItemExit(gameObject);
+        }
     }
 
     private void Update()

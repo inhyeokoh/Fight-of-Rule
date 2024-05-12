@@ -16,6 +16,23 @@ public class LoginData : Data
     public int slotCount;
 }
 
+
+[System.Serializable]
+public class EquipmentItemData : StateItemData
+{
+    public int maxReinforcement;
+    public int currentReinforcement;
+
+    public EquipmentItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
+        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int maxReinforcement, int count = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemClass,  itemGrade,  itemType,  detailType,  purchaseprice,  sellingprice,  level,  attack,  defense
+        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, count)
+    {
+        this.maxReinforcement = maxReinforcement;
+        this.currentReinforcement = currentReinforcement;
+    }
+}
+
+
 [System.Serializable]
 public class StateItemData : ItemData
 {

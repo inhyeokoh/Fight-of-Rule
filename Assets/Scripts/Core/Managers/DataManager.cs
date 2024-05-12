@@ -165,7 +165,7 @@ public class DataManager : SubClass<GameManager>
 
         for (int i = 0; i < equipmentData.Count; i++)
         {
-            StateItemData ItemData;
+            EquipmentItemData ItemData;
 
             int item_id = int.Parse(equipmentData[i]["item_id"]);
             string item_name = equipmentData[i]["item_name"];
@@ -188,15 +188,16 @@ public class DataManager : SubClass<GameManager>
             int item_maxhp = int.Parse(equipmentData[i]["item_maxhp"]);
             int item_maxmp = int.Parse(equipmentData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(equipmentData[i]["item_maxcount"]);
+            int item_maxreinforcement = int.Parse(equipmentData[i]["item_maxreinforcement"]);
 
-            ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_equipmenttype, item_purchaseprice, item_sellingprice, item_level,
-             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount);
-
+            ItemData = new EquipmentItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_equipmenttype, item_purchaseprice, item_sellingprice, item_level,
+             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_maxreinforcement);
 
             DropItems.Add(item_name, item_id);
             itemDatas.Add(item_id, ItemData);
 
         }
+
         for (int i = 0; i < etcData.Count; i++)
         {
             ItemData ItemData;
@@ -222,15 +223,28 @@ public class DataManager : SubClass<GameManager>
 
     public ItemData StateItemDataReader(int item_id)
     {
-        StateItemData itemData = itemDatas[item_id] as StateItemData;
+        EquipmentItemData itemData = itemDatas[item_id] as EquipmentItemData;
 
         if (itemData != null)
         {
+            EquipmentItemData itemDataPasing;
+
+            itemDataPasing = new EquipmentItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
+                itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
+                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement);
+
+            return itemDataPasing;
+        }
+
+        StateItemData secondItemData = itemDatas[item_id] as StateItemData;
+
+        if (secondItemData != null)
+        {
             StateItemData itemDataPasing;
 
-            itemDataPasing = new StateItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
-                itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
-                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount);
+            itemDataPasing = new StateItemData(secondItemData.id, secondItemData.name, secondItemData.desc, secondItemData.icon, secondItemData.itemClass, secondItemData.itemGrade, secondItemData.itemType,
+                secondItemData.detailType, secondItemData.purchaseprice, secondItemData.sellingprice, secondItemData.level, secondItemData.attack, secondItemData.defense, secondItemData.speed, secondItemData.attackSpeed
+                , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.maxCount);
 
             return itemDataPasing;
         }
