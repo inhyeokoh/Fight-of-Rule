@@ -88,8 +88,11 @@ public class Utils
     public static bool Dynamic_Assert(bool assertionCond, string msg)
     {
 #if UNITY_EDITOR
-        Log(msg);
-        Debug.Assert(assertionCond);
+        if (!assertionCond)
+        {
+            Log(msg);
+            Debug.Assert(assertionCond);
+        }
 
         return assertionCond;
 #endif

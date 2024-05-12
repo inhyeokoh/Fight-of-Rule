@@ -9,6 +9,7 @@ public class UI_DropConfirm : UI_Entity
 {
     TMP_Text _mainText;
     int _slotIndex;
+    Enum_DropUIParent dropUIParent;
 
     enum Enum_UI_DropConfirm
     {
@@ -16,7 +17,11 @@ public class UI_DropConfirm : UI_Entity
         Accept,
         Cancel
     }
-
+    public enum Enum_DropUIParent
+    {
+        Inven,
+        PlayerInfo
+    }
 
     protected override Type GetUINamesAsType()
     {
@@ -26,12 +31,23 @@ public class UI_DropConfirm : UI_Entity
     protected override void Init()
     {
         base.Init();
+        dropUIParent = Enum_DropUIParent.Inven;
 
         _mainText = _entities[(int)Enum_UI_DropConfirm.MainText].transform.GetChild(0).GetComponent<TMP_Text>();
-
-        // 입력한 수량에 맞게 버리기
+                
         _entities[(int)Enum_UI_DropConfirm.Accept].ClickAction = (PointerEventData data) => {
-            GameManager.Inven.DropItem(_slotIndex);
+            switch (dropUIParent)
+            {
+                case Enum_DropUIParent.Inven:
+                    GameManager.Inven.DropInvenItem(_slotIndex);
+                    break;
+                case Enum_DropUIParent.PlayerInfo:
+                    GameManager.Inven.DropEquipItem(_slotIndex);
+                    break;
+                default:
+                    break;
+            }
+
             transform.parent.gameObject.SetActive(false);
         };
 
@@ -42,9 +58,21 @@ public class UI_DropConfirm : UI_Entity
         transform.parent.gameObject.SetActive(false);
     }
 
-    public void ChangeText(int slotIndex)
+    public void ChangeText(Enum_DropUIParent UIName , int slotIndex)
     {
+        dropUIParent = UIName;
+
         _slotIndex = slotIndex;
-        _mainText.text = $"{GameManager.Inven.items[slotIndex].name} 아이템을 버리시겠습니까?";
+        switch (dropUIParent)
+        {
+            case Enum_DropUIParent.Inven:
+                _mainText.text = $"{GameManager.Inven.items[slotIndex].name} 아이템을 버리시겠습니까?";
+                break;
+            case Enum_DropUIParent.PlayerInfo:
+                _mainText.text = $"{GameManager.Inven.equips[slotIndex].name} 아이템을 버리시겠습니까?";
+                break;
+            default:
+                break;
+        }
     }
 }

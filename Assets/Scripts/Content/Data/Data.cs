@@ -66,6 +66,8 @@ public class StateItemData : ItemData
         this.maxMp = maxMp;
         this.maxCount = maxCount;
     }
+
+
 }
 
 [System.Serializable]
@@ -79,9 +81,10 @@ public class ItemData : Data
     public Enum_Grade itemGrade;
     public long purchaseprice;
     public long sellingprice;
-    public int count;
     public int maxCount;
-    public ItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_Grade itemGrade, long purchaseprice, long sellingprice, int maxCount, int count = 1)
+    public int count;
+    public int slotNum;
+    public ItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_Grade itemGrade, long purchaseprice, long sellingprice, int maxCount, int count = 1, int slotNum = -1)
     {
         this.id = id;
         this.name = name;
@@ -92,8 +95,23 @@ public class ItemData : Data
         this.purchaseprice = purchaseprice;
         this.sellingprice = sellingprice;
         this.maxCount = maxCount;
-
         this.count = count;
+        this.slotNum = slotNum;
+    }
+
+    public ItemData(ItemData item)
+    {
+        this.id = item.id;
+        this.name = item.name;
+        this.desc = item.desc;
+        this.icon = item.icon;
+        this.itemType = item.itemType;
+        this.itemGrade = item.itemGrade;
+        this.purchaseprice = item.purchaseprice;
+        this.sellingprice = item.sellingprice;
+        this.maxCount = item.maxCount;
+        this.count = item.count;
+        this.slotNum = item.slotNum;
     }
 }
 
@@ -241,8 +259,15 @@ public class SettingsData : Data
 [Serializable]
 public class CharData : Data
 {
+    public enum Enum_Job
+    {
+        Warrior,
+        Wizard,   
+        Archer
+    }
+
     public string charName;
-    public string job;
+    public int job;
     public bool gender;
 
     public int level;
@@ -259,8 +284,8 @@ public class CharData : Data
 
     public CharData()
     {
-        charName = "";
-        job = "Warrior";
+        charName = "기본 이름";
+        job = 0;
         gender = true;
 
         level = 1;
@@ -276,7 +301,7 @@ public class CharData : Data
         speed = 10;
     }
 
-    public CharData(string job) : this()
+    public CharData(int job) : this()
     {
         this.job = job;
     }

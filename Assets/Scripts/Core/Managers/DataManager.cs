@@ -11,7 +11,6 @@ public class DataManager : SubClass<GameManager>
     public LoginData login; // 로그인 정보
     public CharData[] characters; // 캐릭터 생성 정보
     public SettingsData setting; // 환경설정 정보
-    public TextAsset ItemDB; // 아이템 DB
 
 
     /// <summary>

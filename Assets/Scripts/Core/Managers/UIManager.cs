@@ -1,5 +1,5 @@
 #define TEST
-//#define INVENTEST
+#define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,6 +12,7 @@ public class UIManager : SubClass<GameManager>
     public GameObject SignUp;
     public GameObject Inventory;
     public GameObject PlayerInfo;
+    public GameObject Shop;
     public GameObject Setting;
     public GameObject InputName;
     public GameObject ConfirmYN;
@@ -48,6 +49,7 @@ public class UIManager : SubClass<GameManager>
         popupCanvas = GameObject.Find("PopupCanvas");
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
         PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform);
+        Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform);
         _activePopupList = new LinkedList<GameObject>();
         _linkedPopupList = new List<GameObject>();
 #else
@@ -61,7 +63,6 @@ public class UIManager : SubClass<GameManager>
         _linkedPopupList = new List<GameObject>();
 #endif
     }
-
     public void SetOutGamePopups()
     {
         SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform);
@@ -75,6 +76,7 @@ public class UIManager : SubClass<GameManager>
     {
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
         PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform);
+        // Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform);
         StatusWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/StatusWindow", popupCanvas.transform);
         // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
         StatusWindow.SetActive(false);

@@ -21,36 +21,6 @@ public class InventoryManager : SubClass<GameManager>
         ID
     }
 
-    // 정렬 순서
-/*    enum Enum_ItemType // 아이템 대분류
-    {
-        Equipment,
-        Consumption,
-        Materials,
-        Etc
-    }
-
-    enum Enum_DetailType // 상세타입
-    {
-        Helmet,
-        Clothes,
-        Belt,
-        Gloves,
-        Boots,
-        Weapon,
-        Potion,
-        Box,
-        None
-    }
-
-    enum Enum_ItemGrade // 아이템 등급
-    {
-        Normal,
-        Rare,
-        Unique,
-        Legendary
-    }*/
-
     protected override void _Clear()
     {        
     }
@@ -76,17 +46,18 @@ public class InventoryManager : SubClass<GameManager>
 
     void _GetInvenDataFromDB()
     {
-        GameManager.Data.ItemDB = GameManager.Resources.Load<TextAsset>("Data/ItemDB");
-        string[] lines = GameManager.Data.ItemDB.text.Substring(0, GameManager.Data.ItemDB.text.Length - 1).Split('\n'); // text파일로 된 DB의 Line
-
-        for (int i = 0; i < lines.Length; i++) // 0번부터 차례로 넣음
+        var item = CSVReader.Read("Data/InvenItems");
+        for (int i = 0; i < item.Count; i++)
         {
-            string[] row = lines[i].Split('\t'); // Tab 기준으로 나누기
-            // 아이템 집어 넣기
+            int id = int.Parse(item[i]["id"]);
+            int count = int.Parse(item[i]["count"]);
+            int slotNum = int.Parse(item[i]["slotNum"]);
 
+            // id,count,slotNum받고 해당하는 id로 아이템 생성
+            items[slotNum] = ItemParsing.StateItemDataReader(id);
+            items[slotNum].count = count;
 
-            items[Convert.ToInt32(row[7])] = new ItemData(Convert.ToInt32(row[0]), row[2], row[3], Resources.Load<Sprite>($"Materials/ItemIcons/{row[2]}"), (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), row[1]), (Enum_Grade)Enum.Parse(typeof(Enum_Grade), row[8]), Convert.ToInt64(row[10]), Convert.ToInt64(row[11].Trim()), Convert.ToInt32(row[3]), Convert.ToInt32(row[4]));
-                // .Trim()
+            // TODO 장비아이템은 고유번호
         }
     }
 
@@ -162,252 +133,74 @@ public class InventoryManager : SubClass<GameManager>
         }
     }
 
-    // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + slotNum 변경 + 같은 아이템이면 합쳐줌
-    // 한번이라도 정렬 버튼 누른적 있을거고 아이템 번호에 맞게 정리 되어 있는 상태가 많기 때문에 병합 정렬로 가는게 가장 괜찮다고 판단
-    public void SortItems()
+    public void InvenToEquipSlot(int invenPos, int equipPos)
     {
-        // 아이템을 Enum_Itemtype에 따라 분류할 딕셔너리 생성
-        Dictionary<Enum_ItemType, List<ItemData>> itemDictionary = new Dictionary<Enum_ItemType, List<ItemData>>();
-
-        // 각 아이템을 해당하는 Enum_Itemtype의 리스트에 추가
-        foreach (ItemData item in items)
-        {
-            if (item != null)
-            {
-                Enum_ItemType itemType = (Enum_ItemType)item.itemType; // 아이템의 타입 가져오기
-                if (!itemDictionary.ContainsKey(itemType))
-                {
-                    itemDictionary[itemType] = new List<ItemData>();
-                }
-                itemDictionary[itemType].Add(item);
-            }
-        }
-
-        // 대분류(장비,소비 등등)된 항목들 순회
-        foreach (Enum_ItemType itemType in itemDictionary.Keys)
-        {
-            List<ItemData> itemList = itemDictionary[itemType];
-            if (itemType == Enum_ItemType.Equipment)
-            {
-                // ID -> Equipment(Helmet,Boots,etc) -> Grade 순으로 정렬 시켜버리는게 빠르진 못해도 간단하지 않을까..
-                MergeSortItems(itemList, Enum_Sort.ID); // 아이템 등급 순서대로 병합 정렬
-                // MergeSortItems(itemList, Enum_Sort.DetailType); // 아이템 등급 순서대로 병합 정렬
-                MergeSortItems(itemList, Enum_Sort.Grade); // 아이템 등급 순서대로 병합 정렬
-            }
-            else if (itemType == Enum_ItemType.Consumption)
-            {
-                MergeSortItems(itemList, Enum_Sort.ID);
-                MergeSortItems(itemList, Enum_Sort.DetailType);
-            }
-            else
-            {
-                MergeSortItems(itemList, Enum_Sort.ID);
-            }
-        }
-
-        // Enum_Itemtype에 명시된 순서대로 아이템 리스트 재배열
-        items.Clear();
-        foreach (Enum_ItemType itemType in Enum.GetValues(typeof(Enum_ItemType)))
-        {
-            if (itemDictionary.ContainsKey(itemType))
-            {
-                List<ItemData> itemList = itemDictionary[itemType];
-                items.AddRange(itemList);
-            }
-        }
-
-        _CombineQuantities(items);
-        ExtendItemList(); // 비어있는 칸 다시 null로 채우기
-
-        // UI 갱신
-        for (int i = 0; i < items.Count; i++)
-        {
-            _inven.UpdateInvenUI(i);
-        }
-    }
-
-    // 특정 순서대로 병합 정렬하는 메서드
-    void MergeSortItems(List<ItemData> itemList, Enum_Sort sort)
-    {
-        if (itemList.Count <= 1)
-        {
-            return;        
-        }
-
-        int mid = itemList.Count / 2;
-        List<ItemData> leftList = new List<ItemData>();
-        List<ItemData> rightList = new List<ItemData>();
-
-        for (int i = 0; i < mid; i++)
-        {
-            leftList.Add(itemList[i]);
-        }
-        for (int i = mid; i < itemList.Count; i++)
-        {
-            rightList.Add(itemList[i]);
-        }
-
-        MergeSortItems(leftList, sort);
-        MergeSortItems(rightList, sort);
-
-        itemList.Clear();
-        switch (sort)
-        {
-            case Enum_Sort.Grade:
-                itemList.AddRange(MergeItemsByGrade(leftList, rightList));
-                break;
-/*            case Enum_Sort.DetailType:
-                itemList.AddRange(MergeItemsByDetailType(leftList, rightList));
-                break;*/
-            case Enum_Sort.ID:
-                itemList.AddRange(MergeItemsById(leftList, rightList));
-                break;
-            default:
-                break;
-        }
-    }
-
-    List<ItemData> MergeItemsById(List<ItemData> leftList, List<ItemData> rightList)
-    {
-        List<ItemData> mergedList = new List<ItemData>();
-
-        int leftIndex = 0;
-        int rightIndex = 0;
-
-        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-        {
-            if (leftList[leftIndex].id < rightList[rightIndex].id)
-            {
-                mergedList.Add(leftList[leftIndex]);
-                leftIndex++;
-            }
-            else
-            {
-                mergedList.Add(rightList[rightIndex]);
-                rightIndex++;
-            }
-        }
-
-        while (leftIndex < leftList.Count)
-        {
-            mergedList.Add(leftList[leftIndex]);
-            leftIndex++;
-        }
-
-        while (rightIndex < rightList.Count)
-        {
-            mergedList.Add(rightList[rightIndex]);
-            rightIndex++;
-        }
-
-        return mergedList;
-    }
-
-    List<ItemData> MergeItemsByGrade(List<ItemData> leftList, List<ItemData> rightList)
-    {
-        List<ItemData> mergedList = new List<ItemData>();
-
-        int leftIndex = 0;
-        int rightIndex = 0;
-
-        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-        {
-            var left = leftList[leftIndex].itemGrade;
-            var right = rightList[rightIndex].itemGrade;
-            // 낮은 등급일수록 왼쪽에 배치
-            if (left < right)
-            {
-                mergedList.Add(leftList[leftIndex]);
-                leftIndex++;
-            }
-            else
-            {
-                mergedList.Add(rightList[rightIndex]);
-                rightIndex++;
-            }
-        }
-
-        while (leftIndex < leftList.Count)
-        {
-            mergedList.Add(leftList[leftIndex]);
-            leftIndex++;
-        }
-
-        while (rightIndex < rightList.Count)
-        {
-            mergedList.Add(rightList[rightIndex]);
-            rightIndex++;
-        }
-
-        return mergedList;
-    }
-
-/*    List<ItemData> MergeItemsByDetailType(List<ItemData> leftList, List<ItemData> rightList)
-    {
-        List<ItemData> mergedList = new List<ItemData>();
-
-        int leftIndex = 0;
-        int rightIndex = 0;
-
-        while (leftIndex < leftList.Count && rightIndex < rightList.Count)
-        {
-            var left = leftList[leftIndex].ty;
-            var right = rightList[rightIndex].DetailType;
-            if (left < right)
-            {
-                mergedList.Add(leftList[leftIndex]);
-                leftIndex++;
-            }
-            else
-            {
-                mergedList.Add(rightList[rightIndex]);
-                rightIndex++;
-            }
-        }
-
-        while (leftIndex < leftList.Count)
-        {
-            mergedList.Add(leftList[leftIndex]);
-            leftIndex++;
-        }
-
-        while (rightIndex < rightList.Count)
-        {
-            mergedList.Add(rightList[rightIndex]);
-            rightIndex++;
-        }
-
-        return mergedList;
-    }*/
-
-    void _CombineQuantities(List<ItemData> itemList)
-    {
-        if (itemList.Count < 2)
+        // 맞는 장착 아이템 아니면 반환
+        if (!_CheckSameEquipType(equipPos, invenPos))
         {
             return;
         }
 
-        int i = 1;
-        while (i < itemList.Count)
+        ItemData temp = equips[equipPos]; 
+        equips[equipPos] = items[invenPos];
+        items[invenPos] = temp;
+
+        // 이미지 갱신
+        _inven.UpdateInvenUI(invenPos);
+        _playerInfo.UpdateEquipUI(equipPos);
+    }
+
+    public void EquipSlotToInven(int equipPos, int invenPos)
+    {
+        if (items[invenPos] == null) // 드롭한 인벤칸이 비어 있으면 옮기기
         {
-            // 같은 ItemID이고 더 앞쪽에 있는 아이템의 수량이 최대가 아닐 경우 앞에다가 합치기
-            if (itemList[i].id == itemList[i - 1].id && itemList[i - 1].count != itemList[i - 1].maxCount)
-            {
-                _AddUpItems(i, i - 1);
-                if (itemList[i] == null)
-                {
-                    itemList.RemoveAt(i);
-                }
-                else
-                {
-                    i++;
-                }
-            }
-            else
-            {
-                i++;
-            }
+            items[invenPos] = equips[equipPos];
+            equips[equipPos] = null;
         }
+        // 같은 타입의 장비 아이템이면 교환
+        else if (_CheckSameEquipType(equipPos, invenPos))
+        {
+            ItemData temp = items[invenPos];
+            items[invenPos] = equips[equipPos];
+            equips[equipPos] = temp;
+        }
+
+        // 이미지 갱신
+        _inven.UpdateInvenUI(invenPos);
+        _playerInfo.UpdateEquipUI(equipPos);
+    }
+
+    bool _CheckSameEquipType(int equipPos, int invenPos)
+    {
+        int equipType = -1;
+
+        StateItemData sid = items[invenPos] as StateItemData;
+        switch (sid.detailType)
+        {
+            case Enum_DetailType.Head:
+                equipType = 0;
+                break;
+            case Enum_DetailType.Body:
+                equipType = 1;
+                break;
+            case Enum_DetailType.Hand:
+                equipType = 2;
+                break;
+            case Enum_DetailType.Foot:
+                equipType = 3;
+                break;
+            case Enum_DetailType.Weapon:
+                equipType = 4;
+                break;
+            case Enum_DetailType.Default:
+                equipType = 5;
+                break;
+            default:
+                equipType = -1;
+                break;
+        }
+
+        return equipPos == equipType;
     }
 
     int GetEmptySlotIndex()
@@ -426,74 +219,82 @@ public class InventoryManager : SubClass<GameManager>
 
     public void GetItem(ItemData acquired)
     {
+        // 획득한 아이템이 없는 경우
         if (acquired == null)
         {
-            return; // 획득한 아이템이 없는 경우
+            return;
         }
 
-        // 수량이 있는 아이템 처리
-        if (acquired.itemType != Enum_ItemType.Equipment)
+        // 수량이 합산되지 않는 장비 아이템 처리
+        if (acquired.itemType == Enum_ItemType.Equipment)
         {
-            bool foundExist = false;
-            foreach (var item in items)
-            {
-                if (item != null && item.id == acquired.id && item.count < item.maxCount)
-                {
-                    // 동일 아이템이 이미 있고 최대 수량이 아닌 경우
-                    int remainSpace = item.maxCount - item.count; // 잔여공간 크기
-                    if (acquired.count <= remainSpace)
-                    {
-                        // 획득한 수량이 잔여 공간에 들어갈 수 있는 경우
-                        item.count += acquired.count;
-                        foundExist = true;
-                        break;
-                    }
-                    else
-                    {
-                        // 획득한 수량이 잔여 공간보다 큰 경우
-                        item.count = item.maxCount;
-                        acquired.count -= remainSpace;
-                    }
-                }
-            }
-
-            // 동일 아이템이 없는 경우 새로운 슬롯에 추가
-            if (!foundExist)
-            {
-                int emptySlotIndex = GetEmptySlotIndex();
-                if (emptySlotIndex != -1)
-                {
-                    if (acquired.count <= acquired.maxCount)
-                    {
-                        items[emptySlotIndex] = acquired;
-                    }
-                    else
-                    {
-                        // 아이템의 최대 수량을 초과하는 경우
-                        items[emptySlotIndex] = acquired;
-                        acquired.count -= acquired.maxCount;
-                        GetItem(acquired); // 재귀 호출로 남은 수량 처리
-                    }
-                }
-                else
-                {
-                    // 인벤토리가 가득 찬 경우 처리 (공간 부족 알림 팝업)
-                    return;
-                }
-            }
-        }
-        else
-        {
-            // 수량이 합산되지 않는 아이템 처리
             int emptySlotIndex = GetEmptySlotIndex();
             if (emptySlotIndex != -1)
             {
-                items[emptySlotIndex] = acquired;
+                items[emptySlotIndex] = new ItemData(acquired);
             }
             else
             {
                 // 인벤토리가 가득 찬 경우 처리 (공간 부족 알림 팝업)
-                return;
+            }
+        }
+        else
+        {
+            // 획득 수량 전부 처리할때까지 반복
+            while (acquired.count > 0) 
+            {
+                for (int i = 0; i < items.Count; i++)
+                {           
+                    // 동일 아이템 확인
+                    if (items[i] != null && items[i].id == acquired.id)
+                    {
+                        // 칸에 최대 수량이 아닌 경우
+                        if (items[i].count < items[i].maxCount)
+                        {
+                            int remainSpace = items[i].maxCount - items[i].count; // 잔여공간 크기
+                            // 획득한 수량이 잔여 공간에 들어갈 수 있는 경우
+                            if (acquired.count <= remainSpace)
+                            {
+                                items[i].count += acquired.count;
+                                acquired.count = 0;
+                                break;
+                            }
+                            // 획득한 수량이 잔여 공간보다 큰 경우
+                            else
+                            {
+                                items[i].count = items[i].maxCount;
+                                acquired.count -= remainSpace;
+                            }
+                        }
+                        // 칸에 이미 꽉 찬 경우
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    // 마지막 칸까지 동일 아이템 안 보이면 새로운 슬롯에 추가
+                    if (i == items.Count - 1)
+                    {
+                        int emptySlotIndex = GetEmptySlotIndex();
+                        if (emptySlotIndex != -1)
+                        {
+                            // 획득 수량이 최대 수량 이하인 경우
+                            if (acquired.count <= acquired.maxCount)
+                            {
+                                items[emptySlotIndex] = new ItemData(acquired);
+                                acquired.count = 0;
+                            }
+                            // 획득 수량이 최대 수량 보다 클 경우
+                            else
+                            {
+                                items[emptySlotIndex] = new ItemData(acquired);
+                                items[emptySlotIndex].count = acquired.maxCount;
+                                acquired.count -= acquired.maxCount;
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -504,7 +305,7 @@ public class InventoryManager : SubClass<GameManager>
         }
     }
 
-    public void DropItem(int index, int dropCount = 1)
+    public void DropInvenItem(int index, int dropCount = 1)
     {
         items[index].count -= dropCount;
         if (items[index].count <= 0)
@@ -514,6 +315,14 @@ public class InventoryManager : SubClass<GameManager>
 
         // UI 갱신
         _inven.UpdateInvenUI(index);
+    }
+
+    public void DropEquipItem(int index, int dropCount = 1)
+    {
+        equips[index] = null;
+
+        // UI 갱신
+        _playerInfo.UpdateEquipUI(index);
     }
 
     public void EquipItem(int index)
@@ -589,7 +398,152 @@ public class InventoryManager : SubClass<GameManager>
         // 인벤토리 UI 갱신
         _inven.UpdateInvenUI(invenEmptySlot);
 
-        // TODO : 인벤토리 꽉 찬 경우
-        // 해제 불가 팝업
+        // TODO : 인벤토리 꽉 찬 경우 해제 불가 팝업
+    }
+
+    // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + 같은 아이템이면 합쳐줌 + slotNum 변경
+    // 한번이라도 정렬 버튼 누른적 있을거고 정리 되어 있는 상태가 많기 때문에 병합 정렬로 가는게 가장 괜찮다고 판단
+    public void SortItems()
+    {
+        items.RemoveAll(item => item == null);
+        List<ItemData> result = MergeSort(items); // 병합 정렬
+        items.Clear();
+        foreach (var item in result)
+        {
+            items.Add(item);
+        }
+
+        _CombineQuantities(items);
+        for (int i = 0; i < items.Count; i++) // 아이템의 슬롯 번호 변경
+        {
+            if (items[i] != null)
+            {
+                items[i].slotNum = i;
+            }
+        }
+
+        ExtendItemList(); // 비어있는 칸 다시 null로 채우기
+
+        // UI 갱신
+        for (int i = 0; i < items.Count; i++)
+        {
+            _inven.UpdateInvenUI(i);
+        }
+    }
+
+    List<ItemData> MergeSort(List<ItemData> unsorted)
+    {
+        if (unsorted.Count <= 1)
+            return unsorted;
+
+        int middle = unsorted.Count / 2;
+        List<ItemData> left = new List<ItemData>();
+        List<ItemData> right = new List<ItemData>();
+
+        for (int i = 0; i < middle; i++)
+            left.Add(unsorted[i]);
+
+        for (int i = middle; i < unsorted.Count; i++)
+            right.Add(unsorted[i]);
+
+        left = MergeSort(left);
+        right = MergeSort(right);
+
+        return Merge(left, right);
+    }
+
+    List<ItemData> Merge(List<ItemData> left, List<ItemData> right)
+    {
+        List<ItemData> result = new List<ItemData>();
+
+        while (left.Count > 0 || right.Count > 0)
+        {
+            if (left.Count > 0 && right.Count > 0)
+            {
+                if (CompareItem(left[0],right[0]))
+                {
+                    result.Add(left[0]);
+                    left.RemoveAt(0);
+                }
+                else
+                {
+                    result.Add(right[0]);
+                    right.RemoveAt(0);
+                }
+            }
+            else if (left.Count > 0)
+            {
+                result.Add(left[0]);
+                left.RemoveAt(0);
+            }
+            else if (right.Count > 0)
+            {
+                result.Add(right[0]);
+                right.RemoveAt(0);
+            }
+        }
+
+        return result;
+    }
+
+    // 왼쪽에 올 아이템에 대해 true 반환
+    bool CompareItem(ItemData left, ItemData right)
+    {
+        if (left.itemType < right.itemType)
+            return true;
+        if (left.itemType > right.itemType)
+            return false;
+        if (left.itemGrade < right.itemGrade)
+            return true;
+        if (left.itemGrade > right.itemGrade)
+            return false;
+        // 기타아이템에는 상세타입 없으니 제외
+        if (left.itemType != Enum_ItemType.ETC)
+        {
+            StateItemData leftItem = left as StateItemData;
+            StateItemData rightItem = right as StateItemData;
+            if (leftItem != null && rightItem != null)
+            {
+                if (leftItem != null && leftItem.detailType < rightItem.detailType)
+                    return true;
+                if (leftItem.detailType > rightItem.detailType)
+                    return false;
+            }
+        }
+        if (left.id < right.id)
+            return true;
+        if (left.id > right.id)
+            return false;
+        return true;
+    }
+
+    void _CombineQuantities(List<ItemData> itemList)
+    {
+        if (itemList.Count < 2)
+        {
+            return;
+        }
+
+        int i = 1;
+        while (i < itemList.Count)
+        {
+            // 같은 ItemID이고 더 앞쪽에 있는 아이템의 수량이 최대가 아닐 경우 앞에다가 합치기
+            if (itemList[i].id == itemList[i - 1].id && itemList[i - 1].count != itemList[i - 1].maxCount)
+            {
+                _AddUpItems(i, i - 1);
+                if (itemList[i] == null)
+                {
+                    itemList.RemoveAt(i);
+                }
+                else
+                {
+                    i++;
+                }
+            }
+            else
+            {
+                i++;
+            }
+        }
     }
 }
