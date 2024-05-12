@@ -1,6 +1,7 @@
 syntax = "proto3";
 import "CharacterMessage.proto";
 import "OptionMessage.proto";
+import "ItemMessage.proto";
 
 message C_SIGNUP {
     string signup_id = 1;
@@ -47,6 +48,7 @@ message S_ASK_VERF
 message C_VERIFYING
 {
     string token = 1;
+    int64 uid = 2;
 }
 
 message S_VERIFYING
@@ -55,7 +57,7 @@ message S_VERIFYING
 }
 
 message C_NICKNAME {
-    string nickname = 1;
+    bytes nickname = 1;
 }
 
 message S_NICKNAME {
@@ -70,9 +72,16 @@ message S_CHARACTERS {
 }
 
 message C_NEW_CHARACTER {
-    CHARACTER_INFO character = 1;
+    CHARACTER_BASE character = 1;
 }
 
 message S_NEW_CHARACTER {
     bool success = 1;
+    int64 character_id = 2;
+}
+
+message S_ITEMINFO {
+    EQUIP_ITEM equip_item = 1;
+    CONSUME_ITEM consume_item = 2;
+    ETC_ITEM etc_item = 3;
 }

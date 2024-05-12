@@ -42,6 +42,7 @@ public class UI_EquipSlot : UI_Entity
         {
             if (!CheckItemNull())
             {
+                GameManager.UI.GetPopupForward(GameManager.UI.PlayerInfo);
                 _playerInfoUI.dragImg.SetActive(true);
                 _playerInfoUI.dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
             }
@@ -64,26 +65,21 @@ public class UI_EquipSlot : UI_Entity
                 return;
             }
 
-            if (CheckSlotDrop(data)) // 드롭한 위치가 장비 슬롯
-            {
-                _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
-                GameManager.Inven.DragAndDropItems(index, _otherIndex);
-            }
             // 플레이어 정보 UI 밖에 드롭할 경우
-            else if (CheckSceneDrop(data))
+            if (_playerInfoUI.CheckUIOutDrop())
             {
-                if (true)  // 드롭한 위치가 인벤 슬롯
+                if (CheckSlotDrop(data))  // 드롭한 위치가 인벤 슬롯
                 {
-
+                    _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
+                    GameManager.Inven.EquipSlotToInven(index, _otherIndex);
                 }
                 else
                 {
                     // 버릴지 되묻는 팝업
-/*                    _playerInfoUI.dropConfirmPanel.SetActive(true);
-                    _playerInfoUI.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(index);*/
+                    _playerInfoUI.dropConfirmPanel.SetActive(true);
+                    _playerInfoUI.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(UI_DropConfirm.Enum_DropUIParent.PlayerInfo, index);
                 }
             }
-
 
             _playerInfoUI.dragImg.SetActive(false);
         };
@@ -96,7 +92,7 @@ public class UI_EquipSlot : UI_Entity
                 _playerInfoUI.descrPanel.SetActive(true);
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0.4f);
                 ShowItemInfo();
-                // _playerInfoUI.RestrictItemDescrPos();
+                _playerInfoUI.RestrictItemDescrPos();
             }
         };
 
@@ -107,7 +103,7 @@ public class UI_EquipSlot : UI_Entity
             {
                 _highlightImg.color = new Color(_highlightImg.color.r, _highlightImg.color.g, _highlightImg.color.b, 0f);
                 _playerInfoUI.descrPanel.SetActive(false);
-                // _playerInfoUI.StopRestrictItemDescrPos(data);
+                _playerInfoUI.StopRestrictItemDescrPos(data);
             }
         };
 
@@ -165,19 +161,6 @@ public class UI_EquipSlot : UI_Entity
         return GameManager.Inven.equips[index] == null;
     }
 
-    bool CheckSceneDrop(PointerEventData data)
-    {
-        _playerInfoUI.GetUIPos();
-
-/*        if (data.position.x < _playerInfoUI. || data.position.y < _playerInfoUI.invenUI_leftBottom.y ||
-            data.position.x > _playerInfoUI.invenUI_rightTop.x || data.position.y > _playerInfoUI.invenUI_rightTop.y)
-        {
-            return true;
-        }*/
-
-        return false;
-    }
-
     // 드롭 시 슬롯에 벗어나지 않았는지 확인
     bool CheckSlotDrop(PointerEventData data)
     {
@@ -193,8 +176,22 @@ public class UI_EquipSlot : UI_Entity
     {
         _playerInfoUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].name; // 아이템 이름
         _playerInfoUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
-        _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].desc; // 아이템 설명
 
-        // TODO 장비 아이템일 경우 추가 비교 이미지
+        StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.equips[index].id] as StateItemData;
+        int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
+        string descLines = string.Format(GameManager.Inven.equips[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
+        string[] lines = descLines.Split("\n");
+
+        string desc = $"{lines[0]} \n";
+        for (int i = 1; i < lines.Length - 1; i++)
+        {
+            if (stats[i] == 0)
+            {
+                continue;
+            }
+            desc += $"{lines[i]} \n";
+        }
+
+        _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = desc;
     }
 }

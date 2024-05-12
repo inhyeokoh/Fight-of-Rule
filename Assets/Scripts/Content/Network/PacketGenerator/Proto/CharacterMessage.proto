@@ -1,14 +1,16 @@
 syntax = "proto3";
 
 message CHARACTER_INFO {
-    int32 character_id = 1;
-    int32 slot_num = 2;
-    string nickname = 3;
-    string job = 4;
-    bool gender = 5;
+    CHARACTER_BASE base_info = 1;
+    CHARACTER_STATUS stat = 2;
+    CHARACTER_POS xyz = 3;
+}
 
-    CHARACTER_STATUS stat = 6;
-    CHARACTER_POS xyz = 7;
+message CHARACTER_BASE {    
+    int32 slot_num = 1;
+    bytes nickname = 2;
+    int32 job = 3;
+    bool gender = 4;
 }
 
 message CHARACTER_STATUS {

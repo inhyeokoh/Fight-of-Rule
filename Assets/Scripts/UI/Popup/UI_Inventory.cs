@@ -14,8 +14,7 @@ public class UI_Inventory : UI_Entity
     public GameObject dropConfirmPanel;
     public GameObject dropCountConfirmPanel;
 
-    public Vector2 invenUI_leftBottom;
-    public Vector2 invenUI_rightTop;
+    public Rect panelRect;
     Vector2 _descrUISize;
 
     TMP_Text[] upTogNames;
@@ -62,6 +61,7 @@ public class UI_Inventory : UI_Entity
         _content = _entities[(int)Enum_UI_Inventory.ScrollView].transform.GetChild(0).GetChild(0).gameObject; // Content 담기는 오브젝트
         upTogNames = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<TMP_Text>();
         upToggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
+        panelRect = _entities[(int)Enum_UI_Inventory.Panel].GetComponent<RectTransform>().rect;
         dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
         dropConfirmPanel = _entities[(int)Enum_UI_Inventory.DropConfirm].gameObject;
@@ -154,12 +154,6 @@ public class UI_Inventory : UI_Entity
     public void StopRestrictItemDescrPos(PointerEventData data)
     {
         StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
-    }
-
-    public void GetUIPos()
-    {
-        invenUI_leftBottom = transform.TransformPoint(GetComponent<RectTransform>().rect.min);
-        invenUI_rightTop = transform.TransformPoint(GetComponent<RectTransform>().rect.max);
     }
 
     // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
@@ -275,6 +269,21 @@ public class UI_Inventory : UI_Entity
 
     void _PressGetItem()
     {
-        new ItemData(1, "Hp", "HP포션입니다", Resources.Load<Sprite>($"Materials/ItemIcons/HP"), (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), "Consumption"), (Enum_Grade)Enum.Parse(typeof(Enum_Grade), "Normal"), 100, 100, 100, 1);
+        var item = ItemParsing.StateItemDataReader(500);
+        item.count = 70;
+
+        GameManager.Inven.GetItem(item);
+        // TODO 장비아이템은 고유번호
+    }
+
+    public bool CheckUIOutDrop()
+    {
+        if (dragImg.transform.localPosition.x < panelRect.xMin || dragImg.transform.localPosition.y < panelRect.yMin ||
+            dragImg.transform.localPosition.x > panelRect.xMax || dragImg.transform.localPosition.y > panelRect.yMax)
+        {
+            return true;
+        }
+
+        return false;
     }
 }

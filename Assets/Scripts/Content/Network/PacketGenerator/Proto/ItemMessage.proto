@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+message EQUIP_ITEM {
+    int32 item_id = 1;
+    string item_name = 2;
+    string item_class = 3;
+    string item_type = 4;
+    string item_grade = 5;
+    string item_detailtype = 6;
+    int32 item_level = 7; 
+    int32 item_attack = 8;
+    int32 item_defense = 9;
+    int32 item_speed = 10;
+    int32 item_attackspeed = 11;
+    int32 item_hp = 12;
+    int32 item_mp = 13;
+    int32 item_exp = 14;
+    int32 item_maxhp = 15;
+    int32 item_maxmp = 16;
+    int32 item_maxcount = 17;
+}
+
+message CONSUME_ITEM {
+    int32 item_id = 1;
+    string item_name = 2;
+    string item_class = 3;
+    string item_type = 4;
+    string item_grade = 5;
+    string item_detailtype = 6;
+    int32 item_level = 7; 
+    int32 item_attack = 8;
+    int32 item_defense = 9;
+    int32 item_speed = 10;
+    int32 item_attackspeed = 11;
+    int32 item_hp = 12;
+    int32 item_mp = 13;
+    int32 item_exp = 14;
+    int32 item_maxhp = 15;
+    int32 item_maxmp = 16;
+    int32 item_maxcount = 17;
+}
+
+message ETC_ITEM {
+    int32 item_id = 1;
+    string item_name = 2; 
+    string item_type = 3;
+    int32 item_maxcount = 4;
+}

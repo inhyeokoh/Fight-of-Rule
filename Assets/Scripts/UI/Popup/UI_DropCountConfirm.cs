@@ -34,7 +34,7 @@ public class UI_DropCountConfirm : UI_Entity
         _entities[(int)Enum_UI_DropCountConfirm.Accept].ClickAction = (PointerEventData data) => {
             string input = _entities[(int)Enum_UI_DropCountConfirm.InputField].GetComponent<TMP_InputField>().text;
             int dropCount = Convert.ToInt32(input);
-            GameManager.Inven.DropItem(_slotIndex, dropCount);
+            GameManager.Inven.DropInvenItem(_slotIndex, dropCount);
             transform.parent.gameObject.SetActive(false);
         };
 
