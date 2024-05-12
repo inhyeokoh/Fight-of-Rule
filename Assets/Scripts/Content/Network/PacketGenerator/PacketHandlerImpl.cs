@@ -29,7 +29,6 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_LOGIN(Session session, S_LOGIN message)
     {
-        Utils.Log(message.Uid);
         if (false == message.LoginSuccess)
         {
             //경우에 따라서 재로그인 유도 (지금은 그냥 return)
@@ -101,11 +100,6 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
-    {
-        return true;
-    }
-
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
         if (message.Success == false)
@@ -113,7 +107,7 @@ public class PacketHandlerImpl : MonoBehaviour
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
                 GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
-                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This ID already exists.");
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
             });
             return false;
         }
@@ -128,20 +122,6 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_OPTION(Session session, S_OPTION message)
-    {
-        //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
-        GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
-        GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
-        GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
-
-        GameManager.Data.setting.bTotalVol = message.SettingOptions.TotalVolOn;
-        GameManager.Data.setting.bBackgroundVol = message.SettingOptions.BackgroundVolOn;
-        GameManager.Data.setting.bEffectVol = message.SettingOptions.EffectVolOn;
-
-        return true;
-    }
-
     internal static bool Handle_S_CHARACTERS(Session session, S_CHARACTERS message)
     {
         return true;
@@ -151,15 +131,17 @@ public class PacketHandlerImpl : MonoBehaviour
     {
         if (message.Success == false)
         {
-            GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
-            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
-            GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
+            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+            GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
             return false;
         }
 
-        GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
-        GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
-        GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText($"Exist Name");
+        // 캐릭터 생성 가능 시
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            var loadAsync = SceneManager.LoadSceneAsync("Select");
+            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
+        });
         return true;
     }
 
@@ -191,4 +173,22 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
+    internal static bool Handle_S_OPTION(Session session, S_OPTION message)
+    {
+        //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
+        GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
+        GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
+        GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
+
+        GameManager.Data.setting.bTotalVol = message.SettingOptions.TotalVolOn;
+        GameManager.Data.setting.bBackgroundVol = message.SettingOptions.BackgroundVolOn;
+        GameManager.Data.setting.bEffectVol = message.SettingOptions.EffectVolOn;
+
+        return true;
+    }
+
+    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
+    {
+        return true;
+    }
 }

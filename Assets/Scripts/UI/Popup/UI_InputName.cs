@@ -49,18 +49,17 @@ public class UI_InputName : UI_Entity
                 GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
                 GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Special characters and spaces are not allowed.");
             }
-            else if (nickname.Length < 2 || nickname.Length > 12)
+            else if (nickname.Length < 2 || nickname.Length > 16)
             {
                 GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
-                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Please enter at least 2 characters and no more than 12 characters.");
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Please enter at least 2 characters and no more than 16 characters.");
             }
             else
             {*/
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
             GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
-            /*            };*/
-            GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
+            /*            };*/            
         };
 
         _entities[(int)Enum_UI_InputName.Cancel].ClickAction = (PointerEventData data) => {

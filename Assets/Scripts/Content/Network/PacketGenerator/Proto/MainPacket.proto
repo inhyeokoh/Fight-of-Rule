@@ -48,6 +48,7 @@ message S_ASK_VERF
 message C_VERIFYING
 {
     string token = 1;
+    int64 uid = 2;
 }
 
 message S_VERIFYING
@@ -76,6 +77,7 @@ message C_NEW_CHARACTER {
 
 message S_NEW_CHARACTER {
     bool success = 1;
+    int64 character_id = 2;
 }
 
 message S_ITEMINFO {

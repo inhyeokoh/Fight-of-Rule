@@ -179,8 +179,8 @@ public class UI_EquipSlot : UI_Entity
 
         StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.equips[index].id] as StateItemData;
         int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
-        string descLines = string.Format(GameManager.Inven.equips[index].desc, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp);
-/*        string[] lines = descLines.Split('n');
+        string descLines = string.Format(GameManager.Inven.equips[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
+        string[] lines = descLines.Split("\n");
 
         string desc = $"{lines[0]} \n";
         for (int i = 1; i < lines.Length - 1; i++)
@@ -190,8 +190,8 @@ public class UI_EquipSlot : UI_Entity
                 continue;
             }
             desc += $"{lines[i]} \n";
-        }*/
+        }
 
-        _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = descLines;
+        _playerInfoUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = desc;
     }
 }

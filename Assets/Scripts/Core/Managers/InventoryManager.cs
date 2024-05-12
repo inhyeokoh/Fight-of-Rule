@@ -21,36 +21,6 @@ public class InventoryManager : SubClass<GameManager>
         ID
     }
 
-    // 정렬 순서
-/*    enum Enum_ItemType // 아이템 대분류
-    {
-        Equipment,
-        Consumption,
-        Materials,
-        Etc
-    }
-
-    enum Enum_DetailType // 상세타입
-    {
-        Helmet,
-        Clothes,
-        Belt,
-        Gloves,
-        Boots,
-        Weapon,
-        Potion,
-        Box,
-        None
-    }
-
-    enum Enum_ItemGrade // 아이템 등급
-    {
-        Normal,
-        Rare,
-        Unique,
-        Legendary
-    }*/
-
     protected override void _Clear()
     {        
     }
@@ -431,22 +401,20 @@ public class InventoryManager : SubClass<GameManager>
         // TODO : 인벤토리 꽉 찬 경우 해제 불가 팝업
     }
 
-    // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + slotNum 변경 + 같은 아이템이면 합쳐줌
-    // 한번이라도 정렬 버튼 누른적 있을거고 아이템 번호에 맞게 정리 되어 있는 상태가 많기 때문에 병합 정렬로 가는게 가장 괜찮다고 판단
+    // 아이템 번호에 따라서 리스트 재정렬 + 앞부터 비어 있는 칸 채워야함 + 같은 아이템이면 합쳐줌 + slotNum 변경
+    // 한번이라도 정렬 버튼 누른적 있을거고 정리 되어 있는 상태가 많기 때문에 병합 정렬로 가는게 가장 괜찮다고 판단
     public void SortItems()
     {
         items.RemoveAll(item => item == null);
-
-        List<ItemData> result = MergeSort(items);
+        List<ItemData> result = MergeSort(items); // 병합 정렬
         items.Clear();
         foreach (var item in result)
         {
             items.Add(item);
         }
 
-
         _CombineQuantities(items);
-        for (int i = 0; i < items.Count; i++)
+        for (int i = 0; i < items.Count; i++) // 아이템의 슬롯 번호 변경
         {
             if (items[i] != null)
             {
@@ -534,10 +502,6 @@ public class InventoryManager : SubClass<GameManager>
         {
             StateItemData leftItem = left as StateItemData;
             StateItemData rightItem = right as StateItemData;
-            /*if (leftItem == null)
-                Debug.Log(left.name);
-            if (rightItem == null)
-                Debug.Log(right.name);*/
             if (leftItem != null && rightItem != null)
             {
                 if (leftItem != null && leftItem.detailType < rightItem.detailType)

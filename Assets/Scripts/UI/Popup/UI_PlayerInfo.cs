@@ -1,8 +1,10 @@
+#define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using TMPro;
 
 public class UI_PlayerInfo : UI_Entity
 {
@@ -11,6 +13,8 @@ public class UI_PlayerInfo : UI_Entity
     public GameObject descrPanel;
     public GameObject dropConfirmPanel;
     public GameObject dropCountConfirmPanel;
+    GameObject _infoBoard;
+    GameObject _statusBoard;
     GameObject equipSlots;
 
     int _leftSlotCount = 5;
@@ -29,6 +33,7 @@ public class UI_PlayerInfo : UI_Entity
         Panel,
         Panel_U,
         Equipments,
+        InfoPanel,
         Close,
         DragImg,
         DescrPanel,
@@ -67,9 +72,12 @@ public class UI_PlayerInfo : UI_Entity
         descrPanel = _entities[(int)Enum_UI_PlayerInfo.DescrPanel].gameObject;
         dropConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropConfirm].gameObject;
         dropCountConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropCountConfirm].gameObject;
+        _infoBoard = _entities[(int)Enum_UI_PlayerInfo.InfoPanel].transform.GetChild(1).gameObject;
+        _statusBoard = _entities[(int)Enum_UI_PlayerInfo.InfoPanel].transform.GetChild(3).gameObject;
         panelRect = _entities[(int)Enum_UI_PlayerInfo.Panel].GetComponent<RectTransform>().rect;
         _descrUISize = _GetUISize(descrPanel);
         _DrawSlots();
+        _DrawCharacterInfo();
 
         foreach (var _subUI in _subUIs)
         {
@@ -130,6 +138,74 @@ public class UI_PlayerInfo : UI_Entity
             _equipSlot.GetComponent<UI_EquipSlot>().index = i;
         }
     }
+
+    // 유저 정보 창 내 정보 및 스탯 표기
+    void _DrawCharacterInfo()
+    {
+#if INVENTEST
+        GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
+#endif
+        
+        CharData character = GameManager.Data.characters[GameManager.Data.selectedSlotNum];
+        for (int i = 0; i < 5; i++)
+        {
+            GameManager.Resources.Instantiate("Prefabs/UI/Scene/Status", _infoBoard.transform);
+        }
+
+        GameObject name = _infoBoard.transform.GetChild(0).gameObject;
+        name.transform.GetChild(0).GetComponent<TMP_Text>().text = "캐릭터명";
+        name.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.charName}";
+
+        GameObject job = _infoBoard.transform.GetChild(1).gameObject;
+        job.transform.GetChild(0).GetComponent<TMP_Text>().text = "직업";
+        job.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.job}";
+
+        GameObject gender = _infoBoard.transform.GetChild(2).gameObject;
+        gender.transform.GetChild(0).GetComponent<TMP_Text>().text = "성별";
+        gender.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.gender}";
+
+        GameObject level = _infoBoard.transform.GetChild(3).gameObject;
+        level.transform.GetChild(0).GetComponent<TMP_Text>().text = "레벨";
+        level.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.level}";
+
+        GameObject exp = _infoBoard.transform.GetChild(4).gameObject;
+        exp.transform.GetChild(0).GetComponent<TMP_Text>().text = "경험치/최대 경험치";
+        exp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.exp}/{character.maxEXP}";
+
+        for (int i = 0; i < 6; i++)
+        {
+            GameManager.Resources.Instantiate("Prefabs/UI/Scene/Status", _statusBoard.transform);
+        }
+
+        GameObject hp = _statusBoard.transform.GetChild(0).gameObject;
+        hp.transform.GetChild(0).GetComponent<TMP_Text>().text = "HP";
+        hp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.hp}/{character.maxHP}";
+
+        GameObject mp = _statusBoard.transform.GetChild(1).gameObject;
+        mp.transform.GetChild(0).GetComponent<TMP_Text>().text = "MP";
+        mp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.mp}/{character.maxMP}";
+
+        GameObject attack = _statusBoard.transform.GetChild(2).gameObject;
+        attack.transform.GetChild(0).GetComponent<TMP_Text>().text = "공격력";
+        attack.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.attack}";
+
+        GameObject atkSpeed = _statusBoard.transform.GetChild(3).gameObject;
+        atkSpeed.transform.GetChild(0).GetComponent<TMP_Text>().text = "공격 속도";
+        atkSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.attackSpeed}";
+
+        GameObject defense = _statusBoard.transform.GetChild(4).gameObject;
+        defense.transform.GetChild(0).GetComponent<TMP_Text>().text = "방어력";
+        defense.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.defense}";
+
+        GameObject moveSpeed = _statusBoard.transform.GetChild(5).gameObject;
+        moveSpeed.transform.GetChild(0).GetComponent<TMP_Text>().text = "이동 속도";
+        moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.speed}";
+    }
+
+/*    public void UpdateStatus()
+    {
+
+    }*/
 
     public void RestrictItemDescrPos()
     {

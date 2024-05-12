@@ -39,11 +39,12 @@ public class UI_Login : UI_Entity
 
             GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
 # elif CLIENT
-            서버 없이 씬 넘어가기
-            var loadAsync = SceneManager.LoadSceneAsync("Create");
-            GameManager.ThreadPool.UniAsyncLoopJob(() =>
+            // 서버 없이 씬 넘어가기
+
+            GameManager.ThreadPool.UniAsyncJob(() =>
             {
-                return loadAsync.progress < 0.9f;
+                var loadAsync = SceneManager.LoadSceneAsync("Create");
+                GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
             });
 #endif
         };

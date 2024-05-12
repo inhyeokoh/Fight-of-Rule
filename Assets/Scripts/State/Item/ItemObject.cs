@@ -25,8 +25,8 @@ public enum Enum_Grade
   
 public enum Enum_ItemType  
 {    
+    Equipment, 
     Consumption,    
-    Equipment,   
     ETC
 }
 public class ItemObject : MonoBehaviour

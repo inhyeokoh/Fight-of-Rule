@@ -33,16 +33,17 @@ public static partial class MainPacketReflection {
           "cBgCIAEoCRIMCgRwb3J0GAMgASgFEgsKA3VpZBgEIAEoAxINCgV0b2tlbhgF",
           "IAEoCSIfCghDX09QVElPThITCgtnZXRfb3B0aW9ucxgBIAEoCCI1CghTX09Q",
           "VElPThIpCg9zZXR0aW5nX29wdGlvbnMYASABKAsyEC5TRVRUSU5HX09QVElP",
-          "TlMiDAoKU19BU0tfVkVSRiIcCgtDX1ZFUklGWUlORxINCgV0b2tlbhgBIAEo",
-          "CSIdCgtTX1ZFUklGWUlORxIOCgZzdWNlc3MYASABKAgiHgoKQ19OSUNLTkFN",
-          "RRIQCghuaWNrbmFtZRgBIAEoDCIdCgpTX05JQ0tOQU1FEg8KB3N1Y2Nlc3MY",
-          "ASABKAgiDgoMQ19DSEFSQUNURVJTIjIKDFNfQ0hBUkFDVEVSUxIiCgljaGFy",
-          "YWN0ZXIYASADKAsyDy5DSEFSQUNURVJfSU5GTyI1Cg9DX05FV19DSEFSQUNU",
-          "RVISIgoJY2hhcmFjdGVyGAEgASgLMg8uQ0hBUkFDVEVSX0JBU0UiIgoPU19O",
-          "RVdfQ0hBUkFDVEVSEg8KB3N1Y2Nlc3MYASABKAgibwoKU19JVEVNSU5GTxIf",
-          "CgplcXVpcF9pdGVtGAEgASgLMgsuRVFVSVBfSVRFTRIjCgxjb25zdW1lX2l0",
-          "ZW0YAiABKAsyDS5DT05TVU1FX0lURU0SGwoIZXRjX2l0ZW0YAyABKAsyCS5F",
-          "VENfSVRFTWIGcHJvdG8z"));
+          "TlMiDAoKU19BU0tfVkVSRiIpCgtDX1ZFUklGWUlORxINCgV0b2tlbhgBIAEo",
+          "CRILCgN1aWQYAiABKAMiHQoLU19WRVJJRllJTkcSDgoGc3VjZXNzGAEgASgI",
+          "Ih4KCkNfTklDS05BTUUSEAoIbmlja25hbWUYASABKAwiHQoKU19OSUNLTkFN",
+          "RRIPCgdzdWNjZXNzGAEgASgIIg4KDENfQ0hBUkFDVEVSUyIyCgxTX0NIQVJB",
+          "Q1RFUlMSIgoJY2hhcmFjdGVyGAEgAygLMg8uQ0hBUkFDVEVSX0lORk8iNQoP",
+          "Q19ORVdfQ0hBUkFDVEVSEiIKCWNoYXJhY3RlchgBIAEoCzIPLkNIQVJBQ1RF",
+          "Ul9CQVNFIjgKD1NfTkVXX0NIQVJBQ1RFUhIPCgdzdWNjZXNzGAEgASgIEhQK",
+          "DGNoYXJhY3Rlcl9pZBgCIAEoAyJvCgpTX0lURU1JTkZPEh8KCmVxdWlwX2l0",
+          "ZW0YASABKAsyCy5FUVVJUF9JVEVNEiMKDGNvbnN1bWVfaXRlbRgCIAEoCzIN",
+          "LkNPTlNVTUVfSVRFTRIbCghldGNfaXRlbRgDIAEoCzIJLkVUQ19JVEVNYgZw",
+          "cm90bzM="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { global::CharacterMessageReflection.Descriptor, global::OptionMessageReflection.Descriptor, global::ItemMessageReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
@@ -53,14 +54,14 @@ public static partial class MainPacketReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::C_OPTION), global::C_OPTION.Parser, new[]{ "GetOptions" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_OPTION), global::S_OPTION.Parser, new[]{ "SettingOptions" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_ASK_VERF), global::S_ASK_VERF.Parser, null, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::C_VERIFYING), global::C_VERIFYING.Parser, new[]{ "Token" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::C_VERIFYING), global::C_VERIFYING.Parser, new[]{ "Token", "Uid" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_VERIFYING), global::S_VERIFYING.Parser, new[]{ "Sucess" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::C_NICKNAME), global::C_NICKNAME.Parser, new[]{ "Nickname" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_NICKNAME), global::S_NICKNAME.Parser, new[]{ "Success" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::C_CHARACTERS), global::C_CHARACTERS.Parser, null, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_CHARACTERS), global::S_CHARACTERS.Parser, new[]{ "Character" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::C_NEW_CHARACTER), global::C_NEW_CHARACTER.Parser, new[]{ "Character" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::S_NEW_CHARACTER), global::S_NEW_CHARACTER.Parser, new[]{ "Success" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::S_NEW_CHARACTER), global::S_NEW_CHARACTER.Parser, new[]{ "Success", "CharacterId" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::S_ITEMINFO), global::S_ITEMINFO.Parser, new[]{ "EquipItem", "ConsumeItem", "EtcItem" }, null, null, null, null)
         }));
   }
@@ -1643,6 +1644,7 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public C_VERIFYING(C_VERIFYING other) : this() {
     token_ = other.token_;
+    uid_ = other.uid_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -1664,6 +1666,18 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
     }
   }
 
+  /// <summary>Field number for the "uid" field.</summary>
+  public const int UidFieldNumber = 2;
+  private long uid_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public long Uid {
+    get { return uid_; }
+    set {
+      uid_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
@@ -1680,6 +1694,7 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
       return true;
     }
     if (Token != other.Token) return false;
+    if (Uid != other.Uid) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -1688,6 +1703,7 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
   public override int GetHashCode() {
     int hash = 1;
     if (Token.Length != 0) hash ^= Token.GetHashCode();
+    if (Uid != 0L) hash ^= Uid.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -1710,6 +1726,10 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
       output.WriteRawTag(10);
       output.WriteString(Token);
     }
+    if (Uid != 0L) {
+      output.WriteRawTag(16);
+      output.WriteInt64(Uid);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -1724,6 +1744,10 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
       output.WriteRawTag(10);
       output.WriteString(Token);
     }
+    if (Uid != 0L) {
+      output.WriteRawTag(16);
+      output.WriteInt64(Uid);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -1736,6 +1760,9 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
     int size = 0;
     if (Token.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Token);
+    }
+    if (Uid != 0L) {
+      size += 1 + pb::CodedOutputStream.ComputeInt64Size(Uid);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -1751,6 +1778,9 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
     }
     if (other.Token.Length != 0) {
       Token = other.Token;
+    }
+    if (other.Uid != 0L) {
+      Uid = other.Uid;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -1771,6 +1801,10 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
           Token = input.ReadString();
           break;
         }
+        case 16: {
+          Uid = input.ReadInt64();
+          break;
+        }
       }
     }
   #endif
@@ -1788,6 +1822,10 @@ public sealed partial class C_VERIFYING : pb::IMessage<C_VERIFYING>
           break;
         case 10: {
           Token = input.ReadString();
+          break;
+        }
+        case 16: {
+          Uid = input.ReadInt64();
           break;
         }
       }
@@ -2927,6 +2965,7 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public S_NEW_CHARACTER(S_NEW_CHARACTER other) : this() {
     success_ = other.success_;
+    characterId_ = other.characterId_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -2948,6 +2987,18 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
     }
   }
 
+  /// <summary>Field number for the "character_id" field.</summary>
+  public const int CharacterIdFieldNumber = 2;
+  private long characterId_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public long CharacterId {
+    get { return characterId_; }
+    set {
+      characterId_ = value;
+    }
+  }
+
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
@@ -2964,6 +3015,7 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
       return true;
     }
     if (Success != other.Success) return false;
+    if (CharacterId != other.CharacterId) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -2972,6 +3024,7 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
   public override int GetHashCode() {
     int hash = 1;
     if (Success != false) hash ^= Success.GetHashCode();
+    if (CharacterId != 0L) hash ^= CharacterId.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -2994,6 +3047,10 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
       output.WriteRawTag(8);
       output.WriteBool(Success);
     }
+    if (CharacterId != 0L) {
+      output.WriteRawTag(16);
+      output.WriteInt64(CharacterId);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -3008,6 +3065,10 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
       output.WriteRawTag(8);
       output.WriteBool(Success);
     }
+    if (CharacterId != 0L) {
+      output.WriteRawTag(16);
+      output.WriteInt64(CharacterId);
+    }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -3020,6 +3081,9 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
     int size = 0;
     if (Success != false) {
       size += 1 + 1;
+    }
+    if (CharacterId != 0L) {
+      size += 1 + pb::CodedOutputStream.ComputeInt64Size(CharacterId);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -3035,6 +3099,9 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
     }
     if (other.Success != false) {
       Success = other.Success;
+    }
+    if (other.CharacterId != 0L) {
+      CharacterId = other.CharacterId;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -3055,6 +3122,10 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
           Success = input.ReadBool();
           break;
         }
+        case 16: {
+          CharacterId = input.ReadInt64();
+          break;
+        }
       }
     }
   #endif
@@ -3072,6 +3143,10 @@ public sealed partial class S_NEW_CHARACTER : pb::IMessage<S_NEW_CHARACTER>
           break;
         case 8: {
           Success = input.ReadBool();
+          break;
+        }
+        case 16: {
+          CharacterId = input.ReadInt64();
           break;
         }
       }

@@ -241,8 +241,15 @@ public class SettingsData : Data
 [Serializable]
 public class CharData : Data
 {
+    public enum Enum_Job
+    {
+        Warrior,
+        Wizard,   
+        Archer
+    }
+
     public string charName;
-    public string job;
+    public int job;
     public bool gender;
 
     public int level;
@@ -259,8 +266,8 @@ public class CharData : Data
 
     public CharData()
     {
-        charName = "";
-        job = "Warrior";
+        charName = "기본 이름";
+        job = 0;
         gender = true;
 
         level = 1;
@@ -276,7 +283,7 @@ public class CharData : Data
         speed = 10;
     }
 
-    public CharData(string job) : this()
+    public CharData(int job) : this()
     {
         this.job = job;
     }

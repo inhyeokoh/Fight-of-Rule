@@ -45,11 +45,8 @@ public class UI_ConfirmYN : UI_Entity
 
     void _ExecuteAcceptAction()
     {        
-/*                GameManager.UI.CloseLinkedPopup();
-                GameManager.Scene.LoadScene("Select");*/
-                GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
-                GameManager.UI.CloseLinkedPopup();
-                GameManager.Scene.LoadScene("Select");        
+        GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
+        GameManager.UI.CloseLinkedPopup();  
     }
 
     public void ChangeText(string contents)
