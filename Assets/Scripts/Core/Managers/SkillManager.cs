@@ -15,8 +15,8 @@ public class SkillManager : MonoBehaviour
 
     //만약에 스킬을 얻으면 이 스킬을 사용해야한다
     //플레이어가 캐릭터 직업에 따라 쓰는 스킬들이 달라진다.
-    [SerializeField]
-    public List<WarriorSkillData> warriorSkillData = new List<WarriorSkillData>();
+   /* [SerializeField]
+    public List<WarriorSkillData> warriorSkillData = new List<WarriorSkillData>();*/
 
     [SerializeField]
     private KeySlotUISetting keySlotUISetting;
@@ -69,22 +69,19 @@ public class SkillManager : MonoBehaviour
        // Gizmos.DrawWireSphere(player.transform.position, 30f);
     }
     public void PlayerData()
-    {
-        WarriorSkillDBParsing();
-
-
+    {      
         PlayerState = PlayerController.instance._playerState;
         PlayerStat = PlayerController.instance._playerStat;
         switch (PlayerController.instance._class)
         {
             case Enum_Class.Warrior:
                 {
-                    characterSkills = new Skill[warriorSkillData.Count];
+                    characterSkills = new Skill[GameManager.Data.warriorSkillData.Count];
 
-                    for (int i = 0; i < warriorSkillData.Count; i++)
+                    for (int i = 0; i < characterSkills.Length;i++)
                     {
                         characterSkills[i] = activeSkill.Init();
-                        characterSkills[i].SKillDB(warriorSkillData[i]);
+                        characterSkills[i].SKillDB(GameManager.Data.warriorSkillData[i]);
                         characterSkills[i].SkillStat();
                     }              
                     break;
@@ -144,38 +141,6 @@ public class SkillManager : MonoBehaviour
             characterSkills[i].DESCUpdate();
         }
 
-        DESCUIDamageUpdate();
-    }
-
-    
-    public void WarriorSkillDBParsing()
-    {
-        List<Dictionary<string, string>> skill = CSVReader.Read("Data/SkillWarriorDB");
-
-        for (int i = 0; i < skill.Count; i++)
-        {
-            WarriorSkillData warrirSkill;
-
-            int id = int.Parse(skill[i]["skill_id"]);
-            string name = skill[i]["skill_name"];
-            string desc = skill[i]["skill_desc"];
-            string iconString = skill[i]["skill_icon"];
-
-            //print(Resources.Load(iconString).name);
-            Sprite icon = Resources.Load<Sprite>(iconString);
-            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]); ;
-            int skillMaxLevel = int.Parse(skill[i]["skill_maxlevel"]);
-
-            int[] skillLevelCondition = Array.ConvertAll(skill[i]["skill_levelcondition"].Split(","), int.Parse);
-            int[] skillPoint = Array.ConvertAll(skill[i]["skill_point"].Split(","), int.Parse);
-            int[] skillMP = Array.ConvertAll(skill[i]["skill_mp"].Split(","), int.Parse);
-            float[] skillCool = Array.ConvertAll(skill[i]["skill_cool"].Split(","), float.Parse);
-            int[] skillDamage = Array.ConvertAll(skill[i]["skill_damage"].Split(","), int.Parse);
-
-            warrirSkill = new WarriorSkillData(id, name, desc, icon, skillNumber, skillMaxLevel, skillLevelCondition, skillPoint, skillMP, skillCool, skillDamage);
-
-
-            warriorSkillData.Add(warrirSkill);
-        }
-    }
+        //DESCUIDamageUpdate();
+    }  
 }

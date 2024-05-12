@@ -48,8 +48,8 @@ public class Spaw : MonoBehaviour
 
         float rotation = Random.Range(minRotation, maxRotation);
 
-        GameObject monster = MonsterCSVData.instance.MonsterInstance(monsterID);
+        GameObject monster = GameManager.Data.MonsterInstance(monsterID);
 
-        Instantiate(monster, new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z), Quaternion.Euler(1, rotation, 1));
+        Instantiate(monster, new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z), Quaternion.Euler(1, rotation, 1)); 
     }
 }

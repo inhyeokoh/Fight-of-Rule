@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public enum Enum_DetailType
 {
@@ -33,40 +34,53 @@ public class ItemObject : MonoBehaviour
 {
     // 아이템 정보
     public ItemData item;
+    //public TMP_Text ItemName;
 
-    private int itemID; // 아이템 ID들을 분류 해놨지만 캐릭터가 가지고있는 아이템 개별 ID들을 어떻게 저장해야할지 모르겠음
-  
-    //포션이나 장비등등 스텟 정보를 넘겨주기위한 플레이어
+    public Camera cam;
+
     [SerializeField]
+    GameObject itemText;
 
     protected CharacterStatus player;   
 
-    private void Awake()
-    {       
-      /*  try
-        {
-            Setting();
-        }
-        catch
-        {
-            print("현재 플레이어를 찾을수 없습니다");
-        }*/
-    }
-
-    private void Start()
-    {
-        //현재 아이템정보를 깊은 복사같은 방식으로 데이터를 불러옴
-        //item = ItemParsing.StateItemDataReader(itemID);
-
-        //이건 아이템들 마다 정보들이 따로 적용되는지 확인
-        //Setting();       
-    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player")) 
         {
-            player = PlayerController.instance._playerStat;
+            PlayerController.instance._interaction.InGameItemEnter(gameObject);
         }     
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerController.instance._interaction.InGameItemExit(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        if(cam != null)
+        {
+            itemText.transform.LookAt(itemText.transform.position + cam.transform.rotation * Vector3.forward,
+                cam.transform.rotation * Vector3.up);
+        }
+    }
+
+    public void Setting(ItemData item)
+    {
+        Cam();
+        this.item = item;
+        itemText.GetComponent<TMP_Text>().text = this.item.name;       
+    }
+
+    public void Cam()
+    {
+        if (cam == null)
+        {
+            cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+        }
     }
  
     //아이템의 정보들

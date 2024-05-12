@@ -3365,6 +3365,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0c14019d2e30c419d673ff4bf69cb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  monsterDB:
+    monster_id: 0
+    monster_object: 
+    monster_name: 
+    monster_type: 0
+    monster_level: 0
+    monster_exp: 0
+    monster_maxhp: 0
+    monster_maxmp: 0
+    monster_attack: 0
+    monster_attackspeed: 0
+    monster_delay: 0
+    monster_abliltydelay: 0
+    monster_defense: 0
+    monster_speed: 0
+    monster_detectdistance: 0
+    monster_attackdistance: 0
+    monster_stateitem: 
+    moinster_etcitem: 
+    monster_mingold: 0
+    monster_maxgold: 0
+  monsterItemDropDB:
+    monster_id: 0
+    monster_itemdrop: []
+    monster_itempercent: []
+    monster_mingold: 0
+    monster_maxgold: 0
   _monsterState: {fileID: 0}
   _monsterStatus: {fileID: 0}
   _animationController: {fileID: 0}
@@ -3372,6 +3399,7 @@ MonoBehaviour:
   _effector: {fileID: 0}
   _monsterMovement: {fileID: 0}
   _monsterItemDrop: {fileID: 0}
+  DBRederOn: 0
   players: []
 --- !u!114 &9052954012294434460
 MonoBehaviour:
@@ -3414,6 +3442,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7321d50de5f261469aee8ceedbd081e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minGold: 0
+  maxGold: 0
+  ItemName: []
+  items: []
+  itemObject: []
+  itemObjects:
+  - {fileID: 8809631995268827062, guid: 2781c8b36aea37e4380a1e1da25b003a, type: 3}
+  - {fileID: 298253420418177982, guid: ac70626a801daac4a9187a4ab4346ef7, type: 3}
+  - {fileID: 8695600845171868731, guid: f6a284909c84a854d9db5abffa28efb3, type: 3}
+  - {fileID: 750282464840848405, guid: e66609625ecc2cf42b95503904b7753b, type: 3}
+  - {fileID: 7383072493912183550, guid: 1e33c128616f8ff46b99bf44ffc44cc1, type: 3}
 --- !u!114 &9052954012294434449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3465,6 +3504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4caa9254dd5e7074b9c5b8675eb284f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hp: 0
 --- !u!195 &6530393427523975275
 NavMeshAgent:
   m_ObjectHideFlags: 0

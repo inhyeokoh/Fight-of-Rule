@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static ResourceManager Resources { get { return Instance._resources; } }
 
-
+   /* ItemManager _item = new ItemManager();
+    public static ItemManager Item { get { return Instance._item; } }*/
     /*==================
      *  ThreadManager
      =================*/

@@ -16,6 +16,23 @@ public class LoginData : Data
     public int slotCount;
 }
 
+
+[System.Serializable]
+public class EquipmentItemData : StateItemData
+{
+    public int maxReinforcement;
+    public int currentReinforcement;
+
+    public EquipmentItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
+        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int maxReinforcement, int count = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemClass,  itemGrade,  itemType,  detailType,  purchaseprice,  sellingprice,  level,  attack,  defense
+        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, count)
+    {
+        this.maxReinforcement = maxReinforcement;
+        this.currentReinforcement = currentReinforcement;
+    }
+}
+
+
 [System.Serializable]
 public class StateItemData : ItemData
 {
@@ -42,7 +59,6 @@ public class StateItemData : ItemData
         this.defense = defense;
         this.speed = speed;
         this.attackSpeed = attackSpeed;
-
         this.exp = exp;
         this.hp = hp;
         this.mp = mp;
@@ -196,13 +212,15 @@ public class MonsterItemDropData
 {
     public int monster_id;
     public string[] monster_itemdrop;
+    public float[] monster_itempercent;
     public int monster_mingold;
     public int monster_maxgold;
 
-    public MonsterItemDropData(int monster_id, string[] monster_itemdrop,int monster_mingold, int monster_maxgold)
+    public MonsterItemDropData(int monster_id, string[] monster_itemdrop,float[] monster_itempercent,int monster_mingold, int monster_maxgold)
     {
         this.monster_id = monster_id;
         this.monster_itemdrop = monster_itemdrop;
+        this.monster_itempercent = monster_itempercent;
         this.monster_mingold = monster_mingold;
         this.monster_maxgold = monster_maxgold;
     }

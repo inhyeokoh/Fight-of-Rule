@@ -49,7 +49,7 @@ public class MonsterEffector : SubMono<MonsterController>
     {
         GameObject clone = effectDuration[instanceEffect];
         //clone.GetComponent<ObjectMoveDestroy>().monsterState = _board._monsterState;
-        print(effectTransform[transformIndex].rotation);
+        //print(effectTransform[transformIndex].rotation);
         Instantiate(clone, effectTransform[transformIndex].position, effectTransform[transformIndex].rotation);
         
     }
