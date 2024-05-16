@@ -199,21 +199,24 @@ public class UI_ItemSlot : UI_Entity
         if (GameManager.Inven.items[index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
         {
             StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.items[index].id] as StateItemData;
-            int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
-            string descLines = string.Format(GameManager.Inven.items[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
-            string[] lines = descLines.Split("\n");
-
-            string desc = $"{lines[0]} \n";
-            for (int i = 1; i < lines.Length - 1; i++)
+            if (itemData != null)
             {
-                if (stats[i] == 0)
-                {
-                    continue;
-                }
-                desc += $"{lines[i]} \n";
-            }
+                int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
+                string descLines = string.Format(GameManager.Inven.items[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
+                string[] lines = descLines.Split("\n");
 
-            _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = desc;
+                string desc = $"{lines[0]} \n";
+                for (int i = 1; i < lines.Length - 1; i++)
+                {
+                    if (stats[i] == 0)
+                    {
+                        continue;
+                    }
+                    desc += $"{lines[i]} \n";
+                }
+
+                _inven.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text = desc;
+            }
         }
         else
         {

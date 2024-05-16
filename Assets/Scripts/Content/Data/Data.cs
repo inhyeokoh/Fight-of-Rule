@@ -99,7 +99,7 @@ public class ItemData : Data
         this.slotNum = slotNum;
     }
 
-    public ItemData(ItemData item)
+    public ItemData(ItemData item, int count)
     {
         this.id = item.id;
         this.name = item.name;
@@ -110,7 +110,7 @@ public class ItemData : Data
         this.purchaseprice = item.purchaseprice;
         this.sellingprice = item.sellingprice;
         this.maxCount = item.maxCount;
-        this.count = item.count;
+        this.count = count;
         this.slotNum = item.slotNum;
     }
 }

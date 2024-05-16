@@ -219,6 +219,9 @@ public class InventoryManager : SubClass<GameManager>
 
     public void GetItem(ItemData acquired)
     {
+        Debug.Log(acquired.name);
+        Debug.Log(acquired.count);
+
         // 획득한 아이템이 없는 경우
         if (acquired == null)
         {
@@ -231,7 +234,7 @@ public class InventoryManager : SubClass<GameManager>
             int emptySlotIndex = GetEmptySlotIndex();
             if (emptySlotIndex != -1)
             {
-                items[emptySlotIndex] = new ItemData(acquired);
+                items[emptySlotIndex] = new ItemData(acquired, acquired.count);
             }
             else
             {
@@ -282,13 +285,13 @@ public class InventoryManager : SubClass<GameManager>
                             // 획득 수량이 최대 수량 이하인 경우
                             if (acquired.count <= acquired.maxCount)
                             {
-                                items[emptySlotIndex] = new ItemData(acquired);
+                                items[emptySlotIndex] = new ItemData(acquired, acquired.count);
                                 acquired.count = 0;
                             }
                             // 획득 수량이 최대 수량 보다 클 경우
                             else
                             {
-                                items[emptySlotIndex] = new ItemData(acquired);
+                                items[emptySlotIndex] = new ItemData(acquired, acquired.count);
                                 items[emptySlotIndex].count = acquired.maxCount;
                                 acquired.count -= acquired.maxCount;
                             }
@@ -301,6 +304,7 @@ public class InventoryManager : SubClass<GameManager>
         // UI 갱신
         for (int i = 0; i < items.Count; i++)
         {
+            // Debug.Log(items[0].id, items[0].icon);
             _inven.UpdateInvenUI(i);
         }
     }
@@ -308,6 +312,11 @@ public class InventoryManager : SubClass<GameManager>
     public void DropInvenItem(int index, int dropCount = 1)
     {
         items[index].count -= dropCount;
+        Vector3 playerTr = GameObject.Find("Warrior(Clone)").transform.position;
+        Vector3 dropPos = new Vector3(playerTr.x, playerTr.y, playerTr.z);
+        ItemData droppedItem = new ItemData(items[index], dropCount);
+        ItemManager._item.ItemInstance(droppedItem, dropPos, Quaternion.identity);
+
         if (items[index].count <= 0)
         {
             items[index] = null;

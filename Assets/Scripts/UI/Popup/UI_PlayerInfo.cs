@@ -1,4 +1,3 @@
-#define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -56,7 +55,9 @@ public class UI_PlayerInfo : UI_Entity
         for (int i = 0; i < GameManager.Inven.equips.Count; i++)
         {
             UpdateEquipUI(i);
+
         }
+        UpdateStatus();
     }
 
     private void OnDisable()
@@ -141,11 +142,7 @@ public class UI_PlayerInfo : UI_Entity
 
     // 유저 정보 창 내 정보 및 스탯 표기
     void _DrawCharacterInfo()
-    {
-#if INVENTEST
-        GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
-#endif
-        
+    {        
         CharData character = GameManager.Data.characters[GameManager.Data.selectedSlotNum];
         for (int i = 0; i < 5; i++)
         {
@@ -158,11 +155,13 @@ public class UI_PlayerInfo : UI_Entity
 
         GameObject job = _infoBoard.transform.GetChild(1).gameObject;
         job.transform.GetChild(0).GetComponent<TMP_Text>().text = "직업";
-        job.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.job}";
+        string strJob = Enum.GetName(typeof(CharData.Enum_Job), character.job);
+        job.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{strJob}";
 
         GameObject gender = _infoBoard.transform.GetChild(2).gameObject;
         gender.transform.GetChild(0).GetComponent<TMP_Text>().text = "성별";
-        gender.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.gender}";
+        string strGender = character.gender ? "Men" : "Women";
+        gender.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{strGender}";
 
         GameObject level = _infoBoard.transform.GetChild(3).gameObject;
         level.transform.GetChild(0).GetComponent<TMP_Text>().text = "레벨";
@@ -202,10 +201,35 @@ public class UI_PlayerInfo : UI_Entity
         moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.speed}";
     }
 
-/*    public void UpdateStatus()
+    public void UpdateStatus()
     {
+        CharacterStatus status = PlayerController.instance._playerStat;
 
-    }*/
+        Debug.Log("업뎃");
+        GameObject level = _infoBoard.transform.GetChild(3).gameObject;
+        level.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.level}";
+
+        GameObject exp = _infoBoard.transform.GetChild(4).gameObject;
+        exp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.exp}/{status.MaxEXP}";
+
+        GameObject hp = _statusBoard.transform.GetChild(0).gameObject;
+        hp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.hp}/{status.sumMaxHP}";
+
+        GameObject mp = _statusBoard.transform.GetChild(1).gameObject;
+        mp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.mp}/{status.sumMaxMP}";
+
+        GameObject attack = _statusBoard.transform.GetChild(2).gameObject;
+        attack.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumAttack}";
+
+        GameObject atkSpeed = _statusBoard.transform.GetChild(3).gameObject;
+        atkSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumAttackSpeed}";
+
+        GameObject defense = _statusBoard.transform.GetChild(4).gameObject;
+        defense.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumDefense}";
+
+        GameObject moveSpeed = _statusBoard.transform.GetChild(5).gameObject;
+        moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumSpeed}";
+    }
 
     public void RestrictItemDescrPos()
     {

@@ -14,19 +14,19 @@ public class CharacterStatus : SubMono<PlayerController>
     private int characterDefense;
     private int characterSpeed;
 
-    private int hp;
-    private int mp;
-    private int exp;
-    private int level;
+    public int hp;
+    public int mp;
+    public int exp;
+    public int level;
     private int skillDamage;
 
     //인게임상에 캐릭터 능력치
-    private int sumMaxHP;
-    private int sumMaxMP;
-    private int sumAttack;
-    private int sumAttackSpeed;
-    private int sumDefense;
-    private int sumSpeed;
+    public int sumMaxHP;
+    public int sumMaxMP;
+    public int sumAttack;
+    public int sumAttackSpeed;
+    public int sumDefense;
+    public int sumSpeed;
 
     private int skillPoint;
 
@@ -234,38 +234,45 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        level = 1;
-        characterMaxHP = 50;
-        characterMaxMP = 50;
-        characterMaxEXP = 100;
+        /*        level = 1;
+                characterMaxHP = 50;
+                characterMaxMP = 50;
+                characterMaxEXP = 100;
 
-        hp = 20;
-        mp = 50;
-        exp = 0;
-        characterAttack = 5;
-        characterAttackSpeed = 1;
-        characterDefense = 3;
-        characterSpeed = 10;
-      
+                hp = 20;
+                mp = 50;
+                exp = 0;
+                characterAttack = 5;
+                characterAttackSpeed = 1;
+                characterDefense = 3;
+                characterSpeed = 10;
+
+                sumMaxHP = characterMaxHP;
+                sumMaxMP = characterMaxMP;
+                sumAttack = characterAttack;
+                sumAttackSpeed = characterAttackSpeed;
+                sumDefense = characterDefense;
+                sumSpeed = characterSpeed;*/
+
+        level = GameManager.Data.characters[GameManager.Data.selectedSlotNum].level;
+        characterMaxHP = GameManager.Data.characters[GameManager.Data.selectedSlotNum].maxHP;
+        characterMaxMP = GameManager.Data.characters[GameManager.Data.selectedSlotNum].maxMP;
+        characterMaxEXP = GameManager.Data.characters[GameManager.Data.selectedSlotNum].maxEXP;
+
+        hp = GameManager.Data.characters[GameManager.Data.selectedSlotNum].hp;
+        mp = GameManager.Data.characters[GameManager.Data.selectedSlotNum].mp;
+        exp = GameManager.Data.characters[GameManager.Data.selectedSlotNum].exp;
+        characterAttack = GameManager.Data.characters[GameManager.Data.selectedSlotNum].attack;
+        characterAttackSpeed = GameManager.Data.characters[GameManager.Data.selectedSlotNum].attackSpeed;
+        characterDefense = GameManager.Data.characters[GameManager.Data.selectedSlotNum].defense;
+        characterSpeed = GameManager.Data.characters[GameManager.Data.selectedSlotNum].speed;
+
         sumMaxHP = characterMaxHP;
         sumMaxMP = characterMaxMP;
         sumAttack = characterAttack;
         sumAttackSpeed = characterAttackSpeed;
         sumDefense = characterDefense;
         sumSpeed = characterSpeed;
-
-
-/*        maxHP = GameManager.Data.character.maxHP;
-        maxMP = GameManager.Data.character.maxMP;
-        maxEXP = GameManager.Data.character.maxEXP;
-
-        hp = GameManager.Data.character.hp;
-        mp = GameManager.Data.character.mp;
-        exp = GameManager.Data.character.exp;
-        attack = GameManager.Data.character.attack;
-        defense = GameManager.Data.character.defense;
-        speed = GameManager.Data.character.speed;
-        level = GameManager.Data.character.level;*/
     }
 
     protected override void _Excute()

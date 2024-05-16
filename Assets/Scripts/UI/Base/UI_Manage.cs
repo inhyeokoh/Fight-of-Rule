@@ -33,11 +33,8 @@ public class UI_Manage : MonoBehaviour
             GameManager.Inven.ConnectInvenUI();
         }
 #if INVENTEST
-        if (scene.name == "Inventory")
-        {
-            GameManager.UI.ConnectPlayerInput();
-            GameManager.Inven.ConnectInvenUI();
-        }
+        GameManager.UI.ConnectPlayerInput();
+        GameManager.Inven.ConnectInvenUI();
 #endif
     }
 
