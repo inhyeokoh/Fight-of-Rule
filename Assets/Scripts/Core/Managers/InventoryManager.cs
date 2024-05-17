@@ -11,6 +11,7 @@ public class InventoryManager : SubClass<GameManager>
     public int equipSlotCount = 9;
     public List<ItemData> equips;
 
+    public long gold = 100000;
     UI_Inventory _inven;
     UI_PlayerInfo _playerInfo;
 
@@ -219,14 +220,8 @@ public class InventoryManager : SubClass<GameManager>
 
     public void GetItem(ItemData acquired)
     {
-        Debug.Log(acquired.name);
-        Debug.Log(acquired.count);
-
         // 획득한 아이템이 없는 경우
-        if (acquired == null)
-        {
-            return;
-        }
+        if (acquired == null) return;        
 
         // 수량이 합산되지 않는 장비 아이템 처리
         if (acquired.itemType == Enum_ItemType.Equipment)
@@ -312,9 +307,9 @@ public class InventoryManager : SubClass<GameManager>
     public void DropInvenItem(int index, int dropCount = 1)
     {
         items[index].count -= dropCount;
+        ItemData droppedItem = new ItemData(items[index], dropCount);
         Vector3 playerTr = GameObject.Find("Warrior(Clone)").transform.position;
         Vector3 dropPos = new Vector3(playerTr.x, playerTr.y, playerTr.z);
-        ItemData droppedItem = new ItemData(items[index], dropCount);
         ItemManager._item.ItemInstance(droppedItem, dropPos, Quaternion.identity);
 
         if (items[index].count <= 0)
@@ -554,5 +549,11 @@ public class InventoryManager : SubClass<GameManager>
                 i++;
             }
         }
+    }
+
+    public void Purchase(long totalPurchaseGold)
+    {
+        gold -= totalPurchaseGold;
+        _inven.UpdateGoldPanel(gold);
     }
 }

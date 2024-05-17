@@ -15,7 +15,7 @@ public class UI_ConfirmY : UI_Entity
         Panel,
         Interact,
         MainText,
-        Accept,
+        Accept
     }
 
     protected override Type GetUINamesAsType()

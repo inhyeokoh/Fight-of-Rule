@@ -4,18 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.UI;
 
 public class UI_Shop : UI_Entity
 {
-    GameObject shopSlots;
-    public GameObject dragImg;
     public GameObject descrPanel;
-    public GameObject dropConfirmPanel;
-    public GameObject dropCountConfirmPanel;
-    public GameObject basket;
+    public GameObject purchaseCountConfirmPanel;
+    public GameObject notifyFull;
 
-    public ItemData[] shopItems;
-    public int shopItemCount;
+    Toggle[] panel_U_Buttons;
 
     public Rect panelRect;
     Vector2 _descrUISize;
@@ -28,17 +25,12 @@ public class UI_Shop : UI_Entity
     enum Enum_UI_Shop
     {
         Interact,
+        Close,
         Panel,
         Panel_U,
-        ShopSlots,
-        Close,
-        DragImg,
         DescrPanel,
-        DropConfirm,
-        DropCountConfirm,
-        Basket,
-        Purchase,
-        Reset
+        NotifyFull,
+        PurchaseCountConfirm
     }
 
     protected override Type GetUINamesAsType()
@@ -54,15 +46,14 @@ public class UI_Shop : UI_Entity
     protected override void Init()
     {
         base.Init();
-        dragImg = _entities[(int)Enum_UI_Shop.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_Shop.DescrPanel].gameObject;
-        dropConfirmPanel = _entities[(int)Enum_UI_Shop.DropConfirm].gameObject;
-        shopSlots = _entities[(int)Enum_UI_Shop.ShopSlots].gameObject;
-        dropCountConfirmPanel = _entities[(int)Enum_UI_Shop.DropCountConfirm].gameObject;
-        basket = _entities[(int)Enum_UI_Shop.Basket].gameObject;
+        panel_U_Buttons = _entities[(int)Enum_UI_Shop.Panel_U].GetComponentsInChildren<Toggle>();
+        purchaseCountConfirmPanel = _entities[(int)Enum_UI_Shop.PurchaseCountConfirm].gameObject;
+        notifyFull = _entities[(int)Enum_UI_Shop.NotifyFull].gameObject;
         panelRect = _entities[(int)Enum_UI_Shop.Panel].GetComponent<RectTransform>().rect;
         _descrUISize = _GetUISize(descrPanel);
-        _DrawSlots();
+
+        _SetPanel_UButtons();
 
         foreach (var _subUI in _subUIs)
         {
@@ -97,49 +88,11 @@ public class UI_Shop : UI_Entity
             transform.position = _shopUIPos + _offset;
         };
 
-        // 유저 정보 창 닫기
+        // 상점 창 닫기
         _entities[(int)Enum_UI_Shop.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Shop);
         };
-
-        gameObject.SetActive(false);
-    }
-
-  
-    void _DrawSlots()
-    {
-        var item = CSVReader.Read("Data/ShopItems");
-        shopItemCount = item.Count;
-        shopItems = new ItemData[shopItemCount];
-
-        for (int i = 0; i < 8; i++)
-        {
-            GameObject _shopSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ShopSlot", shopSlots.transform);
-            _shopSlot.name = "Slot_" + i;
-            _shopSlot.GetComponent<UI_ShopSlot>().index = i;
-
-            if (i < item.Count)
-            {
-                int id = int.Parse(item[i]["id"]);
-                int count = int.Parse(item[i]["count"]);
-
-                // id,count받고 해당하는 id로 아이템 생성
-                shopItems[i] = ItemParsing.StateItemDataReader(id);
-                shopItems[i].count = count;
-
-                _shopSlot.transform.GetChild(1).GetComponent<TMP_Text>().text = shopItems[i].name; // 이름
-                _shopSlot.transform.GetChild(2).GetComponent<TMP_Text>().text = $"{shopItems[i].purchaseprice}"; // 구매 가격
-            }
-            else
-            {
-                // 표기 비활성화
-                for (int j = 1; j < 5; j++)
-                {
-                    _shopSlot.transform.GetChild(j).gameObject.SetActive(false);
-                }
-            }
-        }
     }
 
     public void RestrictItemDescrPos()
@@ -175,9 +128,20 @@ public class UI_Shop : UI_Entity
         }
     }
 
-    // UI 갱신
-    public void UpdateShopUI(int slotIndex)
+    void _SetPanel_UButtons()
     {
+        for (int i = 0; i < panel_U_Buttons.Length; i++)
+        {
+            int index = i;
+            panel_U_Buttons[i].onValueChanged.AddListener((value) => _ToggleValueChanged(index));
+        }
+    }
 
+    // panel_U_Buttons 선택에 따라서 해당되는 내용을 활성화
+    void _ToggleValueChanged(int toggleIndex)
+    {
+        bool isToggleOn = panel_U_Buttons[toggleIndex].isOn;
+        GameObject childObject = _entities[(int)Enum_UI_Shop.Panel].transform.GetChild(toggleIndex).gameObject;
+        childObject.SetActive(isToggleOn);
     }
 }

@@ -46,6 +46,7 @@ public class UI_ItemSlot : UI_Entity
         //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
         {
+            Debug.Log($"{_invenItems[index].id} {_invenItems[index].count}");
             if (!CheckItemNull())
             {
                 GameManager.UI.GetPopupForward(GameManager.UI.Inventory);
@@ -92,7 +93,7 @@ public class UI_ItemSlot : UI_Entity
                     {
                         // 버릴 아이템 이름 + 수량 적는 팝업
                         _inven.dropCountConfirmPanel.SetActive(true);
-                        _inven.dropCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(index);
+                        _inven.dropCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(UI_DropCountConfirm.Enum_DropUIParent.Inven, index);
                     }
                 }
             }

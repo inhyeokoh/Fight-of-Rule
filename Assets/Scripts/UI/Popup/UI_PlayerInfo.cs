@@ -7,7 +7,7 @@ using TMPro;
 
 public class UI_PlayerInfo : UI_Entity
 {
-    bool init;
+    bool _init;
     public GameObject dragImg;
     public GameObject descrPanel;
     public GameObject dropConfirmPanel;
@@ -47,7 +47,7 @@ public class UI_PlayerInfo : UI_Entity
 
     private void OnEnable()
     {
-        if (!init)
+        if (!_init)
         {
             return;
         }
@@ -119,7 +119,7 @@ public class UI_PlayerInfo : UI_Entity
             GameManager.UI.ClosePopup(GameManager.UI.PlayerInfo);
         };
 
-        init = true;
+        _init = true;
     }
 
     // 유저 정보 창 내 초기 장비 슬롯 생성

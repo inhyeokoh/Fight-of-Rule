@@ -32,7 +32,6 @@ public class UI_DropConfirm : UI_Entity
     {
         base.Init();
         dropUIParent = Enum_DropUIParent.Inven;
-
         _mainText = _entities[(int)Enum_UI_DropConfirm.MainText].transform.GetChild(0).GetComponent<TMP_Text>();
                 
         _entities[(int)Enum_UI_DropConfirm.Accept].ClickAction = (PointerEventData data) => {
@@ -58,7 +57,7 @@ public class UI_DropConfirm : UI_Entity
         transform.parent.gameObject.SetActive(false);
     }
 
-    public void ChangeText(Enum_DropUIParent UIName , int slotIndex)
+    public void ChangeText(Enum_DropUIParent UIName, int slotIndex)
     {
         dropUIParent = UIName;
 
