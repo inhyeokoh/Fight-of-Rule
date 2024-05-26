@@ -46,13 +46,11 @@ public class CharacterEffector : SubMono<PlayerController>
     public void EffectDurationOn(int index)
     {
         effectDuration[index].SetActive(true);
-        print(index);
     }
 
     public void EffectBurstOn(int index)
     {
         effetcBurst[index].SetActive(true);
-        print(index);
     }
     public void EffectBurstOff(int index)
     {

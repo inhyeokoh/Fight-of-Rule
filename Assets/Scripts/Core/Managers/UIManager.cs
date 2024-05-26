@@ -1,4 +1,4 @@
-//#define TEST
+// #define TEST
 #define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,17 +28,23 @@ public class UIManager : SubClass<GameManager>
     public LinkedList<GameObject> _activePopupList;
     public List<GameObject> _linkedPopupList;
 
+    bool _init;
+
     protected override void _Clear()
     {
-        
     }
 
     protected override void _Excute()
     {
+        if (!_init)
+        {
+            _DeactivateAllPopups();
+            _init = true;
+        }
     }
 
     protected override void _Init()
-    {   
+    {
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
 #if TEST
@@ -88,6 +94,13 @@ public class UIManager : SubClass<GameManager>
         pi = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
         moveAction = pi.currentActionMap.FindAction("Move");
         fireAction = pi.currentActionMap.FindAction("Fire");
+    }
+
+    void _DeactivateAllPopups()
+    {
+        Shop.GetComponent<UI_Shop>().shopSell.gameObject.SetActive(false);
+        Shop.GetComponent<UI_Shop>().shopRepurchase.gameObject.SetActive(false);
+        Shop.SetActive(false);
     }
 
     public void OpenPopup(GameObject popup)

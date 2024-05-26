@@ -25,7 +25,7 @@ public class UI_PlayerInfo : UI_Entity
     private Vector2 _playerInfoUIPos;
     private Vector2 _dragBeginPos;
     private Vector2 _offset;
-
+    
     enum Enum_UI_PlayerInfo
     {
         Interact,

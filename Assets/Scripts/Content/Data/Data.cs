@@ -266,6 +266,7 @@ public class CharData : Data
         Archer
     }
 
+    public long characterId; 
     public string charName;
     public int job;
     public bool gender;
@@ -282,8 +283,13 @@ public class CharData : Data
     public int defense;
     public int speed;
 
+    public float posX;
+    public float posY;
+    public float posZ;
+
     public CharData()
     {
+        characterId = 0;
         charName = "기본 이름";
         job = 0;
         gender = true;
@@ -299,6 +305,10 @@ public class CharData : Data
         attackSpeed = 1;
         defense = 3;
         speed = 10;
+
+        posX = 0;
+        posY = 0;
+        posZ = 0;
     }
 
     public CharData(int job) : this()

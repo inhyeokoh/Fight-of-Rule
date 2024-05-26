@@ -46,7 +46,6 @@ public class UI_ItemSlot : UI_Entity
         //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
         {
-            Debug.Log($"{_invenItems[index].id} {_invenItems[index].count}");
             if (!CheckItemNull())
             {
                 GameManager.UI.GetPopupForward(GameManager.UI.Inventory);
@@ -121,19 +120,27 @@ public class UI_ItemSlot : UI_Entity
             _inven.StopRestrictItemDescrPos(data);
         };
 
-        // 우클릭으로 아이템 장착
+        // 아이템 우클릭
         _entities[(int)Enum_UI_ItemSlot.IconImg].ClickAction = (PointerEventData data) =>
         {
-            if (CheckItemNull())
-            {
-                return;
-            }
+            if (CheckItemNull()) return;
 
-            if (data.button == PointerEventData.InputButton.Right && _invenItems[index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
+            if (data.button == PointerEventData.InputButton.Right)
             {
-                // TODO 장착 불가 경우
-
-                GameManager.Inven.EquipItem(index);
+                // 상점 열려 있는 상태면 상점 판매탭 물품으로 이동
+                if (GameManager.UI.Shop.activeSelf)
+                {
+                    GameManager.UI.Shop.GetComponent<UI_Shop>().panel_U_Buttons[1].isOn = true; // 판매탭 활성화
+                    GameManager.Inven.InvenToShop(index);
+                }
+                else
+                {
+                    if (_invenItems[index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
+                    {
+                        // TODO 장착 불가 경우
+                        GameManager.Inven.EquipItem(index);
+                    }
+                }
             }
         };
     }

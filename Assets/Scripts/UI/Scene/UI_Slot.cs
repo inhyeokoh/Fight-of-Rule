@@ -8,9 +8,9 @@ using UnityEngine.UI;
 
 public class UI_Slot : UI_Entity
 {
-    int slotNum;
+    public int index;
     CharData character;
-    string gender;
+
     enum Enum_UI_Slot
     {
         Image,
@@ -28,45 +28,45 @@ public class UI_Slot : UI_Entity
     {
         base.Init();
 
-        slotNum = Convert.ToInt32(gameObject.name);
-        character = GameManager.Data.characters[slotNum];
+        character = GameManager.Data.characters[index];
 
-        if (character != null) // 오브젝트 명과 일치하는 데이터 파일이 있다면,
+        if (character != null) // 캐릭터 정보 존재시
         {
-            _entities[(int)Enum_UI_Slot.Create].gameObject.SetActive(false);
+            string gender = character.gender ? "Men" : "Women";
+            string job = Enum.GetName(typeof(CharData.Enum_Job), character.job);
 
             // 직업에 맞는 이미지 로드
             Image image = _entities[(int)Enum_UI_Slot.Image].GetComponent<Image>();
-            image.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{character.job}");
-
+            image.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{job}");
 
             // 해당 슬롯 텍스트 상자에 데이터 기입
-            string gender = character.gender ? "Men" : "Women";
-            string job = Enum.GetName(typeof(CharData.Enum_Job), character.job);
 
             _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
                 $"{character.charName}\n {character.level}\n {job}\n {gender}\n";
 
             _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
                 GetComponent<Toggle>().isOn = true;
-                GameManager.Data.selectedSlotNum = slotNum;
+                GameManager.Data.selectedSlotNum = index;
             };
+
+            _entities[(int)Enum_UI_Slot.Create].gameObject.SetActive(false); // 캐릭터 생성 버튼 비활성화 
         }
         else
         {
-            SetEmpty();
+            _SetEmptySlot();
         }
     }
 
-    void SetEmpty()
+    void _SetEmptySlot()
     {
-        GetComponent<Toggle>().group = null; // 토글 그룹에서 제외 (선택 불가능 하도록);
+        GetComponent<Toggle>().group = null; // 선택 불가능 하도록 토글 그룹에서 제외
         _entities[(int)Enum_UI_Slot.Image].gameObject.SetActive(false);
         _entities[(int)Enum_UI_Slot.Label].gameObject.SetActive(false);
-        // "슬롯이름+Create" 이름을 가진 캐릭터 생성버튼에 기능 부여
+
+        // 캐릭터 생성버튼에 기능 부여
         _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
-            GameManager.Data.selectedSlotNum = slotNum;
-            GameManager.Scene.GetPreviousScene();
+            GameManager.Data.selectedSlotNum = index;
+            GameManager.Scene.LoadScene("Create");
         };
     }
 }

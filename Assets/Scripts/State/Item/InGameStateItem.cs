@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-//클래스 이름을 StateItemObject으로 바꿀 예정
-
 
 public class StateItem
 {

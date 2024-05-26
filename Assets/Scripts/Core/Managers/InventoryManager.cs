@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class InventoryManager : SubClass<GameManager>
 {
@@ -11,7 +12,7 @@ public class InventoryManager : SubClass<GameManager>
     public int equipSlotCount = 9;
     public List<ItemData> equips;
 
-    public long gold = 100000;
+    public long gold = 100000L;
     UI_Inventory _inven;
     UI_PlayerInfo _playerInfo;
 
@@ -42,10 +43,10 @@ public class InventoryManager : SubClass<GameManager>
 
         _inven = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_Inventory>();
         _playerInfo = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_PlayerInfo>();
-        _GetInvenDataFromDB();
+        _GetInvenDataFromTable();
     }
 
-    void _GetInvenDataFromDB()
+    void _GetInvenDataFromTable()
     {
         var item = CSVReader.Read("Data/InvenItems");
         for (int i = 0; i < item.Count; i++)
@@ -93,17 +94,17 @@ public class InventoryManager : SubClass<GameManager>
         // TODO 바뀐 내용 서버로 전송
     }
 
-    void _ChangeSlotNum(int oldKey, int newKey)
+    void _ChangeSlotNum(int oldPos, int newPos)
     {
-        items[newKey] = items[oldKey];
-        items[oldKey] = null;
+        items[newPos] = items[oldPos];
+        items[oldPos] = null;
     }
 
-    void _ExchangeSlotNum(int oldKey, int newKey)
+    void _ExchangeSlotNum(int oldPos, int newPos)
     {
-        ItemData temp = items[oldKey];
-        items[oldKey] = items[newKey];
-        items[newKey] = temp;
+        ItemData temp = items[oldPos];
+        items[oldPos] = items[newPos];
+        items[newPos] = temp;
     }
 
     bool _CheckSameAndCountable(int a, int b)
@@ -137,16 +138,12 @@ public class InventoryManager : SubClass<GameManager>
     public void InvenToEquipSlot(int invenPos, int equipPos)
     {
         // 맞는 장착 아이템 아니면 반환
-        if (!_CheckSameEquipType(equipPos, invenPos))
-        {
-            return;
-        }
+        if (!_CheckSameEquipType(equipPos, invenPos)) return;
 
         ItemData temp = equips[equipPos]; 
         equips[equipPos] = items[invenPos];
         items[invenPos] = temp;
 
-        // 이미지 갱신
         _inven.UpdateInvenUI(invenPos);
         _playerInfo.UpdateEquipUI(equipPos);
     }
@@ -166,7 +163,6 @@ public class InventoryManager : SubClass<GameManager>
             equips[equipPos] = temp;
         }
 
-        // 이미지 갱신
         _inven.UpdateInvenUI(invenPos);
         _playerInfo.UpdateEquipUI(equipPos);
     }
@@ -308,7 +304,7 @@ public class InventoryManager : SubClass<GameManager>
     {
         items[index].count -= dropCount;
         ItemData droppedItem = new ItemData(items[index], dropCount);
-        Vector3 playerTr = GameObject.Find("Warrior(Clone)").transform.position;
+        Vector3 playerTr = GameObject.FindWithTag("Player").transform.position;
         Vector3 dropPos = new Vector3(playerTr.x, playerTr.y, playerTr.z);
         ItemManager._item.ItemInstance(droppedItem, dropPos, Quaternion.identity);
 
@@ -317,15 +313,17 @@ public class InventoryManager : SubClass<GameManager>
             items[index] = null;
         }
 
-        // UI 갱신
         _inven.UpdateInvenUI(index);
     }
 
-    public void DropEquipItem(int index, int dropCount = 1)
+    public void DropEquipItem(int index)
     {
+        ItemData droppedItem = new ItemData(equips[index], 1);
+        Vector3 playerTr = GameObject.FindWithTag("Player").transform.position;
+        Vector3 dropPos = new Vector3(playerTr.x, playerTr.y, playerTr.z);
+        ItemManager._item.ItemInstance(droppedItem, dropPos, Quaternion.identity);
         equips[index] = null;
 
-        // UI 갱신
         _playerInfo.UpdateEquipUI(index);
     }
 
@@ -360,10 +358,7 @@ public class InventoryManager : SubClass<GameManager>
         }
 
         // 장착 아이템 아니면 반환
-        if (equipType == -1)
-        {            
-            return;
-        }
+        if (equipType == -1) return;
 
         ItemData temp = null;
         // 장착하고 있던 아이템이 있다면 잠시 보관
@@ -396,10 +391,7 @@ public class InventoryManager : SubClass<GameManager>
         items[invenEmptySlot] = equips[index];
         equips[index] = null;
 
-        // 장비창 UI 갱신
         _playerInfo.UpdateEquipUI(index);
-
-        // 인벤토리 UI 갱신
         _inven.UpdateInvenUI(invenEmptySlot);
 
         // TODO : 인벤토리 꽉 찬 경우 해제 불가 팝업
@@ -412,12 +404,10 @@ public class InventoryManager : SubClass<GameManager>
         items.RemoveAll(item => item == null);
         List<ItemData> result = MergeSort(items); // 병합 정렬
         items.Clear();
-        foreach (var item in result)
-        {
-            items.Add(item);
-        }
+        items.AddRange(result);
 
         _CombineQuantities(items);
+        ExtendItemList(); // 비어있는 칸 다시 null로 채우기
         for (int i = 0; i < items.Count; i++) // 아이템의 슬롯 번호 변경
         {
             if (items[i] != null)
@@ -425,8 +415,6 @@ public class InventoryManager : SubClass<GameManager>
                 items[i].slotNum = i;
             }
         }
-
-        ExtendItemList(); // 비어있는 칸 다시 null로 채우기
 
         // UI 갱신
         for (int i = 0; i < items.Count; i++)
@@ -464,7 +452,7 @@ public class InventoryManager : SubClass<GameManager>
         {
             if (left.Count > 0 && right.Count > 0)
             {
-                if (CompareItem(left[0],right[0]))
+                if (CompareLeftIsSmall(left[0],right[0]))
                 {
                     result.Add(left[0]);
                     left.RemoveAt(0);
@@ -491,7 +479,7 @@ public class InventoryManager : SubClass<GameManager>
     }
 
     // 왼쪽에 올 아이템에 대해 true 반환
-    bool CompareItem(ItemData left, ItemData right)
+    bool CompareLeftIsSmall(ItemData left, ItemData right)
     {
         if (left.itemType < right.itemType)
             return true;
@@ -555,5 +543,55 @@ public class InventoryManager : SubClass<GameManager>
     {
         gold -= totalPurchaseGold;
         _inven.UpdateGoldPanel(gold);
+    }
+
+    public void Sell(long totalSellGold)
+    {
+        gold += totalSellGold;
+        _inven.UpdateGoldPanel(gold);
+    }
+
+    // 인벤 우클릭으로 아이템이 상점 품목으로 이동
+    public void InvenToShop(int index)
+    {
+        UI_ShopSell shopSell = GameManager.UI.Shop.GetComponentInChildren<UI_ShopSell>();
+        int emptyIndex = shopSell.GetEmptySlotIndex();
+        shopSell.shopItems[emptyIndex] = items[index];
+        items[index] = null;
+
+        _inven.UpdateInvenUI(index);
+        shopSell.UpdateGoldPanel();
+        shopSell.shopItemCount++;
+        shopSell.transform.GetChild(0).GetChild(emptyIndex).GetComponent<UI_ShopSlot>().ItemRender();
+    }
+
+    // 상점 품목 우클릭으로 인벤토리로 되돌리기
+    public void ShopToInven(UI_ShopSlot.Enum_ShopSlotTypes slotType, int index)
+    {
+        int emptyIndex = GetEmptySlotIndex();
+        switch (slotType)
+        {
+            case UI_ShopSlot.Enum_ShopSlotTypes.Sell:
+                UI_ShopSell shopSell = GameManager.UI.Shop.GetComponentInChildren<UI_ShopSell>();
+                items[emptyIndex] = shopSell.shopItems[index];
+                shopSell.shopItems[index] = null;
+
+                _inven.UpdateInvenUI(emptyIndex);
+                shopSell.UpdateGoldPanel();
+                shopSell.transform.GetChild(0).GetChild(index).GetComponent<UI_ShopSlot>().ItemRender();
+                break;
+            case UI_ShopSlot.Enum_ShopSlotTypes.Repurchase:
+                UI_ShopRepurchase shopRepurchase = GameManager.UI.Shop.GetComponentInChildren<UI_ShopRepurchase>();
+                items[emptyIndex] = shopRepurchase.tempSoldItems[index];
+                Purchase(shopRepurchase.tempSoldItems[index].sellingprice); // 구매 가격 아니고 판매 가격으로 재구매임. 
+                shopRepurchase.tempSoldItems[index] = null;
+
+                _inven.UpdateInvenUI(emptyIndex);
+                _inven.UpdateGoldPanel(gold);
+                shopRepurchase.transform.GetChild(0).GetChild(index).GetComponent<UI_ShopSlot>().ItemRender();
+                break;
+            default:
+                break;
+        }
     }
 }

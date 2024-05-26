@@ -14,6 +14,7 @@ public class UI_Inventory : UI_Entity
     public GameObject descrPanel;
     public GameObject dropConfirmPanel;
     public GameObject dropCountConfirmPanel;
+    public GameObject closeBtn;
 
     public Rect panelRect;
     Vector2 _descrUISize;
@@ -69,6 +70,7 @@ public class UI_Inventory : UI_Entity
         descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
         dropConfirmPanel = _entities[(int)Enum_UI_Inventory.DropConfirm].gameObject;
         dropCountConfirmPanel = _entities[(int)Enum_UI_Inventory.DropCountConfirm].gameObject;
+        closeBtn = _entities[(int)Enum_UI_Inventory.Close].gameObject;
         _descrUISize = _GetUISize(descrPanel);
 
         _items = GameManager.Inven.items;
@@ -271,6 +273,7 @@ public class UI_Inventory : UI_Entity
         GameManager.Inven.ExtendItemList();
     }
 
+    // 아이템 획득 테스트용도
     void _PressGetItem()
     {
         var item = ItemParsing.StateItemDataReader(500);

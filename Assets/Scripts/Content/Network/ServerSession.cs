@@ -57,6 +57,9 @@ public class ServerSession : PacketSession
 
                 C_VERIFYING vrf = new C_VERIFYING();
                 vrf.Token =  _vrf?.token;
+                if(_vrf != null)
+                    vrf.Uid = _vrf.Value.unique_id;
+
                 Send(PacketHandler.Instance.SerializePacket(vrf));
                 break;
             default:

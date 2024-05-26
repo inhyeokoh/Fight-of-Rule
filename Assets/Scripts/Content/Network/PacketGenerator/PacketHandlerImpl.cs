@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Google.Protobuf;
 
 public class PacketHandlerImpl : MonoBehaviour
 {
@@ -50,53 +51,6 @@ public class PacketHandlerImpl : MonoBehaviour
         }
 
         GameManager.Network.Connect(message.Ip, message.Port, NetState.NEED_VRF, new Vrf() { ip = message.Ip, port = message.Port, token = message.Token, unique_id = message.Uid });
-        /*                // var field_list = message.Slots;
-                        AsyncOperation loadAsync;
-
-                        if (field_list.Count == 0)
-                        {
-                            //슬롯이 없음 => 신규 유저
-                            //신규유저 로직 처리 ( 경우에 따라 다른 패킷을 전송해야 할 수 있음)
-                            GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
-                            loadAsync = SceneManager.LoadSceneAsync("Create");
-                            GameManager.ThreadPool.UniAsyncLoopJob(() =>
-                            {
-                                return loadAsync.progress < 0.9f;
-                            });
-
-                            //TODO
-                            return true;
-                        }
-
-                        GameManager.Data.characters = new CharData[field_list.Count];
-                        for (int i = 0; i < field_list.Count; i++)
-                        {
-                            var slot = field_list[i];
-                            //슬롯 순회하면서 유저 스탯 정보 처리
-                            GameManager.Data.characters[i].charName = slot.Nickname;
-                            GameManager.Data.characters[i].job = slot.Job;
-                            GameManager.Data.characters[i].gender = slot.Gender;
-
-                            GameManager.Data.characters[i].level = slot.Stat.Level;
-                            GameManager.Data.characters[i].maxHP = slot.Stat.MaxHP;
-                            GameManager.Data.characters[i].hp = slot.Stat.Hp;
-                            GameManager.Data.characters[i].maxMP = slot.Stat.MaxMP;
-                            GameManager.Data.characters[i].mp = slot.Stat.Mp;
-                            GameManager.Data.characters[i].maxEXP = slot.Stat.MaxEXP;
-                            GameManager.Data.characters[i].exp = slot.Stat.Exp;
-                            GameManager.Data.characters[i].attack = slot.Stat.Attack;
-                            GameManager.Data.characters[i].attackSpeed = slot.Stat.AttackSpeed;
-                            GameManager.Data.characters[i].defense = slot.Stat.Defense;
-                            GameManager.Data.characters[i].speed = slot.Stat.Speed;
-
-                        }
-                        //캐릭터 선택씬으로 이동
-                        loadAsync = SceneManager.LoadSceneAsync("Select");
-                        GameManager.ThreadPool.UniAsyncLoopJob(() =>
-                        {
-                            return loadAsync.progress < 0.9f;
-                        });*/
-
         return true;
     }
 
@@ -159,11 +113,56 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
+        // 신규 유저
+        if (message.Character.Count == 0)
+        {
+            GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
+
+            // 캐릭터 생성씬 이동
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                var loadAsync = SceneManager.LoadSceneAsync("Create");
+                GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
+            });
+            return true;
+        }
+
+        // 기존 유저
+        CharData[] charArray = new CharData[4];
+        foreach (var charInfo in message.Character)
+        {
+            CharData charData = new CharData();
+            // charInfo CharData로 필드를 매핑
+            charData.charName = charInfo.BaseInfo.Nickname.ToStringUtf8();
+            charData.job = charInfo.BaseInfo.Job;
+            charData.gender = charInfo.BaseInfo.Gender;
+
+            charData.level = charInfo.Stat.Level;
+            charData.maxHP = charInfo.Stat.MaxHP;
+            charData.hp = charInfo.Stat.Hp;
+            charData.maxMP = charInfo.Stat.MaxMP;
+            charData.mp = charInfo.Stat.Mp;
+            charData.maxEXP = charInfo.Stat.MaxEXP;
+            charData.exp = charInfo.Stat.Exp;
+            charData.attack = charInfo.Stat.Attack;
+            charData.attackSpeed = charInfo.Stat.AttackSpeed;
+            charData.defense = charInfo.Stat.Defense;
+            charData.speed = charInfo.Stat.Speed;
+
+            charData.posX = charInfo.Xyz.X;
+            charData.posY = charInfo.Xyz.Y;
+            charData.posZ = charInfo.Xyz.Z;
+
+            charArray[charInfo.BaseInfo.SlotNum] = charData;
+        }
+
+        // 캐릭터 선택씬 이동
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
-            var loadAsync = SceneManager.LoadSceneAsync("Create");
+            var loadAsync = SceneManager.LoadSceneAsync("Select");
             GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
         });
+
         return true;
     }
 

@@ -414,7 +414,6 @@ public class PlayerController : MonoBehaviour
     // 이벤트들에 정보들을 받기위한 메서드들
     public void DistributeState(int Event)
     {
-        print("작동됌");
         _playerState.ChangeState(Event);
     }
 

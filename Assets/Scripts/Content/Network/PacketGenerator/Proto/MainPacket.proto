@@ -54,6 +54,7 @@ message C_VERIFYING
 message S_VERIFYING
 {
     bool sucess = 1;
+    repeated CHARACTER_INFO character = 2;
 }
 
 message C_NICKNAME {
@@ -77,7 +78,15 @@ message C_NEW_CHARACTER {
 
 message S_NEW_CHARACTER {
     bool success = 1;
-    int64 character_id = 2;
+    CHARACTER_BASE character = 2;
+}
+
+message C_DELETE_CHARACTER {
+    int64 character_id = 1;
+}
+
+message S_DELETE_CHARACTER {
+    bool success = 1;
 }
 
 message S_ITEMINFO {
