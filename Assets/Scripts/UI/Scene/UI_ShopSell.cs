@@ -13,7 +13,6 @@ public class UI_ShopSell : UI_Entity
     UI_Shop shopUI;
 
     public ItemData[] shopItems;
-    public int shopItemCount;
     public int shopTotalCount; // 물품 담을 수 있는 칸 수
 
     long _totalSellGold;
@@ -85,11 +84,9 @@ public class UI_ShopSell : UI_Entity
     // 목록 초기화
     void _EmptyShopSlot()
     {
-        Debug.Log(shopItemCount);
-        for (int i = 0; i < shopItemCount; i++)
+        for (int i = 0; i < shopItems.Length; i++)
         {
             shopItems[i] = null;
-            Debug.Log(i);
             transform.GetChild(0).GetChild(i).GetComponent<UI_ShopSlot>().ItemRender(); // 이미지 갱신
         }
     }

@@ -162,8 +162,8 @@ public class UI_ShopPurchase : UI_Entity
             }
             else  // 장바구니가 가득 찬 경우
             {
-                shopUI.notifyFull.SetActive(true);
-                shopUI.notifyFull.transform.GetChild(0).GetComponent<UI_InGameNotify>().ChangeText(UI_InGameNotify.Enum_NotifyParent.Shop);
+                // GameManager.UI.OpenPopup(GameManager.UI);
+                // shopUI.notifyFull.transform.GetChild(0).GetComponent<UI_InGameNotify>().ChangeText(UI_InGameNotify.Enum_NotifyParent.Shop);
                 return;
             }
         }
@@ -223,8 +223,8 @@ public class UI_ShopPurchase : UI_Entity
                     else
                     {
                         // 더 이상 추가할 공간이 없으므로 사용자에게 알림
-                        shopUI.notifyFull.SetActive(true);
-                        shopUI.notifyFull.transform.GetChild(0).GetComponent<UI_InGameNotify>().ChangeText(UI_InGameNotify.Enum_NotifyParent.Shop);
+                        // shopUI.notifyFull.SetActive(true);
+                        // shopUI.notifyFull.transform.GetChild(0).GetComponent<UI_InGameNotify>().ChangeText(UI_InGameNotify.Enum_NotifyParent.Shop);
                         break;
                     }
                 }

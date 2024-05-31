@@ -85,14 +85,14 @@ public class UI_ItemSlot : UI_Entity
                     if (_invenItems[Index].count == 1)
                     {
                         // 버릴지 되묻는 팝업
-                        _inven.dropConfirmPanel.SetActive(true);
-                        _inven.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(UI_DropConfirm.Enum_DropUIParent.Inven, Index);
+                        GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
+                        GameManager.UI.InGameConfirmYN.ChangeText(UI_InGameConfirmYN.Enum_ConfirmTypes.InvenSingleDrop, Index);
                     }
                     else
                     {
                         // 버릴 아이템 이름 + 수량 적는 팝업
-                        _inven.dropCountConfirmPanel.SetActive(true);
-                        _inven.dropCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(UI_DropCountConfirm.Enum_DropUIParent.Inven, Index);
+                        GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
+                        GameManager.UI.InGameConfirmYN.ChangeText(UI_InGameConfirmYN.Enum_ConfirmTypes.InvenPluralDrop, Index);
                     }
                 }
             }
@@ -128,7 +128,7 @@ public class UI_ItemSlot : UI_Entity
             if (data.button == PointerEventData.InputButton.Right)
             {
                 // 상점 열려 있는 상태면 상점 판매탭 물품으로 이동
-                if (GameManager.UI.Shop.activeSelf)
+                if (GameManager.UI.Shop.gameObject.activeSelf)
                 {
                     GameManager.UI.Shop.GetComponent<UI_Shop>().panel_U_Buttons[1].isOn = true; // 판매탭 활성화
                     GameManager.Inven.InvenToShop(Index);

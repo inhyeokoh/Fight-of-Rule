@@ -88,17 +88,18 @@ public class UI_ShopSlot : UI_Entity
                 switch (currentType)
                 {
                     case Enum_ShopSlotTypes.Purchase: // 장바구니 담기
-                        if (shopPurchase.AfterPurchaseGold < 0)
+                        if (shopPurchase.AfterPurchaseGold <= 0)
                         {
-                            Debug.Log("구매가 불가합니다");
+                            GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmY);
+                            GameManager.UI.InGameConfirmY.ChangeText(UI_InGameConfirmY.Enum_ConfirmTypes.NotEnoughMoney);
                             return;
                         }
 
                         if (Input.GetKey(KeyCode.LeftShift))
                         {
-                            // 몇개 담을지 묻는 팝업                    
-                            shopUI.purchaseCountConfirmPanel.SetActive(true);
-                            shopUI.purchaseCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(UI_DropCountConfirm.Enum_DropUIParent.Shop, Index);
+                            // 몇개 담을지 묻는 팝업
+                            GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
+                            GameManager.UI.InGameConfirmYN.ChangeText(UI_InGameConfirmYN.Enum_ConfirmTypes.PutInShopBasket, Index);
                         }
                         else
                         {

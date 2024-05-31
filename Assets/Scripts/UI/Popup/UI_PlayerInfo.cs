@@ -10,8 +10,6 @@ public class UI_PlayerInfo : UI_Entity
     bool _init;
     public GameObject dragImg;
     public GameObject descrPanel;
-    public GameObject dropConfirmPanel;
-    public GameObject dropCountConfirmPanel;
     GameObject _infoBoard;
     GameObject _statusBoard;
     GameObject equipSlots;
@@ -71,8 +69,6 @@ public class UI_PlayerInfo : UI_Entity
         equipSlots = _entities[(int)Enum_UI_PlayerInfo.Equipments].gameObject;
         dragImg = _entities[(int)Enum_UI_PlayerInfo.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_PlayerInfo.DescrPanel].gameObject;
-        dropConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropConfirm].gameObject;
-        dropCountConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropCountConfirm].gameObject;
         _infoBoard = _entities[(int)Enum_UI_PlayerInfo.InfoPanel].transform.GetChild(1).gameObject;
         _statusBoard = _entities[(int)Enum_UI_PlayerInfo.InfoPanel].transform.GetChild(3).gameObject;
         panelRect = _entities[(int)Enum_UI_PlayerInfo.Panel].GetComponent<RectTransform>().rect;
@@ -116,7 +112,8 @@ public class UI_PlayerInfo : UI_Entity
         // 유저 정보 창 닫기
         _entities[(int)Enum_UI_PlayerInfo.Close].ClickAction = (PointerEventData data) =>
         {
-            GameManager.UI.ClosePopup(GameManager.UI.PlayerInfo);
+            GameManager.UI.ClosePopupAndChildren(GameManager.UI.Inventory); // 테스트
+            // GameManager.UI.ClosePopup(GameManager.UI.PlayerInfo);
         };
 
         _init = true;

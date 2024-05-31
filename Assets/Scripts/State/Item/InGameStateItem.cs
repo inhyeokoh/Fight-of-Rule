@@ -101,7 +101,7 @@ public class InGameStateItem
         },         
         (item) => 
         {
-            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+            // Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
         }, 
         (item) => 
         { 
@@ -117,7 +117,7 @@ public class InGameStateItem
         },
         (item) =>
         {
-            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+
         },
         (item) =>
         {
@@ -133,7 +133,7 @@ public class InGameStateItem
         },
         (item) =>
         {
-            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+
         },
         (item) =>
         {
@@ -149,7 +149,7 @@ public class InGameStateItem
         },
         (item) =>
         {
-            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+
         },
         (item) =>
         {
@@ -165,7 +165,7 @@ public class InGameStateItem
         },
         (item) =>
         {
-            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+
         },
         (item) =>
         {
@@ -174,6 +174,76 @@ public class InGameStateItem
         (item) =>
         {
             playerStatus.SumAttack -= item.attack;
+        }));
+        StateItems.Add(1006, new StateItem((item) =>
+        {
+            playerStatus.SumDefense += item.defense;
+            playerStatus.SumMaxHP += item.maxHp;
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+            playerStatus.SumDefense -= item.defense;
+            playerStatus.SumMaxHP -= item.maxHp;
+        }));
+        StateItems.Add(1008, new StateItem((item) =>
+        {
+            playerStatus.SumDefense += item.defense;
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+            playerStatus.SumDefense -= item.defense;
+        }));
+        StateItems.Add(1012, new StateItem((item) =>
+        {
+            playerStatus.SumAttack += item.attack;
+            playerStatus.SumDefense += item.defense;
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+            playerStatus.SumAttack -= item.attack;
+            playerStatus.SumDefense -= item.defense;
+        }));
+        StateItems.Add(1016, new StateItem((item) =>
+        {
+            playerStatus.SumDefense += item.defense;
+            playerStatus.SumSpeed += item.speed;
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+            playerStatus.SumDefense -= item.defense;
+            playerStatus.SumSpeed -= item.speed;
         }));
         StateItems.Add(2, new StateItem((item) =>
         {

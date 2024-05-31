@@ -9,8 +9,6 @@ using UnityEngine.UI;
 public class UI_Shop : UI_Entity
 {
     public GameObject descrPanel;
-    public GameObject purchaseCountConfirmPanel;
-    public GameObject notifyFull;
     public UI_ShopSell shopSell;
     public UI_ShopRepurchase shopRepurchase;
 
@@ -42,7 +40,7 @@ public class UI_Shop : UI_Entity
 
     private void OnEnable()
     {
-        GameManager.UI.Inventory.SetActive(true);
+        GameManager.UI.Inventory.gameObject.SetActive(true);
         StartCoroutine(DeactivateWithDelay());
     }
 
@@ -50,9 +48,9 @@ public class UI_Shop : UI_Entity
     {
         GameManager.UI.PointerOnUI(false);
         GameManager.UI.Inventory.GetComponent<UI_Inventory>().closeBtn.SetActive(true);
+        _ReturnSellListToInven();
         shopRepurchase.EmptyTempForSold();
-        GameManager.UI.Inventory.SetActive(false);
-
+        GameManager.UI.Inventory.gameObject.SetActive(false);
     }
 
     protected override void Init()
@@ -60,8 +58,6 @@ public class UI_Shop : UI_Entity
         base.Init();
         descrPanel = _entities[(int)Enum_UI_Shop.DescrPanel].gameObject;
         panel_U_Buttons = _entities[(int)Enum_UI_Shop.Panel_U].GetComponentsInChildren<Toggle>();
-        purchaseCountConfirmPanel = _entities[(int)Enum_UI_Shop.PurchaseCountConfirm].gameObject;
-        notifyFull = _entities[(int)Enum_UI_Shop.NotifyFull].gameObject;
         shopSell = _entities[(int)Enum_UI_Shop.Panel].GetComponentInChildren<UI_ShopSell>();
         shopRepurchase = _entities[(int)Enum_UI_Shop.Panel].GetComponentInChildren<UI_ShopRepurchase>();
         panelRect = _entities[(int)Enum_UI_Shop.Panel].GetComponent<RectTransform>().rect;
@@ -145,7 +141,7 @@ public class UI_Shop : UI_Entity
 
     IEnumerator DeactivateWithDelay()
     {
-        yield return new WaitUntil(() => GameManager.UI.Inventory.activeSelf);
+        yield return new WaitUntil(() => GameManager.UI.Inventory.gameObject.activeSelf);
         GameManager.UI.Inventory.GetComponent<UI_Inventory>().closeBtn.SetActive(false);
     }
 
@@ -177,7 +173,7 @@ public class UI_Shop : UI_Entity
                 GameManager.Inven.items[emptyIndex] = shopSell.shopItems[index];
                 shopSell.shopItems[index] = null;
 
-                GameManager.Inven.inven.UpdateInvenUI(emptyIndex);
+                GameManager.Inven.inven.UpdateInvenSlot(emptyIndex);
                 shopSell.UpdateGoldPanel();
                 shopSell.transform.GetChild(0).GetChild(index).GetComponent<UI_ShopSlot>().ItemRender();
                 break;
@@ -187,11 +183,22 @@ public class UI_Shop : UI_Entity
                 GameManager.Inven.Gold -= shopRepurchase.tempSoldItems[index].sellingprice; // 구매 가격 아니고 판매 가격으로 재구매임. 
                 shopRepurchase.tempSoldItems[index] = null;
 
-                GameManager.Inven.inven.UpdateInvenUI(emptyIndex);
+                GameManager.Inven.inven.UpdateInvenSlot(emptyIndex);
                 shopRepurchase.transform.GetChild(0).GetChild(index).GetComponent<UI_ShopSlot>().ItemRender();
                 break;
             default:
                 break;
         }
+    }
+
+    void _ReturnSellListToInven()
+    {
+        for (int i = 0; i < shopSell.shopItems.Length; i++)
+        {
+            if (shopSell.shopItems[i] != null)
+            {
+                ShopToInven(UI_ShopSlot.Enum_ShopSlotTypes.Sell, i);
+            }
+        }     
     }
 }

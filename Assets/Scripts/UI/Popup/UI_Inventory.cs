@@ -12,8 +12,6 @@ public class UI_Inventory : UI_Entity
     public GameObject goldPanel;
     public GameObject dragImg;
     public GameObject descrPanel;
-    public GameObject dropConfirmPanel;
-    public GameObject dropCountConfirmPanel;
     public GameObject closeBtn;
 
     public Rect panelRect;
@@ -43,8 +41,6 @@ public class UI_Inventory : UI_Entity
         Close,
         DragImg,
         DescrPanel,
-        DropConfirm,
-        DropCountConfirm
     }
 
     protected override Type GetUINamesAsType()
@@ -67,8 +63,6 @@ public class UI_Inventory : UI_Entity
         goldPanel = _entities[(int)Enum_UI_Inventory.Gold].gameObject;
         dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
-        dropConfirmPanel = _entities[(int)Enum_UI_Inventory.DropConfirm].gameObject;
-        dropCountConfirmPanel = _entities[(int)Enum_UI_Inventory.DropCountConfirm].gameObject;
         closeBtn = _entities[(int)Enum_UI_Inventory.Close].gameObject;
         _descrUISize = _GetUISize(descrPanel);
 
@@ -127,6 +121,8 @@ public class UI_Inventory : UI_Entity
         _entities[(int)Enum_UI_Inventory.TempAdd].ClickAction = (PointerEventData data) =>
         {
             _PressGetItem();
+            GameManager.UI.OpenPopup(GameManager.UI.PlayerInfo);
+            childPopups.Add(GameManager.UI.PlayerInfo);
         };
 
         // 인벤토리 닫기
@@ -251,7 +247,7 @@ public class UI_Inventory : UI_Entity
     }
 
     // 아이템 배열 정보에 맞게 UI 갱신 시키는 메서드
-    public void UpdateInvenUI(int slotIndex)
+    public void UpdateInvenSlot(int slotIndex)
     {
         UI_ItemSlot slot = _content.transform.GetChild(slotIndex).GetComponent<UI_ItemSlot>();
         slot.ItemRender();

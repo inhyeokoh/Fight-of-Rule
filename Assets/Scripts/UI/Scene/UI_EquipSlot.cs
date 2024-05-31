@@ -76,8 +76,8 @@ public class UI_EquipSlot : UI_Entity
                 else
                 {
                     // 버릴지 되묻는 팝업
-                    _playerInfoUI.dropConfirmPanel.SetActive(true);
-                    _playerInfoUI.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(UI_DropConfirm.Enum_DropUIParent.PlayerInfo, Index);
+                    GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
+                    GameManager.UI.InGameConfirmYN.ChangeText(UI_InGameConfirmYN.Enum_ConfirmTypes.EquipDrop, Index);
                 }
             }
 

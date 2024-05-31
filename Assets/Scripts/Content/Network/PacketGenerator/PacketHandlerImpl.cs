@@ -60,7 +60,7 @@ public class PacketHandlerImpl : MonoBehaviour
         {
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
-                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
+                // GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
                 GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
             });
             return false;
@@ -70,7 +70,7 @@ public class PacketHandlerImpl : MonoBehaviour
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
             GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
-            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+            // GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
             GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
         });
         return true;
@@ -85,7 +85,7 @@ public class PacketHandlerImpl : MonoBehaviour
     {
         if (message.Success == false)
         {
-            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+            // ameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
             GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
             return false;
         }
