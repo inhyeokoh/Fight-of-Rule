@@ -20,7 +20,7 @@ public class UI_ShopPurchase : UI_Entity
     public int shopBasketCount;
 
     long _totalPurchaseGold;
-    long _afterPurchaseGold;
+    public long AfterPurchaseGold { get; private set; }
 
     enum Enum_UI_ShopPurchase
     {
@@ -68,7 +68,8 @@ public class UI_ShopPurchase : UI_Entity
                 GameManager.Inven.GetItem(shopBasketItems[i]);
                 EmptyBasketSlot(i);
             }
-            GameManager.Inven.Purchase(_totalPurchaseGold);
+
+            GameManager.Inven.Gold = AfterPurchaseGold;
             UpdateGoldPanel();
         };
 
@@ -92,7 +93,7 @@ public class UI_ShopPurchase : UI_Entity
         for (int i = 0; i < shopTotalCount; i++)
         {
             GameObject _shopSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ShopSlot", shopSlots.transform);
-            _shopSlot.GetComponent<UI_ShopSlot>().index = i;
+            _shopSlot.GetComponent<UI_ShopSlot>().Index = i;
 
             if (i < shopItemCount)
             {
@@ -120,8 +121,8 @@ public class UI_ShopPurchase : UI_Entity
             _totalPurchaseGold += item.purchaseprice * item.count;
         }
         goldPanel.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = _totalPurchaseGold.ToString();
-        _afterPurchaseGold = GameManager.Inven.gold - _totalPurchaseGold;
-        goldPanel.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = _afterPurchaseGold.ToString();
+        AfterPurchaseGold = GameManager.Inven.Gold - _totalPurchaseGold;
+        goldPanel.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = AfterPurchaseGold.ToString();
     }
 
     // 장바구니 UI 갱신

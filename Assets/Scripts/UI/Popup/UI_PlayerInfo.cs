@@ -129,14 +129,14 @@ public class UI_PlayerInfo : UI_Entity
         {
             GameObject _equipSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/EquipSlot", equipSlots.transform.GetChild(1));
             _equipSlot.name = "EquipSlot_" + i;
-            _equipSlot.GetComponent<UI_EquipSlot>().index = i;
+            _equipSlot.GetComponent<UI_EquipSlot>().Index = i;
         }
 
-        for (int i = _leftSlotCount; i < GameManager.Inven.equipSlotCount; i++)
+        for (int i = _leftSlotCount; i < GameManager.Inven.EquipSlotCount; i++)
         {
             GameObject _equipSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/EquipSlot", equipSlots.transform.GetChild(2));
             _equipSlot.name = "EquipSlot_" + i;
-            _equipSlot.GetComponent<UI_EquipSlot>().index = i;
+            _equipSlot.GetComponent<UI_EquipSlot>().Index = i;
         }
     }
 
@@ -205,7 +205,6 @@ public class UI_PlayerInfo : UI_Entity
     {
         CharacterStatus status = PlayerController.instance._playerStat;
 
-        Debug.Log("업뎃");
         GameObject level = _infoBoard.transform.GetChild(3).gameObject;
         level.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.level}";
 

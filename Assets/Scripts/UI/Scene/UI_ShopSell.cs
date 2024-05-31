@@ -59,7 +59,7 @@ public class UI_ShopSell : UI_Entity
         {
             _SaveTempForSold();
             _EmptyShopSlot();
-            GameManager.Inven.Sell(_totalSellGold);
+            GameManager.Inven.Gold = _afterSellGold;
             UpdateGoldPanel();
         };
 
@@ -78,7 +78,7 @@ public class UI_ShopSell : UI_Entity
         for (int i = 0; i < shopTotalCount; i++)
         {
             GameObject _shopSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ShopSlot", shopSlots.transform);
-            _shopSlot.GetComponent<UI_ShopSlot>().index = i;
+            _shopSlot.GetComponent<UI_ShopSlot>().Index = i;
         }
     }
 
@@ -105,7 +105,7 @@ public class UI_ShopSell : UI_Entity
             _totalSellGold += item.sellingprice * item.count;
         }
         goldPanel.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = _totalSellGold.ToString();
-        _afterSellGold = GameManager.Inven.gold + _totalSellGold;
+        _afterSellGold = GameManager.Inven.Gold + _totalSellGold;
         goldPanel.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = _afterSellGold.ToString();
     }
 

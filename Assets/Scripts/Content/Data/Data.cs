@@ -311,10 +311,7 @@ public class CharData : Data
         posZ = 0;
     }
 
-    public CharData(int job) : this()
-    {
-        this.job = job;
-    }
+    public CharData(int job) => this.job = job;    
 }
 
 

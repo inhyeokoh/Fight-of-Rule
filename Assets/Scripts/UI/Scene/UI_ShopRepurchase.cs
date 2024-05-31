@@ -51,7 +51,7 @@ public class UI_ShopRepurchase : UI_Entity
         for (int i = 0; i < shopTotalCount; i++)
         {
             GameObject _shopSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ShopSlot", shopSlots.transform);
-            _shopSlot.GetComponent<UI_ShopSlot>().index = i;
+            _shopSlot.GetComponent<UI_ShopSlot>().Index = i;
         }
     }
 

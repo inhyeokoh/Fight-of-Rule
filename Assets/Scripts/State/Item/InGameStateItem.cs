@@ -97,21 +97,68 @@ public class InGameStateItem
     {
         StateItems.Add(1000, new StateItem((item) => 
         {
-         
-       
+            playerStatus.SumAttack += item.attack;
         },         
         (item) => 
         {
-         
+            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
         }, 
         (item) => 
         { 
 
         }, 
         (item) =>
-        { 
-
+        {
+            playerStatus.SumAttack -= item.attack;
         })) ;
+        StateItems.Add(1001, new StateItem((item) =>
+        {
+            playerStatus.SumAttack += item.attack;
+        },
+        (item) =>
+        {
+            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+            playerStatus.SumAttack -= item.attack;
+        }));
+        StateItems.Add(1002, new StateItem((item) =>
+        {
+            playerStatus.SumAttack += item.attack;
+        },
+        (item) =>
+        {
+            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+            playerStatus.SumAttack -= item.attack;
+        }));
+        StateItems.Add(1003, new StateItem((item) =>
+        {
+            playerStatus.SumAttack += item.attack;
+        },
+        (item) =>
+        {
+            Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+            playerStatus.SumAttack -= item.attack;
+        }));
         StateItems.Add(1004, new StateItem((item) =>
         {
             playerStatus.SumAttack += item.attack;

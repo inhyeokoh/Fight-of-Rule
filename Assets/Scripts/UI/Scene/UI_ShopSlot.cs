@@ -16,7 +16,7 @@ public class UI_ShopSlot : UI_Entity
     // 현재 슬롯
     Image _iconImg;
     GameObject _amountText;
-    public int index;
+    public int Index { get; set; }
 
     public enum Enum_ShopSlotTypes
     {
@@ -88,24 +88,30 @@ public class UI_ShopSlot : UI_Entity
                 switch (currentType)
                 {
                     case Enum_ShopSlotTypes.Purchase: // 장바구니 담기
+                        if (shopPurchase.AfterPurchaseGold < 0)
+                        {
+                            Debug.Log("구매가 불가합니다");
+                            return;
+                        }
+
                         if (Input.GetKey(KeyCode.LeftShift))
                         {
                             // 몇개 담을지 묻는 팝업                    
                             shopUI.purchaseCountConfirmPanel.SetActive(true);
-                            shopUI.purchaseCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(UI_DropCountConfirm.Enum_DropUIParent.Shop, index);
+                            shopUI.purchaseCountConfirmPanel.transform.GetChild(0).GetComponent<UI_DropCountConfirm>().ChangeText(UI_DropCountConfirm.Enum_DropUIParent.Shop, Index);
                         }
                         else
                         {
                             // 장바구니에 1개 담기
-                            shopPurchase.AddItemInShopBasket(index);
+                            shopPurchase.AddItemInShopBasket(Index);
                             shopPurchase.UpdateGoldPanel();
                         }
                         break;
                     case Enum_ShopSlotTypes.Sell: // 인벤토리로 되돌리기
-                        GameManager.Inven.ShopToInven(Enum_ShopSlotTypes.Sell, index);
+                        shopUI.ShopToInven(Enum_ShopSlotTypes.Sell, Index);
                         break;
                     case Enum_ShopSlotTypes.Repurchase:
-                        GameManager.Inven.ShopToInven(Enum_ShopSlotTypes.Repurchase, index);
+                        shopUI.ShopToInven(Enum_ShopSlotTypes.Repurchase, Index);
                         break;
                     default:
                         break;
@@ -121,12 +127,12 @@ public class UI_ShopSlot : UI_Entity
         {
             case Enum_ShopSlotTypes.Purchase:
                 _amountText.SetActive(false);
-                if (index < shopPurchase.shopItemCount)
+                if (Index < shopPurchase.shopItemCount)
                 {
-                    transform.GetChild(1).GetComponent<TMP_Text>().text = shopPurchase.shopItems[index].name; // 이름
-                    transform.GetChild(2).GetComponent<TMP_Text>().text = $"{shopPurchase.shopItems[index].purchaseprice}"; // 구매 가격
+                    transform.GetChild(1).GetComponent<TMP_Text>().text = shopPurchase.shopItems[Index].name; // 이름
+                    transform.GetChild(2).GetComponent<TMP_Text>().text = $"{shopPurchase.shopItems[Index].purchaseprice}"; // 구매 가격
                     _iconImg.color = new Color32(255, 255, 255, 255);
-                    _iconImg.sprite = shopPurchase.shopItems[index].icon;
+                    _iconImg.sprite = shopPurchase.shopItems[Index].icon;
                 }
                 else
                 {
@@ -141,26 +147,26 @@ public class UI_ShopSlot : UI_Entity
                 }
                 break;
             case Enum_ShopSlotTypes.Sell:
-                if (shopSell.shopItems[index] != null)
+                if (shopSell.shopItems[Index] != null)
                 {
                     // 아이콘 외 요소 활성화
                     for (int j = 1; j < 5; j++)
                     {
                         transform.GetChild(j).gameObject.SetActive(true);
                     }
-                    transform.GetChild(1).GetComponent<TMP_Text>().text = shopSell.shopItems[index].name;
-                    transform.GetChild(2).GetComponent<TMP_Text>().text = (shopSell.shopItems[index].sellingprice * shopSell.shopItems[index].count).ToString();
+                    transform.GetChild(1).GetComponent<TMP_Text>().text = shopSell.shopItems[Index].name;
+                    transform.GetChild(2).GetComponent<TMP_Text>().text = (shopSell.shopItems[Index].sellingprice * shopSell.shopItems[Index].count).ToString();
                     _iconImg.color = new Color32(255, 255, 255, 255);
-                    _iconImg.sprite = shopSell.shopItems[index].icon;
+                    _iconImg.sprite = shopSell.shopItems[Index].icon;
                     // 장비 타입은 수량 고정1 이라 수량 표기X
-                    if (shopSell.shopItems[index].itemType == Enum_ItemType.Equipment)
+                    if (shopSell.shopItems[Index].itemType == Enum_ItemType.Equipment)
                     {
                         _amountText.SetActive(false);
                     }
                     else
                     {
                         _amountText.SetActive(true);
-                        _amountText.GetComponent<TMP_Text>().text = $"{shopSell.shopItems[index].count}";
+                        _amountText.GetComponent<TMP_Text>().text = $"{shopSell.shopItems[Index].count}";
                     }
                 }
                 else
@@ -176,26 +182,26 @@ public class UI_ShopSlot : UI_Entity
                 }
                 break;
             case Enum_ShopSlotTypes.Repurchase:
-                if (shopRepurchase.tempSoldItems[index] != null)
+                if (shopRepurchase.tempSoldItems[Index] != null)
                 {
                     // 아이콘 외 요소 활성화
                     for (int j = 1; j < 5; j++)
                     {
                         transform.GetChild(j).gameObject.SetActive(true);
                     }
-                    transform.GetChild(1).GetComponent<TMP_Text>().text = shopRepurchase.tempSoldItems[index].name;
-                    transform.GetChild(2).GetComponent<TMP_Text>().text = shopRepurchase.tempSoldItems[index].sellingprice.ToString();
+                    transform.GetChild(1).GetComponent<TMP_Text>().text = shopRepurchase.tempSoldItems[Index].name;
+                    transform.GetChild(2).GetComponent<TMP_Text>().text = shopRepurchase.tempSoldItems[Index].sellingprice.ToString();
                     _iconImg.color = new Color32(255, 255, 255, 255);
-                    _iconImg.sprite = shopRepurchase.tempSoldItems[index].icon;
+                    _iconImg.sprite = shopRepurchase.tempSoldItems[Index].icon;
                     // 장비 타입은 수량 고정1 이라 수량 표기X
-                    if (shopRepurchase.tempSoldItems[index].itemType == Enum_ItemType.Equipment)
+                    if (shopRepurchase.tempSoldItems[Index].itemType == Enum_ItemType.Equipment)
                     {
                         _amountText.SetActive(false);
                     }
                     else
                     {
                         _amountText.SetActive(true);
-                        _amountText.GetComponent<TMP_Text>().text = $"{shopRepurchase.tempSoldItems[index].count}";
+                        _amountText.GetComponent<TMP_Text>().text = $"{shopRepurchase.tempSoldItems[Index].count}";
                     }
                 }
                 else
@@ -220,12 +226,11 @@ public class UI_ShopSlot : UI_Entity
         switch (currentType)
         {
             case Enum_ShopSlotTypes.Purchase:
-                return shopPurchase.shopItems[index] == null;
+                return shopPurchase.shopItems[Index] == null;
             case Enum_ShopSlotTypes.Sell:
-                return shopSell.shopItems[index] == null;
+                return shopSell.shopItems[Index] == null;
             case Enum_ShopSlotTypes.Repurchase:
-                return shopRepurchase.tempSoldItems[index] == null;
-                break;
+                return shopRepurchase.tempSoldItems[Index] == null;
             default:
                 return true;
         }
@@ -236,14 +241,14 @@ public class UI_ShopSlot : UI_Entity
         switch (currentType)
         {
             case Enum_ShopSlotTypes.Purchase:
-                shopUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = shopPurchase.shopItems[index].name; // 아이템 이름
+                shopUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = shopPurchase.shopItems[Index].name; // 아이템 이름
                 shopUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
 
-                if (shopPurchase.shopItems[index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
+                if (shopPurchase.shopItems[Index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
                 {
-                    StateItemData itemData = ItemParsing.itemDatas[shopPurchase.shopItems[index].id] as StateItemData;
+                    StateItemData itemData = ItemParsing.itemDatas[shopPurchase.shopItems[Index].id] as StateItemData;
                     int[] stats = { itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp };
-                    string descLines = string.Format(shopPurchase.shopItems[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
+                    string descLines = string.Format(shopPurchase.shopItems[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
                     string[] lines = descLines.Split("\n");
 
                     string desc = $"{lines[0]} \n";
@@ -261,18 +266,18 @@ public class UI_ShopSlot : UI_Entity
                 else
                 {
                     shopUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text =
-                    shopPurchase.shopItems[index].desc;
+                    shopPurchase.shopItems[Index].desc;
                 }
                 break;
             case Enum_ShopSlotTypes.Sell:
-                shopUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = shopSell.shopItems[index].name; // 아이템 이름
+                shopUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = shopSell.shopItems[Index].name; // 아이템 이름
                 shopUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
 
-                if (shopSell.shopItems[index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
+                if (shopSell.shopItems[Index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
                 {
-                    StateItemData itemData = ItemParsing.itemDatas[shopSell.shopItems[index].id] as StateItemData;
+                    StateItemData itemData = ItemParsing.itemDatas[shopSell.shopItems[Index].id] as StateItemData;
                     int[] stats = { itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp };
-                    string descLines = string.Format(shopSell.shopItems[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
+                    string descLines = string.Format(shopSell.shopItems[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
                     string[] lines = descLines.Split("\n");
 
                     string desc = $"{lines[0]} \n";
@@ -290,18 +295,18 @@ public class UI_ShopSlot : UI_Entity
                 else
                 {
                     shopUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text =
-                    shopSell.shopItems[index].desc;
+                    shopSell.shopItems[Index].desc;
                 }
                 break;
             case Enum_ShopSlotTypes.Repurchase:
-                shopUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = shopRepurchase.tempSoldItems[index].name; // 아이템 이름
+                shopUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = shopRepurchase.tempSoldItems[Index].name; // 아이템 이름
                 shopUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
 
-                if (shopRepurchase.tempSoldItems[index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
+                if (shopRepurchase.tempSoldItems[Index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
                 {
-                    StateItemData itemData = ItemParsing.itemDatas[shopRepurchase.tempSoldItems[index].id] as StateItemData;
+                    StateItemData itemData = ItemParsing.itemDatas[shopRepurchase.tempSoldItems[Index].id] as StateItemData;
                     int[] stats = { itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp };
-                    string descLines = string.Format(shopRepurchase.tempSoldItems[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
+                    string descLines = string.Format(shopRepurchase.tempSoldItems[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
                     string[] lines = descLines.Split("\n");
 
                     string desc = $"{lines[0]} \n";
@@ -319,7 +324,7 @@ public class UI_ShopSlot : UI_Entity
                 else
                 {
                     shopUI.descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>().text =
-                    shopRepurchase.tempSoldItems[index].desc;
+                    shopRepurchase.tempSoldItems[Index].desc;
                 }
                 break;
             default:

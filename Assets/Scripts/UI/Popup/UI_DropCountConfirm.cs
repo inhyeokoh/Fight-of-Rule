@@ -48,6 +48,7 @@ public class UI_DropCountConfirm : UI_Entity
                     GameManager.Inven.DropInvenItem(_slotIndex, count);
                     break;
                 case Enum_DropUIParent.Shop:
+
                     UI_ShopPurchase shopPurchase = transform.parent.parent.GetComponentInChildren<UI_ShopPurchase>();
                     shopPurchase.AddItemInShopBasket(_slotIndex, count);
                     shopPurchase.UpdateGoldPanel();
