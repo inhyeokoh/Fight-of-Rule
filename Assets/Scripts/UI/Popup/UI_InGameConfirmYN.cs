@@ -34,6 +34,7 @@ public class UI_InGameConfirmYN : UI_Entity
         Accept,
         Cancel
     }
+
     public enum Enum_ConfirmTypes
     {
         InvenSingleDrop,
@@ -146,10 +147,5 @@ public class UI_InGameConfirmYN : UI_Entity
             default:
                 break;
         }
-    }
-
-    void _SetMaxCountInInputField()
-    {
-        _inputField.transform.GetChild(0).GetChild(2).GetComponent<TMP_Text>().text = GameManager.Inven.items[_slotIndex].count.ToString(); // 최대 수량 자동 입력
     }
 }

@@ -1,4 +1,4 @@
-#define INVENTEST
+// #define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,6 +12,7 @@ public class DataManager : SubClass<GameManager>
     public LoginData login; // 로그인 정보
     public CharData[] characters; // 캐릭터 생성 정보
     public SettingsData setting; // 환경설정 정보
+    public int selectedSlotNum;
 
 
     /// <summary>
@@ -46,8 +47,6 @@ public class DataManager : SubClass<GameManager>
     public List<WarriorSkillData> warriorSkillData = new List<WarriorSkillData>();
     /////////////////////////////////////////////////////////////////////////////////////
 
-    public int selectedSlotNum;
-
     string path;
     public string fileName;
 
@@ -75,7 +74,6 @@ public class DataManager : SubClass<GameManager>
         path = Application.persistentDataPath + "/";
 
         DBDataLoad();
-        LoadAllSavedData();
     }
 
     // 저장할 파일 이름과 저장할 클래스를 입력 받아 JSON 형식의 문자열로 바꾼 후, 로컬에 저장
@@ -105,15 +103,6 @@ public class DataManager : SubClass<GameManager>
         }
         return false;
     }
-
-    void LoadAllSavedData()
-    {
-        if (GameManager.Data.CheckData("LoginData")) // 로그인 기록이 있으면 만들어둔 슬롯 갯수가 있을것이므로 불러옴
-        {
-            login = JsonUtility.FromJson<LoginData>(GameManager.Data.LoadData("LoginData"));
-        }
-    }
-
 
     void DBDataLoad()
     {

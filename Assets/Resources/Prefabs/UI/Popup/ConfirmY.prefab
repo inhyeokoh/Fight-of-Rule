@@ -264,7 +264,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Accept
+  m_text: "\uD655\uC778"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6821b3660b847ec4eb24d0caa0dfa07a, type: 2}
   m_sharedMaterial: {fileID: -3045121458587402318, guid: 6821b3660b847ec4eb24d0caa0dfa07a,
@@ -599,3 +599,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 184ad6ca6d1d8b94ab6bf61cd847059c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  childPopups: []
+  _useBlocker: 1

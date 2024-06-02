@@ -24,7 +24,7 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     //부모 UI_Entity
     UI_Entity _mother;
 
-    // 자식 팝업I
+    // 자식 팝업
     public List<UI_Entity> childPopups = new List<UI_Entity>();
 
     //모든 하위 UI 요소들 + 현재 UI로부터 파생된 팝업 UI

@@ -14,6 +14,8 @@ public class PacketHandlerImpl : MonoBehaviour
         {
 #if UNITY_EDITOR
             Utils.Log("이미 존재하는 아이디");
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+            GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistID);
             return false;
 #endif
         }
@@ -21,19 +23,29 @@ public class PacketHandlerImpl : MonoBehaviour
         if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
         {
             Utils.Log("이미 가입된 회원입니다");
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+            GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistUser);
             return false;
         }
 
         Utils.Log("성공적으로 가입 되었습니다");
+        GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+        GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.SignUpSuccess);
         return true;
     }
 
     internal static bool Handle_S_LOGIN(Session session, S_LOGIN message)
     {
+        Chronometry.Instance.ReceivePacket("login");
         if (false == message.LoginSuccess)
         {
             //경우에 따라서 재로그인 유도 (지금은 그냥 return)
             Debug.Log("로그인 실패");
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.LoginFail);
+            });
             return false;
         }
 
@@ -47,6 +59,11 @@ public class PacketHandlerImpl : MonoBehaviour
             //이건 명확히 재시도 해야함
             //todo
             Utils.Log("로그인 실패");
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.LoginFail);
+            });
             return false;
         }
 
@@ -54,50 +71,6 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
-    {
-        if (message.Success == false)
-        {
-            GameManager.ThreadPool.UniAsyncJob(() =>
-            {
-                // GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
-                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
-            });
-            return false;
-        }
-
-        // 해당 닉네임 생성 가능하면
-        GameManager.ThreadPool.UniAsyncJob(() =>
-        {
-            GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
-            // GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
-            GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
-        });
-        return true;
-    }
-
-    internal static bool Handle_S_CHARACTERS(Session session, S_CHARACTERS message)
-    {
-        return true;
-    }
-
-    internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
-    {
-        if (message.Success == false)
-        {
-            // ameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
-            GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
-            return false;
-        }
-
-        // 캐릭터 생성 가능 시
-        GameManager.ThreadPool.UniAsyncJob(() =>
-        {
-            var loadAsync = SceneManager.LoadSceneAsync("Select");
-            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
-        });
-        return true;
-    }
 
     internal static bool Handle_S_ASK_VERF(Session session, S_ASK_VERF message)
     {
@@ -106,6 +79,11 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING message)
     {
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
+        });
+
         if (message.Sucess == false)
         {
             //TODO 게임 종료시키기
@@ -163,6 +141,67 @@ public class PacketHandlerImpl : MonoBehaviour
             GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
         });
 
+        return true;
+    }
+
+    internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
+    {
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
+        });
+
+        // 생성 불가
+        if (message.Success == false)
+        {            
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistNickName);
+            });
+            return false;
+        }
+
+        // 해당 닉네임 생성 가능하면
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
+            GameManager.UI.InputName.childPopups.Add(GameManager.UI.ConfirmYN);
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
+            GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDecidingNickName);            
+        });
+        return true;
+    }
+
+    internal static bool Handle_S_CHARACTERS(Session session, S_CHARACTERS message)
+    {
+        return true;
+    }
+
+    internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
+    {
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
+        });
+
+        // 캐릭터 생성 불가 시
+        if (message.Success == false)
+        {
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistNickName);
+            });
+            return false;
+        }
+
+        // 캐릭터 생성 가능 시
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            var loadAsync = SceneManager.LoadSceneAsync("Select");
+            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
+        });
         return true;
     }
 

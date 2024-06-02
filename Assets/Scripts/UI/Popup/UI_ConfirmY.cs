@@ -5,10 +5,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// 확인 버튼만 있는 팝업
+/// <summary>
+/// 확인 버튼이 있는 팝업. 취소로 변경 가능.
+/// </summary>
 public class UI_ConfirmY : UI_Entity
 {
+    bool _init;
+    public bool _useBlocker = true;
     TMP_Text _mainText;
+    Enum_ConfirmTypes confirmType;
 
     enum Enum_UI_Confirm
     {
@@ -16,6 +21,27 @@ public class UI_ConfirmY : UI_Entity
         Interact,
         MainText,
         Accept
+    }
+
+    public enum Enum_ConfirmTypes
+    {
+        ExistID,
+        ExistUser,
+        SignUpSuccess,
+        LoginFail,
+        ExistNickName
+    }
+
+    private void OnEnable()
+    {
+        if (!_init || !_useBlocker) return;
+
+        GameManager.UI.UseBlocker(true);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.UI.UseBlocker(false);
     }
 
     protected override Type GetUINamesAsType()
@@ -28,17 +54,38 @@ public class UI_ConfirmY : UI_Entity
         base.Init();
 
         _mainText = _entities[(int)Enum_UI_Confirm.MainText].GetComponent<TMP_Text>();
-        _mainText.text = "Default";
 
         _entities[(int)Enum_UI_Confirm.Accept].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
         };
 
         gameObject.SetActive(false);
+        _init = true;
     }
 
-    public void ChangeText(string contents)
+    public void ChangeText(Enum_ConfirmTypes type)
     {
-        _mainText.text = contents;
+        confirmType = type;
+
+        switch (confirmType)
+        {
+            case Enum_ConfirmTypes.ExistID:
+                _mainText.text = $"존재하는 ID입니다.";
+                break;
+            case Enum_ConfirmTypes.ExistUser:
+                _mainText.text = $"이미 가입된 회원입니다.";
+                break;
+            case Enum_ConfirmTypes.SignUpSuccess:
+                _mainText.text = $"성공적으로 가입되었습니다.";
+                break;
+            case Enum_ConfirmTypes.LoginFail:
+                _mainText.text = $"로그인에 실패했습니다. 잠시 후에 다시 시도하십시오.";
+                break;
+            case Enum_ConfirmTypes.ExistNickName:
+                _mainText.text = $"존재하는 닉네임 입니다!";
+                break;
+            default:
+                break;
+        }
     }
 }

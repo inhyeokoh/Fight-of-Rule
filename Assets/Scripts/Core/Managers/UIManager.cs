@@ -1,25 +1,15 @@
 // #define TEST
-#define INVENTEST
+// #define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class UIManager : SubClass<GameManager>
 {
     PlayerInput pi;
     InputAction moveAction;
     InputAction fireAction;
-/*    public GameObject SignUp;
-    public GameObject Inventory;
-    public GameObject PlayerInfo;
-    public GameObject Shop;
-    public GameObject Setting;
-    public GameObject InputName;
-    public GameObject ConfirmYN;
-    public GameObject ConfirmY;
-    public GameObject StatusWindow;
-    //public GameObject SkillWindow;
-    public GameObject InGameMain;*/
 
     public UI_SignUp SignUp;
     public UI_InputName InputName;
@@ -27,6 +17,7 @@ public class UIManager : SubClass<GameManager>
     public UI_Blocker Blocker;
     public UI_ConfirmYN ConfirmYN;
     public UI_ConfirmY ConfirmY;
+    public UI_BlockAll BlockAll;
 
     public UI_Inventory Inventory;
     public UI_PlayerInfo PlayerInfo;
@@ -52,11 +43,11 @@ public class UIManager : SubClass<GameManager>
 
     protected override void _Excute()
     {
-        if (!_init)
+/*        if (!_init)
         {
             _DeactivateAllPopups();
             _init = true;
-        }
+        }*/
     }
 
     protected override void _Init()
@@ -64,7 +55,7 @@ public class UIManager : SubClass<GameManager>
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
 #if TEST
-        _activePopupList = new LinkedList<GameObject>();
+        _activePopupList = new LinkedList<UI_Entity>();
 #elif INVENTEST
         GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
         popupCanvas = GameObject.Find("PopupCanvas");
@@ -82,17 +73,21 @@ public class UIManager : SubClass<GameManager>
         Object.DontDestroyOnLoad(popupCanvas);
         SetOutGamePopups();
 
-        _activePopupList = new LinkedList<GameObject>();
+        _activePopupList = new LinkedList<UI_Entity>();
 #endif
     }
-/*    public void SetOutGamePopups()
+
+    public void SetOutGamePopups()
     {
-        SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform);
-        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupCanvas.transform);
-        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform);
-        ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform);
-        ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform);
-    }*/
+        SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
+        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupCanvas.transform).GetComponent<UI_Setting>();
+        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform).GetComponent<UI_InputName>();
+        ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform).GetComponent<UI_ConfirmYN>();
+        ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform).GetComponent<UI_ConfirmY>();
+        //ConfirmN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmN", popupCanvas.transform).GetComponent<UI_ConfirmN>();
+        Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
+        BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).GetComponent<UI_BlockAll>();
+    }
 
     public void SetInGamePopups()
     {
@@ -116,7 +111,6 @@ public class UIManager : SubClass<GameManager>
     {
         Shop.GetComponent<UI_Shop>().shopSell.gameObject.SetActive(false);
         Shop.GetComponent<UI_Shop>().shopRepurchase.gameObject.SetActive(false);
-        // Shop.SetActive(false);
         Shop.gameObject.SetActive(false);
     }
 
@@ -133,31 +127,25 @@ public class UIManager : SubClass<GameManager>
         targetPopup.gameObject.SetActive(false);
     }
 
-    public void CloseLinkedPopup()
-    {
-    }
 
-    // 특정 팝업과 그 하위 팝업들을 닫는 메소드
+    // 특정 팝업과 그 하위 팝업들을 닫음
     public void ClosePopupAndChildren(UI_Entity targetPopup)
     {
-        // targetPopup이 현재 활성화된 팝업 리스트에 있는지 확인
         if (_activePopupList.Contains(targetPopup))
         {
-            // targetPopup과 그 하위 팝업들을 닫음
-            ClosePopupRecursively(targetPopup);
+            _ClosePopupRecursively(targetPopup);
         }
     }
 
     // targetPopup과 그 하위 팝업들을 재귀적으로 닫음
-    private void ClosePopupRecursively(UI_Entity targetPopup)
+    void _ClosePopupRecursively(UI_Entity targetPopup)
     {
-        // targetPopup 닫기
         ClosePopup(targetPopup);
 
         // targetPopup의 하위 UI_Entity들에 대해 반복
         foreach (var child in targetPopup.childPopups)
         {
-            ClosePopupRecursively(child);
+            _ClosePopupRecursively(child);
         }
     }
 
@@ -196,7 +184,7 @@ public class UIManager : SubClass<GameManager>
             }
         }
 
-        // Blocker의 위치를 팝업 바로 아래로 설정합니다.
+        // Blocker의 위치를 활성화 팝업 바로 위로 설정
         int activatePopupIndex = 0;
         for (int i = 0; i < popupCanvas.transform.childCount; i++)
         {

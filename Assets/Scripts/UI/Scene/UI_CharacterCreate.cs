@@ -113,5 +113,7 @@ public class UI_CharacterCreate : UI_Entity
         new_character_pkt.Character.CharacterId = character.characterId; // 기본값 0 전송
 
         GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(new_character_pkt));
+
+        GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
     }
 }

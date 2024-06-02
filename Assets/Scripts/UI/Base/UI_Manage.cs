@@ -1,4 +1,4 @@
-#define INVENTEST
+// #define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
