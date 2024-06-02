@@ -13,30 +13,38 @@ public class PacketHandlerImpl : MonoBehaviour
         if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorDup)
         {
 #if UNITY_EDITOR
-            Utils.Log("이미 존재하는 아이디");
-            GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
-            GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistID);
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                Utils.Log("이미 존재하는 아이디");
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistID);
+            });
             return false;
 #endif
         }
 
         if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
         {
-            Utils.Log("이미 가입된 회원입니다");
-            GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
-            GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistUser);
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                Utils.Log("이미 가입된 회원입니다");
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.ExistUser);
+            });
             return false;
         }
 
-        Utils.Log("성공적으로 가입 되었습니다");
-        GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
-        GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.SignUpSuccess);
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            Utils.Log("성공적으로 가입 되었습니다");
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+            GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.SignUpSuccess);
+        });
         return true;
     }
 
     internal static bool Handle_S_LOGIN(Session session, S_LOGIN message)
     {
-        Chronometry.Instance.ReceivePacket("login");
         if (false == message.LoginSuccess)
         {
             //경우에 따라서 재로그인 유도 (지금은 그냥 return)
@@ -79,10 +87,10 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING message)
     {
-        GameManager.ThreadPool.UniAsyncJob(() =>
+        /*GameManager.ThreadPool.UniAsyncJob(() =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });
+        });*/
 
         if (message.Sucess == false)
         {
@@ -146,10 +154,10 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
-        GameManager.ThreadPool.UniAsyncJob(() =>
+        /*GameManager.ThreadPool.UniAsyncJob(() =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });
+        });*/
 
         // 생성 불가
         if (message.Success == false)
@@ -180,10 +188,10 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
     {
-        GameManager.ThreadPool.UniAsyncJob(() =>
+        /*GameManager.ThreadPool.UniAsyncJob(() =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });
+        });*/
 
         // 캐릭터 생성 불가 시
         if (message.Success == false)

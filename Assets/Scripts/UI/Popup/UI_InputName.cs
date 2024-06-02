@@ -58,9 +58,9 @@ public class UI_InputName : UI_Entity
             {*/
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
-            GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
 
-            GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
+            //GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
             /*            };*/
         };
 
