@@ -52,11 +52,12 @@ public class ItemParsing : MonoBehaviour
             int item_maxhp = int.Parse(consumptionData[i]["item_maxhp"]);
             int item_maxmp = int.Parse(consumptionData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(consumptionData[i]["item_maxcount"]);
-
+            bool item_durationbool = bool.Parse(consumptionData[i]["item_durationbool"]);
+            float item_duration = float.Parse(consumptionData[i]["item_duration"]);
 
 
             ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_detailtype, item_purchaseprice, item_sellingprice, item_level,
-                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount);
+                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_durationbool,item_duration);
 
 
 #if List
@@ -94,9 +95,11 @@ public class ItemParsing : MonoBehaviour
             int item_maxhp = int.Parse(equipmentData[i]["item_maxhp"]);
             int item_maxmp = int.Parse(equipmentData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(equipmentData[i]["item_maxcount"]);
+            bool item_durationbool = bool.Parse(equipmentData[i]["item_durationbool"]);
+            float item_duration = float.Parse(equipmentData[i]["item_duration"]);
 
             ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_detailtype, item_purchaseprice, item_sellingprice, item_level,
-             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount);
+             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_durationbool,item_duration);
 
 
 #if List
@@ -147,7 +150,7 @@ public class ItemParsing : MonoBehaviour
 
             itemDataPasing = new StateItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
                 itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
-                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount);
+                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.durationBool,itemData.duration);
 
             return itemDataPasing;
         }

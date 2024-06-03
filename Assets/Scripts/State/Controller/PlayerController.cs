@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public CharacterMovement _playerMovement;
     public CharacterEquipment _playerEquipment;
     public CharacterExternalStatus _playerExternalStat;
+    public CharacterCapability _playerCpapbility;
     public CharacterEventHandler _eventHandler;
     public CharacterAnimationController _animationController;
     public CharacterEffector _effector;
@@ -81,6 +82,7 @@ public class PlayerController : MonoBehaviour
                     _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
+                    _playerCpapbility = clone.GetComponent<CharacterCapability>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
@@ -96,6 +98,7 @@ public class PlayerController : MonoBehaviour
                     _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
+                    _playerCpapbility = clone.GetComponent<CharacterCapability>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
@@ -111,6 +114,7 @@ public class PlayerController : MonoBehaviour
                     _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
+                    _playerCpapbility = clone.GetComponent<CharacterCapability>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
@@ -129,6 +133,7 @@ public class PlayerController : MonoBehaviour
             _playerExternalStat,
             _playerEquipment,
             _playerMovement,
+            _playerCpapbility,
             _eventHandler,
             _animationController,
             _effector,

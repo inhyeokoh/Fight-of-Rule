@@ -4407,6 +4407,7 @@ GameObject:
   - component: {fileID: -7184595091232703959}
   - component: {fileID: -8439452911119820533}
   - component: {fileID: -7878926291624315285}
+  - component: {fileID: -9203160864182918217}
   - component: {fileID: 1244553785585965017}
   m_Layer: 7
   m_Name: Archer
@@ -4577,6 +4578,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d1b309a6f26ecc4db92a351f8c8859c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-9203160864182918217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824225483564466560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c603dc3318e5b514a910f770c6c2ce0f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1244553785585965017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4589,6 +4602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd1b99f2b11494a4283253fdb2efd627, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  InGameItems: []
 --- !u!1 &6824225483574036747
 GameObject:
   m_ObjectHideFlags: 0
