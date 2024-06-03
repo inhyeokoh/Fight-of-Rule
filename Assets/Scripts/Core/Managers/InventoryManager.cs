@@ -81,7 +81,7 @@ public class InventoryManager : SubClass<GameManager>
             int slotNum = int.Parse(item[i]["slotNum"]);
 
             // id,count,slotNum받고 해당하는 id로 아이템 생성
-            items[slotNum] = ItemParsing.StateItemDataReader(id);
+            items[slotNum] = GameManager.Data.StateItemDataReader(id);
             items[slotNum].count = count;
 
             // TODO 장비아이템은 고유번호
@@ -510,6 +510,30 @@ public class InventoryManager : SubClass<GameManager>
         }
 
         // 인벤토리 UI 갱신
+        inven.UpdateInvenSlot(index);
+    }
+
+    public void ConsumeItem(int index)
+    {
+        if (items[index].count <= 0) return;
+
+        StateItemData sid = items[index] as StateItemData;
+        PlayerController.instance._playerCapability.Use(sid);
+        if (items[index].count > 1)
+        {
+            items[index].count--;
+        }
+        else
+        {
+            items[index] = null;
+        }
+
+        // 플레이어정보창 UI 갱신
+        if (_playerInfo.gameObject.activeSelf)
+        {
+            _playerInfo.UpdateStatus();
+        }
+
         inven.UpdateInvenSlot(index);
     }
 

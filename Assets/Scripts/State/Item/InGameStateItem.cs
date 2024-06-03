@@ -30,6 +30,7 @@ public class InGameStateItem
     public float duration;
 
     private StateItemData stateItemData;
+    public CharacterCapability playerCapability;
 
     public StateItemData StateItemData { get { return stateItemData; } }
 
@@ -47,7 +48,8 @@ public class InGameStateItem
         duration = stateItemData.duration;
 
         playerStatus = PlayerController.instance._playerStat;
-    
+        playerCapability = PlayerController.instance._playerCapability;
+
         if (!stateComplete)        
         {         
             StateSetting();         
@@ -97,6 +99,85 @@ public class InGameStateItem
     // 다른 아이템들도 잘 연동되는지 확인
     public void StateSetting()
     {
+        StateItems.Add(500, new StateItem((item) =>
+        {
+            playerStatus.HP += 50;
+            Debug.Log("빨간포션 사용");
+        },
+        (item) =>
+        {
+        },
+        (item) =>
+        {
+        },
+        (item) =>
+        {
+        }
+        ));
+        StateItems.Add(504, new StateItem((item) =>
+        {
+            playerStatus.MP += 100;
+            Debug.Log("파란포션 사용");
+        },
+        (item) =>
+        {
+        },
+       (item) =>
+       {
+       },
+       (item) =>
+       {
+       }
+       ));
+        StateItems.Add(515, new StateItem((item) =>
+        {
+            playerStatus.SumAttack += 10;
+        },
+       (item) =>
+       {
+       },
+       (item) =>
+       {
+           if (duration <= 0)
+           {
+               Exit();
+           }
+           else
+           {
+               duration -= Time.deltaTime;
+           }
+       },
+       (item) =>
+       {
+           playerStatus.SumAttack -= 10;
+           playerCapability.Remove(this);
+       }
+       ));
+        StateItems.Add(518, new StateItem((item) =>
+        {
+            playerStatus.sumDefense += 10;
+        },
+       (item) =>
+       {
+       },
+       (item) =>
+       {
+           if (duration <= 0)
+           {
+               Exit();
+           }
+           else
+           {
+               duration -= Time.deltaTime;
+               Debug.Log("방어력의 물약 사용중");
+           }
+       },
+       (item) =>
+       {
+           playerStatus.sumDefense -= 10;
+           playerCapability.Remove(this);
+       }
+       ));    
         StateItems.Add(1000, new StateItem((item) => 
         {
             playerStatus.SumAttack += item.attack;

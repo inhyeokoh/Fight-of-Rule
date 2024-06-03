@@ -137,8 +137,11 @@ public class UI_ItemSlot : UI_Entity
                 {
                     if (_invenItems[Index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
                     {
-                        // TODO 장착 불가 경우
                         GameManager.Inven.EquipItem(Index);
+                    }
+                    else if (_invenItems[Index].itemType == Enum_ItemType.Consumption)
+                    {
+                        GameManager.Inven.ConsumeItem(Index);
                     }
                 }
             }
@@ -206,7 +209,7 @@ public class UI_ItemSlot : UI_Entity
 
         if (GameManager.Inven.items[Index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
         {
-            StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.items[Index].id] as StateItemData;
+            StateItemData itemData = GameManager.Data.itemDatas[GameManager.Inven.items[Index].id] as StateItemData;
             if (itemData != null)
             {
                 int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};

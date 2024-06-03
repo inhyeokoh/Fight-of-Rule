@@ -127,7 +127,7 @@ public class DataManager : SubClass<GameManager>
             int item_id = int.Parse(consumptionData[i]["item_id"]);
             string item_name = consumptionData[i]["item_name"];
             string item_desc = consumptionData[i]["item_desc"];
-            Sprite item_icon = null;
+            Sprite item_icon = GameManager.Resources.Load<Sprite>(consumptionData[i]["item_icon"]);
 
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), consumptionData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), consumptionData[i]["item_grade"]);
@@ -165,7 +165,7 @@ public class DataManager : SubClass<GameManager>
             int item_id = int.Parse(equipmentData[i]["item_id"]);
             string item_name = equipmentData[i]["item_name"];
             string item_desc = equipmentData[i]["item_desc"];
-            Sprite item_icon = null;
+            Sprite item_icon = GameManager.Resources.Load<Sprite>(equipmentData[i]["item_icon"]);
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), equipmentData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), equipmentData[i]["item_grade"]);
             Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), equipmentData[i]["item_type"]);
@@ -202,7 +202,7 @@ public class DataManager : SubClass<GameManager>
             int etcItem_id = int.Parse(etcData[i]["item_id"]);
             string etcItem_name = etcData[i]["item_name"];
             string etcItem_desc = etcData[i]["item_desc"];
-            Sprite etcItem_icon = null;
+            Sprite etcItem_icon = GameManager.Resources.Load<Sprite>(etcData[i]["item_icon"]);
             Enum_Grade etcItem_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), etcData[i]["item_grade"]);
             Enum_ItemType etcItem_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), etcData[i]["item_type"]);
             long etcItem_purchaseprice = long.Parse(etcData[i]["item_purchaseprice"]);

@@ -99,7 +99,7 @@ public class UI_ShopPurchase : UI_Entity
             {
                 // id에 해당하는 아이템 참조
                 int id = int.Parse(item[i]["id"]);
-                shopItems[i] = ItemParsing.itemDatas[id];
+                shopItems[i] = GameManager.Data.itemDatas[id];
             }
         }
 
