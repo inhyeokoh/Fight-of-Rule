@@ -6,13 +6,13 @@ using System;
 
 public class State
 {
-    //»óÅÂ¸¦ È®ÀÎÇÏ°í »óÅÂ¸¦ È£Ãâ½ÃÄÑÁÖ´Â ´ë¸®ÀÚ º¯¼öµé
+    //ìƒíƒœë¥¼ í™•ì¸í•˜ê³  ìƒíƒœë¥¼ í˜¸ì¶œì‹œì¼œì£¼ëŠ” ëŒ€ë¦¬ì ë³€ìˆ˜ë“¤
     Action _enterAction;
     Action _stayAction;
     Action _fixedStayAction;
     Action _exitAction;
 
-    //Ã³À½¿¡ °´Ã¼ »ı¼ºÀ» ÇÒ¶§ À§¿¡ÀÖ´Â Action »óÅÂµéÀ» ÇÒ´çÇÏ±â À§ÇØ ÆÄ¶ó¹ÌÅÍ¸¦ ³Ö¾îÁÜ
+    //ì²˜ìŒì— ê°ì²´ ìƒì„±ì„ í• ë•Œ ìœ„ì—ìˆëŠ” Action ìƒíƒœë“¤ì„ í• ë‹¹í•˜ê¸° ìœ„í•´ íŒŒë¼ë¯¸í„°ë¥¼ ë„£ì–´ì¤Œ
     public State(Action enterAction, Action fixedStayAction, Action stayAction, Action exitAction)
     {
         _enterAction = enterAction;
@@ -24,7 +24,7 @@ public class State
     
 
     /// <summary>
-    /// ÀÌ Å¬·¡½º¿¡ µé¾î¿ÔÀ»¶§ ÇÑ¹ø È£Ãâ
+    /// ì´ í´ë˜ìŠ¤ì— ë“¤ì–´ì™”ì„ë•Œ í•œë²ˆ í˜¸ì¶œ
     /// </summary>
     public virtual void Enter()
     {
@@ -32,7 +32,7 @@ public class State
     }
   
     /// <summary>
-    /// FixedÇÁ·¹ÀÓ ¸¶´Ù È£Ãâ
+    /// Fixedí”„ë ˆì„ ë§ˆë‹¤ í˜¸ì¶œ
     /// </summary>
     public virtual void FixedStay()
     {
@@ -40,14 +40,14 @@ public class State
     }
 
     /// <summary>
-    /// ÇÁ·¹ÀÓ¸¶´Ù È£Ãâ
+    /// í”„ë ˆì„ë§ˆë‹¤ í˜¸ì¶œ
     /// </summary>
     public virtual void Stay()
     {
         _stayAction?.Invoke();
     }
     /// <summary>
-    /// ÀÌ Å¬·¡½º¿¡¼­ ³ª¿ÔÀ»¶§ ÇÑ¹ø È£Ãâ
+    /// ì´ í´ë˜ìŠ¤ì—ì„œ ë‚˜ì™”ì„ë•Œ í•œë²ˆ í˜¸ì¶œ
     /// </summary>
     public virtual void Exit()
     {

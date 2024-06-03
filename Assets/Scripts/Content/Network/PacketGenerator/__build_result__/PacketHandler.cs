@@ -13,27 +13,43 @@ class PacketHandler
     }
     public enum PacketType : ushort
     {
-        PKT_C_LOGIN = 1,
-        PKT_S_LOGIN = 2,
-        PKT_C_OPTION = 3,
-        PKT_S_OPTION = 4,
-        PKT_C_NICKNAME = 5,
-        PKT_S_NICKNAME = 6,
-        PKT_C_CHARACTER = 7,
-        PKT_S_CHARACTER = 8,
+        PKT_C_SIGNUP = 1,
+        PKT_S_SIGNUP = 2,
+        PKT_C_LOGIN = 3,
+        PKT_S_LOGIN = 4,
+        PKT_C_OPTION = 5,
+        PKT_S_OPTION = 6,
+        PKT_S_ASK_VERF = 7,
+        PKT_C_VERIFYING = 8,
+        PKT_S_VERIFYING = 9,
+        PKT_C_NICKNAME = 10,
+        PKT_S_NICKNAME = 11,
+        PKT_C_CHARACTERS = 12,
+        PKT_S_CHARACTERS = 13,
+        PKT_C_NEW_CHARACTER = 14,
+        PKT_S_NEW_CHARACTER = 15,
+        PKT_S_ITEMINFO = 16,
     };
     Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>> _handler = new Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>>();
     public void Init()
     {
+        _handler.Add((ushort)PacketType.PKT_S_SIGNUP, (session, buffer) => PacketHandlerImpl.Handle_S_SIGNUP(session, _HandlePacket<S_SIGNUP>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_LOGIN, (session, buffer) => PacketHandlerImpl.Handle_S_LOGIN(session, _HandlePacket<S_LOGIN>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_OPTION, (session, buffer) => PacketHandlerImpl.Handle_S_OPTION(session, _HandlePacket<S_OPTION>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_ASK_VERF, (session, buffer) => PacketHandlerImpl.Handle_S_ASK_VERF(session, _HandlePacket<S_ASK_VERF>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_VERIFYING, (session, buffer) => PacketHandlerImpl.Handle_S_VERIFYING(session, _HandlePacket<S_VERIFYING>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_NICKNAME, (session, buffer) => PacketHandlerImpl.Handle_S_NICKNAME(session, _HandlePacket<S_NICKNAME>(buffer)));
-        _handler.Add((ushort)PacketType.PKT_S_CHARACTER, (session, buffer) => PacketHandlerImpl.Handle_S_CHARACTER(session, _HandlePacket<S_CHARACTER>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_CHARACTERS, (session, buffer) => PacketHandlerImpl.Handle_S_CHARACTERS(session, _HandlePacket<S_CHARACTERS>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_NEW_CHARACTER, (session, buffer) => PacketHandlerImpl.Handle_S_NEW_CHARACTER(session, _HandlePacket<S_NEW_CHARACTER>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_ITEMINFO, (session, buffer) => PacketHandlerImpl.Handle_S_ITEMINFO(session, _HandlePacket<S_ITEMINFO>(buffer)));
     }
+    public ArraySegment<byte> SerializePacket(C_SIGNUP pkt) { return _serializePacket(pkt, PacketType.PKT_C_SIGNUP); }
     public ArraySegment<byte> SerializePacket(C_LOGIN pkt) { return _serializePacket(pkt, PacketType.PKT_C_LOGIN); }
     public ArraySegment<byte> SerializePacket(C_OPTION pkt) { return _serializePacket(pkt, PacketType.PKT_C_OPTION); }
+    public ArraySegment<byte> SerializePacket(C_VERIFYING pkt) { return _serializePacket(pkt, PacketType.PKT_C_VERIFYING); }
     public ArraySegment<byte> SerializePacket(C_NICKNAME pkt) { return _serializePacket(pkt, PacketType.PKT_C_NICKNAME); }
-    public ArraySegment<byte> SerializePacket(C_CHARACTER pkt) { return _serializePacket(pkt, PacketType.PKT_C_CHARACTER); }
+    public ArraySegment<byte> SerializePacket(C_CHARACTERS pkt) { return _serializePacket(pkt, PacketType.PKT_C_CHARACTERS); }
+    public ArraySegment<byte> SerializePacket(C_NEW_CHARACTER pkt) { return _serializePacket(pkt, PacketType.PKT_C_NEW_CHARACTER); }
     static ArraySegment<byte> _serializePacket<T>(T pkt, PacketType protocol) where T : IMessage
     {
         //TODO send buffer & obj pool

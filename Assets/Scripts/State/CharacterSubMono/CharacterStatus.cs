@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterStatus : SubMono<PlayerController>
 {
+
+    //ë°ì´í„°ë¥¼ ì „ë‹¬ë°›ëŠ” ìºë¦­í„°ì˜ ìˆœìˆ˜ëŠ¥ë ¥ì¹˜
     private int characterMaxHP;
     private int characterMaxMP;
     private int characterMaxEXP;
@@ -18,6 +20,7 @@ public class CharacterStatus : SubMono<PlayerController>
     private int level;
     private int skillDamage;
 
+    //ì¸ê²Œì„ìƒì— ìºë¦­í„° ëŠ¥ë ¥ì¹˜
     private int sumMaxHP;
     private int sumMaxMP;
     private int sumAttack;
@@ -25,13 +28,17 @@ public class CharacterStatus : SubMono<PlayerController>
     private int sumDefense;
     private int sumSpeed;
 
+    private int skillPoint;
+
+    public int SkillPoint { get { return skillPoint; } set { skillPoint = value; } }
+
     public int MaxEXP { get { return characterMaxEXP; } }
 
-    // ÇöÀç ¼ø¼ö ½ºÅİÀº ±×´ë·ç µÎ°í
-    // ÃÖ´ëÃ¼·Â, ÃÖ´ë¸¶³ª, °ø°İ·Â, ¹æ¾î·Â, ½ºÇÇµå, °ø°İ¼Óµµ
+    // í˜„ì¬ ìˆœìˆ˜ ìŠ¤í…Ÿì€ ê·¸ëŒ€ë£¨ ë‘ê³ 
+    // ìµœëŒ€ì²´ë ¥, ìµœëŒ€ë§ˆë‚˜, ê³µê²©ë ¥, ë°©ì–´ë ¥, ìŠ¤í”¼ë“œ, ê³µê²©ì†ë„
 
 
-    // ¾ÆÀÌÅÛ Àû¿ë Àåºñ Àû¿ë
+    // ì•„ì´í…œ ì ìš© ì¥ë¹„ ì ìš©
 
     public int Level
     {
@@ -79,7 +86,7 @@ public class CharacterStatus : SubMono<PlayerController>
 
             if (mp >= sumMaxMP)
             {
-                mp = sumMaxMP;
+                mp = sumMaxMP; 
             }
         }
     }
@@ -116,6 +123,13 @@ public class CharacterStatus : SubMono<PlayerController>
     public int Defense { get { return characterDefense; } set { characterDefense = value; } }
 
     public int AttackSpped { get { return characterAttackSpeed; } set { characterAttackSpeed = value; } }
+    public int Speed { get { return characterSpeed; } set { characterSpeed = value; } }
+    public int MaxHP { get { return characterMaxHP; } set { characterMaxHP = value; } }
+    public int MaxMP { get { return characterMaxMP; } set { characterMaxMP = value; } }
+
+    public int SumMaxHP { get { return sumMaxHP; } set { sumMaxHP = value; } }
+
+    public int SumMaxMP { get { return sumMaxMP; } set { sumMaxMP = value; } }
     public int SkillDamage
     {
         get
@@ -128,13 +142,6 @@ public class CharacterStatus : SubMono<PlayerController>
         }
     }
 
-    public int Speed { get { return characterSpeed; } set { characterSpeed = value; } }
-    public int MaxHP { get { return characterMaxHP; } set { characterMaxHP = value; } }
-    public int MaxMP { get { return characterMaxMP; } set { characterMaxMP = value; } }
-
-    public int SumMaxHP { get { return sumMaxHP; } set { sumMaxHP = value; } }
-
-    public int SumMaxMP { get { return sumMaxMP; } set { sumMaxMP = value; } }
 
     public int SumAttack
     {
@@ -145,6 +152,7 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             sumAttack = value;
+            SkillManager.Skill.SkillDamageUpdate();
         }
     }
 
@@ -185,29 +193,40 @@ public class CharacterStatus : SubMono<PlayerController>
         }
     }
 
-    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defense, bool firstLevel)
+
+    //ë ˆë²¨ì—…í• ë•Œ ëŠ¥ë ¥ì¹˜ë¥¼ ìƒìŠ¹ì‹œí‚¤ëŠ” ë©”ì„œë“œ
+    public void LevelStatUP(int maxEXP, int maxHP, int maxMP, int attack, int defense)
     {
         int previousEXP = this.characterMaxEXP;
-
-        if (firstLevel)
-        {
-            this.characterMaxEXP = maxEXP;
-        }
-        else
-        {
-            this.characterMaxEXP += maxEXP;
-        }
+   
+        this.characterMaxEXP = maxEXP;       
 
         this.characterMaxHP += maxHP;
         this.characterMaxMP += maxMP;
         this.characterAttack += attack;
         this.characterDefense += defense;
 
-        HP = this.characterMaxHP;
-        MP = this.characterMaxMP;
-        EXP -= previousEXP;
+      
+
+        SumMaxHP += maxHP;
+        SumMaxMP += maxMP;
+        SumAttack += attack;  
+        SumDefense += defense;
+
+        HP = SumMaxHP;
+        MP = SumMaxMP;
+
+        if (level == 50)
+        {
+            EXP = maxEXP;
+        }
+        else
+        {
+            EXP -= previousEXP;
+        }
     }
 
+    //ë°ë¯¸ì§€ ê³„ì‚°
     public int EffectDamage(int EffectDamage = 1)
     {
         return SkillDamage = sumAttack * EffectDamage;
@@ -215,7 +234,7 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        level = 50;
+        level = 1;
         characterMaxHP = 50;
         characterMaxMP = 50;
         characterMaxEXP = 100;

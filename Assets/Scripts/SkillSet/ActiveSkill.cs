@@ -4,42 +4,44 @@ using UnityEngine;
 
 public class ActiveSkill : Skill
 {
-    [Header("ActiveSkill")]
-    
+    /*[SerializeField]
+    private int[] skillDamage; 
+ 
     [SerializeField]
-    private int[] skillDamage; // µ¥¹ÌÁö   
+    WarriorSkill skillNumber;*/
+    private void Start()
+    {
+        if (level == 0)
+        {
+            SkillZeroStat();
+        }
+        else
+        {
+            SkillStat();
+        }
+    }
 
-   
-    [SerializeField]
-    WarriorSkill skillNumber;
-    public override void LevelUp()
-    {
-        level++;
-        SkillStat();        
-    }
-    public override void Use()
-    {
-        print($"½ºÅ³ µ¥¹ÌÁö : {SkillDamage}");
-        print($"½ºÅ³ ¸¶³ª : {SKillMP}");
-        print($"½ºÅ³ ÄğÅ¸ÀÓ : {SkillCoolTime}");
-        PlayerController.instance._effector.InstanceEffect = skillEffectIndex;
-        SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
-        SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);      
-    }
+    // ìŠ¤í‚¬ì„ ì—…í•˜ë©´ ë ˆë²¨ì´ ì˜¬ë¼ê°€ê³  ìŠ¤í‚¬ë“¤ë„ ì—…í•œë‹¤
+
     public override Skill Init()
     {
         GameObject clone = Instantiate(gameObject);
         clone.transform.parent = SkillManager.Skill.transform.GetChild(0);       
-        clone.SetActive(false);
-    
         return clone.GetComponent<ActiveSkill>();
     }
 
-    public override void SkillStat()
+    public override void SKillDB(WarriorSkillData data)
     {
-        SkillEffectIndex = skillEffectIndex;
-        SkillDamage = skillDamage[level];    
-        SKillMP = skillMP[level];
-        SkillCoolTime = cool[level];
-    }
+        skillID = data.id;
+        skillName = data.name;
+        skillDESC = data.desc;
+        icon = data.icon;
+        skillNumber = data.number;
+        maxLevel = data.maxLevel;
+        skillLevelCondition = data.levelCondition;
+        skillPoint = data.skillPoint;
+        skillMP = data.skillMP;
+        cool = data.skillCool;
+        skillDamage = data.skillDamage;
+    } 
 }

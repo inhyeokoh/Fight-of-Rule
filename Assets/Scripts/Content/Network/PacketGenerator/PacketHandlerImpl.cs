@@ -1,14 +1,181 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PacketHandlerImpl : MonoBehaviour
 {
+    internal static bool Handle_S_SIGNUP(Session session, S_SIGNUP message)
+    {
+        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorDup)
+        {
+#if UNITY_EDITOR
+            Utils.Log("ì´ë¯¸ ì¡´ì¬í•˜ëŠ” ì•„ì´ë””");
+            return false;
+#endif
+        }
+
+        if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
+        {
+            Utils.Log("ì´ë¯¸ ê°€ì…ëœ íšŒì›ì…ë‹ˆë‹¤");
+            return false;
+        }
+
+        Utils.Log("ì„±ê³µì ìœ¼ë¡œ ê°€ì… ë˜ì—ˆìŠµë‹ˆë‹¤");
+        return true;
+    }
+
+    internal static bool Handle_S_LOGIN(Session session, S_LOGIN message)
+    {
+        if (false == message.LoginSuccess)
+        {
+            //ê²½ìš°ì— ë”°ë¼ì„œ ì¬ë¡œê·¸ì¸ ìœ ë„ (ì§€ê¸ˆì€ ê·¸ëƒ¥ return)
+            Debug.Log("ë¡œê·¸ì¸ ì‹¤íŒ¨");
+            return false;
+        }
+
+        Utils.Log(message.Ip);
+        Utils.Log(message.Port);
+        Utils.Log(message.Uid);
+        Utils.Log(message.Token);
+
+        if (message.Ip.Length <= 0 || message.Port > 65535 || message.Port <= 0)
+        {
+            //ì´ê±´ ëª…í™•íˆ ì¬ì‹œë„ í•´ì•¼í•¨
+            //todo
+            Utils.Log("ë¡œê·¸ì¸ ì‹¤íŒ¨");
+            return false;
+        }
+
+        GameManager.Network.Connect(message.Ip, message.Port, NetState.NEED_VRF, new Vrf() { ip = message.Ip, port = message.Port, token = message.Token, unique_id = message.Uid });
+        /*                // var field_list = message.Slots;
+                        AsyncOperation loadAsync;
+
+                        if (field_list.Count == 0)
+                        {
+                            //ìŠ¬ë¡¯ì´ ì—†ìŒ => ì‹ ê·œ ìœ ì €
+                            //ì‹ ê·œìœ ì € ë¡œì§ ì²˜ë¦¬ ( ê²½ìš°ì— ë”°ë¼ ë‹¤ë¥¸ íŒ¨í‚·ì„ ì „ì†¡í•´ì•¼ í•  ìˆ˜ ìˆìŒ)
+                            GameManager.Data.selectedSlotNum = 0; // 0ë²ˆ ìŠ¬ë¡¯ ìƒì„±í•˜ë„ë¡
+                            loadAsync = SceneManager.LoadSceneAsync("Create");
+                            GameManager.ThreadPool.UniAsyncLoopJob(() =>
+                            {
+                                return loadAsync.progress < 0.9f;
+                            });
+
+                            //TODO
+                            return true;
+                        }
+
+                        GameManager.Data.characters = new CharData[field_list.Count];
+                        for (int i = 0; i < field_list.Count; i++)
+                        {
+                            var slot = field_list[i];
+                            //ìŠ¬ë¡¯ ìˆœíšŒí•˜ë©´ì„œ ìœ ì € ìŠ¤íƒ¯ ì •ë³´ ì²˜ë¦¬
+                            GameManager.Data.characters[i].charName = slot.Nickname;
+                            GameManager.Data.characters[i].job = slot.Job;
+                            GameManager.Data.characters[i].gender = slot.Gender;
+
+                            GameManager.Data.characters[i].level = slot.Stat.Level;
+                            GameManager.Data.characters[i].maxHP = slot.Stat.MaxHP;
+                            GameManager.Data.characters[i].hp = slot.Stat.Hp;
+                            GameManager.Data.characters[i].maxMP = slot.Stat.MaxMP;
+                            GameManager.Data.characters[i].mp = slot.Stat.Mp;
+                            GameManager.Data.characters[i].maxEXP = slot.Stat.MaxEXP;
+                            GameManager.Data.characters[i].exp = slot.Stat.Exp;
+                            GameManager.Data.characters[i].attack = slot.Stat.Attack;
+                            GameManager.Data.characters[i].attackSpeed = slot.Stat.AttackSpeed;
+                            GameManager.Data.characters[i].defense = slot.Stat.Defense;
+                            GameManager.Data.characters[i].speed = slot.Stat.Speed;
+
+                        }
+                        //ìºë¦­í„° ì„ íƒì”¬ìœ¼ë¡œ ì´ë™
+                        loadAsync = SceneManager.LoadSceneAsync("Select");
+                        GameManager.ThreadPool.UniAsyncLoopJob(() =>
+                        {
+                            return loadAsync.progress < 0.9f;
+                        });*/
+
+        return true;
+    }
+
+    internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
+    {
+        if (message.Success == false)
+        {
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
+            });
+            return false;
+        }
+
+        // í•´ë‹¹ ë‹‰ë„¤ì„ ìƒì„± ê°€ëŠ¥í•˜ë©´
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
+            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+            GameManager.UI.ConfirmYN.GetComponent<UI_ConfirmYN>().ChangeText($"Would you like to decide on this character name ?\n Character name : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}");
+        });
+        return true;
+    }
+
+    internal static bool Handle_S_CHARACTERS(Session session, S_CHARACTERS message)
+    {
+        return true;
+    }
+
+    internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
+    {
+        if (message.Success == false)
+        {
+            GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmYN, true);
+            GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("This NickName already exists.");
+            return false;
+        }
+
+        // ìºë¦­í„° ìƒì„± ê°€ëŠ¥ ì‹œ
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            var loadAsync = SceneManager.LoadSceneAsync("Select");
+            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
+        });
+        return true;
+    }
+
+    internal static bool Handle_S_ASK_VERF(Session session, S_ASK_VERF message)
+    {
+        return true;
+    }
+
+    internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING message)
+    {
+        if (message.Sucess == false)
+        {
+            //TODO ê²Œì„ ì¢…ë£Œì‹œí‚¤ê¸°
+            Utils.Log("cannot verifying");
+            return false;
+        }
+
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            var loadAsync = SceneManager.LoadSceneAsync("Create");
+            GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
+        });
+        return true;
+    }
+
+    internal static bool Handle_S_CHARACTER(Session session, S_CHARACTERS message)
+    {
+
+        return true;
+    }
+
     internal static bool Handle_S_OPTION(Session session, S_OPTION message)
     {
-        //¼­¹ö·ÎºÎÅÍ ¹Ş¾Æ¿Â È¯°æ¼³Á¤ Á¤º¸µéÀ» ¸Ş¸ğ¸®¿¡ ¿Ã¸®±â 
+        //ì„œë²„ë¡œë¶€í„° ë°›ì•„ì˜¨ í™˜ê²½ì„¤ì • ì •ë³´ë“¤ì„ ë©”ëª¨ë¦¬ì— ì˜¬ë¦¬ê¸° 
         GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
         GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
         GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
@@ -20,79 +187,8 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_LOGIN(Session session, S_LOGIN message)
+    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
     {
-        if (false == message.LoginSuccess)
-        {
-            //°æ¿ì¿¡ µû¶ó¼­ Àç·Î±×ÀÎ À¯µµ (Áö±İÀº ±×³É return)
-            Debug.Log("·Î±×ÀÎ ½ÇÆĞ");
-            return false;
-        }
-
-        string ip = message.Ip;
-        Debug.Log($"{ip}");
-        int port = message.Port;
-        Debug.Log($"{port}");
-/*                // var field_list = message.Slots;
-                AsyncOperation loadAsync;
-
-                if (field_list.Count == 0)
-                {
-                    //½½·ÔÀÌ ¾øÀ½ => ½Å±Ô À¯Àú
-                    //½Å±ÔÀ¯Àú ·ÎÁ÷ Ã³¸® ( °æ¿ì¿¡ µû¶ó ´Ù¸¥ ÆĞÅ¶À» Àü¼ÛÇØ¾ß ÇÒ ¼ö ÀÖÀ½)
-                    GameManager.Data.selectedSlotNum = 0; // 0¹ø ½½·Ô »ı¼ºÇÏµµ·Ï
-                    loadAsync = SceneManager.LoadSceneAsync("Create");
-                    GameManager.ThreadPool.UniAsyncLoopJob(() =>
-                    {
-                        return loadAsync.progress < 0.9f;
-                    });
-
-                    //TODO
-                    return true;
-                }
-
-                GameManager.Data.characters = new CharData[field_list.Count];
-                for (int i = 0; i < field_list.Count; i++)
-                {
-                    var slot = field_list[i];
-                    //½½·Ô ¼øÈ¸ÇÏ¸é¼­ À¯Àú ½ºÅÈ Á¤º¸ Ã³¸®
-                    GameManager.Data.characters[i].charName = slot.Nickname;
-                    GameManager.Data.characters[i].job = slot.Job;
-                    GameManager.Data.characters[i].gender = slot.Gender;
-
-                    GameManager.Data.characters[i].level = slot.Stat.Level;
-                    GameManager.Data.characters[i].maxHP = slot.Stat.MaxHP;
-                    GameManager.Data.characters[i].hp = slot.Stat.Hp;
-                    GameManager.Data.characters[i].maxMP = slot.Stat.MaxMP;
-                    GameManager.Data.characters[i].mp = slot.Stat.Mp;
-                    GameManager.Data.characters[i].maxEXP = slot.Stat.MaxEXP;
-                    GameManager.Data.characters[i].exp = slot.Stat.Exp;
-                    GameManager.Data.characters[i].attack = slot.Stat.Attack;
-                    GameManager.Data.characters[i].attackSpeed = slot.Stat.AttackSpeed;
-                    GameManager.Data.characters[i].defense = slot.Stat.Defense;
-                    GameManager.Data.characters[i].speed = slot.Stat.Speed;
-
-                }
-                //Ä³¸¯ÅÍ ¼±ÅÃ¾ÀÀ¸·Î ÀÌµ¿
-                loadAsync = SceneManager.LoadSceneAsync("Select");
-                GameManager.ThreadPool.UniAsyncLoopJob(() =>
-                {
-                    return loadAsync.progress < 0.9f;
-                });*/
-
-        return true;
-    }
-
-    internal static bool Handle_S_CHARACTER(Session session, S_CHARACTER s_CHARACTER)
-    {
-
-        return true;
-    }
-
-    internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
-    {
-        // message.NicknameSuccess; ÀÌ bool°ªÀ» ¹Ş¾Æ¼­ UI_Login ½ºÅ©¸³Æ® º¯¼ö¿¡ ¹Ş¾Æ¾ßÇÒÁö?
-
         return true;
     }
 }

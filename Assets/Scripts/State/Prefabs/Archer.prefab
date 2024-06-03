@@ -4406,6 +4406,8 @@ GameObject:
   - component: {fileID: 3921140765083159308}
   - component: {fileID: -7184595091232703959}
   - component: {fileID: -8439452911119820533}
+  - component: {fileID: -7878926291624315285}
+  - component: {fileID: 1244553785585965017}
   m_Layer: 7
   m_Name: Archer
   m_TagString: Untagged
@@ -4493,6 +4495,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2273c22c6cf8fa34badc488b6319eb17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillUseCheck: 0
+  isAvoid: 0
+  moveStateCheck: 0
   characterState: 0
 --- !u!114 &-4694345792117758563
 MonoBehaviour:
@@ -4508,6 +4513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackTime: 2
   playerTransform: {fileID: 0}
+  targetPosition: {x: 0, y: 0, z: 0}
 --- !u!114 &6739541785053881855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4532,6 +4538,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03ca25802ff8acb4296cc5066cb7fec6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effetcBurst: []
+  effectDuration: []
+  effectTransform: []
 --- !u!114 &-7184595091232703959
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4556,14 +4565,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c91bff4901b24f7408a6ebce2be209fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCollections:
-  - firstLevel: 0
-    exp: 0
-    lastLevel: 0
-    attack: 0
-    defense: 0
-    hp: 0
-    mp: 0
+--- !u!114 &-7878926291624315285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824225483564466560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1b309a6f26ecc4db92a351f8c8859c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1244553785585965017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6824225483564466560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd1b99f2b11494a4283253fdb2efd627, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6824225483574036747
 GameObject:
   m_ObjectHideFlags: 0

@@ -31,20 +31,21 @@ public class UI_Slot : UI_Entity
         slotNum = Convert.ToInt32(gameObject.name);
         character = GameManager.Data.characters[slotNum];
 
-        if (character != null) // ¿ÀºêÁ§Æ® ¸í°ú ÀÏÄ¡ÇÏ´Â µ¥ÀÌÅÍ ÆÄÀÏÀÌ ÀÖ´Ù¸é,
+        if (character != null) // ì˜¤ë¸Œì íŠ¸ ëª…ê³¼ ì¼ì¹˜í•˜ëŠ” ë°ì´í„° íŒŒì¼ì´ ìˆë‹¤ë©´,
         {
             _entities[(int)Enum_UI_Slot.Create].gameObject.SetActive(false);
 
-            // Á÷¾÷¿¡ ¸Â´Â ÀÌ¹ÌÁö ·Îµå
+            // ì§ì—…ì— ë§ëŠ” ì´ë¯¸ì§€ ë¡œë“œ
             Image image = _entities[(int)Enum_UI_Slot.Image].GetComponent<Image>();
             image.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{character.job}");
 
 
-            // ÇØ´ç ½½·Ô ÅØ½ºÆ® »óÀÚ¿¡ µ¥ÀÌÅÍ ±âÀÔ
-            gender = character.gender ? "Men" : "Women";
+            // í•´ë‹¹ ìŠ¬ë¡¯ í…ìŠ¤íŠ¸ ìƒìì— ë°ì´í„° ê¸°ì…
+            string gender = character.gender ? "Men" : "Women";
+            string job = Enum.GetName(typeof(CharData.Enum_Job), character.job);
 
             _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
-                $"{character.charName}\n {character.level}\n {character.job}\n {gender}\n";
+                $"{character.charName}\n {character.level}\n {job}\n {gender}\n";
 
             _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
                 GetComponent<Toggle>().isOn = true;
@@ -55,39 +56,14 @@ public class UI_Slot : UI_Entity
         {
             SetEmpty();
         }
-
-/*        if (GameManager.Data.CheckData(gameObject.name)) // ¿ÀºêÁ§Æ® ¸í°ú ÀÏÄ¡ÇÏ´Â µ¥ÀÌÅÍ ÆÄÀÏÀÌ ÀÖ´Ù¸é,
-        {
-            _entities[(int)Enum_UI_Slot.Create].gameObject.SetActive(false);
-
-            // ¿ÀºêÁ§Æ®¸í°ú µ¿ÀÏÇÑ ÀÌ¸§À» °¡Áø ÆÄÀÏ ·Îµå
-            GameManager.Data.character = JsonUtility.FromJson<CharData>(GameManager.Data.LoadData(gameObject.name));
-
-            // Á÷¾÷¿¡ ¸Â´Â ÀÌ¹ÌÁö ·Îµå
-            Image image = _entities[(int)Enum_UI_Slot.Image].GetComponent<Image>();
-            image.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{GameManager.Data.character.job}");
-
-            _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
-                GetComponent<Toggle>().isOn = true;
-                GameManager.Data.character = JsonUtility.FromJson<CharData>(GameManager.Data.LoadData(gameObject.name)); // ÇØ´ç Ä³¸¯ÅÍ µ¥ÀÌÅÍ ÁÖÀÔ
-            };
-
-            // ÇØ´ç ½½·Ô ÅØ½ºÆ® »óÀÚ¿¡ µ¥ÀÌÅÍ ±âÀÔ
-            _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
-                $"{GameManager.Data.character.charName}\n {GameManager.Data.character.level}\n {GameManager.Data.character.job}\n {GameManager.Data.character.gender}\n";
-        }
-        else // ¿ÀºêÁ§Æ® ¸í°ú ÀÏÄ¡ÇÏ´Â µ¥ÀÌÅÍ ÆÄÀÏÀÌ ¾ø´Ù¸é,
-        {
-            SetSlotEmpty();
-        }*/
     }
 
     void SetEmpty()
     {
-        GetComponent<Toggle>().group = null; // Åä±Û ±×·ì¿¡¼­ Á¦¿Ü (¼±ÅÃ ºÒ°¡´É ÇÏµµ·Ï);
+        GetComponent<Toggle>().group = null; // í† ê¸€ ê·¸ë£¹ì—ì„œ ì œì™¸ (ì„ íƒ ë¶ˆê°€ëŠ¥ í•˜ë„ë¡);
         _entities[(int)Enum_UI_Slot.Image].gameObject.SetActive(false);
         _entities[(int)Enum_UI_Slot.Label].gameObject.SetActive(false);
-        // "½½·ÔÀÌ¸§+Create" ÀÌ¸§À» °¡Áø Ä³¸¯ÅÍ »ı¼º¹öÆ°¿¡ ±â´É ºÎ¿©
+        // "ìŠ¬ë¡¯ì´ë¦„+Create" ì´ë¦„ì„ ê°€ì§„ ìºë¦­í„° ìƒì„±ë²„íŠ¼ì— ê¸°ëŠ¥ ë¶€ì—¬
         _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
             GameManager.Data.selectedSlotNum = slotNum;
             GameManager.Scene.GetPreviousScene();

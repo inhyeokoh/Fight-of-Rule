@@ -19,7 +19,7 @@ public class ResourceManager : SubClass<GameManager>
 
     public T Load<T>(string path) where T : Object
     {
-        return Resources.Load<T>(path); //ÀÏ´Ü ±âÁ¸ ¹æ½ÄÀÌ¶û mapping
+        return Resources.Load<T>(path); //ì¼ë‹¨ ê¸°ì¡´ ë°©ì‹ì´ë‘ mapping
     }
 
     public GameObject Instantiate(string path, Transform parent = null)
@@ -39,11 +39,11 @@ public class ResourceManager : SubClass<GameManager>
     {
         if (preLoadedobj.GetComponent<Poolable>() != null)
         {
-            return GameManager.Pool.Pop(preLoadedobj, parent).gameObject; //ÆËÇÒ°Ô ¾ø¾îµµ ÀÚµ¿À¸·Î ÁÖ°¡µÊ.
+            return GameManager.Pool.Pop(preLoadedobj, parent).gameObject; //íŒí• ê²Œ ì—†ì–´ë„ ìë™ìœ¼ë¡œ ì£¼ê°€ë¨.
         }
             
 
-        //Ç®¸µ ´ë»óÀÌ ¾Æ´Ñ ³à¼®µé
+        //í’€ë§ ëŒ€ìƒì´ ì•„ë‹Œ ë…€ì„ë“¤
         GameObject go = Object.Instantiate(preLoadedobj, parent);
         go.name = preLoadedobj.name;
 
@@ -56,14 +56,14 @@ public class ResourceManager : SubClass<GameManager>
 
         Poolable poolable = go.GetComponent<Poolable>();
 
-        //Ç®¸µ ´ë»óÀÎ ³à¼®ÀÎ°¡?
+        //í’€ë§ ëŒ€ìƒì¸ ë…€ì„ì¸ê°€?
         if (poolable != null)
         {
             GameManager.Pool.Push(poolable);
             return;
         }
 
-        //Ç®¸µ ´ë»óÀÌ ¾Æ´Ñ ³à¼®µé
+        //í’€ë§ ëŒ€ìƒì´ ì•„ë‹Œ ë…€ì„ë“¤
         Object.Destroy(go, DestoryOffset);
     }
 }

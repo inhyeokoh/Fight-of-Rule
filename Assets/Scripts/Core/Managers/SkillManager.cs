@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,38 +6,39 @@ using UnityEngine.UI;
 
 public class SkillManager : MonoBehaviour
 {
-    //ÇÃ·¹ÀÌ¾îÀÇ ½ºÅ³µéÀ» °ü¸®ÇÏ±âÀ§ÇØ ¸¸µç ¸Å´ÏÀú
+    //í”Œë ˆì´ì–´ì˜ ìŠ¤í‚¬ë“¤ì„ ê´€ë¦¬í•˜ê¸°ìœ„í•´ ë§Œë“  ë§¤ë‹ˆì €
 
-    //ÇÃ·¹ÀÌ¾î°¡ Á¶°ÇÀ¸·Î ÀÎÇØ¼­ ½ÀµæÇÏ´Â°Å¶û
-    //ÇÃ·¹ÀÌ¾î°¡ ÀÌ ·¹º§ Á¶°Ç°ú ÀÌ ½ºÅ³À» °¡Áö°í ÀÖÀ»½Ã¿¡ ½Àµæ°¡´É
+    //í”Œë ˆì´ì–´ê°€ ì¡°ê±´ìœ¼ë¡œ ì¸í•´ì„œ ìŠµë“í•˜ëŠ”ê±°ë‘
+    //í”Œë ˆì´ì–´ê°€ ì´ ë ˆë²¨ ì¡°ê±´ê³¼ ì´ ìŠ¤í‚¬ì„ ê°€ì§€ê³  ìˆì„ì‹œì— ìŠµë“ê°€ëŠ¥
 
-    //·¹º§ Á¶°Ç
+    //ë ˆë²¨ ì¡°ê±´
 
-    //¸¸¾à¿¡ ½ºÅ³À» ¾òÀ¸¸é ÀÌ ½ºÅ³À» »ç¿ëÇØ¾ßÇÑ´Ù
-    //ÇÃ·¹ÀÌ¾î°¡ Ä³¸¯ÅÍ Á÷¾÷¿¡ µû¶ó ¾²´Â ½ºÅ³µéÀÌ ´Ş¶óÁø´Ù.
+    //ë§Œì•½ì— ìŠ¤í‚¬ì„ ì–»ìœ¼ë©´ ì´ ìŠ¤í‚¬ì„ ì‚¬ìš©í•´ì•¼í•œë‹¤
+    //í”Œë ˆì´ì–´ê°€ ìºë¦­í„° ì§ì—…ì— ë”°ë¼ ì“°ëŠ” ìŠ¤í‚¬ë“¤ì´ ë‹¬ë¼ì§„ë‹¤.
+   /* [SerializeField]
+    public List<WarriorSkillData> warriorSkillData = new List<WarriorSkillData>();*/
+
+    [SerializeField]
+    private KeySlotUISetting keySlotUISetting;
 
     private static SkillManager _skill = null;
 
-    public Collider[] players;   
+    [SerializeField]
+    private Skill activeSkill;
+
+    public Collider[] players;
+
+    public event Action DESCUIDamageUpdate;
 
     public static SkillManager Skill { get { return _skill; } }    
 
-    //½ºÅ³À» ¾²´Â ´ë»óÀ» Ã£±âÀ§ÇÑ ÇöÀç ÇÃ·¹ÀÌ¾î
+    //ìŠ¤í‚¬ì„ ì“°ëŠ” ëŒ€ìƒì„ ì°¾ê¸°ìœ„í•œ í˜„ì¬ í”Œë ˆì´ì–´
     public CharacterState PlayerState { get; private set; }
 
-    //½ºÅ³À» ¾²´Â ´ë»óÀ» Ã£±âÀ§ÇÑ ÇöÀç ÇÃ·¹ÀÌ¾î
+    //ìŠ¤í‚¬ì„ ì“°ëŠ” ëŒ€ìƒì„ ì°¾ê¸°ìœ„í•œ í˜„ì¬ í”Œë ˆì´ì–´
     public CharacterStatus PlayerStat { get; private set; }
 
 
-    [SerializeField]
-    Skill[] warriorSkills; 
-
-    [SerializeField]
-    Skill[] archerSkills;
-
-    [SerializeField]
-    Skill[] wizardSkills;
-    
     [SerializeField]
     Skill[] characterSkills;
 
@@ -51,8 +53,9 @@ public class SkillManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-        }     
+        }
     }
+
 
     public void Update()
     {
@@ -65,72 +68,79 @@ public class SkillManager : MonoBehaviour
     {
        // Gizmos.DrawWireSphere(player.transform.position, 30f);
     }
-
-    public void SkillLevelUp(Skill skill)
-    {
-        skill.LevelUp();
-    }
-
-
     public void PlayerData()
-    {
+    {      
         PlayerState = PlayerController.instance._playerState;
         PlayerStat = PlayerController.instance._playerStat;
         switch (PlayerController.instance._class)
         {
             case Enum_Class.Warrior:
                 {
-                    characterSkills = new Skill[warriorSkills.Length];
+                    characterSkills = new Skill[GameManager.Data.warriorSkillData.Count];
 
-                    for (int i = 0; i < warriorSkills.Length; i++)
-                    {                       
-                        characterSkills[i] = warriorSkills[i].Init();
+                    for (int i = 0; i < characterSkills.Length;i++)
+                    {
+                        characterSkills[i] = activeSkill.Init();
+                        characterSkills[i].SKillDB(GameManager.Data.warriorSkillData[i]);
                         characterSkills[i].SkillStat();
-                    }
+                    }              
                     break;
                 }
             case Enum_Class.Archer:
-                {
-                    characterSkills = new Skill[archerSkills.Length];
-
-                    for (int i = 0; i < archerSkills.Length; i++)
-                    {
-                        characterSkills[i] = archerSkills[i].Init();
-                        characterSkills[i].SkillStat();
-                    }
+                {                
                     break;
                 }
             case Enum_Class.Wizard:
                 {
-                    characterSkills = new Skill[wizardSkills.Length];
-
-                    for (int i = 0; i < wizardSkills.Length; i++)
-                    {
-                        characterSkills[i] = wizardSkills[i].Init();
-                        characterSkills[i].SkillStat();
-                    }
                     break;
                 }
         }
 
 #if UNITY_EDITOR
-        //Debug.Log("»ı¼º"); //ÇÃ·¹ÀÌ¾î µ¥ÀÌÅÍ¸¦ °¡Á®¿ÔÀ»¶§ »ı¼º Ãâ·Â
+        //Debug.Log("ìƒì„±"); //í”Œë ˆì´ì–´ ë°ì´í„°ë¥¼ ê°€ì ¸ì™”ì„ë•Œ ìƒì„± ì¶œë ¥
 #endif
     }
 
-    public void SkillReset(Skill[] skillResetDate)
+    
+    // í˜„ì¬ ìºë¦­í„° ìŠ¤í‚¬ ë¦¬í„´
+    public Skill[] CharacterSkillSet()
     {
-        for (int i = 0; i < skillResetDate.Length; i++)
+        return characterSkills;
+    }
+
+    // ìŠ¤í‚¬ì°½ ìŠ¤í‚¬ë“¤ ë ˆë²¨ ì˜¬ë¦¬ì…‹
+    public void SkillAllReset()
+    {
+        keySlotUISetting.KeySlotAllReset();
+
+        for (int i = 0; i < characterSkills.Length; i++)
         {
-            characterSkills[i].SkillReset();
+            characterSkills[i].LevelReset();
         }
     }
-  /*  public void ClassSkillLevelCheck(SkillEdit[] check, Character player)
+
+    // í˜„ì¬ ìŠ¤í‚¬ ë ˆë²¨ì—…
+    public void SkillLevelUp(Skill skill)
     {
-        for (int i = 0; i < check.Length; i++)
+        skill.LevelUp();
+    }
+ 
+    // í˜„ì¬ ìŠ¤í‚¬ ë¦¬ì…‹
+    public void SkillReset(Skill skill)
+    {
+        keySlotUISetting.KeySlotSkillReset(skill);
+
+        skill.LevelReset();
+    }
+  
+    // ìºë¦­í„°ì˜ ê³µê²©ë ¥ì´ ì˜¬ë¼ê°”ì„ë•Œë‚˜ ë‚´ë ¤ê°”ì„ë•Œ ìŠ¤í‚¬ ë°ë¯¸ì§€ë¥¼ ê°±ì‹ 
+    public void SkillDamageUpdate()
+    {
+        for (int i = 0; i < characterSkills.Length; i++)
         {
-        
-            
+            characterSkills[i].DESCUpdate();
         }
-    }*/
+
+        //DESCUIDamageUpdate();
+    }  
 }

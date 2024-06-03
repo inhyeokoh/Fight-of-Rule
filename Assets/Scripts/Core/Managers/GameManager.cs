@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            //ÇÊ¿ä½Ã ºÎÈ°½ÃÄÑ¼­ ´Ù½Ã »ç¿ë.
+            //í•„ìš”ì‹œ ë¶€í™œì‹œì¼œì„œ ë‹¤ì‹œ ì‚¬ìš©.
             /*if(_Intance == null)
             {
                 GameObject go = new GameObject("@@Manager");
@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static ResourceManager Resources { get { return Instance._resources; } }
 
-
+   /* ItemManager _item = new ItemManager();
+    public static ItemManager Item { get { return Instance._item; } }*/
     /*==================
      *  ThreadManager
      =================*/
@@ -58,7 +59,6 @@ public class GameManager : MonoBehaviour
 
     /*==================
      *     Network
-     *     inhyeok
      =================*/
     NetworkManager _networkManager = new NetworkManager();
     /// <summary>
@@ -93,6 +93,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static SceneManager2 Scene { get { return Instance._sceneManager; } }
 
+    /*==================
+    *    DataManager
+    =================*/
+    InventoryManager _invenManager = new InventoryManager();
+    /// <summary>
+    /// Load and Save Data
+    /// </summary>
+    public static InventoryManager Inven { get { return Instance._invenManager; } }
+
     LockQueue<Action> _tasks = new LockQueue<Action>();
     Action _onUpdate;
 
@@ -101,7 +110,7 @@ public class GameManager : MonoBehaviour
         _Instance = GetComponent<GameManager>();
         DontDestroyOnLoad(gameObject);
 
-        //µî·ÏÇÏ´Â ¼ø¼­°¡ Áß¿äÇÒ ¼ö ÀÖÀ½
+        //ë“±ë¡í•˜ëŠ” ìˆœì„œê°€ ì¤‘ìš”í•  ìˆ˜ ìˆìŒ
         _managers = new List<SubClass<GameManager>>()
         {
             _pool,
@@ -110,7 +119,8 @@ public class GameManager : MonoBehaviour
             _networkManager,
             _uiManager,
             _dataManager,
-            _sceneManager
+            _sceneManager,
+            _invenManager
         };
 
         for(int i = 0; i < _managers.Count; i++)
@@ -119,8 +129,8 @@ public class GameManager : MonoBehaviour
             _managers[i].Init();
         }
 
-        // Action ´ë¸®ÀÚ¿¡ ´ëÇØ °øºÎÇÏ¸é ½±°Ô ÀÌÇØÇÒ ¼ö ÀÖÀ½
-        // Ãß°¡ÀûÀ¸·Î ÇÊ¿äÇÏ¸é Funcµµ °°ÀÌ °øºÎÇÏ¸é °°ÀÌ ÀÌÇØÇÏ±â ½¬¿ò
+        // Action ëŒ€ë¦¬ìì— ëŒ€í•´ ê³µë¶€í•˜ë©´ ì‰½ê²Œ ì´í•´í•  ìˆ˜ ìˆìŒ
+        // ì¶”ê°€ì ìœ¼ë¡œ í•„ìš”í•˜ë©´ Funcë„ ê°™ì´ ê³µë¶€í•˜ë©´ ê°™ì´ ì´í•´í•˜ê¸° ì‰¬ì›€
         for(int i = 0; i < _managers.Count; i++)
             _onUpdate += _managers[i].GetAction();
     }

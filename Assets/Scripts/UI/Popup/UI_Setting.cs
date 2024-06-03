@@ -6,20 +6,18 @@ using TMPro;
 
 public class UI_Setting : UI_Entity
 {
-    bool initStarted;
-
     Slider[] volSliders;
     TMP_Text[] volNames;
     TMP_Text[] togNames;
     Toggle[] toggles;
     
     enum Enum_UI_Settings
-    {
+    {        
         Panel,
         Interact,
         Panel_L,
-        Panel_R,
         Scrollbar_L,
+        Panel_R,
         Scrollbar_R,
         Close,
         Reset,
@@ -36,21 +34,34 @@ public class UI_Setting : UI_Entity
     {
         base.Init();
 
-        SetPanel_L();
-        LoadOptionsVol();
+        togNames = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<TMP_Text>();
+        toggles = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<Toggle>();
+        volSliders = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<Slider>();
+        // í…ìŠ¤íŠ¸ ìˆ˜ì • ìš©ë„ (ì¸ìŠ¤í™í„° ì°½ì—ì„œ í•˜ëŠ”ê²ƒë³´ë‹¤ í†µì¼ì„± ë©´ì—ì„œ í™•ì¸í•˜ê¸° ì‰¬ì›€ )
+        volNames = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<TMP_Text>();
 
-        // ¹öÆ° ÇÒ´ç
+        _SetPanel_L();
+        _LoadOptionsVol();
+
+        foreach (var _subUI in _subUIs)
+        {
+            _subUI.ClickAction = (PointerEventData data) =>
+            {
+                GameManager.UI.GetPopupForward(GameManager.UI.Setting);
+            };
+        }
+        // ë²„íŠ¼ ê¸°ëŠ¥ í• ë‹¹      
         _entities[(int)Enum_UI_Settings.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
         _entities[(int)Enum_UI_Settings.Reset].ClickAction = (PointerEventData data) =>
         {
-            ResetOptionsVol(0.5f);
+            _ResetOptionsVol(0.5f);
         };
         _entities[(int)Enum_UI_Settings.Accept].ClickAction = (PointerEventData data) =>
         {
-            SaveOptionsVol();
+            _SaveOptionsVol();
             GameManager.UI.ClosePopup(GameManager.UI.Setting);
         };
         _entities[(int)Enum_UI_Settings.Cancel].ClickAction = (PointerEventData data) =>
@@ -60,25 +71,14 @@ public class UI_Setting : UI_Entity
 
         _entities[(int)Enum_UI_Settings.Interact].DragAction = (PointerEventData data) =>
         {
-            transform.position = data.position;   // TODO: µå·¡±× ¼öÁ¤ ÇÊ¿ä
+            transform.position = data.position;   // TODO: ë“œë˜ê·¸ ìˆ˜ì • í•„ìš”
         };
 
-        initStarted = true;
+        gameObject.SetActive(false);
     }
 
-    private void OnEnable() // SetActive ¶§¸¶´Ù È£ÃâÇÒ ÇÔ¼ö ³Ö±â
+    void _SetPanel_L()
     {
-        if (initStarted)
-        {
-            LoadOptionsVol();
-        }
-    }
-
-    void SetPanel_L()
-    {
-        togNames = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<TMP_Text>();
-        toggles = _entities[(int)Enum_UI_Settings.Panel_L].GetComponentsInChildren<Toggle>();
-
         togNames[0].text = "Audio";
         togNames[1].text = "GamePlay";
         togNames[2].text = "ShortCut Key";
@@ -86,19 +86,19 @@ public class UI_Setting : UI_Entity
         for (int i = 0; i < toggles.Length; i++)
         {
             int index = i;
-            toggles[i].onValueChanged.AddListener((value) => ToggleValueChanged(index));
+            toggles[i].onValueChanged.AddListener((value) => _ToggleValueChanged(index));
         }
     }
 
-    // Panel_L¿¡ ÀÖ´Â Åä±Û¿¡ µû¶ó¼­ ÇØ´çµÇ´Â ³»¿ëÀ» Panel_R ¿¡ È°¼ºÈ­
-    void ToggleValueChanged(int toggleIndex)
+    // Panel_Lì— ìˆëŠ” í† ê¸€ ì„ íƒ ì—¬ë¶€ì— ë”°ë¼ì„œ í•´ë‹¹ë˜ëŠ” ë‚´ìš©ì„ Panel_R ì— í™œì„±í™”
+    void _ToggleValueChanged(int toggleIndex)
     {   
         bool isToggleOn = toggles[toggleIndex].isOn;                
         Transform childObject = _entities[(int)Enum_UI_Settings.Panel_R].transform.GetChild(toggleIndex);
         childObject.gameObject.SetActive(isToggleOn);
     }
 
-    void ResetOptionsVol(float value)
+    void _ResetOptionsVol(float value)
     {
         foreach (var slider in volSliders)
         {
@@ -106,12 +106,8 @@ public class UI_Setting : UI_Entity
         }
     }
 
-    void LoadOptionsVol()
+    void _LoadOptionsVol()
     {
-        volSliders = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<Slider>();
-        // ÅØ½ºÆ® ¼öÁ¤ ¿ëµµ ( ÀÎ½ºÆåÅÍ Ã¢¿¡¼­ ÇÏ´Â°Íº¸´Ù ÅëÀÏ¼º ¸é¿¡¼­ È®ÀÎÇÏ±â ½¬¿ò )
-        volNames = _entities[(int)Enum_UI_Settings.Panel_R].GetComponentsInChildren<TMP_Text>();
-
         volSliders[0].value = GameManager.Data.setting.totalVol;
         volSliders[1].value = GameManager.Data.setting.backgroundVol;
         volSliders[2].value = GameManager.Data.setting.effectVol;
@@ -129,20 +125,20 @@ public class UI_Setting : UI_Entity
         volNames[8].text = $"{volNames[6].text} On";
     }
 
-    // ±âÁ¸°ªÀÌ¶û ºñ±³ÇØ¼­ ´Ù¸¥ºÎºĞÀÌ ÀÖÀ» ¶§¸¸ ¼­¹ö¿¡ ÀúÀåÇÏµµ·Ï (float ¿ÀÂ÷ À¯ÀÇ)
-    void SaveOptionsVol()
+    // ê¸°ì¡´ê°’ì´ë‘ ë¹„êµí•´ì„œ ë‹¤ë¥¸ë¶€ë¶„ì´ ìˆì„ ë•Œë§Œ ì„œë²„ì— ì €ì¥í•˜ë„ë¡ (float ì˜¤ì°¨ ìœ ì˜)
+    void _SaveOptionsVol()
     {
-        if (GameManager.Data.setting.totalVol - volSliders[0].value > 0.001f || 
-            GameManager.Data.setting.backgroundVol - volSliders[1].value > 0.001f ||
-            GameManager.Data.setting.effectVol - volSliders[2].value > 0.001f) // °ªÀÇ Â÷ÀÌ°¡ 0.1% ÀÌ»ó ³ª´Â ºÎºĞÀÌ ÀÖ´Ù¸é,
+        if (GameManager.Data.setting.totalVol - volSliders[0].value > 0.01f || 
+            GameManager.Data.setting.backgroundVol - volSliders[1].value > 0.01f ||
+            GameManager.Data.setting.effectVol - volSliders[2].value > 0.01f) // ê°’ì˜ ì°¨ì´ê°€ 1% ì´ìƒ ë‚˜ëŠ” ë¶€ë¶„ì´ ìˆë‹¤ë©´,
         {
             GameManager.Data.setting.totalVol = volSliders[0].value;
             GameManager.Data.setting.backgroundVol = volSliders[1].value;
             GameManager.Data.setting.effectVol = volSliders[2].value;
 
-            GameManager.Data.SaveData("Setting", GameManager.Data.setting); // ·ÎÄÃ¿¡ ÀúÀåÇÏ´Â ºÎºĞ -> ¼­¹ö ¼Û¼ö½ÅÀ¸·Î º¯°æ ¿¹Á¤
+            GameManager.Data.SaveData("Setting", GameManager.Data.setting); // ë¡œì»¬ì— ì €ì¥í•˜ëŠ” ë¶€ë¶„ -> ì„œë²„ ì†¡ìˆ˜ì‹ ìœ¼ë¡œ ë³€ê²½ ì˜ˆì •
         }
     }
     
-    // TODO »ç¿îµå ¸Å´ÏÀú Á¦ÀÛ ÀÌÈÄ Ãß°¡ÀÛ¾÷
+    // TODO ì‚¬ìš´ë“œ ë§¤ë‹ˆì € ì œì‘ ì´í›„ ì¶”ê°€ì‘ì—…
 }

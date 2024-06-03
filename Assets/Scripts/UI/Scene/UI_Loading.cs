@@ -25,19 +25,19 @@ public class UI_Loading : MonoBehaviour
 
     IEnumerator LoadSceneProcess()
     {
-        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene); // ºñµ¿±â·Î ºÒ·¯¿È
-        op.allowSceneActivation = false; // ·Îµù ¸¶Ä¡¸é ÀÚµ¿À¸·Î ³Ñ¾î°¡Áö ¾Êµµ·Ï + ¾À ¿Ü¿¡µµ ¸®¼Ò½ºµéÀÌ ÃæºĞÈ÷ ·Îµå µÇµµ·Ï
+        AsyncOperation op = SceneManager.LoadSceneAsync(nextScene); // ë¹„ë™ê¸°ë¡œ ë¶ˆëŸ¬ì˜´
+        op.allowSceneActivation = false; // ë¡œë”© ë§ˆì¹˜ë©´ ìë™ìœ¼ë¡œ ë„˜ì–´ê°€ì§€ ì•Šë„ë¡ + ì”¬ ì™¸ì—ë„ ë¦¬ì†ŒìŠ¤ë“¤ì´ ì¶©ë¶„íˆ ë¡œë“œ ë˜ë„ë¡
 
         float timer = 0f;
         while (!op.isDone)
         {
-            yield return null; // ¹İº¹¹®ÀÌ ³¡³¯¶§¸¶´Ù À¯´ÏÆ¼ ¿£Áø¿¡ Á¦¾î±ÇÀ» ³Ñ°Ü¾ß ¹Ù °ÔÀÌÁö°¡ ¿Ã¶ó°¨
+            yield return null; // ë°˜ë³µë¬¸ì´ ëë‚ ë•Œë§ˆë‹¤ ìœ ë‹ˆí‹° ì—”ì§„ì— ì œì–´ê¶Œì„ ë„˜ê²¨ì•¼ ë°” ê²Œì´ì§€ê°€ ì˜¬ë¼ê°
 
             if (op.progress < 0.2f)
             {
                 progressBar.fillAmount = op.progress;
             }
-            else // ÆäÀÌÅ© ·Îµù
+            else // í˜ì´í¬ ë¡œë”©
             {
                 timer += Time.unscaledDeltaTime / 5f;
                 progressBar.fillAmount = Mathf.Lerp(0.2f, 1f, timer);

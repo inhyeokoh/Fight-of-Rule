@@ -61,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 326b86f5b448fec43bbfee900d0e35cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterState: {fileID: 0}
+  characterStat: {fileID: 0}
   activeTime: 3
   durationTime: 1
   Isoverlap: 0

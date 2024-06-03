@@ -8,7 +8,7 @@ public class PoolManager : SubClass<GameManager>
         if (_root == null)
             return;
 
-        //»óÈ²¿¡ µû¶ó¼­ ³²°Ü¾ß ÇÒ Ç®ÀÌ ºĞ¸íÈ÷ Á¸ÀçÇÒ ¼ö ÀÖ´Ù.
+        //ìƒí™©ì— ë”°ë¼ì„œ ë‚¨ê²¨ì•¼ í•  í’€ì´ ë¶„ëª…íˆ ì¡´ì¬í•  ìˆ˜ ìˆë‹¤.
         for (int i = 0; i < _root.transform.childCount; i++)
         {
             GameObject.Destroy(_root.transform.GetChild(i).gameObject);
@@ -54,7 +54,7 @@ public class PoolManager : SubClass<GameManager>
             }
         }
 
-        //InitÀÇ count¸¸Å­ Ç®¸µ ¿ÀºêÁ§Æ®¸¦ ¸¸µé¾îÁÙ ÇÔ¼ö
+        //Initì˜ countë§Œí¼ í’€ë§ ì˜¤ë¸Œì íŠ¸ë¥¼ ë§Œë“¤ì–´ì¤„ í•¨ìˆ˜
         Poolable Create()
         {
             GameObject go = Object.Instantiate<GameObject>(Original);

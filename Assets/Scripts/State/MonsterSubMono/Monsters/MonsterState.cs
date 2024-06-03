@@ -17,28 +17,6 @@ public enum Enum_MonsterState
 
 public abstract class MonsterState : SubMono<MonsterController>
 {
-    protected int maxHP;
-    protected int maxMP;
-
-    protected int attackCombo;
-
-    protected int hp;
-    protected int mp;
-    protected int exp;
-
-    protected int damage;
-
-    protected int attackNumber;
-
-
-    protected int attack;
-    protected float attackSpeed;
-    protected float delay;
-    protected float abliltyDelay;
-    protected int defense;
-    protected int speed;
-    protected int level;
-
     protected bool isAttack = true;
     [SerializeField]
     protected bool isDelay = true;
@@ -46,104 +24,22 @@ public abstract class MonsterState : SubMono<MonsterController>
     protected bool isAbliltyDelay = true;
     [SerializeField]
     protected bool isHitCheck;
-
     [SerializeField]
     protected bool isDeadCheck;
-
-    protected int detectDistance;
-    protected int attackDistance;
-
-
+   
     protected Dictionary<int, State> state;
     [SerializeField]
     protected CharacterStatus expCharacter;
     StateMachine stateMachine;
     [SerializeField]
     protected Enum_MonsterState monsterState;
-    public int HP
+    public Enum_MonsterState EnumMonsterState { get { return monsterState; } }
+
+
+
+    public bool IsAttack
     {
         get
-        {
-            return hp;
-        }
-        set
-        {
-            hp = value < 0 ? 0 : value;
-
-            if (hp >= maxHP)
-            {
-                hp = maxHP;
-            }         
-        }
-    }
-
-    public int MP
-    {
-        get
-        {
-            return mp;
-        }
-        set
-        {
-            mp = value < 0 ? 0 : value;
-
-            if (mp >= maxMP)
-            {
-                mp = maxMP;
-            }
-        }
-    }
-    public int Attack
-    {
-        get
-        {
-            return attack;
-        }
-        set
-        {
-            attack = value;
-        }
-    }
-
-    public int Defense
-    {
-        get
-        {
-            return defense;
-        }
-        set
-        {
-            defense = value;
-        }
-    }
-
-    public int Speed
-    {
-        get
-        {
-            return speed;
-        }
-        set
-        {
-            speed = value;
-        }
-    }
-
-    public int Level
-    {
-        get
-        {
-            return level;
-        }
-        set
-        {
-            level = value;
-        }
-    }
-
-    public bool IsAttack 
-    { 
-        get 
         {
             return isAttack;
         }
@@ -201,21 +97,7 @@ public abstract class MonsterState : SubMono<MonsterController>
         }
     }
 
-
-    public Enum_MonsterState EnumMonsterState { get { return monsterState; } }
-
-    public float AttackSpeed
-    {
-        get
-        {
-            return attackSpeed;
-        }
-        set
-        {
-            attackSpeed = value;
-        }
-    }
-
+    
     protected override void _Init()
     {
         state = new Dictionary<int, State>();
@@ -269,7 +151,7 @@ public abstract class MonsterState : SubMono<MonsterController>
             {
                 for (int i = 0; i < _board.players.Length; i++)
                 {
-                    if (Vector3.Distance(_board.players[i].transform.position, gameObject.transform.position) < detectDistance)
+                    if (Vector3.Distance(_board.players[i].transform.position, gameObject.transform.position) < _board._monsterStatus.DetectDistance)
                     {
                         _board._monsterMovement.characterPosition = _board.players[i].transform;
                     }
@@ -280,14 +162,14 @@ public abstract class MonsterState : SubMono<MonsterController>
             {
                 if (!isHitCheck)
                 {
-                    if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < attackDistance &&
+                    if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < _board._monsterStatus.AttackDistance &&
                                          isAttack)
                     {
                         
                         AttackNumber();
                         ChangeState((int)Enum_MonsterState.Attack);
                     }
-                    else if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < attackDistance &&
+                    else if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < _board._monsterStatus.AttackDistance &&
                     !isAttack)
                     {
                         _board._monsterMovement.Rotation();
@@ -303,13 +185,13 @@ public abstract class MonsterState : SubMono<MonsterController>
         state.Add((int)Enum_MonsterState.Move, new State(() => { _board._animationController.ChangeMoveAnimation(1); }, () => { },
           () =>
           {
-              if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) > detectDistance)
+              if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) > _board._monsterStatus.DetectDistance)
               {
                   ChangeState((int)Enum_MonsterState.Delay);
               }
               else if (!isHitCheck)
               {
-                  if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < attackDistance &&
+                  if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < _board._monsterStatus.AttackDistance &&
                   isAttack /*&& monsterState != Enum_MonsterState.Hit && monsterState != Enum_MonsterState.Dead*/)
                   {
                      
@@ -317,14 +199,14 @@ public abstract class MonsterState : SubMono<MonsterController>
                       AttackNumber();
                       ChangeState((int)Enum_MonsterState.Attack);
                   }
-                  else if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < attackDistance &&
+                  else if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < _board._monsterStatus.AttackDistance &&
                   !isAttack)
                   {
                       ChangeState((int)Enum_MonsterState.Delay);
                   }
                   else
                   {
-                      _board._monsterMovement.Move(speed);
+                      _board._monsterMovement.Move(_board._monsterStatus.Speed);
                   }
               }
           }, () =>
@@ -341,7 +223,7 @@ public abstract class MonsterState : SubMono<MonsterController>
             {
                 for (int i = 0; i < _board.players.Length; i++)
                 {
-                    if (Vector3.Distance(_board.players[i].transform.position, gameObject.transform.position) < detectDistance)
+                    if (Vector3.Distance(_board.players[i].transform.position, gameObject.transform.position) < _board._monsterStatus.DetectDistance)
                     {
                         _board._monsterMovement.characterPosition = _board.players[i].transform;              
                         ChangeState((int)Enum_MonsterState.Delay);
@@ -356,7 +238,7 @@ public abstract class MonsterState : SubMono<MonsterController>
                     }
                     else
                     {                       
-                        _board._monsterMovement.Return(speed);
+                        _board._monsterMovement.Return(_board._monsterStatus.Speed);
                     }
                 }
 
@@ -369,15 +251,17 @@ public abstract class MonsterState : SubMono<MonsterController>
 
         });
         state.Add((int)Enum_MonsterState.Attack, new State(() =>
-        {
+        { 
+
             if (!isHitCheck)
             {
+           
                 monsterState = Enum_MonsterState.Attack;
                 _board._animationController.ChangeMoveAnimation(0);
                 _board._monsterMovement.Stop();
                 //_board._monsterMovement.IsKinematic(true);
-                _board._monsterMovement.Attack(attackSpeed);
-                _board._animationController.ChanageAttackAnimation(attackNumber);
+                _board._monsterMovement.Attack(_board._monsterStatus.AttackSpeed);
+                _board._animationController.ChanageAttackAnimation(_board._monsterStatus.AttackNumber);
                 _board._effector.InstanceEffect = 0;
             }              
         },
@@ -416,14 +300,16 @@ public abstract class MonsterState : SubMono<MonsterController>
             _board._monsterMovement.Stop();
             _board._monsterMovement.Dead();
             monsterState = Enum_MonsterState.Dead;        
-            expCharacter.EXP += exp;
+            //expCharacter.EXP += exp;
             gameObject.GetComponent<Collider>().enabled = false;        
             Invoke("SetActive", 3);
             gameObject.GetComponent<MonsterState>().enabled = false;
+
+            _board._monsterItemDrop.ItemDrop();
         }, () => { }, () => {  }, 
         () => 
         {
-            print("Deadø°º≠ ∫¸¡Æ≥™ø»");       
+            print("DeadÏóêÏÑú Îπ†Ï†∏ÎÇòÏò¥");       
         }));
     }
     public void ChangeState(int newState)
@@ -434,35 +320,6 @@ public abstract class MonsterState : SubMono<MonsterController>
     private void Alive()
     {
 
-    }
-
-    public void DeadCheck(int damage, CharacterStatus expCharacter, float addforce)
-    {
-
-       // _board.DistributeEffectBurstStop();
-        this.expCharacter = expCharacter;
-        hp -= damage / defense;
-
-        print(hp);
-
-        if (hp <= 0)
-        {
-            hp = 0;
-            ChangeState((int)Enum_MonsterState.Dead);
-        }
-        else
-        {
-            _board._monsterMovement.characterPosition = expCharacter.transform;
-            _board._animationController.RootMotion(false);
-            _board._monsterMovement.AddForce(addforce);
-            ChangeState((int)Enum_MonsterState.Hit);
-        }
-
-        //print(hp);
-    }
-    public int EffectDamage(int EffectDamage = 1)
-    {
-        return damage = attack * EffectDamage;
     }
 
     public void SetActive()

@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class CharacterEquipment : SubMono<PlayerController>
 {
+    /// <summary>
+    /// ê°ê°ì˜ ì¥ë¹„ë“¤ ì²´í¬
+    /// </summary>
     [SerializeField]
-    InGameItemEquipment currentWeapon;
-    InGameItemEquipment currentHead;
-    InGameItemEquipment currentBody;
-    InGameItemEquipment currentHand;
-    InGameItemEquipment currentFoot;
+    InGameStateItem currentWeapon;
+    InGameStateItem currentHead;
+    InGameStateItem currentBody;
+    InGameStateItem currentHand;
+    InGameStateItem currentFoot;
 
+    /// <summary>
+    /// ì¥ë¹„ê°€ ê»´ì ¸ìˆëŠ”ì§€ ì²´í¬
+    /// </summary>
     private bool weaponCheck;
     private bool headCheck;
     private bool bodyCheck;
@@ -27,11 +33,11 @@ public class CharacterEquipment : SubMono<PlayerController>
 
 
     [SerializeField]
-    private List<InGameItemEquipment> equipments;
+    private List<InGameStateItem> equipments;
 
     protected override void _Clear()
     {
-        
+
     }
 
     protected override void _Excute()
@@ -41,11 +47,15 @@ public class CharacterEquipment : SubMono<PlayerController>
 
     protected override void _Init()
     {
-       // Ä³¸¯ÅÍ°¡ ²¸Á®ÀÖ´Â Àåºñ¸¦ ºÒ·¯¿À±â
+        // ìºë¦­í„°ê°€ ê»´ì ¸ìˆëŠ” ì¥ë¹„ë¥¼ ë¶ˆëŸ¬ì˜¤ê¸°
+        equipments = new List<InGameStateItem>();
     }
 
-
-    public void EquipmentCheck(InGameItemEquipment equipment)
+    /// <summary>
+    /// ì¥ë¹„ë¥¼ ë¼ë©´ ê»´ì ¸ìˆëŠ”ì§€ ì²´í¬í•˜ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    /// <param name="equipment"></param>
+    public void EquipmentCheck(InGameStateItem equipment)
     {
         Change(equipment);
     }
@@ -55,14 +65,14 @@ public class CharacterEquipment : SubMono<PlayerController>
     {
         if (_board._class != weapon.EquipmentClass || _board._playerStat.Level < weapon.Level)
         {
-            Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
 
         if (weaponCheck)
         {
-             print("°¥¾Æ³¦");
+             print("ê°ˆì•„ë‚Œ");
              equipments.Remove(currentWeapon);
              currentWeapon.Exit();
              currentWeapon = weapon;
@@ -71,7 +81,7 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
         else
         {
-            print("²¼À½");
+            print("ê¼ˆìŒ");
             currentWeapon = weapon;
             weaponCheck = true;
             currentWeapon.Enter();
@@ -83,14 +93,14 @@ public class CharacterEquipment : SubMono<PlayerController>
     {
         if (_board._class != head.EquipmentClass || _board._playerStat.Level < head.Level)
         {
-            Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
 
         if (headCheck)
         {
-            print("°¥¾Æ³¦");
+            print("ê°ˆì•„ë‚Œ");
             equipments.Remove(currentHead);
             currentHead.Exit();
             currentHead = head;         
@@ -99,7 +109,7 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
         else
         {
-            print("²¼À½");
+            print("ê¼ˆìŒ");
             currentHead = head;
             headCheck = true;
             currentHead.Enter();
@@ -112,14 +122,14 @@ public class CharacterEquipment : SubMono<PlayerController>
     {
         if (_board._class != body.EquipmentClass || _board._playerStat.Level < body.Level)
         {
-            Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
 
         if (bodyCheck)
         {
-            print("°¥¾Æ³¦");
+            print("ê°ˆì•„ë‚Œ");
 
             equipments.Remove(currentBody);
             currentBody.Exit();
@@ -130,7 +140,7 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
         else
         {
-            print("²¼À½");
+            print("ê¼ˆìŒ");
             currentBody = body;
             bodyCheck = true;
             currentBody.Enter();
@@ -141,14 +151,14 @@ public class CharacterEquipment : SubMono<PlayerController>
     {
         if (_board._class != hand.EquipmentClass || _board._playerStat.Level < hand.Level)
         {
-            Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
 
         if (handCheck)
         {
-            print("°¥¾Æ³¦");
+            print("ê°ˆì•„ë‚Œ");
             currentHand.Exit();
 
             currentHand = hand;
@@ -157,7 +167,7 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
         else
         {
-            print("²¼À½");
+            print("ê¼ˆìŒ");
             currentHand = hand;
             handCheck = true;
             currentHand.Enter();
@@ -168,14 +178,14 @@ public class CharacterEquipment : SubMono<PlayerController>
     {
         if (_board._class != foot.EquipmentClass || _board._playerStat.Level < foot.Level)
         {
-            Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+            Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
             return;
         }
 
 
         if (footCheck)
         {
-            print("°¥¾Æ³¦");
+            print("ê°ˆì•„ë‚Œ");
             currentFoot.Exit();
 
             currentFoot = foot;
@@ -184,13 +194,17 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
         else
         {
-            print("²¼À½");
+            print("ê¼ˆìŒ");
             currentFoot = foot;
             footCheck = true;
             currentFoot.Enter();
         }
     }*/
 
+
+    /// <summary>
+    /// ì¥ë¹„ ì•„ì´í…œë“¤ì˜ ì§€ì†íš¨ê³¼ë“¤ì„ í”„ë ˆì„ë§ˆë‹¤ ë¶ˆëŸ¬ì˜¤ëŠ” ë©”ì„œë“œ
+    /// </summary>
     public void EquipmentFixedStay()
     {
         for (int i = 0; i < equipments.Count; i++)
@@ -208,21 +222,26 @@ public class CharacterEquipment : SubMono<PlayerController>
     }
 
 
-    public void Change(InGameItemEquipment change)
+
+    /// <summary>
+    /// ì¥ë¹„ë“¤ì˜ ì¡°ê±´ê³¼ ê·¸ë¦¬ê³  ì´ë¯¸ ê»´ì ¸ìˆìœ¼ë©´ ê°ˆì•„ë¼ëŠ” ë©”ì„œë“œ
+    /// </summary>
+    /// <param name="change"></param>
+    public void Change(InGameStateItem change)
     {
-        switch (change.EquipmentType)
+        switch (change.StateItemData.detailType)
         {
-            case Enum_EquipmentType.Weapon:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+            case Enum_DetailType.Weapon:
+                if (_board._class != change.StateItemData.itemClass /*|| _board._playerStat.Level < change.StateItemData.level*/)
                 {
-                    Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+                    Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                     return;
                 }
 
 
                 if (weaponCheck)
                 {
-                    print("°¥¾Æ³¦");
+                    print("ê°ˆì•„ë‚Œ");
                     equipments.Remove(currentWeapon);
                     currentWeapon.Exit();
                     currentWeapon = change;
@@ -231,7 +250,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 else
                 {
-                    print("²¼À½");
+                    print("ê¼ˆìŒ");
                     currentWeapon = change;
                     weaponCheck = true;
                     currentWeapon.Enter();
@@ -240,17 +259,17 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
             
             
-            case Enum_EquipmentType.Head:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+            case Enum_DetailType.Head:
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
-                    Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+                    Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                     return;
                 }
 
 
                 if (headCheck)
                 {
-                    print("°¥¾Æ³¦");
+                    print("ê°ˆì•„ë‚Œ");
                     equipments.Remove(currentHead);
                     currentHead.Exit();
                     currentHead = change;
@@ -259,7 +278,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 else
                 {
-                    print("²¼À½");
+                    print("ê¼ˆìŒ");
                     currentHead = change;
                     headCheck = true;
                     currentHead.Enter();
@@ -267,17 +286,17 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 break;
 
-            case Enum_EquipmentType.Body:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+            case Enum_DetailType.Body:
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
-                    Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+                    Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                     return;
                 }
 
 
                 if (bodyCheck)
                 {
-                    print("°¥¾Æ³¦");
+                    print("ê°ˆì•„ë‚Œ");
 
                     equipments.Remove(currentBody);
                     currentBody.Exit();
@@ -287,7 +306,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 else
                 {
-                    print("²¼À½");
+                    print("ê¼ˆìŒ");
                     currentBody = change;
                     bodyCheck = true;
                     currentBody.Enter();
@@ -295,17 +314,17 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 break;
            
-            case Enum_EquipmentType.Hand:
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+            case Enum_DetailType.Hand:
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
-                    Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+                    Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                     return;
                 }
 
 
                 if (handCheck)
                 {
-                    print("°¥¾Æ³¦");
+                    print("ê°ˆì•„ë‚Œ");
                     equipments.Remove(currentHand);
                     currentHand.Exit();
 
@@ -316,7 +335,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 else
                 {
-                    print("²¼À½");
+                    print("ê¼ˆìŒ");
                     currentHand = change;
                     handCheck = true;
                     currentHand.Enter();
@@ -324,17 +343,17 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 break;
 
-            case Enum_EquipmentType.Foot:             
-                if (_board._class != change.EquipmentClass || _board._playerStat.Level < change.Level)
+            case Enum_DetailType.Foot:
+                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
                 {
-                    Debug.Log("ÀÌ Àåºñ´Â ³¥¼ö ¾ø½À´Ï´Ù.");
+                    Debug.Log("ì´ ì¥ë¹„ëŠ” ë‚„ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
                     return;
                 }
 
 
                 if (footCheck)
                 {
-                    print("°¥¾Æ³¦");
+                    print("ê°ˆì•„ë‚Œ");
                     equipments.Remove(currentFoot);
                     currentFoot.Exit();
 
@@ -345,7 +364,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 else
                 {
-                    print("²¼À½");
+                    print("ê¼ˆìŒ");
                     currentFoot = change;
                     footCheck = true;
                     currentFoot.Enter();
@@ -353,7 +372,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 }
                 break;
             default:
-                print("ÀÌ ¾ÆÀÌÅÛÀº µ¥ÀÌÅÍ»ó¿¡ Á¸ÀçÇÏÁö ¾Ê½À´Ï´Ù.");
+                //print("ì´ ì•„ì´í…œì€ ë°ì´í„°ìƒì— ì¡´ì¬í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
                 return;
         }
     }

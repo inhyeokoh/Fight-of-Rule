@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterEventHandler : SubMono<PlayerController>
 {
 
-    //Event¸¦ ÅëÇØ callbackÇÔ¼ö ´ëºÎºĞ ¾Ö´Ï¸ŞÀÌ¼Ç ÀÌº¥Æ®¿¡´Ù ³Ö±â À§ÇØ ¸¸µç Å¬·¡½º
+    //Eventë¥¼ í†µí•´ callbackí•¨ìˆ˜ ëŒ€ë¶€ë¶„ ì• ë‹ˆë©”ì´ì…˜ ì´ë²¤íŠ¸ì—ë‹¤ ë„£ê¸° ìœ„í•´ ë§Œë“  í´ë˜ìŠ¤
 
     public void EffectDurationEvent(int index)
     {

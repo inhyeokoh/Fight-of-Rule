@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+//몬스터들의 물리엔진들을 관리하는 클래스
 public class MonsterMovement : SubMono<MonsterController>
 {
     [SerializeField]
@@ -47,6 +48,7 @@ public class MonsterMovement : SubMono<MonsterController>
         spawn = gameObject.transform.position;
     }
 
+    // 몬스터들을 움직이게하는 메서드
     public void Move(int speed)
     {
         ai.isStopped = false;
@@ -70,6 +72,7 @@ public class MonsterMovement : SubMono<MonsterController>
         //monsterRigidbody.velocity = (direction.normalized) * speed;
     }
 
+    // 무브했을때 회전하는 메서드
     public void MoveRotation()
     {
         Vector3 direction = ai.desiredVelocity;
@@ -79,6 +82,8 @@ public class MonsterMovement : SubMono<MonsterController>
         monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, targetAngle, 3f * Time.deltaTime);
     }
 
+
+    // 공격이나 가만히 있을때 회전
     public void Rotation()
     {
         Vector3 direction = characterPosition.position - monsterTransform.position;
@@ -91,6 +96,7 @@ public class MonsterMovement : SubMono<MonsterController>
         monsterTransform.rotation = Quaternion.Euler(newRotation);
     }
 
+    //몬스터의 속도가 빠를때 회전을 조절하기 위한 메서드
     public void Slerp()
     {
         Vector3 direction = characterPosition.position - monsterTransform.position;
@@ -103,6 +109,8 @@ public class MonsterMovement : SubMono<MonsterController>
         monsterTransform.rotation = Quaternion.Euler(newRotation);
     }
 
+
+    //다시 자기 위치로 돌아가기 위한 메서드
     public void Return(int speed)
     {
         ai.isStopped = false;
@@ -121,6 +129,7 @@ public class MonsterMovement : SubMono<MonsterController>
          monsterRigidbody.velocity = (direction.normalized) * speed;*/
     }
 
+    // 데미지를 받았을때 밀려나기위한 메서드
     public void AddForce(float addforce)
     {
         Vector3 direction = characterPosition.position - monsterTransform.position;
@@ -128,7 +137,7 @@ public class MonsterMovement : SubMono<MonsterController>
         monsterRigidbody.velocity = -(direction.normalized) * addforce;
     }
 
-
+    // 공격할때 물리엔진
     public void Attack(float attackSpeed)
     {
         Stop();
@@ -151,10 +160,13 @@ public class MonsterMovement : SubMono<MonsterController>
         StopAllCoroutines();
     }
 
+    // 원래는 캐릭들이 밀려나지 않기위한 메서드였는데 이걸 체크해주면 트리거가 두번 체크되는 버그가 생겨서 일단 철회
     public void IsKinematic(bool on)
     {
         monsterRigidbody.isKinematic = on;
     }
+
+    // 몬스터의 스킬을 쓰게할지 못쓰게할지 체크
     public void Ablilty(float abliltyDelay)
     {
         Stop();        

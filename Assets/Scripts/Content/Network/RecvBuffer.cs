@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 //세선에 같이 만들어도 되지만 가독성이 떨어지고 깔끔하지 않기때문에 따로 한다고 한다.
 public class RecvBuffer

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -7,18 +8,41 @@ using UnityEngine.UI;
 
 public class UI_Inventory : UI_Entity
 {
-    GameObject _invenPanel;
+    GameObject _content;
     public GameObject dragImg;
-    public ItemBase[] items; // ÀÎº¥ ¾ÆÀÌÅÛ ¹è¿­
+    public GameObject descrPanel;
+    public GameObject dropConfirmPanel;
+    public GameObject dropCountConfirmPanel;
 
-    int _totalSlotCount = 30;
+    public Rect panelRect;
+    Vector2 _descrUISize;
+
+    TMP_Text[] upTogNames;
+    Toggle[] upToggles;
+
+    List<ItemData> _items;
+    int _totalSlotCount;
+
+    // ë“œë˜ê·¸ Field
+    private Vector2 _invenPos;
+    private Vector2 _dragBeginPos;
+    private Vector2 _offset;
 
     enum Enum_UI_Inventory
     {
         Interact,
         Panel,
+        Panel_U,
+        Panel_D,
+        Sort,
+        Expansion,
+        ScrollView,
+        TempAdd,
+        Close,
         DragImg,
-        Close
+        DescrPanel,
+        DropConfirm,
+        DropCountConfirm
     }
 
     protected override Type GetUINamesAsType()
@@ -26,161 +50,240 @@ public class UI_Inventory : UI_Entity
         return typeof(Enum_UI_Inventory);
     }
 
+    private void OnDisable()
+    {
+        GameManager.UI.PointerOnUI(false);
+    }
+
     protected override void Init()
     {
         base.Init();
-        _invenPanel = _entities[(int)Enum_UI_Inventory.Panel].gameObject;
-        _GetInvenDataFromDB();
-        _SetItemSlots();
+        _content = _entities[(int)Enum_UI_Inventory.ScrollView].transform.GetChild(0).GetChild(0).gameObject; // Content ë‹´ê¸°ëŠ” ì˜¤ë¸Œì íŠ¸
+        upTogNames = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<TMP_Text>();
+        upToggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
+        panelRect = _entities[(int)Enum_UI_Inventory.Panel].GetComponent<RectTransform>().rect;
+        dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
+        descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
+        dropConfirmPanel = _entities[(int)Enum_UI_Inventory.DropConfirm].gameObject;
+        dropCountConfirmPanel = _entities[(int)Enum_UI_Inventory.DropCountConfirm].gameObject;
+        _descrUISize = _GetUISize(descrPanel);
 
-        // ÀÎº¥Åä¸® Ã¢ µå·¡±×
-        _entities[(int)Enum_UI_Inventory.Interact].DragAction = (PointerEventData data) =>
+        _items = GameManager.Inven.items;
+        _totalSlotCount = GameManager.Inven.totalSlotCount;
+
+        _SetPanel_U();
+        _DrawSlots();
+
+        foreach (var _subUI in _subUIs)
         {
-            transform.position = data.position;
+            _subUI.ClickAction = (PointerEventData data) =>
+            {
+                GameManager.UI.GetPopupForward(GameManager.UI.Inventory);
+            };
+
+            // UIìœ„ì— ì»¤ì„œ ìˆì„ ì‹œ ìºë¦­í„° í–‰ë™ ì œì•½
+            _subUI.PointerEnterAction = (PointerEventData data) =>
+            {
+                GameManager.UI.PointerOnUI(true);
+            };
+
+            _subUI.PointerExitAction = (PointerEventData data) =>
+            {
+                GameManager.UI.PointerOnUI(false);
+            };
+        }
+
+        // ì¸ë²¤í† ë¦¬ ì°½ ë“œë˜ê·¸ ì‹œì‘
+        _entities[(int)Enum_UI_Inventory.Interact].BeginDragAction = (PointerEventData data) =>
+        {
+            _invenPos = transform.position;
+            _dragBeginPos = data.position;
         };
 
-        // ÀÎº¥Åä¸® ´İ±â
+        // ì¸ë²¤í† ë¦¬ ì°½ ë“œë˜ê·¸
+        _entities[(int)Enum_UI_Inventory.Interact].DragAction = (PointerEventData data) =>
+        {
+            _offset = data.position - _dragBeginPos;
+            transform.position = _invenPos + _offset;
+        };
+
+        // ì¸ë²¤í† ë¦¬ ì •ë ¬
+        _entities[(int)Enum_UI_Inventory.Sort].ClickAction = (PointerEventData data) =>
+        {
+            GameManager.Inven.SortItems();
+        };
+
+        // ì¸ë²¤í† ë¦¬ í™•ì¥
+        _entities[(int)Enum_UI_Inventory.Expansion].ClickAction = (PointerEventData data) =>
+        {
+            _ExpandSlot();
+        };
+
+        // ì•„ì´í…œ íšë“ - ì„ì‹œ
+        _entities[(int)Enum_UI_Inventory.TempAdd].ClickAction = (PointerEventData data) =>
+        {
+            _PressGetItem();
+        };
+
+        // ì¸ë²¤í† ë¦¬ ë‹«ê¸°
         _entities[(int)Enum_UI_Inventory.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.Inventory);
         };
 
-        // UIÀ§¿¡ Ä¿¼­ ÀÖÀ» ½Ã Ä³¸¯ÅÍ Çàµ¿ Á¦¾à
-        _entities[(int)Enum_UI_Inventory.Panel].PointerEnterAction = (PointerEventData data) =>
-        {
-            GameManager.UI.PointerOnUI(true);
-        };
-
-        _entities[(int)Enum_UI_Inventory.Panel].PointerExitAction = (PointerEventData data) =>
-        {
-            GameManager.UI.PointerOnUI(false);
-        };
-
-        dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
+        gameObject.SetActive(false);
     }
 
-    //·ÎÄÃ·ÎºÎÅÍ ³» ÀÎº¥ ¾ÆÀÌÅÛ Á¤º¸ °¡Á®¿Í¼­ ¹è¿­¿¡ Áı¾î³ÖÀ½
-    void _GetInvenDataFromDB()
+    // ì¸ë²¤í† ë¦¬ ë‚´ ì´ˆê¸° ìŠ¬ë¡¯ ìƒì„±
+    void _DrawSlots()
     {
-        GameManager.Data.ItemDB = GameManager.Resources.Load<TextAsset>("Data/ItemDB");
-        string[] lines = GameManager.Data.ItemDB.text.Substring(0, GameManager.Data.ItemDB.text.Length - 1).Split('\n'); // textÆÄÀÏ·Î µÈ DBÀÇ Line
-        items = new ItemBase[_totalSlotCount + 1]; // ¸¶Áö¸· Ä­Àº ¾ÆÀÌÅÛ ½ºÀ§Äª¿ë
-        for (int i = 0; i < lines.Length; i++) // ¹è¿­ 0¹øºÎÅÍ Â÷·Ê·Î ³ÖÀ½
+        for (int i = 0; i < _totalSlotCount; i++)
         {
-            string[] row = lines[i].Split('\t'); // Tab ±âÁØÀ¸·Î ³ª´©±â           
-            // ¾ÆÀÌÅÛ Áı¾î ³Ö±â
-            if (row[0] == "Equipment")
+            GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform);
+            _itemSlot.name = "ItemSlot_" + i;
+            _itemSlot.GetComponent<UI_ItemSlot>().index = i;
+        }
+    }
+
+    public void RestrictItemDescrPos()
+    {
+        Vector2 option = new Vector2(300f, -165f);
+        StartCoroutine(RestrictUIPos(descrPanel, _descrUISize, option));
+    }
+
+    public void StopRestrictItemDescrPos(PointerEventData data)
+    {
+        StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
+    }
+
+    // UI ì‚¬ê°í˜• ì¢Œí‘œì˜ ì¢Œì¸¡í•˜ë‹¨ê³¼ ìš°ì¸¡ìƒë‹¨ ì¢Œí‘œë¥¼ ì „ì—­ ì¢Œí‘œë¡œ ë°”ê¿”ì„œ ì‚¬ì´ì¦ˆ ê³„ì‚°
+    Vector2 _GetUISize(GameObject UI)
+    {
+        Vector2 leftBottom = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.min);
+        Vector2 rightTop = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.max);
+        Vector2 UISize = rightTop - leftBottom;
+        return UISize;
+    }
+
+    // UIê°€ í™”ë©´ ë°–ìœ¼ë¡œ ë„˜ì–´ê°€ì§€ ì•Šë„ë¡ ìœ„ì¹˜ ì œí•œ
+    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize, Vector2? option = null)
+    {
+        while (true)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            float x = Math.Clamp(mousePos.x + option.Value.x, UISize.x / 2, Screen.width - (UISize.x / 2));
+            float y = Math.Clamp(mousePos.y + option.Value.y, UISize.y / 2, Screen.height - (UISize.y / 2));
+            UI.transform.position = new Vector2(x, y);
+            yield return null;
+        }
+    }
+
+    void _SetPanel_U()
+    {
+        upTogNames[0].text = "All";
+        upTogNames[1].text = "Equipment";
+        upTogNames[2].text = "Consumption";
+        upTogNames[3].text = "Material";
+        upTogNames[4].text = "Etc";
+
+        upToggles[0].onValueChanged.AddListener((value) => _ToggleValueChanged(value, "All")); // ì „ì²´ë³´ê¸°
+        for (int i = 1; i < upToggles.Length; i++) // ì „ì²´ë³´ê¸°ë¥¼ ì œì™¸í•œ ë¶„ë¥˜
+        {
+            string typeName = upTogNames[i].text;
+            upToggles[i].onValueChanged.AddListener((value) => _ToggleValueChanged(value, typeName));
+        }
+    }
+
+    void _ToggleValueChanged(bool value, string typeName)
+    {
+        if (value)
+        {
+            if (typeName == "All")
             {
-                items[i] = new InGameItemEquipment();
-            }
-            else if (row[0] == "Consumption")
-            {
-                items[i] = new InGameItemConsumption();
-                //items[i] = new InGameItemDuraction();
+                for (int i = 0; i < _items.Count; i++)
+                {
+                    if (_items[i] == null)
+                    {
+                        continue;
+                    }
+                    UI_ItemSlot slot = _content.transform.GetChild(i).GetComponent<UI_ItemSlot>();
+                    slot.RenderBright();
+                }
             }
             else
             {
-                // Etc
+                _RenderByType(typeName);
             }
-            // items[i].itemID
-            // items[i].itemType =
-            items[i].itemName = row[1];
-            items[i].itemDescription = row[2];
-            items[i].count = Convert.ToInt32(row[3]);
-            // Debug.Log($"¾ÆÀÌÅÛ ¸í: {items[i].itemName}, ¾ÆÀÌÅÛ ¼ö·®: {items[i].count}");
-        }        
+        }
     }
 
-    // ÀÎº¥Åä¸® ³» ½½·Ô°ú ¾ÆÀÌÅÛ »ı¼º
-    void _SetItemSlots()
+    // ì„ íƒí•œ íƒ€ì…ì— í•´ë‹¹ ì•„ì´í…œì€ ìƒ‰ ë°ê²Œ, ë‚˜ë¨¸ì§€ëŠ” ì•½ê°„ ì–´ë‘¡ê²Œ
+    void _RenderByType(string typeName)
     {
-        int slotIndex = 0;
-        for (int i = 0; i < _totalSlotCount; i++)
+        // ë¬¸ìì—´ì„ í•´ë‹¹ ì—´ê±°í˜•ìœ¼ë¡œ ë³€í™˜
+        Enum_ItemType targetType;
+        if (!Enum.TryParse(typeName, out targetType))
         {
-            GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _invenPanel.transform);
-            _itemSlot.name = "ItemSlot_" + slotIndex;
+            return; //ëª» ë°”ê¾¸ë©´ return
+        }
 
-            if (items[slotIndex].itemName == null)
+        for (int i = 0; i < _items.Count; i++)
+        {
+            if (_items[i] == null)
             {
-                slotIndex++;
                 continue;
             }
 
-            GameObject icon = _itemSlot.transform.GetChild(2).gameObject;  // IconImage (=½½·Ô ¿ÀºêÁ§Æ® ÀÚ½Ä 2¹ø)
-            GameObject amountText = icon.transform.GetChild(0).gameObject; // Amount Text (=¾ÆÀÌÄÜ ¿ÀºêÁ§Æ® ÀÚ½Ä 0¹ø)
-
-            icon.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
-            icon.GetComponent<Image>().sprite
-                = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{items[slotIndex].itemName}"); // ÇØ´ç ¾ÆÀÌÅÛ ÀÌ¸§°ú ÀÏÄ¡ÇÏ´Â ÀÌ¹ÌÁö ·Îµå
-            amountText.SetActive(true);
-            amountText.GetComponent<TMP_Text>().text = $"{items[slotIndex].count}";        
-            slotIndex++;
+            UI_ItemSlot slot = _content.transform.GetChild(i).GetComponent<UI_ItemSlot>();
+            if (_items[i].itemType != targetType) // ë‹¤ë¥¸ íƒ€ì…ì€ ì–´ë‘¡ê²Œ ê·¸ë¦¬ê¸°
+            {
+                slot.RenderDark();
+            }
+            else
+            {
+                slot.RenderBright();
+            }
         }
-    }   
-
-
-    public void SwitchItems(int a, int b)
-    {        
-        items[_totalSlotCount] = items[b];
-        items[b] = items[a];
-        items[a] = items[_totalSlotCount];
     }
 
-    public bool CheckItemType(int a, int b)
+    // ì•„ì´í…œ ë°°ì—´ ì •ë³´ì— ë§ê²Œ UI ê°±ì‹  ì‹œí‚¤ëŠ” ë©”ì„œë“œ
+    public void UpdateInvenUI(int slotIndex)
     {
-        if (items[a].itemType == items[b].itemType)
+        UI_ItemSlot slot = _content.transform.GetChild(slotIndex).GetComponent<UI_ItemSlot>();
+        slot.ItemRender();
+    }
+
+    // ì¸ë²¤ í™•ì¥
+    void _ExpandSlot(int newSlot = 6)
+    {
+        for (int i = _totalSlotCount; i < _totalSlotCount + newSlot; i++)
+        {
+            GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform);
+            _itemSlot.name = "ItemSlot_" + i;
+            _itemSlot.GetComponent<UI_ItemSlot>().index = i;
+        }
+        GameManager.Inven.totalSlotCount += newSlot;
+        _totalSlotCount = GameManager.Inven.totalSlotCount;
+        GameManager.Inven.ExtendItemList();
+    }
+
+    void _PressGetItem()
+    {
+        var item = ItemParsing.StateItemDataReader(500);
+        item.count = 70;
+
+        GameManager.Inven.GetItem(item);
+        // TODO ì¥ë¹„ì•„ì´í…œì€ ê³ ìœ ë²ˆí˜¸
+    }
+
+    public bool CheckUIOutDrop()
+    {
+        if (dragImg.transform.localPosition.x < panelRect.xMin || dragImg.transform.localPosition.y < panelRect.yMin ||
+            dragImg.transform.localPosition.x > panelRect.xMax || dragImg.transform.localPosition.y > panelRect.yMax)
         {
             return true;
         }
 
         return false;
     }
-
-
-    public void AddUpItems(int a, int b)
-    {
-        if (items[a].count <= 100)
-        {
-
-        }
-    }
-
-
-    public void UpdateInvenInfo(int slotIndex) // ÃÊ±â¿¡´Â ±³È¯ÇÒ µÎ ¾ÆÀÌÅÛÀÇ ¹è¿­ ÀçÁ¤·É ÈÄ ÀÌ¹ÌÁö¿Í ¼ö·®À» ¼­·Î ±³Ã¼ÇÏ´Â ¹æ½ÄÀÌ ´õ ÀûÀº ·ÎÁ÷À» »ç¿ëÇÏ¿© °£´ÜÇØ º¸¿´Áö¸¸, È®Àå¼º ¸é¿¡¼­ ¾ÆÀÌÅÛ ÇÕ»ê½Ã¿¡´Â Àç»ç¿ëÀÌ ¾î·Á¿ö¼­ ¾ÆÀÌÅÛ ¹è¿­ Á¤º¸¿¡ ¸Â°Ô °»½Å ½ÃÅ°´Â ¸Ş¼­µå »ç¿ë.
-    {
-        GameObject slotInfo = _invenPanel.transform.GetChild(slotIndex).GetChild(2).gameObject; // ¹øÈ£¿¡ ¸Â´Â ½½·ÔÀÇ IconImg ¿ÀºêÁ§Æ® 
-        Image iconImg= slotInfo.GetComponent<Image>();
-        TMP_Text amountText = slotInfo.transform.GetChild(0).GetComponent<TMP_Text>();
-
-        if (items[slotIndex] == null)
-        {
-            iconImg.sprite = null;
-            iconImg.color = new Color32(12, 15, 29, 0);
-            amountText.gameObject.SetActive(false);
-        }
-        else
-        {
-            iconImg.sprite = GameManager.Resources.Load<Sprite>($"Materials/ItemIcons/{items[slotIndex].itemName}"); // ÇØ´ç ¾ÆÀÌÅÛ ÀÌ¸§°ú ÀÏÄ¡ÇÏ´Â ÀÌ¹ÌÁö ·Îµå
-            iconImg.color = new Color32(255, 255, 255, 255);
-            amountText.gameObject.SetActive(true);
-            amountText.text = $"{(items[slotIndex].count)}"; //  ÇØ´ç ¾ÆÀÌÅÛ ÀÌ¸§°ú ÀÏÄ¡ÇÏ´Â ¼ö·® ·Îµå
-        }
-    }
-
-    // ¾ÆÀÌÅÛ ½Àµæ
-    /*    void AddItem/Item data, int amount)
-        {
-            if (¼ö·® ÀÖ´Â ¾ÆÀÌÅÛ) -> µ¿ÀÏ ¾ÆÀÌÅÛ Ã£¾Æ¼­ ¼ö·® ÇÕ»ê
-
-            if (data._countable == true)
-            {
-
-            }
-
-
-
-
-            else if (µ¿ÀÏ ¾ÆÀÌÅÛ ¾ø°Å³ª, ÀÌ¹Ì ÃÖ´ë¼ö·® ÀÌ°Å³ª, ¼ö·®ÀÌ ¾ø´Â ¾ÆÀÌÅÛ) -> ¹è¿­ÀÇ ¾ÕºÎÅÍ ºó ½½·Ô Ã£¾Æ¼­ ³Ö±â
-        }*/
-
 }

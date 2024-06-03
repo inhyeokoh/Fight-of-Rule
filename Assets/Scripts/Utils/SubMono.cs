@@ -42,17 +42,17 @@ public abstract class SubMono<T> : MonoBehaviour, ISubClass where T : class
         return () => { Excute(); };
     }
 
-    //ÃÊ±âÈ­
+    //ì´ˆê¸°í™”
     public void Init() { _Init(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Init();}
-    //½ÇÇà
+    //ì‹¤í–‰
     public void Excute() { _Excute(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Excute(); }
-    //Á¤¸®
+    //ì •ë¦¬
     public void Clear() { _Clear(); for (int i = 0; i < SubClasses.Count; i++) SubClasses[i].Clear(); }
 
 
     /*======================
      * 
-     *     ¹Ýµå½Ã Á¤ÀÇ
+     *     ë°˜ë“œì‹œ ì •ì˜
      * 
     =======================*/
     protected abstract void _Init();

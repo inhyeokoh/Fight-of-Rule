@@ -4,8 +4,8 @@ using UnityEngine;
 public enum WarriorSkill
 {
     AssaultBlade = 9,
-    DubleSlash,
     DivingSlash,
+    DubleSlash,
     SwordStorm,
     WheelWind,
 }
@@ -85,7 +85,7 @@ public class Warrior : CharacterState
         {
             if (Vector3.Distance(_board._playerMovement.playerTransform.position, _board._playerMovement.TargetPosition) > 0.1f)
             {
-                print(Vector3.Distance(_board._playerMovement.playerTransform.position, _board._playerMovement.TargetPosition));
+                //print(Vector3.Distance(_board._playerMovement.playerTransform.position, _board._playerMovement.TargetPosition));
                 /*  _board._playerMovement.targetPosition.y += 0;
                   Vector3 direction = _board._playerMovement.TargetPosition - gameObject.transform.position;
                   _board._playerMovement.Rb.velocity = direction.normalized * Speed;*/

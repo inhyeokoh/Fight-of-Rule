@@ -31,9 +31,9 @@ public class DamageFactory : MonoBehaviour
 
     }
 
-    public void MonsterDamage(MonsterState monster, int skillDamage, CharacterStatus character, float addforce)
+    public void MonsterDamage(MonsterStatus monster, int skillDamage, CharacterStatus character, float addforce)
     {
-       // print("µ¥¹ÌÁö ÆÑÅä¸® ½ÇÇà‰Î");
+       // print("ë°ë¯¸ì§€ íŒ©í† ë¦¬ ì‹¤í–‰ëŒ");
         monster.DeadCheck(skillDamage, character, addforce);
     }
 }

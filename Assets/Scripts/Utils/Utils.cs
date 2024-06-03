@@ -7,7 +7,7 @@ public class Utils
         Transform ttr = FindChild<Transform>(go, name, recursive);
         if (ttr == null) return null;
 
-        return ttr.gameObject; // ttrÀÌ null ÀÏ¶§ ttr.gameObject È£Ãâ½Ã ¿À·ù“P»ı
+        return ttr.gameObject; // ttrì´ null ì¼ë•Œ ttr.gameObject í˜¸ì¶œì‹œ ì˜¤ë¥˜ë°£ìƒ
     }
     public static T FindChild<T>(GameObject go, string name = null, bool recursive = false) where T : UnityEngine.Object
     {
@@ -19,7 +19,7 @@ public class Utils
             T[] tmp = go.GetComponentsInChildren<T>();
             for (int i = 0; i < tmp.Length; i++)
             {
-                if (string.IsNullOrEmpty(name) || tmp[i].name == name) //ÀÌ¸§ÀÌ ÀÔ·ÂµÇÁö ¾Ê¾ÒÀ¸¸é Á¦ÀÏÃ³À½ TÅ¸ÀÔ¹İÈ¯,ÀÔ·ÂµÇ¾úÀ¸¸é ÀÏÄ¡½Ã ¹İÈ¯
+                if (string.IsNullOrEmpty(name) || tmp[i].name == name) //ì´ë¦„ì´ ì…ë ¥ë˜ì§€ ì•Šì•˜ìœ¼ë©´ ì œì¼ì²˜ìŒ Tíƒ€ì…ë°˜í™˜,ì…ë ¥ë˜ì—ˆìœ¼ë©´ ì¼ì¹˜ì‹œ ë°˜í™˜
                 {
                     return tmp[i];
                 }
@@ -78,10 +78,23 @@ public class Utils
         return false;
     }
 
-    public static void DebugLog(string msg)
+    public static void Log<T>(T msg)
     {
 #if UNITY_EDITOR
         Debug.Log(msg);
+#endif
+    }
+
+    public static bool Dynamic_Assert(bool assertionCond, string msg)
+    {
+#if UNITY_EDITOR
+        if (!assertionCond)
+        {
+            Log(msg);
+            Debug.Assert(assertionCond);
+        }
+
+        return assertionCond;
 #endif
     }
 }
