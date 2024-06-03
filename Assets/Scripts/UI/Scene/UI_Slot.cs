@@ -42,7 +42,7 @@ public class UI_Slot : UI_Entity
             // 해당 슬롯 텍스트 상자에 데이터 기입
 
             _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
-                $"{character.charName}\n {character.level}\n {job}\n {gender}\n";
+                $"캐릭터명 : {character.charName}\n 레벨: {character.level}\n 직업: {job}\n 성별: {gender}\n";
 
             _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
                 GetComponent<Toggle>().isOn = true;

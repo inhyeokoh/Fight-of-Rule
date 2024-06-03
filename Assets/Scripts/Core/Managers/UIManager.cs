@@ -43,11 +43,6 @@ public class UIManager : SubClass<GameManager>
 
     protected override void _Excute()
     {
-/*        if (!_init)
-        {
-            _DeactivateAllPopups();
-            _init = true;
-        }*/
     }
 
     protected override void _Init()
@@ -71,32 +66,47 @@ public class UIManager : SubClass<GameManager>
         Object.DontDestroyOnLoad(uiManage);
         popupCanvas = GameObject.Find("PopupCanvas");
         Object.DontDestroyOnLoad(popupCanvas);
-        SetOutGamePopups();
+        ManageOutGamePopups(true);
 
         _activePopupList = new LinkedList<UI_Entity>();
 #endif
     }
 
-    public void SetOutGamePopups()
+    public void ManageOutGamePopups(bool set)
     {
-        SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
-        Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupCanvas.transform).GetComponent<UI_Setting>();
-        InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform).GetComponent<UI_InputName>();
-        ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform).GetComponent<UI_ConfirmYN>();
-        ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform).GetComponent<UI_ConfirmY>();
-        //ConfirmN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmN", popupCanvas.transform).GetComponent<UI_ConfirmN>();
-        Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
-        BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).GetComponent<UI_BlockAll>();
+        if (set)
+        {
+            SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
+            Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupCanvas.transform).GetComponent<UI_Setting>();
+            InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform).GetComponent<UI_InputName>();
+            ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform).GetComponent<UI_ConfirmYN>();
+            ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform).GetComponent<UI_ConfirmY>();
+            Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
+            BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).GetComponent<UI_BlockAll>();
+        }
+        else
+        {
+            // 기존 OutGamePopup 전부 삭제
+            for (int i = 0; i < popupCanvas.transform.childCount; i++)
+            {
+                GameManager.Resources.Destroy(popupCanvas.transform.GetChild(i).gameObject);
+            }
+        }
     }
 
     public void SetInGamePopups()
     {
-        // Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform);
-        // PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform);
-        // Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform);
-        //StatusWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/StatusWindow", popupCanvas.transform);
+        popupCanvas = GameObject.Find("PopupCanvas");
+        Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
+        PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();
+        Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform).GetComponent<UI_Shop>();
+        Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
+        InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
+        InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
         // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
-        //StatusWindow.SetActive(false);
+/*        Shop.shopSell.gameObject.SetActive(false);
+        Shop.shopRepurchase.gameObject.SetActive(false);
+        Shop.gameObject.SetActive(false);*/
     }
 
 
@@ -105,13 +115,6 @@ public class UIManager : SubClass<GameManager>
         pi = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
         moveAction = pi.currentActionMap.FindAction("Move");
         fireAction = pi.currentActionMap.FindAction("Fire");
-    }
-
-    void _DeactivateAllPopups()
-    {
-        Shop.GetComponent<UI_Shop>().shopSell.gameObject.SetActive(false);
-        Shop.GetComponent<UI_Shop>().shopRepurchase.gameObject.SetActive(false);
-        Shop.gameObject.SetActive(false);
     }
 
     public void OpenPopup(UI_Entity targetPopup)

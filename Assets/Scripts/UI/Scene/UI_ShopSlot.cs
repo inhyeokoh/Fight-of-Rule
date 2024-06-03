@@ -119,6 +119,25 @@ public class UI_ShopSlot : UI_Entity
                 }
             }
         };
+
+        switch (currentType)
+        {
+            case Enum_ShopSlotTypes.Sell:
+                if (Index == shopSell.shopTotalCount - 1)
+                {
+                    shopSell.gameObject.SetActive(false);
+                }
+                break;
+            case Enum_ShopSlotTypes.Repurchase:
+                if (Index == shopRepurchase.shopTotalCount - 1)
+                {
+                    shopRepurchase.gameObject.SetActive(false);
+                    shopUI.gameObject.SetActive(false);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     // 슬롯 번호에 맞게 아이템 그리기

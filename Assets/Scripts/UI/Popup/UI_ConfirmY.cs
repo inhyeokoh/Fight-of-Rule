@@ -25,6 +25,7 @@ public class UI_ConfirmY : UI_Entity
 
     public enum Enum_ConfirmTypes
     {
+        TimeOut,
         ExistID,
         ExistUser,
         SignUpSuccess,
@@ -69,6 +70,9 @@ public class UI_ConfirmY : UI_Entity
 
         switch (confirmType)
         {
+            case Enum_ConfirmTypes.TimeOut:
+                _mainText.text = $"Time Out";
+                break;
             case Enum_ConfirmTypes.ExistID:
                 _mainText.text = $"존재하는 ID입니다.";
                 break;

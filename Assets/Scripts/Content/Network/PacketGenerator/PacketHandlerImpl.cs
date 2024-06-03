@@ -114,12 +114,11 @@ public class PacketHandlerImpl : MonoBehaviour
         }
 
         // 기존 유저
-        CharData[] charArray = new CharData[4];
         foreach (var charInfo in message.Character)
         {
             CharData charData = new CharData();
             // charInfo CharData로 필드를 매핑
-            charData.charName = charInfo.BaseInfo.Nickname.ToStringUtf8();
+            charData.charName = charInfo.BaseInfo.Nickname.ToString(System.Text.Encoding.Unicode);
             charData.job = charInfo.BaseInfo.Job;
             charData.gender = charInfo.BaseInfo.Gender;
 
@@ -139,7 +138,7 @@ public class PacketHandlerImpl : MonoBehaviour
             charData.posY = charInfo.Xyz.Y;
             charData.posZ = charInfo.Xyz.Z;
 
-            charArray[charInfo.BaseInfo.SlotNum] = charData;
+            GameManager.Data.characters[charInfo.BaseInfo.SlotNum] = charData;
         }
 
         // 캐릭터 선택씬 이동

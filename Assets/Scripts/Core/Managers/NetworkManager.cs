@@ -32,7 +32,13 @@ public class NetworkManager : SubClass<GameManager>
             () => { GameManager.UI.OpenPopup(GameManager.UI.BlockAll); },
             // callback
             (signal) => {
-                GameManager.UI.ClosePopup(GameManager.UI.BlockAll); 
+                GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
+
+                if (signal.signalType == TimeoutSignal.SignalType.TIMEOUT)
+                {
+                    GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                    GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.TimeOut);
+                }
             }
             );
 

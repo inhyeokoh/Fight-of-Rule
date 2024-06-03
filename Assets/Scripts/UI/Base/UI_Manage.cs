@@ -1,3 +1,4 @@
+#define SERVER
 // #define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
@@ -26,15 +27,24 @@ public class UI_Manage : MonoBehaviour
         curSceneNum = SceneManager.GetActiveScene().buildIndex;
         scenes.Push(curSceneNum);
                 
+#if INVENTEST
+        GameManager.UI.ConnectPlayerInput();
+        GameManager.Inven.ConnectInvenUI();
+#elif SERVER
+        if (scene.name == "StatePattern")
+        {
+            GameManager.UI.ManageOutGamePopups(false);
+            GameManager.UI.ConnectPlayerInput();
+            GameManager.UI.SetInGamePopups();
+            GameManager.Inven.ConnectInvenUI();
+        }
+#else
         if (scene.name == "StatePattern")
         {
             GameManager.UI.ConnectPlayerInput();
             GameManager.UI.SetInGamePopups();
             GameManager.Inven.ConnectInvenUI();
         }
-#if INVENTEST
-        GameManager.UI.ConnectPlayerInput();
-        GameManager.Inven.ConnectInvenUI();
 #endif
     }
 
