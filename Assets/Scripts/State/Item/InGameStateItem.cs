@@ -27,6 +27,7 @@ public class InGameStateItem
 
     //현재 플레이어의 직업확인과 장비를 꼇을때 스텟들을 넘겨주기위한 클래스
     public CharacterStatus playerStatus;
+    public CharacterCapability playerCapability;
     public float duration;
 
     private StateItemData stateItemData;
@@ -47,7 +48,9 @@ public class InGameStateItem
         duration = stateItemData.duration;
 
         playerStatus = PlayerController.instance._playerStat;
-    
+        playerCapability = PlayerController.instance._playerCpapbility;
+
+
         if (!stateComplete)        
         {         
             StateSetting();         
@@ -279,5 +282,93 @@ public class InGameStateItem
         {
 
         }));
+
+        StateItems.Add(500, new StateItem((item) =>
+        {
+            playerStatus.HP += 50;
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+
+        },
+        (item) =>
+        {
+
+        }
+        ));
+       
+        StateItems.Add(504, new StateItem((item) =>
+        {
+            playerStatus.MP += 100;
+        },    
+        (item) =>     
+        {
+     
+        },
+       (item) =>
+       {
+
+       },
+       (item) =>
+       {
+
+       }
+       ));     
+        StateItems.Add(515, new StateItem((item) =>
+        {
+            playerStatus.Attack += 10;
+        },
+       (item) =>
+       {
+
+       },
+       (item) =>
+       {
+           if (duration <= 0)
+           {
+               Exit();
+           }
+           else
+           {
+               duration -= Time.deltaTime;
+           }
+       },
+       (item) =>
+       {
+           playerStatus.Attack -= 10;
+           playerCapability.Remove(this);
+       }
+       ));
+        StateItems.Add(518, new StateItem((item) =>
+        {
+            playerStatus.Defense += 10;
+        },
+       (item) =>
+       {
+
+       },
+       (item) =>
+       {
+           if (duration <= 0)
+           {
+               Exit();
+           }
+           else
+           {
+               duration -= Time.deltaTime;
+           }
+       },
+       (item) =>
+       {
+           playerStatus.Defense -= 10;
+           playerCapability.Remove(this);
+       }
+       ));
+
+
     }
 }
