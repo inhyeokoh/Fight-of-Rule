@@ -69,6 +69,11 @@ public class UI_PlayerInfo : UI_Entity
         GameManager.UI.PointerOnUI(false);
     }
 
+    private void Update()
+    {
+        UpdateStatus();
+    }
+
     protected override void Init()
     {
         base.Init();

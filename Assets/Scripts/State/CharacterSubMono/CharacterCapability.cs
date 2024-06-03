@@ -77,5 +77,4 @@ public class CharacterCapability : SubMono<PlayerController>
     {
         items.Remove(remove);
     }
-
 }

@@ -174,7 +174,7 @@ public class UI_EquipSlot : UI_Entity
         _playerInfoUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[Index].name; // 아이템 이름
         _playerInfoUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
 
-        StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.equips[Index].id] as StateItemData;
+        StateItemData itemData = GameManager.Data.itemDatas[GameManager.Inven.equips[Index].id] as StateItemData;
         int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
         string descLines = string.Format(GameManager.Inven.equips[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
         string[] lines = descLines.Split("\n");

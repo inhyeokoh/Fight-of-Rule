@@ -269,7 +269,7 @@ public class UI_Inventory : UI_Entity
     // 아이템 획득 테스트용도
     void _PressGetItem()
     {
-        var item = ItemParsing.StateItemDataReader(500);
+        var item = GameManager.Data.StateItemDataReader(500);
         item.count = 70;
 
         GameManager.Inven.GetItem(item);

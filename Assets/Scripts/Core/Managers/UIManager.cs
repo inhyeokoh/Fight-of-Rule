@@ -1,4 +1,4 @@
-//#define TEST
+//#define INGAMETEST
 #define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
@@ -49,7 +49,7 @@ public class UIManager : SubClass<GameManager>
     {
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
-#if TEST
+#if INGAMETEST
         _activePopupList = new LinkedList<UI_Entity>();
 #elif INVENTEST
         GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
