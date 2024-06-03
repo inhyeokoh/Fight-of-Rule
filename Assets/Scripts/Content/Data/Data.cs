@@ -24,8 +24,8 @@ public class EquipmentItemData : StateItemData
     public int currentReinforcement;
 
     public EquipmentItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
-        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int maxReinforcement, int count = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemClass,  itemGrade,  itemType,  detailType,  purchaseprice,  sellingprice,  level,  attack,  defense
-        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, count)
+        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int maxReinforcement, bool durationBool, float duration, int count = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemClass,  itemGrade,  itemType,  detailType,  purchaseprice,  sellingprice,  level,  attack,  defense
+        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, durationBool,duration, count )
     {
         this.maxReinforcement = maxReinforcement;
         this.currentReinforcement = currentReinforcement;
@@ -48,9 +48,11 @@ public class StateItemData : ItemData
     public int mp;
     public int maxHp;
     public int maxMp;
+    public bool durationBool;
+    public float duration;
 
     public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
-        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, bool durationBool,float duration, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
     {
         this.itemClass = itemClass;   
         this.detailType = detailType;      
@@ -65,6 +67,8 @@ public class StateItemData : ItemData
         this.maxHp = maxHp;
         this.maxMp = maxMp;
         this.maxCount = maxCount;
+        this.durationBool = durationBool;
+        this.duration = duration;
     }
 
 

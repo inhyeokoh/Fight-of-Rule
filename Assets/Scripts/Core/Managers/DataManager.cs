@@ -1,4 +1,5 @@
-// #define INVENTEST
+// #define INGAMETEST
+#define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,7 +67,7 @@ public class DataManager : SubClass<GameManager>
         setting = new SettingsData();
         characters = new CharData[4];
         selectedSlotNum = 0;
-#if INVENTEST
+#if INVENTEST || INGAMETEST
         GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
 #endif
 
@@ -145,11 +146,13 @@ public class DataManager : SubClass<GameManager>
             int item_maxhp = int.Parse(consumptionData[i]["item_maxhp"]);
             int item_maxmp = int.Parse(consumptionData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(consumptionData[i]["item_maxcount"]);
+            bool item_durationbool = bool.Parse(consumptionData[i]["item_durationbool"]);
+            float item_duration = float.Parse(consumptionData[i]["item_duration"]);
 
 
 
             ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_detailtype, item_purchaseprice, item_sellingprice, item_level,
-                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount);
+                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_durationbool, item_duration);
 
             DropItems.Add(item_name, item_id);
             itemDatas.Add(item_id, ItemData);
@@ -181,9 +184,11 @@ public class DataManager : SubClass<GameManager>
             int item_maxmp = int.Parse(equipmentData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(equipmentData[i]["item_maxcount"]);
             int item_maxreinforcement = int.Parse(equipmentData[i]["item_maxreinforcement"]);
+            bool item_durationbool = bool.Parse(equipmentData[i]["item_durationbool"]);
+            float item_duration = float.Parse(equipmentData[i]["item_duration"]);
 
             ItemData = new EquipmentItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_equipmenttype, item_purchaseprice, item_sellingprice, item_level,
-             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_maxreinforcement);
+             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_maxreinforcement, item_durationbool, item_duration);
 
             DropItems.Add(item_name, item_id);
             itemDatas.Add(item_id, ItemData);
@@ -223,7 +228,7 @@ public class DataManager : SubClass<GameManager>
 
             itemDataPasing = new EquipmentItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
                 itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
-                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement);
+                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement, itemData.durationBool,itemData.duration);
 
             return itemDataPasing;
         }
@@ -236,7 +241,7 @@ public class DataManager : SubClass<GameManager>
 
             itemDataPasing = new StateItemData(secondItemData.id, secondItemData.name, secondItemData.desc, secondItemData.icon, secondItemData.itemClass, secondItemData.itemGrade, secondItemData.itemType,
                 secondItemData.detailType, secondItemData.purchaseprice, secondItemData.sellingprice, secondItemData.level, secondItemData.attack, secondItemData.defense, secondItemData.speed, secondItemData.attackSpeed
-                , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.maxCount);
+                , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.maxCount, secondItemData.durationBool, secondItemData.duration);
 
             return itemDataPasing;
         }

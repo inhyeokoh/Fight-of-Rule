@@ -27,6 +27,7 @@ public class InGameStateItem
 
     //현재 플레이어의 직업확인과 장비를 꼇을때 스텟들을 넘겨주기위한 클래스
     public CharacterStatus playerStatus;
+    public float duration;
 
     private StateItemData stateItemData;
 
@@ -43,6 +44,7 @@ public class InGameStateItem
     public void Setting(StateItemData stateItemData)
     {
         this.stateItemData = stateItemData;
+        duration = stateItemData.duration;
 
         playerStatus = PlayerController.instance._playerStat;
     

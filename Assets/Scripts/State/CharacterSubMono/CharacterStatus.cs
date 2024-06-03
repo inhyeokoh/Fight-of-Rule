@@ -234,26 +234,6 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        /*        level = 1;
-                characterMaxHP = 50;
-                characterMaxMP = 50;
-                characterMaxEXP = 100;
-
-                hp = 20;
-                mp = 50;
-                exp = 0;
-                characterAttack = 5;
-                characterAttackSpeed = 1;
-                characterDefense = 3;
-                characterSpeed = 10;
-
-                sumMaxHP = characterMaxHP;
-                sumMaxMP = characterMaxMP;
-                sumAttack = characterAttack;
-                sumAttackSpeed = characterAttackSpeed;
-                sumDefense = characterDefense;
-                sumSpeed = characterSpeed;*/
-
         level = GameManager.Data.characters[GameManager.Data.selectedSlotNum].level;
         characterMaxHP = GameManager.Data.characters[GameManager.Data.selectedSlotNum].maxHP;
         characterMaxMP = GameManager.Data.characters[GameManager.Data.selectedSlotNum].maxMP;

@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] 
+    public Slider slider;
+
     static GameManager _Instance;
     public static GameManager Instance
     {
@@ -45,7 +48,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static ResourceManager Resources { get { return Instance._resources; } }
 
-   /* ItemManager _item = new ItemManager();
+/*    ItemManager _item = new ItemManager();
     public static ItemManager Item { get { return Instance._item; } }*/
     /*==================
      *  ThreadManager
@@ -56,6 +59,9 @@ public class GameManager : MonoBehaviour
     ThreadManager _threadPool = new ThreadManager();
     public static ThreadManager ThreadPool { get {  return Instance._threadPool; } }
 
+
+    SoundManager _sound = new SoundManager();
+    public static SoundManager Sound { get { return Instance._sound; } }
 
     /*==================
      *     Network
@@ -116,6 +122,7 @@ public class GameManager : MonoBehaviour
             _pool,
             _resources,
             _threadPool,
+            _sound,
             _networkManager,
             _uiManager,
             _dataManager,

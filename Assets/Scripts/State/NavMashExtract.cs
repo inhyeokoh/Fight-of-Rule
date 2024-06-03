@@ -69,7 +69,7 @@ public class NavMashExtract : MonoBehaviour
 
     private void Awake()
     {
-        MeshFilter filter = GetComponent<MeshFilter>();
+      /*  MeshFilter filter = GetComponent<MeshFilter>();
 
         NavMeshTriangulation navmeshData = NavMesh.CalculateTriangulation();
         v = navmeshData.vertices;
@@ -83,6 +83,6 @@ public class NavMashExtract : MonoBehaviour
         mesh.SetVertices(navmeshData.vertices);
         mesh.SetIndices(navmeshData.indices, MeshTopology.Triangles, 0);
 
-        filter.mesh = mesh;
+        filter.mesh = mesh;*/
     }
 }

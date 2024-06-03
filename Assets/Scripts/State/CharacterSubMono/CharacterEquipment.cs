@@ -58,7 +58,8 @@ public class CharacterEquipment : SubMono<PlayerController>
     public bool EquipmentCheck(StateItemData equipment, out int equipType)
     {
         bool pass = false;
-        pass = Change(equipment, out equipType);
+
+        pass = Change(equipment,out equipType);
 
         return pass;
     }
@@ -230,7 +231,9 @@ public class CharacterEquipment : SubMono<PlayerController>
     /// 장비들의 조건과 그리고 이미 껴져있으면 갈아끼는 메서드
     /// </summary>
     /// <param name="change"></param>
-    public bool Change(StateItemData change, out int equipType)
+
+    public bool Change(StateItemData change,out int equipType)
+
     {
         switch (change.detailType)
         {

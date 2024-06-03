@@ -20,10 +20,10 @@ TagManager:
   - CharacterEffect
   - EnemyEffect
   - Wall
-  - 
-  - 
-  - 
-  - 
+  - Obstacle
+  - MiniMapIcon
+  - MiniMap
+  - MiniMapPlayerEnemy
   - 
   - 
   - 
