@@ -13,7 +13,7 @@ public class UI_EquipSlot : UI_Entity
 
     // 현재 슬롯
     Image _iconImg;
-    public int index;
+    public int Index { get; set; }
 
     // 드롭 시 위치한 슬롯
     int _otherIndex;
@@ -70,14 +70,14 @@ public class UI_EquipSlot : UI_Entity
             {
                 if (CheckSlotDrop(data))  // 드롭한 위치가 인벤 슬롯
                 {
-                    _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().index;
-                    GameManager.Inven.EquipSlotToInven(index, _otherIndex);
+                    _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().Index;
+                    GameManager.Inven.EquipSlotToInven(Index, _otherIndex);
                 }
                 else
                 {
                     // 버릴지 되묻는 팝업
-                    _playerInfoUI.dropConfirmPanel.SetActive(true);
-                    _playerInfoUI.dropConfirmPanel.transform.GetChild(0).GetComponent<UI_DropConfirm>().ChangeText(UI_DropConfirm.Enum_DropUIParent.PlayerInfo, index);
+                    GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
+                    GameManager.UI.InGameConfirmYN.ChangeText(UI_InGameConfirmYN.Enum_ConfirmTypes.EquipDrop, Index);
                 }
             }
 
@@ -110,20 +110,17 @@ public class UI_EquipSlot : UI_Entity
         // 우클릭으로 아이템 장착
         _entities[(int)Enum_UI_EquipSlot.IconImg].ClickAction = (PointerEventData data) =>
         {
-            if (CheckItemNull())
-            {
-                return;
-            }
+            if (CheckItemNull()) return;
 
-            if (data.button == PointerEventData.InputButton.Right && GameManager.Inven.equips[index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
+            if (data.button == PointerEventData.InputButton.Right && GameManager.Inven.equips[Index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
             {
                 // TODO 장착 불가 경우
 
-                GameManager.Inven.UnEquipItem(index);
+                GameManager.Inven.UnEquipItem(Index);
             }
         };
 
-        if (index == GameManager.Inven.equipSlotCount - 1)
+        if (Index == GameManager.Inven.EquipSlotCount - 1)
         {
             _playerInfoUI.gameObject.SetActive(false);
         }
@@ -132,10 +129,10 @@ public class UI_EquipSlot : UI_Entity
     // 슬롯 번호에 맞게 아이템 그리기
     public void ItemRender()
     {
-        if (GameManager.Inven.equips[index] != null)
+        if (GameManager.Inven.equips[Index] != null)
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
-            _iconImg.sprite = GameManager.Inven.equips[index].icon;
+            _iconImg.sprite = GameManager.Inven.equips[Index].icon;
         }
         else
         {
@@ -158,7 +155,7 @@ public class UI_EquipSlot : UI_Entity
 
     bool CheckItemNull()
     {
-        return GameManager.Inven.equips[index] == null;
+        return GameManager.Inven.equips[Index] == null;
     }
 
     // 드롭 시 슬롯에 벗어나지 않았는지 확인
@@ -174,12 +171,12 @@ public class UI_EquipSlot : UI_Entity
 
     void ShowItemInfo()
     {
-        _playerInfoUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[index].name; // 아이템 이름
+        _playerInfoUI.descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>().text = GameManager.Inven.equips[Index].name; // 아이템 이름
         _playerInfoUI.descrPanel.transform.GetChild(1).GetComponent<Image>().sprite = _iconImg.sprite; // 아이콘 이미지
 
-        StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.equips[index].id] as StateItemData;
+        StateItemData itemData = ItemParsing.itemDatas[GameManager.Inven.equips[Index].id] as StateItemData;
         int[] stats = {itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp};
-        string descLines = string.Format(GameManager.Inven.equips[index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
+        string descLines = string.Format(GameManager.Inven.equips[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
         string[] lines = descLines.Split("\n");
 
         string desc = $"{lines[0]} \n";

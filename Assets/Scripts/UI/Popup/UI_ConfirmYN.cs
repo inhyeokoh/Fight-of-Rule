@@ -6,10 +6,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// 확인 취소 버튼 있는 팝업
+/// <summary>
+/// 확인,취소 버튼이 있는 팝업
+/// </summary>
 public class UI_ConfirmYN : UI_Entity
 {
+    bool _init;
+    public bool _useBlocker = true;
     TMP_Text _mainText;
+    Enum_ConfirmTypes confirmType;
 
     enum Enum_UI_Confirm
     {
@@ -18,6 +23,11 @@ public class UI_ConfirmYN : UI_Entity
         MainText,
         Accept,
         Cancel
+    }
+
+    public enum Enum_ConfirmTypes
+    {
+        AskDecidingNickName
     }
 
     protected override Type GetUINamesAsType()
@@ -33,7 +43,8 @@ public class UI_ConfirmYN : UI_Entity
         _mainText.text = "Default";
 
         _entities[(int)Enum_UI_Confirm.Accept].ClickAction = (PointerEventData data) => {
-            _ExecuteAcceptAction();
+            GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
+            GameManager.UI.ClosePopupAndChildren(GameManager.UI.InputName);
         };
 
         _entities[(int)Enum_UI_Confirm.Cancel].ClickAction = (PointerEventData data) => {
@@ -43,14 +54,17 @@ public class UI_ConfirmYN : UI_Entity
         gameObject.SetActive(false);
     }
 
-    void _ExecuteAcceptAction()
-    {        
-        GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
-        GameManager.UI.CloseLinkedPopup();  
-    }
-
-    public void ChangeText(string contents)
+    public void ChangeText(Enum_ConfirmTypes type)
     {
-        _mainText.text = contents;
+        confirmType = type;
+
+        switch (confirmType)
+        {
+            case Enum_ConfirmTypes.AskDecidingNickName:
+                _mainText.text = $"해당 이름으로 결정하시겠습니까?\n 캐릭터명 : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}";
+                break;
+            default:
+                break;
+        }
     }
 }

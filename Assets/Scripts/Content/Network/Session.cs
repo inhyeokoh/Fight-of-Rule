@@ -81,6 +81,15 @@ public abstract class Session
         GameManager.ThreadPool.EnqueueJob(() => { _Send(sendingList); });
     }
 
+    public void SendSync(ArraySegment<byte> buffer)
+    {
+        _Send(buffer);
+    }
+    public void SendSync(List<ArraySegment<byte>> sendingList)
+    {
+        _Send(sendingList);
+    }
+
     void _Send(ArraySegment<byte> buffer)
     {
         if (buffer == null)
@@ -245,9 +254,19 @@ public abstract class Session
         if (Interlocked.Exchange(ref disconnected, 1) == 1)
             return;
 
-        OnDisconnected(_socket.RemoteEndPoint);
-        _socket.Shutdown(SocketShutdown.Both);  //FIN & FINACK
-        _socket.Close();                        //END
+        try
+        {
+            OnDisconnected(_socket.RemoteEndPoint);
+            _socket.Shutdown(SocketShutdown.Both);  //FIN & FINACK
+        }
+        catch
+        {
+        }
+        finally
+        {
+            _socket.Close();                        //END
+        }
+        
 
         DisconnectedClear();
     }

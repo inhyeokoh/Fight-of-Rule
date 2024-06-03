@@ -1,4 +1,3 @@
-#define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,11 +7,9 @@ using TMPro;
 
 public class UI_PlayerInfo : UI_Entity
 {
-    bool init;
+    bool _init;
     public GameObject dragImg;
     public GameObject descrPanel;
-    public GameObject dropConfirmPanel;
-    public GameObject dropCountConfirmPanel;
     GameObject _infoBoard;
     GameObject _statusBoard;
     GameObject equipSlots;
@@ -23,9 +20,18 @@ public class UI_PlayerInfo : UI_Entity
     Vector2 _descrUISize;
 
     // 드래그 Field
-    private Vector2 _playerInfoUIPos;
-    private Vector2 _dragBeginPos;
-    private Vector2 _offset;
+    Vector2 _playerInfoUIPos;
+    Vector2 _dragBeginPos;
+    Vector2 _offset;
+
+    string levelText;
+    string expText;
+    string hpText;
+    string mpText;
+    string attackText;
+    string atkspeedText;
+    string defenseText;
+    string moveSpeedText;
 
     enum Enum_UI_PlayerInfo
     {
@@ -48,15 +54,14 @@ public class UI_PlayerInfo : UI_Entity
 
     private void OnEnable()
     {
-        if (!init)
-        {
-            return;
-        }
+        if (!_init) return;
 
         for (int i = 0; i < GameManager.Inven.equips.Count; i++)
         {
             UpdateEquipUI(i);
+
         }
+        UpdateStatus();
     }
 
     private void OnDisable()
@@ -70,8 +75,6 @@ public class UI_PlayerInfo : UI_Entity
         equipSlots = _entities[(int)Enum_UI_PlayerInfo.Equipments].gameObject;
         dragImg = _entities[(int)Enum_UI_PlayerInfo.DragImg].gameObject;
         descrPanel = _entities[(int)Enum_UI_PlayerInfo.DescrPanel].gameObject;
-        dropConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropConfirm].gameObject;
-        dropCountConfirmPanel = _entities[(int)Enum_UI_PlayerInfo.DropCountConfirm].gameObject;
         _infoBoard = _entities[(int)Enum_UI_PlayerInfo.InfoPanel].transform.GetChild(1).gameObject;
         _statusBoard = _entities[(int)Enum_UI_PlayerInfo.InfoPanel].transform.GetChild(3).gameObject;
         panelRect = _entities[(int)Enum_UI_PlayerInfo.Panel].GetComponent<RectTransform>().rect;
@@ -115,10 +118,11 @@ public class UI_PlayerInfo : UI_Entity
         // 유저 정보 창 닫기
         _entities[(int)Enum_UI_PlayerInfo.Close].ClickAction = (PointerEventData data) =>
         {
-            GameManager.UI.ClosePopup(GameManager.UI.PlayerInfo);
+            GameManager.UI.ClosePopupAndChildren(GameManager.UI.Inventory); // 테스트
+            // GameManager.UI.ClosePopup(GameManager.UI.PlayerInfo);            
         };
 
-        init = true;
+        _init = true;
     }
 
     // 유저 정보 창 내 초기 장비 슬롯 생성
@@ -128,24 +132,20 @@ public class UI_PlayerInfo : UI_Entity
         {
             GameObject _equipSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/EquipSlot", equipSlots.transform.GetChild(1));
             _equipSlot.name = "EquipSlot_" + i;
-            _equipSlot.GetComponent<UI_EquipSlot>().index = i;
+            _equipSlot.GetComponent<UI_EquipSlot>().Index = i;
         }
 
-        for (int i = _leftSlotCount; i < GameManager.Inven.equipSlotCount; i++)
+        for (int i = _leftSlotCount; i < GameManager.Inven.EquipSlotCount; i++)
         {
             GameObject _equipSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/EquipSlot", equipSlots.transform.GetChild(2));
             _equipSlot.name = "EquipSlot_" + i;
-            _equipSlot.GetComponent<UI_EquipSlot>().index = i;
+            _equipSlot.GetComponent<UI_EquipSlot>().Index = i;
         }
     }
 
     // 유저 정보 창 내 정보 및 스탯 표기
     void _DrawCharacterInfo()
-    {
-#if INVENTEST
-        GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
-#endif
-        
+    {        
         CharData character = GameManager.Data.characters[GameManager.Data.selectedSlotNum];
         for (int i = 0; i < 5; i++)
         {
@@ -158,19 +158,23 @@ public class UI_PlayerInfo : UI_Entity
 
         GameObject job = _infoBoard.transform.GetChild(1).gameObject;
         job.transform.GetChild(0).GetComponent<TMP_Text>().text = "직업";
-        job.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.job}";
+        string strJob = Enum.GetName(typeof(CharData.Enum_Job), character.job);
+        job.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{strJob}";
 
         GameObject gender = _infoBoard.transform.GetChild(2).gameObject;
         gender.transform.GetChild(0).GetComponent<TMP_Text>().text = "성별";
-        gender.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.gender}";
+        string strGender = character.gender ? "Men" : "Women";
+        gender.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{strGender}";
 
         GameObject level = _infoBoard.transform.GetChild(3).gameObject;
         level.transform.GetChild(0).GetComponent<TMP_Text>().text = "레벨";
-        level.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.level}";
+        levelText = level.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        levelText = $"{character.level}";
 
         GameObject exp = _infoBoard.transform.GetChild(4).gameObject;
         exp.transform.GetChild(0).GetComponent<TMP_Text>().text = "경험치/최대 경험치";
-        exp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.exp}/{character.maxEXP}";
+        expText = exp.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        expText = $"{character.exp}/{character.maxEXP}";
 
         for (int i = 0; i < 6; i++)
         {
@@ -179,33 +183,72 @@ public class UI_PlayerInfo : UI_Entity
 
         GameObject hp = _statusBoard.transform.GetChild(0).gameObject;
         hp.transform.GetChild(0).GetComponent<TMP_Text>().text = "HP";
-        hp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.hp}/{character.maxHP}";
+        hpText = hp.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        hpText = $"{character.hp}/{character.maxHP}";
 
         GameObject mp = _statusBoard.transform.GetChild(1).gameObject;
         mp.transform.GetChild(0).GetComponent<TMP_Text>().text = "MP";
-        mp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.mp}/{character.maxMP}";
+        mpText = mp.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        mpText = $"{character.mp}/{character.maxMP}";
 
         GameObject attack = _statusBoard.transform.GetChild(2).gameObject;
         attack.transform.GetChild(0).GetComponent<TMP_Text>().text = "공격력";
-        attack.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.attack}";
+        attackText = attack.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        attackText = $"{character.attack}";
 
         GameObject atkSpeed = _statusBoard.transform.GetChild(3).gameObject;
         atkSpeed.transform.GetChild(0).GetComponent<TMP_Text>().text = "공격 속도";
-        atkSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.attackSpeed}";
+        atkspeedText = atkSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        atkspeedText = $"{character.attackSpeed}";
 
         GameObject defense = _statusBoard.transform.GetChild(4).gameObject;
         defense.transform.GetChild(0).GetComponent<TMP_Text>().text = "방어력";
-        defense.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.defense}";
+        defenseText = defense.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        defenseText = $"{character.defense}";
 
         GameObject moveSpeed = _statusBoard.transform.GetChild(5).gameObject;
         moveSpeed.transform.GetChild(0).GetComponent<TMP_Text>().text = "이동 속도";
-        moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{character.speed}";
+        moveSpeedText = moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text;
+        moveSpeedText = $"{character.speed}";
     }
 
-/*    public void UpdateStatus()
+    public void UpdateStatus()
     {
+        CharacterStatus status = PlayerController.instance._playerStat;
 
-    }*/
+        GameObject level = _infoBoard.transform.GetChild(3).gameObject;
+        level.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.level}";
+
+        GameObject exp = _infoBoard.transform.GetChild(4).gameObject;
+        exp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.exp}/{status.MaxEXP}";
+
+        GameObject hp = _statusBoard.transform.GetChild(0).gameObject;
+        hp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.hp}/{status.sumMaxHP}";
+
+        GameObject mp = _statusBoard.transform.GetChild(1).gameObject;
+        mp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.mp}/{status.sumMaxMP}";
+
+        GameObject attack = _statusBoard.transform.GetChild(2).gameObject;
+        attack.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumAttack}";
+
+        GameObject atkSpeed = _statusBoard.transform.GetChild(3).gameObject;
+        atkSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumAttackSpeed}";
+
+        GameObject defense = _statusBoard.transform.GetChild(4).gameObject;
+        defense.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumDefense}";
+
+        GameObject moveSpeed = _statusBoard.transform.GetChild(5).gameObject;
+        moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumSpeed}";
+
+        /*        levelText = $"{status.level}";
+                expText = $"{status.exp}/{status.MaxEXP}";
+                hpText = $"{status.hp}/{status.sumMaxHP}";
+                mpText = $"{status.mp}/{status.sumMaxMP}";
+                attackText = $"{status.sumAttack}";
+                atkspeedText = $"{status.sumAttackSpeed}";
+                defenseText = $"{status.sumDefense}";
+                moveSpeedText = $"{status.sumSpeed}";*/
+    }
 
     public void RestrictItemDescrPos()
     {

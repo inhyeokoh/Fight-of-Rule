@@ -57,7 +57,10 @@ public class ServerSession : PacketSession
 
                 C_VERIFYING vrf = new C_VERIFYING();
                 vrf.Token =  _vrf?.token;
-                Send(PacketHandler.Instance.SerializePacket(vrf));
+                if(_vrf != null)
+                    vrf.Uid = _vrf.Value.unique_id;
+
+                GameManager.Network.Send(PacketHandler.Instance.SerializePacket(vrf));
                 break;
             default:
                 break;
@@ -80,11 +83,11 @@ public class ServerSession : PacketSession
 
     public override void OnPacketRecv(ArraySegment<byte> buffer)
     {
+        GameManager.Network.Recv(buffer);
         PacketHandler.Instance.HandlePacket(this, buffer);
     }
 
     public override void OnSend(int bytetransferred)
     {
-        
     }
 }

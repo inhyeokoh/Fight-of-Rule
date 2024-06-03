@@ -1,4 +1,5 @@
-#define INVENTEST
+#define SERVER
+// #define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -26,16 +27,22 @@ public class UI_Manage : MonoBehaviour
         curSceneNum = SceneManager.GetActiveScene().buildIndex;
         scenes.Push(curSceneNum);
                 
+#if INVENTEST
+        GameManager.UI.ConnectPlayerInput();
+        GameManager.Inven.ConnectInvenUI();
+#elif SERVER
         if (scene.name == "StatePattern")
         {
+            GameManager.UI.ManageOutGamePopups(false);
             GameManager.UI.ConnectPlayerInput();
             GameManager.UI.SetInGamePopups();
             GameManager.Inven.ConnectInvenUI();
         }
-#if INVENTEST
-        if (scene.name == "Inventory")
+#else
+        if (scene.name == "StatePattern")
         {
             GameManager.UI.ConnectPlayerInput();
+            GameManager.UI.SetInGamePopups();
             GameManager.Inven.ConnectInvenUI();
         }
 #endif

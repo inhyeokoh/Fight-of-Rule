@@ -24,6 +24,9 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     //부모 UI_Entity
     UI_Entity _mother;
 
+    // 자식 팝업
+    public List<UI_Entity> childPopups = new List<UI_Entity>();
+
     //모든 하위 UI 요소들 + 현재 UI로부터 파생된 팝업 UI
     protected List<UI_Entity> _subUIs = new List<UI_Entity>();
     //현재 UI의 하위 UI요소들
@@ -127,11 +130,6 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
             _mother.CloseAllUI();
         else
             GameManager.Resources.Destroy(gameObject);
-    }
-
-    public void CloseUI()
-    {
-        GameManager.Resources.Destroy(gameObject);
     }
 
 
