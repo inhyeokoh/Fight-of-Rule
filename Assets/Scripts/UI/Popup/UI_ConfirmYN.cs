@@ -61,7 +61,7 @@ public class UI_ConfirmYN : UI_Entity
         switch (confirmType)
         {
             case Enum_ConfirmTypes.AskDecidingNickName:
-                _mainText.text = $"해당 이름으로 결정하시겠습니까?\n 캐릭터명 : {GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName}";
+                _mainText.text = $"해당 이름으로 결정하시겠습니까?\n 캐릭터명 : {GameManager.Data.CurrentCharacter.BaseInfo.Nickname}";
                 break;
             default:
                 break;

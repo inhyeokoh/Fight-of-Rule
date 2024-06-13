@@ -10,6 +10,7 @@ using System.Linq;
 public class InventoryManager : SubClass<GameManager>
 {
     public List<ItemData> items; // slot index에 따른 아이템 리스트
+
     public int TotalSlotCount { get; set; } = 30;
 
     public List<ItemData> equips;
@@ -49,6 +50,8 @@ public class InventoryManager : SubClass<GameManager>
     public UI_Inventory inven;
     UI_PlayerInfo _playerInfo;
 
+    public event Action<int, int> OnItemGet;
+
     protected override void _Clear()
     {        
     }
@@ -66,8 +69,8 @@ public class InventoryManager : SubClass<GameManager>
         items = new List<ItemData>(new ItemData[TotalSlotCount]);
         equips = new List<ItemData>(new ItemData[EquipSlotCount]);
 
-        inven = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_Inventory>();
-        _playerInfo = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_PlayerInfo>();
+        inven = GameManager.UI.Inventory;
+        _playerInfo = GameManager.UI.PlayerInfo;
         _GetInvenDataFromTable();
     }
 
@@ -170,7 +173,9 @@ public class InventoryManager : SubClass<GameManager>
             if (items[i] == null) return i;
         }
 
-        // 비어있는 슬롯 없음
+        // 인벤토리가 가득 찬 경우 처리 (공간 부족 알림 팝업)
+        GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmY);
+        GameManager.UI.InGameConfirmY.ChangeText(UI_InGameConfirmY.Enum_ConfirmTypes.InvenFull);
         return -1;
     }
 
@@ -183,15 +188,14 @@ public class InventoryManager : SubClass<GameManager>
         if (acquired.itemType == Enum_ItemType.Equipment)
         {
             int emptySlotIndex = EmptySlot;
-            if (emptySlotIndex != -1)
+            if (emptySlotIndex == -1)
             {
-                items[emptySlotIndex] = new ItemData(acquired, acquired.count);
+                return; // 인벤토리가 가득 찬 경우
             }
             else
             {
-                // 인벤토리가 가득 찬 경우 처리 (공간 부족 알림 팝업)
-                GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmY);
-                GameManager.UI.InGameConfirmY.ChangeText(UI_InGameConfirmY.Enum_ConfirmTypes.InvenFull);
+                items[emptySlotIndex] = new ItemData(acquired, acquired.count);
+                OnItemGet?.Invoke(acquired.id, acquired.count);
             }
         }
         else
@@ -212,6 +216,7 @@ public class InventoryManager : SubClass<GameManager>
                             if (acquired.count <= remainSpace)
                             {
                                 items[i].count += acquired.count;
+                                OnItemGet?.Invoke(acquired.id, acquired.count);
                                 acquired.count = 0;
                                 break;
                             }
@@ -219,6 +224,7 @@ public class InventoryManager : SubClass<GameManager>
                             else
                             {
                                 items[i].count = items[i].maxCount;
+                                OnItemGet?.Invoke(acquired.id, items[i].maxCount);
                                 acquired.count -= remainSpace;
                             }
                         }
@@ -233,12 +239,14 @@ public class InventoryManager : SubClass<GameManager>
                     if (i == items.Count - 1)
                     {
                         int emptySlotIndex = EmptySlot;
-                        if (emptySlotIndex != -1)
+                        if (emptySlotIndex == -1) return;
+                        else
                         {
                             // 획득 수량이 최대 수량 이하인 경우
                             if (acquired.count <= acquired.maxCount)
                             {
                                 items[emptySlotIndex] = new ItemData(acquired, acquired.count);
+                                OnItemGet?.Invoke(acquired.id, acquired.count);
                                 acquired.count = 0;
                             }
                             // 획득 수량이 최대 수량 보다 클 경우
@@ -246,6 +254,7 @@ public class InventoryManager : SubClass<GameManager>
                             {
                                 items[emptySlotIndex] = new ItemData(acquired, acquired.count);
                                 items[emptySlotIndex].count = acquired.maxCount;
+                                OnItemGet?.Invoke(acquired.id, acquired.maxCount);
                                 acquired.count -= acquired.maxCount;
                             }
                         }
@@ -258,6 +267,17 @@ public class InventoryManager : SubClass<GameManager>
         for (int i = 0; i < items.Count; i++)
         {
             inven.UpdateInvenSlot(i);
+        }
+    }
+
+    public void SearchItem(int itemID)
+    {
+        foreach (var item in items)
+        {
+            if (item.id == itemID)
+            {
+                OnItemGet?.Invoke(itemID, item.count);
+            }
         }
     }
 
@@ -506,7 +526,6 @@ public class InventoryManager : SubClass<GameManager>
         if (_playerInfo.gameObject.activeSelf)
         {
             _playerInfo.UpdateEquipUI(equipType);
-            _playerInfo.UpdateStatus();
         }
 
         // 인벤토리 UI 갱신
@@ -528,12 +547,6 @@ public class InventoryManager : SubClass<GameManager>
             items[index] = null;
         }
 
-        // 플레이어정보창 UI 갱신
-        if (_playerInfo.gameObject.activeSelf)
-        {
-            _playerInfo.UpdateStatus();
-        }
-
         inven.UpdateInvenSlot(index);
     }
 
@@ -541,6 +554,8 @@ public class InventoryManager : SubClass<GameManager>
     {
         int invenEmptySlot = EmptySlot;
         if (invenEmptySlot == -1) return; // 인벤토리 꽉 찬 경우 해제 불가
+
+        PlayerController.instance._playerEquipment.TakeOff(index);
 
         // 인벤토리 비어 있는 칸 찾아서 넣기
         items[invenEmptySlot] = equips[index];

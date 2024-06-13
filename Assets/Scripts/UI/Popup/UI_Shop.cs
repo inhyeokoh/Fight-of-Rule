@@ -183,7 +183,7 @@ public class UI_Shop : UI_Entity
                 GameManager.Inven.Gold -= shopRepurchase.tempSoldItems[index].sellingprice; // 구매 가격 아니고 판매 가격으로 재구매임. 
                 shopRepurchase.tempSoldItems[index] = null;
 
-                GameManager.Inven.inven.UpdateInvenSlot(emptyIndex);
+                GameManager.UI.Inventory.UpdateInvenSlot(emptyIndex);
                 shopRepurchase.transform.GetChild(0).GetChild(index).GetComponent<UI_ShopSlot>().ItemRender();
                 break;
             default:

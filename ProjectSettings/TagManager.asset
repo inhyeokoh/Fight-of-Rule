@@ -8,6 +8,7 @@ TagManager:
   - PassiveSkill
   - Monster
   - KeySlotSkill
+  - Npc
   layers:
   - Default
   - TransparentFX

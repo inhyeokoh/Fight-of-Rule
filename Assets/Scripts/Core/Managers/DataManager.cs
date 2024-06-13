@@ -5,22 +5,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
+using Google.Protobuf;
 
 public class DataManager : SubClass<GameManager>
 {
-    // DataManager 안에 선언해야 접근하기 용이함
-    public LoginData login; // 로그인 정보
-    public CharData[] characters; // 캐릭터 생성 정보
-    public SettingsData setting; // 환경설정 정보
-    public int selectedSlotNum;
+    // 환경설정 정보
+    public SettingsData setting;
 
+    // 캐릭터 정보
+    public CHARACTER_INFO[] characters;
+    int selectedSlotNum;
+    public int SelectedSlotNum
+    {
+        get { return selectedSlotNum; }
+        set { selectedSlotNum = value; CurrentCharacter = characters[selectedSlotNum]; }
+    }
+
+    public CHARACTER_INFO CurrentCharacter { get; set; }
+
+    public long CharId { get; set; }
+    string charName;
+    public string CharName
+    {
+        get { return charName; }
+        set { charName = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+    }
+    int job;
+    public int Job
+    {
+        get { return job; }
+        set { job = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+    }
+    bool gender;
+    public bool Gender
+    {
+        get { return gender; }
+        set { gender = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+    }
+    Vector3 pos;
 
     /// <summary>
     /// 아이템 데이터
     /// </summary>
-    public  Dictionary<string, int> DropItems = new Dictionary<string, int>();
-    public  Dictionary<int, ItemData> itemDatas = new Dictionary<int, ItemData>();
+    public Dictionary<string, int> DropItems = new Dictionary<string, int>();
+    public Dictionary<int, ItemData> itemDatas = new Dictionary<int, ItemData>();
     /////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -29,6 +57,7 @@ public class DataManager : SubClass<GameManager>
     /// </summary>
     List<MonsterData> monstersData = new List<MonsterData>();
     Dictionary<int, MonsterData> monsterDatas = new Dictionary<int, MonsterData>();
+    public Dictionary<string, int> monsterNameToID = new Dictionary<string, int>();
 
     Dictionary<int, MonsterItemDropData> monsterItemDrops = new Dictionary<int, MonsterItemDropData>();
     /////////////////////////////////////////////////////////////////////////////////////
@@ -48,6 +77,18 @@ public class DataManager : SubClass<GameManager>
     public List<WarriorSkillData> warriorSkillData = new List<WarriorSkillData>();
     /////////////////////////////////////////////////////////////////////////////////////
 
+    /// <summary>
+    /// 퀘스트 데이터
+    /// </summary>
+    public Dictionary<int, QuestData> questDict = new Dictionary<int, QuestData>();
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// NPC 데이터
+    /// </summary>
+    public Dictionary<int, Npc> npcDict = new Dictionary<int, Npc>();
+    /////////////////////////////////////////////////////////////////////////////////////
+
     string path;
     public string fileName;
 
@@ -63,12 +104,34 @@ public class DataManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        login = new LoginData();
         setting = new SettingsData();
-        characters = new CharData[4];
+        characters = new CHARACTER_INFO[4];
         selectedSlotNum = 0;
 #if INVENTEST || INGAMETEST
-        GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
+        CurrentCharacter = new CHARACTER_INFO();
+        CurrentCharacter.BaseInfo = new CHARACTER_BASE();
+        CurrentCharacter.BaseInfo.CharacterId = 0;
+        CurrentCharacter.BaseInfo.Nickname = ByteString.CopyFrom("HelloWorld", System.Text.Encoding.Unicode);
+        CurrentCharacter.BaseInfo.Job = 0;
+        CurrentCharacter.BaseInfo.Gender = true;
+
+        CurrentCharacter.Stat = new CHARACTER_STATUS();
+        CurrentCharacter.Stat.Level = 1;
+        CurrentCharacter.Stat.MaxHP = 100;
+        CurrentCharacter.Stat.Hp = 100;
+        CurrentCharacter.Stat.MaxMP = 100;
+        CurrentCharacter.Stat.Mp = 100;
+        CurrentCharacter.Stat.MaxEXP = 100;
+        CurrentCharacter.Stat.Exp = 0;
+        CurrentCharacter.Stat.Attack = 5;
+        CurrentCharacter.Stat.AttackSpeed = 1;
+        CurrentCharacter.Stat.Defense = 3;
+        CurrentCharacter.Stat.Speed = 10;
+
+        CurrentCharacter.Xyz = new CHARACTER_POS();
+        CurrentCharacter.Xyz.X = 0;
+        CurrentCharacter.Xyz.Y = 0;
+        CurrentCharacter.Xyz.Z = 0;
 #endif
 
         // 유니티 기본 설정 경로. PC나 모바일 등등 어디든 프로젝트 이름으로 된 폴더 생김
@@ -87,7 +150,7 @@ public class DataManager : SubClass<GameManager>
     public void SaveData(string fileName, Data[] info)
     {
         string data = JsonUtility.ToJson(info);
-        File.WriteAllText(path + fileName, data); // 이건 로컬에 저장. 추후 서버로
+        File.WriteAllText(path + fileName, data);
     }
 
     public string LoadData(string fileName)
@@ -98,11 +161,7 @@ public class DataManager : SubClass<GameManager>
 
     public bool CheckData(string fileName)
     {
-        if (File.Exists(path + fileName))
-        {
-            return true;
-        }
-        return false;
+        return File.Exists(path + fileName);
     }
 
     void DBDataLoad()
@@ -111,6 +170,8 @@ public class DataManager : SubClass<GameManager>
         MonstersDBReader();
         LevelReaderData("Data/WarriorLevelDB");
         SkillDBParsing("Data/SkillWarriorDB");
+        QuestDBParsing("Data/QuestDB");
+        NpcDBParsing("Data/NpcDB");
     }
 
     private void ItemDataParsing()
@@ -310,6 +371,7 @@ public class DataManager : SubClass<GameManager>
 
             monstersData.Add(monsterData);
             monsterDatas.Add(monster_id, monsterData);
+            monsterNameToID.Add(monster_name, monster_id); // 이름-아이디 사전 추가
         }
 
         for (int i = 0; i < dropData.Count; i++)
@@ -421,4 +483,56 @@ public class DataManager : SubClass<GameManager>
         }
     }
 
+    public void QuestDBParsing(string path)
+    {
+        List<Dictionary<string, string>> quest = CSVReader.Read(path);
+
+        for (int i = 0; i < quest.Count; i++)
+        {
+            QuestData questData;
+
+            int questID = int.Parse(quest[i]["questID"]);
+            string name = quest[i]["title"];
+            int[] npcID = Array.ConvertAll(quest[i]["npcID"].Split(","), int.Parse);
+            Enum_QuestType questType = (Enum_QuestType)Enum.Parse(typeof(Enum_QuestType), quest[i]["questType"]);
+            string desc = quest[i]["desc"];
+            string summary = quest[i]["summary"];
+            string congratulation = quest[i]["congratulation"];
+            int requiredLevel = int.Parse(quest[i]["requiredLevel"]);
+            int? previousQuestID = int.TryParse(quest[i]["previousQuestID"], out int tempPreviousQuestID) ? tempPreviousQuestID : null;
+            string questObj = quest[i]["questObj"];
+            int questObjRequiredCount = int.Parse(quest[i]["questObjRequiredCount"]);
+            string questMonster = quest[i]["questMonster"];
+            int questMonsterRequiredCount = int.Parse(quest[i]["questMonsterRequiredCount"]);
+            int expReward = int.Parse(quest[i]["expReward"]);
+            long goldReward = int.Parse(quest[i]["goldReward"]);
+            string itemReward = quest[i]["itemReward"];
+
+            questData = new QuestData(questID, name, npcID, questType, desc, summary, congratulation, requiredLevel, previousQuestID, questObj, questObjRequiredCount, questMonster, questMonsterRequiredCount,
+                expReward, goldReward, itemReward);
+
+            questDict.Add(questID, questData);
+        }
+    }
+
+    public void NpcDBParsing(string path)
+    {
+        GameObject[] npcArray = GameObject.FindGameObjectsWithTag("Npc");
+        foreach (GameObject npcObj in npcArray)
+        {
+            Npc npc = npcObj.GetComponent<Npc>();
+            if (npc != null)
+            {
+                npcDict.Add(npc.NpcID, npc);
+            }
+        }
+
+/*        List<Dictionary<string, string>> npcData = CSVReader.Read(path);
+
+        for (int i = 0; i < npcData.Count; i++)
+        {
+            int npcID = int.Parse(npcData[i]["npcID"]);
+            string name = npcData[i]["name"];
+        }*/
+    }
 }

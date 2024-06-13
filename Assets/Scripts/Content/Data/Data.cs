@@ -8,15 +8,6 @@ public class Data
 {
 }
 
-[Serializable]
-public class LoginData : Data
-{
-    public string id;
-    public string pw;
-    public int slotCount;
-}
-
-
 [System.Serializable]
 public class EquipmentItemData : StateItemData
 {
@@ -245,9 +236,6 @@ public class MonsterItemDropData
     }
 }
 
-
-
-
 [Serializable]
 public class SettingsData : Data
 {
@@ -260,62 +248,53 @@ public class SettingsData : Data
     public bool bEffectVol;
 }
 
-[Serializable]
-public class CharData : Data
-{
-    public enum Enum_Job
+[System.Serializable]
+public class QuestData : Data
+{    
+    // 퀘스트 정보
+    public int questID;
+    public string title;
+    public int[] npcID;
+    public Enum_QuestType questType;
+    public string desc;
+    public string summary; // 내용 요약본
+    public string congratulation; // 퀘스트 완료 메시지
+
+    // 시작 조건
+    public int requiredLevel;
+    public int? previousQuestID; // 사전 수행 퀘스트. 필요 시 리스트 형식으로 변경
+
+    // 완료 조건 TODO: 오브젝트랑 몬스터 ID는 다수 가능하게 수정
+    public string questObj;
+    public int questObjRequiredCount;
+
+    public string questMonster;
+    public int questMonsterRequiredCount;
+
+    // 보상
+    public int expReward;
+    public long goldReward;
+    public string itemReward;
+
+    public QuestData(int questID, string title, int[] npcID, Enum_QuestType questType, string desc, string summary, string congratulation, int requiredLevel, int? previousQuestID,
+        string questObj, int questObjRequiredCount, string questMonster, int questMonsterRequiredCount, int expReward, long goldReward, string itemReward)
     {
-        Warrior,
-        Wizard,   
-        Archer
+        this.questID = questID;
+        this.title = title;
+        this.npcID = npcID;
+        this.questType = questType;
+        this.desc = desc;
+        this.summary = summary;
+        this.congratulation = congratulation;
+        this.requiredLevel = requiredLevel;
+        this.previousQuestID = previousQuestID;
+        this.questObj = questObj;
+        this.questObjRequiredCount = questObjRequiredCount;
+        this.questMonster = questMonster;
+        this.questMonsterRequiredCount = questMonsterRequiredCount;
+        this.expReward = expReward;
+        this.goldReward = goldReward;
+        this.itemReward = itemReward;
     }
-
-    public long characterId; 
-    public string charName;
-    public int job;
-    public bool gender;
-
-    public int level;
-    public int maxHP;
-    public int hp;
-    public int maxMP;
-    public int mp;
-    public int maxEXP;
-    public int exp;
-    public int attack;
-    public int attackSpeed;
-    public int defense;
-    public int speed;
-
-    public float posX;
-    public float posY;
-    public float posZ;
-
-    public CharData()
-    {
-        characterId = 0;
-        charName = "기본 이름";
-        job = 0;
-        gender = true;
-
-        level = 1;
-        maxHP = 100;
-        hp = 100;
-        maxMP = 100;
-        mp = 100;
-        maxEXP = 100;
-        exp = 0;
-        attack = 5;
-        attackSpeed = 1;
-        defense = 3;
-        speed = 10;
-
-        posX = 0;
-        posY = 0;
-        posZ = 0;
-    }
-
-    public CharData(int job) => this.job = job;    
 }
-
 

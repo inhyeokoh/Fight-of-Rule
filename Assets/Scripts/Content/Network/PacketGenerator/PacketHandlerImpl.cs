@@ -102,7 +102,7 @@ public class PacketHandlerImpl : MonoBehaviour
         // 신규 유저
         if (message.Character.Count == 0)
         {
-            GameManager.Data.selectedSlotNum = 0; // 0번 슬롯 생성하도록
+            GameManager.Data.SelectedSlotNum = 0; // 0번 슬롯 생성하도록
 
             // 캐릭터 생성씬 이동
             GameManager.ThreadPool.UniAsyncJob(() =>
@@ -116,29 +116,7 @@ public class PacketHandlerImpl : MonoBehaviour
         // 기존 유저
         foreach (var charInfo in message.Character)
         {
-            CharData charData = new CharData();
-            // charInfo CharData로 필드를 매핑
-            charData.charName = charInfo.BaseInfo.Nickname.ToString(System.Text.Encoding.Unicode);
-            charData.job = charInfo.BaseInfo.Job;
-            charData.gender = charInfo.BaseInfo.Gender;
-
-            charData.level = charInfo.Stat.Level;
-            charData.maxHP = charInfo.Stat.MaxHP;
-            charData.hp = charInfo.Stat.Hp;
-            charData.maxMP = charInfo.Stat.MaxMP;
-            charData.mp = charInfo.Stat.Mp;
-            charData.maxEXP = charInfo.Stat.MaxEXP;
-            charData.exp = charInfo.Stat.Exp;
-            charData.attack = charInfo.Stat.Attack;
-            charData.attackSpeed = charInfo.Stat.AttackSpeed;
-            charData.defense = charInfo.Stat.Defense;
-            charData.speed = charInfo.Stat.Speed;
-
-            charData.posX = charInfo.Xyz.X;
-            charData.posY = charInfo.Xyz.Y;
-            charData.posZ = charInfo.Xyz.Z;
-
-            GameManager.Data.characters[charInfo.BaseInfo.SlotNum] = charData;
+            GameManager.Data.characters[charInfo.BaseInfo.SlotNum] = charInfo;
         }
 
         // 캐릭터 선택씬 이동
@@ -172,7 +150,7 @@ public class PacketHandlerImpl : MonoBehaviour
         // 해당 닉네임 생성 가능하면
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
-            GameManager.Data.characters[GameManager.Data.selectedSlotNum].charName = GameObject.Find("PopupCanvas").GetComponentInChildren<UI_InputName>().nickname;
+            GameManager.Data.CurrentCharacter.BaseInfo.Nickname = ByteString.CopyFrom(GameManager.UI.InputName.nickname, System.Text.Encoding.Unicode);
             GameManager.UI.InputName.childPopups.Add(GameManager.UI.ConfirmYN);
             GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
             GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDecidingNickName);            

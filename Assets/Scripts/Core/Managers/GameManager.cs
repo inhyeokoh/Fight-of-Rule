@@ -100,13 +100,22 @@ public class GameManager : MonoBehaviour
     public static SceneManager2 Scene { get { return Instance._sceneManager; } }
 
     /*==================
-    *    DataManager
+    *    InventoryManager
     =================*/
     InventoryManager _invenManager = new InventoryManager();
     /// <summary>
-    /// Load and Save Data
+    /// Player Inventory Items + Equipments
     /// </summary>
     public static InventoryManager Inven { get { return Instance._invenManager; } }
+
+    /*==================
+    *    QuestManager
+    =================*/
+    QuestManager _questManager = new QuestManager();
+    /// <summary>
+    /// Player Inventory Items + Equipments
+    /// </summary>
+    public static QuestManager Quest { get { return Instance._questManager; } }
 
     LockQueue<Action> _tasks = new LockQueue<Action>();
     Action _onUpdate;
@@ -127,7 +136,8 @@ public class GameManager : MonoBehaviour
             _uiManager,
             _dataManager,
             _sceneManager,
-            _invenManager
+            _invenManager,
+            _questManager
         };
 
         for(int i = 0; i < _managers.Count; i++)

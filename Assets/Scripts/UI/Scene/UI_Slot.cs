@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class UI_Slot : UI_Entity
 {
     public int index;
-    CharData character;
+    CHARACTER_INFO character;
 
     enum Enum_UI_Slot
     {
@@ -32,8 +32,8 @@ public class UI_Slot : UI_Entity
 
         if (character != null) // 캐릭터 정보 존재시
         {
-            string gender = character.gender ? "Men" : "Women";
-            string job = Enum.GetName(typeof(CharData.Enum_Job), character.job);
+            string gender = character.BaseInfo.Gender ? "Men" : "Women";
+            string job = Enum.GetName(typeof(Enum_Class), character.BaseInfo.Job);
 
             // 직업에 맞는 이미지 로드
             Image image = _entities[(int)Enum_UI_Slot.Image].GetComponent<Image>();
@@ -42,11 +42,11 @@ public class UI_Slot : UI_Entity
             // 해당 슬롯 텍스트 상자에 데이터 기입
 
             _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
-                $"캐릭터명 : {character.charName}\n 레벨: {character.level}\n 직업: {job}\n 성별: {gender}\n";
+                $"캐릭터명 : {character.BaseInfo.Nickname}\n 레벨: {character.Stat.Level}\n 직업: {job}\n 성별: {gender}\n";
 
             _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
                 GetComponent<Toggle>().isOn = true;
-                GameManager.Data.selectedSlotNum = index;
+                GameManager.Data.SelectedSlotNum = index;
             };
 
             _entities[(int)Enum_UI_Slot.Create].gameObject.SetActive(false); // 캐릭터 생성 버튼 비활성화 
@@ -65,7 +65,7 @@ public class UI_Slot : UI_Entity
 
         // 캐릭터 생성버튼에 기능 부여
         _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
-            GameManager.Data.selectedSlotNum = index;
+            GameManager.Data.SelectedSlotNum = index;
             GameManager.Scene.LoadScene("Create");
         };
     }

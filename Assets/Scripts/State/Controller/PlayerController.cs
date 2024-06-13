@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public enum Enum_Class
 {
-    Default,
     Warrior,
+    Wizard,
     Archer,
-    Wizard
+    Default
 }
 
 //현재 플레이어의 메인보드 역할을 하는 클래스
@@ -56,7 +56,6 @@ public class PlayerController : MonoBehaviour
     Ray ray;
 
     public Enum_Class _class;
-
 
     private void Awake()
     {

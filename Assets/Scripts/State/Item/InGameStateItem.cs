@@ -7,12 +7,12 @@ using UnityEngine;
 public class StateItem
 {
     //어렵게 생각하지 말고 아이템 스테이트와 아이템 스테이트 머신을 따로 분류해서 만들었음
-    public Action<StateItemData> enterAction;
-    public Action<StateItemData> fixedStayAction;
-    public Action<StateItemData> stayAction;
-    public Action<StateItemData> exitAction;
+    public Action<InGameStateItem> enterAction;
+    public Action<InGameStateItem> fixedStayAction;
+    public Action<InGameStateItem> stayAction;
+    public Action<InGameStateItem> exitAction;
 
-    public StateItem(Action<StateItemData> enterAction, Action<StateItemData> fixedStayAction, Action<StateItemData> stayAction, Action<StateItemData> exitAction)
+    public StateItem(Action<InGameStateItem> enterAction, Action<InGameStateItem> fixedStayAction, Action<InGameStateItem> stayAction, Action<InGameStateItem> exitAction)
     {
         this.enterAction = enterAction;
         this.fixedStayAction = fixedStayAction;
@@ -25,16 +25,18 @@ public class InGameStateItem
     //현재 아이템들의 state패턴을 담을 딕셔너리
     protected static Dictionary<int, StateItem> StateItems = new Dictionary<int, StateItem>();
 
+    //protected Dictionary<int, StateItem> StateItems = new Dictionary<int, StateItem>();
+
     //현재 플레이어의 직업확인과 장비를 꼇을때 스텟들을 넘겨주기위한 클래스
-    public CharacterStatus playerStatus;
+    public static CharacterStatus playerStatus;
+    public static CharacterCapability playerCapability;
     public float duration;
 
     private StateItemData stateItemData;
-    public CharacterCapability playerCapability;
 
     public StateItemData StateItemData { get { return stateItemData; } }
 
-    protected StateMachine stateMachine = new StateMachine();
+    protected StateMachine stateMachine;
     protected State state;
 
     //현재 장비의 정보들을 보내주기 위한 컴포넌트
@@ -47,36 +49,40 @@ public class InGameStateItem
         this.stateItemData = stateItemData;
         duration = stateItemData.duration;
 
-        playerStatus = PlayerController.instance._playerStat;
-        playerCapability = PlayerController.instance._playerCapability;
-
-        if (!stateComplete)        
-        {         
-            StateSetting();         
+        if (!stateComplete)
+        {
+            playerStatus = PlayerController.instance._playerStat;
+            playerCapability = PlayerController.instance._playerCapability;
+            StateSetting();
             //print("적용 완료" + " " + gameObject.name);          
-            stateComplete = true;      
+            stateComplete = true;
         }
 
-        Debug.Log(stateItemData.name);
-        
-        //stateItem = StateItems[item.id];      
+        /*  if (!ok)
+          {
+              StateSetting();
+              ok = true;
+          }
+  */
+
         state = new State(
-            () => 
-            {         
-                StateItems[stateItemData.id].enterAction?.Invoke(stateItemData);
-            },  
-            () =>    
-            {
-                StateItems[stateItemData.id].fixedStayAction?.Invoke(stateItemData);
-            },
-            () => 
-            {
-                StateItems[stateItemData.id].stayAction?.Invoke(stateItemData);
-            }, 
             () =>
             {
-                StateItems[stateItemData.id].exitAction?.Invoke(stateItemData);              
+                StateItems[stateItemData.id].enterAction?.Invoke(this);
+            },
+            () =>
+            {
+                StateItems[stateItemData.id].fixedStayAction?.Invoke(this);
+            },
+            () =>
+            {
+                StateItems[stateItemData.id].stayAction?.Invoke(this);
+            },
+            () =>
+            {
+                StateItems[stateItemData.id].exitAction?.Invoke(this);
             });
+        stateMachine = new StateMachine();
     }
 
     public void Enter()
@@ -101,7 +107,7 @@ public class InGameStateItem
     {
         StateItems.Add(500, new StateItem((item) =>
         {
-            playerStatus.HP += 50;
+            playerStatus.HP += item.stateItemData.hp;
             Debug.Log("빨간포션 사용");
         },
         (item) =>
@@ -116,7 +122,7 @@ public class InGameStateItem
         ));
         StateItems.Add(504, new StateItem((item) =>
         {
-            playerStatus.MP += 100;
+            playerStatus.MP += item.stateItemData.mp;
             Debug.Log("파란포션 사용");
         },
         (item) =>
@@ -138,65 +144,67 @@ public class InGameStateItem
        },
        (item) =>
        {
-           if (duration <= 0)
+           if (item.duration <= 0)
            {
-               Exit();
+               item.Exit();
            }
            else
            {
-               duration -= Time.deltaTime;
+               item.duration -= Time.deltaTime;
            }
        },
        (item) =>
        {
            playerStatus.SumAttack -= 10;
-           playerCapability.Remove(this);
+           playerCapability.Remove(item);
        }
        ));
         StateItems.Add(518, new StateItem((item) =>
         {
-            playerStatus.sumDefense += 10;
+            playerStatus.SumDefense += 10;
+            Debug.Log($"방어력 물약 지속시간 {item.duration}");
         },
        (item) =>
        {
        },
        (item) =>
        {
-           if (duration <= 0)
+           if (item.duration <= 0)
            {
-               Exit();
+               item.Exit();
            }
            else
            {
-               duration -= Time.deltaTime;
-               Debug.Log("방어력의 물약 사용중");
+               item.duration -= Time.deltaTime;
+               //Debug.Log("방어력의 물약 사용중");
            }
        },
        (item) =>
        {
-           playerStatus.sumDefense -= 10;
-           playerCapability.Remove(this);
+           playerStatus.SumDefense -= item.stateItemData.defense;
+           playerCapability.Remove(item);
+           Debug.Log($"캐릭터 방어력 {item.duration}");
        }
-       ));    
-        StateItems.Add(1000, new StateItem((item) => 
+       ));
+        StateItems.Add(1000, new StateItem((item) =>
         {
-            playerStatus.SumAttack += item.attack;
-        },         
-        (item) => 
+            playerStatus.SumAttack += item.stateItemData.attack;
+        },
+        (item) =>
         {
             // Debug.Log($"현재 fixed작동중 공격력 : {item.attack}");
-        }, 
-        (item) => 
-        { 
-
-        }, 
+        },
         (item) =>
         {
-            playerStatus.SumAttack -= item.attack;
-        })) ;
+
+        },
+        (item) =>
+        {
+            playerStatus.SumAttack -= item.stateItemData.attack;
+        }));
         StateItems.Add(1001, new StateItem((item) =>
         {
-            playerStatus.SumAttack += item.attack;
+            playerStatus.SumAttack += item.stateItemData.attack;
         },
         (item) =>
         {
@@ -208,11 +216,11 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumAttack -= item.attack;
+            playerStatus.SumAttack -= item.stateItemData.attack;
         }));
         StateItems.Add(1002, new StateItem((item) =>
         {
-            playerStatus.SumAttack += item.attack;
+            playerStatus.SumAttack += item.stateItemData.attack;
         },
         (item) =>
         {
@@ -224,11 +232,11 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumAttack -= item.attack;
+            playerStatus.SumAttack -= item.stateItemData.attack;
         }));
         StateItems.Add(1003, new StateItem((item) =>
         {
-            playerStatus.SumAttack += item.attack;
+            playerStatus.SumAttack += item.stateItemData.attack;
         },
         (item) =>
         {
@@ -240,11 +248,11 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumAttack -= item.attack;
+            playerStatus.SumAttack -= item.stateItemData.attack;
         }));
         StateItems.Add(1004, new StateItem((item) =>
         {
-            playerStatus.SumAttack += item.attack;
+            playerStatus.SumAttack += item.stateItemData.attack;
         },
         (item) =>
         {
@@ -256,12 +264,12 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumAttack -= item.attack;
+            playerStatus.SumAttack -= item.stateItemData.attack;
         }));
         StateItems.Add(1006, new StateItem((item) =>
         {
-            playerStatus.SumDefense += item.defense;
-            playerStatus.SumMaxHP += item.maxHp;
+            playerStatus.SumDefense += item.stateItemData.defense;
+            playerStatus.SumMaxHP += item.stateItemData.maxHp;
         },
         (item) =>
         {
@@ -273,12 +281,12 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumDefense -= item.defense;
-            playerStatus.SumMaxHP -= item.maxHp;
+            playerStatus.SumDefense -= item.stateItemData.defense;
+            playerStatus.SumMaxHP -= item.stateItemData.maxHp;
         }));
         StateItems.Add(1008, new StateItem((item) =>
         {
-            playerStatus.SumDefense += item.defense;
+            playerStatus.SumDefense += item.stateItemData.defense;
         },
         (item) =>
         {
@@ -290,12 +298,12 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumDefense -= item.defense;
+            playerStatus.SumDefense -= item.stateItemData.defense;
         }));
         StateItems.Add(1012, new StateItem((item) =>
         {
-            playerStatus.SumAttack += item.attack;
-            playerStatus.SumDefense += item.defense;
+            playerStatus.SumAttack += item.stateItemData.attack;
+            playerStatus.SumDefense += item.stateItemData.defense;
         },
         (item) =>
         {
@@ -307,13 +315,13 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumAttack -= item.attack;
-            playerStatus.SumDefense -= item.defense;
+            playerStatus.SumAttack -= item.stateItemData.attack;
+            playerStatus.SumDefense -= item.stateItemData.defense;
         }));
         StateItems.Add(1016, new StateItem((item) =>
         {
-            playerStatus.SumDefense += item.defense;
-            playerStatus.SumSpeed += item.speed;
+            playerStatus.SumDefense += item.stateItemData.defense;
+            playerStatus.SumSpeed += item.stateItemData.speed;
         },
         (item) =>
         {
@@ -325,16 +333,16 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumDefense -= item.defense;
-            playerStatus.SumSpeed -= item.speed;
+            playerStatus.SumDefense -= item.stateItemData.defense;
+            playerStatus.SumSpeed -= item.stateItemData.speed;
         }));
         StateItems.Add(2, new StateItem((item) =>
         {
-            Debug.Log($"{item.name} {item.attack}");
+            Debug.Log($"{item.stateItemData.name} {item.stateItemData.attack}");
         },
         (item) =>
         {
-            Debug.Log($"현재 fixed작동중{item.attack}");
+            Debug.Log($"현재 fixed작동중{item.stateItemData.attack}");
         },
         (item) =>
         {
@@ -346,11 +354,11 @@ public class InGameStateItem
         }));
         StateItems.Add(3, new StateItem((item) =>
         {
-            Debug.Log($"{item.name} {item.attack}");
+            Debug.Log($"{item.stateItemData.name} {item.stateItemData.attack}");
         },
         (item) =>
         {
-            Debug.Log($"현재 fixed작동중{item.attack}");
+            Debug.Log($"현재 fixed작동중{item.stateItemData.attack}");
         },
         (item) =>
         {

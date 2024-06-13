@@ -7,7 +7,7 @@ using Google.Protobuf;
 
 public class UI_CharacterCreate : UI_Entity
 {
-    CharData character;
+    CHARACTER_INFO character;
     TMP_Text josDescript;
     Image jobImage;
 
@@ -35,12 +35,12 @@ public class UI_CharacterCreate : UI_Entity
     protected override void Init()
     {
         base.Init();
-        GameManager.Data.characters[GameManager.Data.selectedSlotNum] = new CharData();
-        character = GameManager.Data.characters[GameManager.Data.selectedSlotNum];
+        GameManager.Data.CurrentCharacter = new CHARACTER_INFO();
+        character = GameManager.Data.CurrentCharacter;
+        _SetDefalutInfo();
 
         josDescript = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponentInChildren<TMP_Text>();
         jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
-        _SetDefalut();
 
         // 팝업 열고 닫기
         _entities[(int)Enum_UI_JobSelect.Setting].ClickAction = (PointerEventData data) =>
@@ -50,16 +50,20 @@ public class UI_CharacterCreate : UI_Entity
 
         // 버튼 선택에 맞게 이미지, 설명란 및 저장할 데이터 변경
         _entities[(int)Enum_UI_JobSelect.Warrior].ClickAction = (PointerEventData data) => {
-            _SaveOptions(0);
+            _SaveOptions(Enum_Class.Warrior);
         };
         _entities[(int)Enum_UI_JobSelect.Wizard].ClickAction = (PointerEventData data) => {
-            _SaveOptions(1);
+            _SaveOptions(Enum_Class.Wizard);
         };
         _entities[(int)Enum_UI_JobSelect.Archer].ClickAction = (PointerEventData data) => {
-            _SaveOptions(2);
+            _SaveOptions(Enum_Class.Archer);
         };
-        _entities[(int)Enum_UI_JobSelect.Men].ClickAction = (PointerEventData data) => { character.gender = true; };
-        _entities[(int)Enum_UI_JobSelect.Women].ClickAction = (PointerEventData data) => { character.gender = false; };
+        _entities[(int)Enum_UI_JobSelect.Men].ClickAction = (PointerEventData data) => {
+            _SaveOptions(true);
+        };
+        _entities[(int)Enum_UI_JobSelect.Women].ClickAction = (PointerEventData data) => {
+            _SaveOptions(false);
+        };
 
         // 이름 생성 팝업 띄우기
         _entities[(int)Enum_UI_JobSelect.Select].ClickAction = (PointerEventData data) => {
@@ -71,46 +75,87 @@ public class UI_CharacterCreate : UI_Entity
         };
     }
 
-    void _SetDefalut()
+    void _SetDefalutInfo()
     {
+        character.BaseInfo = new CHARACTER_BASE();
+        character.BaseInfo.CharacterId = 0;
+        character.BaseInfo.Nickname = ByteString.CopyFrom("기본 이름", System.Text.Encoding.Unicode);
+        character.BaseInfo.Job = 0;
+        character.BaseInfo.Gender = true;
+
+        character.Stat = new CHARACTER_STATUS();
+        character.Stat.Level = 1;
+        character.Stat.MaxHP = 100;
+        character.Stat.Hp = 100;
+        character.Stat.MaxMP = 100;
+        character.Stat.Mp = 100;
+        character.Stat.MaxEXP = 100;
+        character.Stat.Exp = 0;
+        character.Stat.Attack = 5;
+        character.Stat.AttackSpeed = 1;
+        character.Stat.Defense = 3;
+        character.Stat.Speed = 10;
+
+        character.Xyz = new CHARACTER_POS();
+        character.Xyz.X = 0;
+        character.Xyz.Y = 0;
+        character.Xyz.Z = 0;
+
         jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/Warrior");
     }
 
 
-    void _SaveOptions(int job)
+    void _SaveOptions(Enum_Class className)
     {
-        character.job = job;
-        string jobName = "Warrior";
+        character.BaseInfo.Job = (int)className;
 
         // 설명란 변경
-        switch (job)
+        switch (className)
         {
-            case 0:
-                jobName = "Warrior";
-                josDescript.text = $"Warriorss have high defense and health."; break;
-            case 1:
-                jobName = "Wizard";
-                josDescript.text = $"Wizards deal powerful damage or help their teammates."; break;
-            case 2:
-                jobName = "Archer";
-                josDescript.text = $"Archers can inflict lethal damage from long range."; break;
+            case Enum_Class.Warrior:
+                josDescript.text = $"{nameof(className)}s have high defense and health.";
+                break;
+            case Enum_Class.Wizard:
+                josDescript.text = $"{nameof(className)}s deal powerful damage or help their teammates.";
+                break;
+            case Enum_Class.Archer:
+                josDescript.text = $"{nameof(className)}s can inflict lethal damage from long range.";
+                break;
+            case Enum_Class.Default:
+                break;
             default:
                 break;
         }
 
         // 이미지 변경
-        jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{jobName}");
+        jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{nameof(className)}");
+    }
+
+    void _SaveOptions(bool gender)
+    {
+        character.BaseInfo.Gender = gender;
+
+        // 이미지 변경
+/*        switch (gender)
+        {
+            case true:
+
+            case false:
+
+            default:
+                break;
+        }*/
     }
 
     public void SendCharacterPacket()
     {
         C_NEW_CHARACTER new_character_pkt = new C_NEW_CHARACTER();
         new_character_pkt.Character = new CHARACTER_BASE();
-        new_character_pkt.Character.Gender = character.gender;
-        new_character_pkt.Character.Job = character.job;
-        new_character_pkt.Character.Nickname = ByteString.CopyFrom(character.charName, System.Text.Encoding.Unicode);
-        new_character_pkt.Character.SlotNum = GameManager.Data.selectedSlotNum;
-        new_character_pkt.Character.CharacterId = character.characterId; // 기본값 0 전송
+        new_character_pkt.Character.Gender = character.BaseInfo.Gender;
+        new_character_pkt.Character.Job = character.BaseInfo.Job;
+        new_character_pkt.Character.Nickname = character.BaseInfo.Nickname;
+        new_character_pkt.Character.SlotNum = GameManager.Data.SelectedSlotNum;
+        new_character_pkt.Character.CharacterId = character.BaseInfo.CharacterId; // 기본값 0 전송
 
         GameManager.Network.Send(PacketHandler.Instance.SerializePacket(new_character_pkt));
 

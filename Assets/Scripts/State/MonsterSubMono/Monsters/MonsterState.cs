@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,8 +35,7 @@ public abstract class MonsterState : SubMono<MonsterController>
     [SerializeField]
     protected Enum_MonsterState monsterState;
     public Enum_MonsterState EnumMonsterState { get { return monsterState; } }
-
-
+    public static event Action<int> OnMonsterKilled;
 
     public bool IsAttack
     {
@@ -306,6 +306,7 @@ public abstract class MonsterState : SubMono<MonsterController>
             gameObject.GetComponent<MonsterState>().enabled = false;
 
             _board._monsterItemDrop.ItemDrop();
+            OnMonsterKilled?.Invoke(_board.monsterDB.monster_id);
         }, () => { }, () => {  }, 
         () => 
         {
