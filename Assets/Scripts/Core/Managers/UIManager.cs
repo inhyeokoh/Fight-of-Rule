@@ -24,6 +24,7 @@ public class UIManager : SubClass<GameManager>
     public UI_Shop Shop;
     public UI_InGameConfirmYN InGameConfirmYN;
     public UI_InGameConfirmY InGameConfirmY;
+    public UI_Dialog Dialog;
     public UI_StatusWindow StatusWindow;
     //public GameObject SkillWindow;
     public UI_InGameMain InGameMain;
@@ -31,11 +32,10 @@ public class UIManager : SubClass<GameManager>
     GameObject popupCanvas;
 
     int blockerCount = 0;
+    public bool init;
 
     // 실시간 팝업 관리
     public LinkedList<UI_Entity> _activePopupList;
-
-    bool _init;
 
     protected override void _Clear()
     {
@@ -60,6 +60,7 @@ public class UIManager : SubClass<GameManager>
         Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
         InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
         InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
+        Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
         _activePopupList = new LinkedList<UI_Entity>();
 #else
         GameObject uiManage = GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_Manage"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
@@ -70,6 +71,7 @@ public class UIManager : SubClass<GameManager>
 
         _activePopupList = new LinkedList<UI_Entity>();
 #endif
+        init = true;
     }
 
     public void ManageOutGamePopups(bool set)
@@ -212,9 +214,9 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
-    public void PointerOnUI(bool On)
+    public void PointerOnUI(bool block)
     {
-        if (On)
+        if (block)
         {           
             moveAction.Disable();
             fireAction.Disable();

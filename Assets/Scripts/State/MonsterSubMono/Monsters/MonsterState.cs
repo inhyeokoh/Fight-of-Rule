@@ -30,7 +30,7 @@ public abstract class MonsterState : SubMono<MonsterController>
    
     protected Dictionary<int, State> state;
     [SerializeField]
-    protected CharacterStatus expCharacter;
+    public CharacterStatus expCharacter;
     StateMachine stateMachine;
     [SerializeField]
     protected Enum_MonsterState monsterState;
@@ -299,8 +299,9 @@ public abstract class MonsterState : SubMono<MonsterController>
             _board._animationController.ChangeTrrigerAnimation(Enum_MonsterState.Dead.ToString());
             _board._monsterMovement.Stop();
             _board._monsterMovement.Dead();
-            monsterState = Enum_MonsterState.Dead;        
-            //expCharacter.EXP += exp;
+            monsterState = Enum_MonsterState.Dead;
+            expCharacter.EXP += _board._monsterStatus.exp;
+            Debug.Log(expCharacter.EXP);
             gameObject.GetComponent<Collider>().enabled = false;        
             Invoke("SetActive", 3);
             gameObject.GetComponent<MonsterState>().enabled = false;

@@ -122,8 +122,7 @@ public class UI_PlayerInfo : UI_Entity
         // 유저 정보 창 닫기
         _entities[(int)Enum_UI_PlayerInfo.Close].ClickAction = (PointerEventData data) =>
         {
-            GameManager.UI.ClosePopupAndChildren(GameManager.UI.Inventory); // 테스트
-            // GameManager.UI.ClosePopup(GameManager.UI.PlayerInfo);            
+            GameManager.UI.ClosePopup(GameManager.UI.PlayerInfo);            
         };
 
         _init = true;

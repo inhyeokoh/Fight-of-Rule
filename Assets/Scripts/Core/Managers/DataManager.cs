@@ -495,9 +495,9 @@ public class DataManager : SubClass<GameManager>
             string name = quest[i]["title"];
             int[] npcID = Array.ConvertAll(quest[i]["npcID"].Split(","), int.Parse);
             Enum_QuestType questType = (Enum_QuestType)Enum.Parse(typeof(Enum_QuestType), quest[i]["questType"]);
-            string desc = quest[i]["desc"];
+            string[] desc = quest[i]["desc"].Split("/");
             string summary = quest[i]["summary"];
-            string congratulation = quest[i]["congratulation"];
+            string[] congratulation = quest[i]["congratulation"].Split("/");
             int requiredLevel = int.Parse(quest[i]["requiredLevel"]);
             int? previousQuestID = int.TryParse(quest[i]["previousQuestID"], out int tempPreviousQuestID) ? tempPreviousQuestID : null;
             string questObj = quest[i]["questObj"];

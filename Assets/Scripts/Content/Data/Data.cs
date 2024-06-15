@@ -254,17 +254,19 @@ public class QuestData : Data
     // 퀘스트 정보
     public int questID;
     public string title;
-    public int[] npcID;
+    public int[] npcID; // TODO -> 완료 조건 항목으로 변경
     public Enum_QuestType questType;
-    public string desc;
+    public string[] desc;
     public string summary; // 내용 요약본
-    public string congratulation; // 퀘스트 완료 메시지
+    public string[] congratulation; // 퀘스트 완료 메시지
 
     // 시작 조건
     public int requiredLevel;
     public int? previousQuestID; // 사전 수행 퀘스트. 필요 시 리스트 형식으로 변경
 
     // 완료 조건 TODO: 오브젝트랑 몬스터 ID는 다수 가능하게 수정
+
+    // Goal들을 여러개
     public string questObj;
     public int questObjRequiredCount;
 
@@ -276,7 +278,7 @@ public class QuestData : Data
     public long goldReward;
     public string itemReward;
 
-    public QuestData(int questID, string title, int[] npcID, Enum_QuestType questType, string desc, string summary, string congratulation, int requiredLevel, int? previousQuestID,
+    public QuestData(int questID, string title, int[] npcID, Enum_QuestType questType, string[] desc, string summary, string[] congratulation, int requiredLevel, int? previousQuestID,
         string questObj, int questObjRequiredCount, string questMonster, int questMonsterRequiredCount, int expReward, long goldReward, string itemReward)
     {
         this.questID = questID;

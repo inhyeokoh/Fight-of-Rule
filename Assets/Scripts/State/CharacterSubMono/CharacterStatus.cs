@@ -242,7 +242,7 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        level = GameManager.Data.CurrentCharacter.Stat.Level;
+        Level = GameManager.Data.CurrentCharacter.Stat.Level;
         characterMaxHP = GameManager.Data.CurrentCharacter.Stat.MaxHP;
         characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;
         characterMaxEXP = GameManager.Data.CurrentCharacter.Stat.MaxEXP;

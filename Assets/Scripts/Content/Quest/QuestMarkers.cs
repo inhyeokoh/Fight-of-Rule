@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class QuestMarkers : MonoBehaviour
 {
+    int progressCount;
     /// <summary>
     /// Enum_QuestProgress.Available => 3
     /// Enum_QuestProgress.CanComplete => 2
@@ -11,10 +12,10 @@ public class QuestMarkers : MonoBehaviour
     /// </summary>
     public int ProgressCount
     {
-        get { return ProgressCount; }
+        get { return progressCount; }
         set
         {
-            ProgressCount = value;
+            progressCount = value;
             UpdateQuestMarkers();
         }
     }
