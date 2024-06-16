@@ -285,6 +285,12 @@ class PacketMetrics
         }
     }
 
+    //thread unsafe
+    public void AddPacketPair(PacketHandler.PacketType send, PacketHandler.PacketType recv)
+    {
+        _pair.Add(send, recv);
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void AddUnityWatcher(Action? enter = null, Action? callback = null)
     {
@@ -362,7 +368,7 @@ class PacketMetrics
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Matry(ArraySegment<byte> buffer, Action? OnMetry = null)
+    public void Metry(ArraySegment<byte> buffer, Action? OnMetry = null)
     {
         var proto_id = BitConverter.ToUInt16(buffer.Array, buffer.Offset + 2);
 
@@ -399,7 +405,14 @@ class PacketMetrics
                 default:
                     break;
             }
+
+            return;
         }
+
+        GameManager.ThreadPool.EnqueueJob(() =>
+        {
+            OnMetry?.Invoke();
+        });
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -27,6 +27,7 @@ public class NetworkManager : SubClass<GameManager>
     protected override void _Init()
     {
         _metrics.Init();
+        _metrics.AddPacketPair(PacketHandler.PacketType.PKT_C_DELETE_CHARACTER, PacketHandler.PacketType.PKT_S_DELETE_CHARACTER);
         _metrics.AddUnityWatcher(
             // entry
             () => { GameManager.UI.OpenPopup(GameManager.UI.BlockAll); },
@@ -67,7 +68,7 @@ public class NetworkManager : SubClass<GameManager>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Send(ArraySegment<byte> buffer)
     {
-        _metrics.Matry(buffer, () => { mainSession?.SendSync(buffer); });
+        _metrics.Metry(buffer, () => { mainSession?.SendSync(buffer); });
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
