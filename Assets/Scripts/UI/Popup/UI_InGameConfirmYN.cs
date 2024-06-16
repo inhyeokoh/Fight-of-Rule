@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 public class UI_InGameConfirmYN : UI_Entity
 {
     bool _init;
-    public bool _useBlocker = true;
+    bool _useBlocker = true;
     Enum_ConfirmTypes confirmType;
     TMP_Text _mainText;
     GameObject _inputField;

@@ -1,5 +1,5 @@
 // #define INGAMETEST
-#define INVENTEST
+// #define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ public class DataManager : SubClass<GameManager>
 
     // 캐릭터 정보
     public CHARACTER_INFO[] characters;
-    int selectedSlotNum;
+    int selectedSlotNum = 0;
     public int SelectedSlotNum
     {
         get { return selectedSlotNum; }
@@ -23,7 +23,8 @@ public class DataManager : SubClass<GameManager>
 
     public CHARACTER_INFO CurrentCharacter { get; set; }
 
-    public long CharId { get; set; }
+    // 어딘가엔 들고 있어야함
+/*    public long CharId { get; set; }
     string charName;
     public string CharName
     {
@@ -42,7 +43,7 @@ public class DataManager : SubClass<GameManager>
         get { return gender; }
         set { gender = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
     }
-    Vector3 pos;
+    Vector3 pos;*/
 
     /// <summary>
     /// 아이템 데이터
@@ -106,7 +107,6 @@ public class DataManager : SubClass<GameManager>
     {
         setting = new SettingsData();
         characters = new CHARACTER_INFO[4];
-        selectedSlotNum = 0;
 #if INVENTEST || INGAMETEST
         CurrentCharacter = new CHARACTER_INFO();
         CurrentCharacter.BaseInfo = new CHARACTER_BASE();

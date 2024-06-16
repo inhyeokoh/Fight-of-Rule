@@ -11,7 +11,7 @@ using TMPro;
 public class UI_ConfirmY : UI_Entity
 {
     bool _init;
-    public bool _useBlocker = true;
+    bool _useBlocker = true;
     TMP_Text _mainText;
     Enum_ConfirmTypes confirmType;
 

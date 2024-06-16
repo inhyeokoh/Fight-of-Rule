@@ -1,0 +1,7 @@
+skill_id,skill_type,skill_name,skill_desc,skill_icon,skill_number,skill_duration,skill_maxlevel,skill_levelcondition,skill_point,skill_maxhp,skill_maxmp,skill_attack,skill_defense,skill_speed,skill_attackspeed,skill_mp,skill_cool,skill_damage
+0,ActiveSkill,어썰트 블레이드,주변을 밀칩니다. {1} 데미지를 줍니다. {3}초 쿨타임이 소모 됩니다.  ,SkillIcon/Warrior/AssaultBlade,AssaultBlade,null,5,5,7,9,11,13,0,3,3,3,3,3,0,null,null,null,null,null,null,0,40,40,35,35,30,0,10,9,8,7,6,0,5,6,7,8,9
+1,ActiveSkill,드라이브 슬래쉬,내려칩니다. {1} 데미지를 줍니다. {3}초 쿨타임이 소모 됩니다.,SkillIcon/Warrior/DivingSlash,DivingSlash,null,5,8,10,13,14,16,0,4,5,5,6,6,0,null,null,null,null,null,null,0,50,55,70,75,80,0,10,10,10,10,10,0,8,9,10,11,12
+2,ActiveSkill,더블 슬래쉬,참격을 날립니다. {1} 데미지를 줍니다. {3}초 쿨타임이 소모 됩니다. ,SkillIcon/Warrior/DubleSlash,DubleSlash,null,5,13,16,19,21,25,0,2,3,4,5,10,0,null,null,null,null,null,null,0,30,30,25,20,20,0,8,8,7,6,5,0,3,4,5,6,7
+3,ActiveSkill,스워드 스톰,땅을 내리쳐서 불길을 생성합니다. 초 마다 {1} 데미지를 줍니다. {3}초 쿨타임이 소모 됩니다.,SkillIcon/Warrior/SwordStorm,SwordStorm,null,5,20,25,30,35,45,0,10,12,14,16,20,0,null,null,null,null,null,null,0,35,30,25,20,20,0,30,29,28,27,26,0,8,9,10,11,12
+4,ActiveSkill,휠 윈드,검을 휘두릅니다. {2} 마나가 소비되고 초마다 {1} 데미지를 줍니다 {3}초 쿨타임이 소모됩니다.,SkillIcon/Warrior/WheelWind,WheelWind,null,5,24,29,33,39,42,0,7,9,9,9,9,0,null,null,null,null,null,null,0,30,25,20,20,20,0,15,15,15,15,13,0,5,6,7,8,9
+5,PassiveSkill,전사의 분노,공격력이 {7} 만큼 상승합니다.,SkillIcon/Warrior/Nature_4,Default,null,10,10,11,12,13,14,15,16,17,18,19,0,3,3,3,3,3,3,3,3,3,3,0,null,null,0,10,12,14,16,18,20,21,22,23,25,null,null,null,null,null,null

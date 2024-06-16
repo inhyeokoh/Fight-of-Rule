@@ -79,7 +79,6 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-
     internal static bool Handle_S_ASK_VERF(Session session, S_ASK_VERF message)
     {
         return true;
@@ -87,10 +86,10 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING message)
     {
-        /*GameManager.ThreadPool.UniAsyncJob(() =>
+        GameManager.ThreadPool.UniAsyncJob(() =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });*/
+        });
 
         if (message.Sucess == false)
         {
@@ -99,7 +98,7 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
-        // 신규 유저
+        // 신규 유저        
         if (message.Character.Count == 0)
         {
             GameManager.Data.SelectedSlotNum = 0; // 0번 슬롯 생성하도록
@@ -131,10 +130,10 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
-        /*GameManager.ThreadPool.UniAsyncJob(() =>
+        GameManager.ThreadPool.UniAsyncJob(() =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });*/
+        });
 
         // 생성 불가
         if (message.Success == false)
@@ -165,10 +164,10 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
     {
-        /*GameManager.ThreadPool.UniAsyncJob(() =>
+        GameManager.ThreadPool.UniAsyncJob(() =>
         {
             GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });*/
+        });
 
         // 캐릭터 생성 불가 시
         if (message.Success == false)
@@ -182,16 +181,34 @@ public class PacketHandlerImpl : MonoBehaviour
         }
 
         // 캐릭터 생성 가능 시
+        Debug.Log(message.Character.BaseInfo.Job);
+        GameManager.Data.characters[GameManager.Data.SelectedSlotNum] = message.Character;
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
             var loadAsync = SceneManager.LoadSceneAsync("Select");
             GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
         });
+
         return true;
     }
 
-    internal static bool Handle_S_CHARACTER(Session session, S_CHARACTERS message)
+    internal static bool Handle_S_DELETE_CHARACTER(Session session, S_DELETE_CHARACTER message)
     {
+        Debug.Log("캐릭터 삭제 패킷 수신");
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
+        });
+
+        if (message.Success == false)
+        {
+            Debug.Log("캐릭터 삭제 실패");
+            return false;
+        }
+        // 캐릭터 데이터 삭제
+        GameManager.Data.characters[message.SlotNum] = null;
+        Debug.Log("캐릭터 삭제 완료");
+        // TODO UI갱신
 
         return true;
     }

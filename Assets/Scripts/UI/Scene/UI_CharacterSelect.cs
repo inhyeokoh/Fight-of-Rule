@@ -3,11 +3,13 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI_CharacterSelect : UI_Entity
 {
     GameObject panel;
     int _totalSlot = 4;
+    UI_Slot[] characterSlots;
 
     enum Enum_UI_CharSelect
     {
@@ -28,6 +30,7 @@ public class UI_CharacterSelect : UI_Entity
 
         panel = _entities[(int)Enum_UI_CharSelect.Panel].gameObject;
 
+        characterSlots = new UI_Slot[_totalSlot];
         _DrawCharacterSlot();
 
         _entities[(int)Enum_UI_CharSelect.Setting].ClickAction = (PointerEventData data) => {
@@ -40,21 +43,8 @@ public class UI_CharacterSelect : UI_Entity
 
         // 캐릭터 삭제
         _entities[(int)Enum_UI_CharSelect.Delete].ClickAction = (PointerEventData data) => {
-            // 현재 선택 캐릭터 받기
-            int selected = 0;
-            Toggle[] toggles = panel.GetComponentsInChildren<Toggle>();
-            for (int i = 0; i < toggles.Length; i++)
-            {
-                if (toggles[i].isOn == true)
-                {
-                    selected = i;
-                }    
-            }
-            // 서버에 삭제한 캐릭터 id(번호) 전송
-            // GameManager.Data.characters[selected].characterId
-
-            // 캐릭터 데이터 삭제
-            GameManager.Data.characters[selected] = null;
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
+            GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDeleteCharacter);
         };
     }
 
@@ -62,12 +52,9 @@ public class UI_CharacterSelect : UI_Entity
     {
         for (int i = 0; i < _totalSlot; i++)
         {
-            GameObject slot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/CharacterSlot", panel.transform);
-            slot.GetComponent<UI_Slot>().index = i;
-            if (i == 0) // 기본으로 첫번째 캐릭터 선택 되어 있도록
-            {
-                slot.GetComponent<Toggle>().isOn = true;
-            }
-        }        
+            GameObject slot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/CharacterSlot2", panel.transform);
+            characterSlots[i] = slot.GetComponent<UI_Slot>();
+            characterSlots[i].Index = i;
+        }
     }
 }

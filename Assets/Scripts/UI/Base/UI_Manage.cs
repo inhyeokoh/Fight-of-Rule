@@ -1,5 +1,5 @@
-// #define SERVER
-#define INVENTEST
+ #define SERVER
+// #define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
@@ -26,7 +26,7 @@ public class UI_Manage : MonoBehaviour
     {
         curSceneNum = SceneManager.GetActiveScene().buildIndex;
         scenes.Push(curSceneNum);
-                
+
 #if INVENTEST
         GameManager.UI.ConnectPlayerInput();
         GameManager.Inven.ConnectInvenUI();

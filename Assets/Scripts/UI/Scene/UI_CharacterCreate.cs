@@ -31,16 +31,15 @@ public class UI_CharacterCreate : UI_Entity
         return typeof(Enum_UI_JobSelect);
     }
 
-
     protected override void Init()
     {
         base.Init();
         GameManager.Data.CurrentCharacter = new CHARACTER_INFO();
         character = GameManager.Data.CurrentCharacter;
-        _SetDefalutInfo();
 
         josDescript = _entities[(int)Enum_UI_JobSelect.JobDescription].GetComponentInChildren<TMP_Text>();
         jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
+        _SetDefalutInfo();
 
         // 팝업 열고 닫기
         _entities[(int)Enum_UI_JobSelect.Setting].ClickAction = (PointerEventData data) =>
@@ -84,26 +83,26 @@ public class UI_CharacterCreate : UI_Entity
         character.BaseInfo.Gender = true;
 
         character.Stat = new CHARACTER_STATUS();
-        character.Stat.Level = 1;
-        character.Stat.MaxHP = 100;
-        character.Stat.Hp = 100;
-        character.Stat.MaxMP = 100;
-        character.Stat.Mp = 100;
-        character.Stat.MaxEXP = 100;
-        character.Stat.Exp = 0;
-        character.Stat.Attack = 5;
-        character.Stat.AttackSpeed = 1;
-        character.Stat.Defense = 3;
-        character.Stat.Speed = 10;
-
         character.Xyz = new CHARACTER_POS();
-        character.Xyz.X = 0;
-        character.Xyz.Y = 0;
-        character.Xyz.Z = 0;
 
         jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/Warrior");
     }
 
+
+    string GetJobImageName(Enum_Class className)
+    {
+        switch (className)
+        {
+            case Enum_Class.Warrior:
+                return "Warrior";
+            case Enum_Class.Wizard:
+                return "Wizard";
+            case Enum_Class.Archer:
+                return "Archer";
+            default:
+                return "Warrior";
+        }
+    }
 
     void _SaveOptions(Enum_Class className)
     {
@@ -113,38 +112,29 @@ public class UI_CharacterCreate : UI_Entity
         switch (className)
         {
             case Enum_Class.Warrior:
-                josDescript.text = $"{nameof(className)}s have high defense and health.";
+                josDescript.text = $"Warriors have high defense and health.";
                 break;
             case Enum_Class.Wizard:
-                josDescript.text = $"{nameof(className)}s deal powerful damage or help their teammates.";
+                josDescript.text = $"Wizards deal powerful damage or help their teammates.";
                 break;
             case Enum_Class.Archer:
-                josDescript.text = $"{nameof(className)}s can inflict lethal damage from long range.";
+                josDescript.text = $"Archers can inflict lethal damage from long range.";
                 break;
             case Enum_Class.Default:
+                josDescript.text = $"Warriors have high defense and health.";
                 break;
             default:
                 break;
         }
 
         // 이미지 변경
-        jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{nameof(className)}");
+        string imageName = GetJobImageName(className);
+        jobImage.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{imageName}");
     }
 
     void _SaveOptions(bool gender)
     {
         character.BaseInfo.Gender = gender;
-
-        // 이미지 변경
-/*        switch (gender)
-        {
-            case true:
-
-            case false:
-
-            default:
-                break;
-        }*/
     }
 
     public void SendCharacterPacket()
@@ -159,6 +149,6 @@ public class UI_CharacterCreate : UI_Entity
 
         GameManager.Network.Send(PacketHandler.Instance.SerializePacket(new_character_pkt));
 
-        //GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
+        GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
     }
 }

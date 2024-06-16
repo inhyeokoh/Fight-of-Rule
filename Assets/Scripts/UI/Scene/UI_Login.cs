@@ -38,7 +38,7 @@ public class UI_Login : UI_Entity
             login_ask_pkt.LoginPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256(_entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text), encoding:"ascii");
 
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt)); 
-            //GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
+            GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
 
 #elif CLIENT
             // 서버 없이 씬 넘어가기

@@ -60,8 +60,8 @@ public class GameManager : MonoBehaviour
     public static ThreadManager ThreadPool { get {  return Instance._threadPool; } }
 
 
-    SoundManager _sound = new SoundManager();
-    public static SoundManager Sound { get { return Instance._sound; } }
+/*    SoundManager _sound = new SoundManager();
+    public static SoundManager Sound { get { return Instance._sound; } }*/
 
     /*==================
      *     Network
@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
             _pool,
             _resources,
             _threadPool,
-            _sound,
+            //_sound,
             _networkManager,
             _uiManager,
             _dataManager,

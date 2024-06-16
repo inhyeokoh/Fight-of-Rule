@@ -1,5 +1,5 @@
 //#define INGAMETEST
-#define INVENTEST
+//#define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -175,7 +175,8 @@ public class UIManager : SubClass<GameManager>
         {
             if (blockerCount == 0)
             {
-                Blocker.gameObject.SetActive(true);
+                OpenPopup(Blocker);
+                // Blocker.gameObject.SetActive(true);
             }
             blockerCount++;
         }
@@ -184,7 +185,8 @@ public class UIManager : SubClass<GameManager>
             blockerCount--;
             if (blockerCount <= 0)
             {
-                Blocker.gameObject.SetActive(false);
+                ClosePopup(Blocker);
+                // Blocker.gameObject.SetActive(false);
                 blockerCount = 0; // 음수 방지
             }
         }
@@ -201,6 +203,7 @@ public class UIManager : SubClass<GameManager>
         int beforeLast = activatePopupIndex - 1;
         Blocker.transform.SetSiblingIndex(beforeLast);
     }
+
 
     public void OpenOrClose(UI_Entity targetPopup)
     {

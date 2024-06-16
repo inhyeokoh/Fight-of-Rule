@@ -60,9 +60,9 @@ public class UI_InputName : UI_Entity
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
 
-            //GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
-            /*            };*/
-        };
+            GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
+/*        };*/
+    };
 
         _entities[(int)Enum_UI_InputName.Cancel].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.InputName);

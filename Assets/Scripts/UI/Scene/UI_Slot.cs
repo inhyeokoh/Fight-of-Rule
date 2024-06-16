@@ -8,14 +8,15 @@ using UnityEngine.UI;
 
 public class UI_Slot : UI_Entity
 {
-    public int index;
+    public int Index { get; set; }
+
     CHARACTER_INFO character;
 
     enum Enum_UI_Slot
     {
-        Image,
         Background,
-        Label,
+        Image,
+        MainText,
         Create
     }
 
@@ -28,10 +29,21 @@ public class UI_Slot : UI_Entity
     {
         base.Init();
 
-        character = GameManager.Data.characters[index];
+        Toggle toggleComponent = GetComponent<Toggle>();
+        toggleComponent.onValueChanged.AddListener(delegate {
+            OnToggleValueChanged(toggleComponent);
+        });
 
+        character = GameManager.Data.characters[Index];
+        LoadCharacter();
+    }
+
+    public void LoadCharacter()
+    {
         if (character != null) // 캐릭터 정보 존재시
         {
+            GetComponent<Toggle>().group = transform.parent.GetComponent<ToggleGroup>();
+
             string gender = character.BaseInfo.Gender ? "Men" : "Women";
             string job = Enum.GetName(typeof(Enum_Class), character.BaseInfo.Job);
 
@@ -39,34 +51,34 @@ public class UI_Slot : UI_Entity
             Image image = _entities[(int)Enum_UI_Slot.Image].GetComponent<Image>();
             image.sprite = GameManager.Resources.Load<Sprite>($"Materials/JobImage/{job}");
 
-            // 해당 슬롯 텍스트 상자에 데이터 기입
-
-            _entities[(int)Enum_UI_Slot.Label].GetComponent<TMP_Text>().text =
-                $"캐릭터명 : {character.BaseInfo.Nickname}\n 레벨: {character.Stat.Level}\n 직업: {job}\n 성별: {gender}\n";
-
-            _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
-                GetComponent<Toggle>().isOn = true;
-                GameManager.Data.SelectedSlotNum = index;
-            };
+            // 캐릭터 간략 정보 표시
+            _entities[(int)Enum_UI_Slot.MainText].GetComponent<TMP_Text>().text =
+                $"캐릭터명 : {character.BaseInfo.Nickname.ToString(System.Text.Encoding.Unicode)}\n 레벨: {character.Stat.Level}\n 직업: {job}\n" +
+                $"성별: {gender}\n 체력: {character.Stat.Hp}/{ character.Stat.MaxHP}\n 공격력: {character.Stat.Attack}\n 이동속도: {character.Stat.Speed}\n ";
 
             _entities[(int)Enum_UI_Slot.Create].gameObject.SetActive(false); // 캐릭터 생성 버튼 비활성화 
+            _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
+                Debug.Log("클릭 되냐");
+            };
         }
         else
         {
-            _SetEmptySlot();
+            _entities[(int)Enum_UI_Slot.Image].gameObject.SetActive(false);
+            _entities[(int)Enum_UI_Slot.MainText].gameObject.SetActive(false);
+
+            // 캐릭터 생성버튼에 기능 부여
+            _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
+                GameManager.Data.SelectedSlotNum = Index;
+                GameManager.Scene.LoadScene("Create");
+            };
         }
     }
 
-    void _SetEmptySlot()
+    void OnToggleValueChanged(Toggle changedToggle)
     {
-        GetComponent<Toggle>().group = null; // 선택 불가능 하도록 토글 그룹에서 제외
-        _entities[(int)Enum_UI_Slot.Image].gameObject.SetActive(false);
-        _entities[(int)Enum_UI_Slot.Label].gameObject.SetActive(false);
-
-        // 캐릭터 생성버튼에 기능 부여
-        _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
-            GameManager.Data.SelectedSlotNum = index;
-            GameManager.Scene.LoadScene("Create");
-        };
+        if (changedToggle.isOn)
+        {
+            GameManager.Data.SelectedSlotNum = Index;
+        }
     }
 }
