@@ -86,11 +86,6 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_VERIFYING(Session session, S_VERIFYING message)
     {
-        GameManager.ThreadPool.UniAsyncJob(() =>
-        {
-            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });
-
         if (message.Sucess == false)
         {
             //TODO 게임 종료시키기
@@ -130,11 +125,6 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
-        GameManager.ThreadPool.UniAsyncJob(() =>
-        {
-            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });
-
         // 생성 불가
         if (message.Success == false)
         {            
@@ -164,11 +154,6 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_NEW_CHARACTER(Session session, S_NEW_CHARACTER message)
     {
-        GameManager.ThreadPool.UniAsyncJob(() =>
-        {
-            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });
-
         // 캐릭터 생성 불가 시
         if (message.Success == false)
         {
@@ -195,10 +180,6 @@ public class PacketHandlerImpl : MonoBehaviour
     internal static bool Handle_S_DELETE_CHARACTER(Session session, S_DELETE_CHARACTER message)
     {
         Debug.Log("캐릭터 삭제 패킷 수신");
-        GameManager.ThreadPool.UniAsyncJob(() =>
-        {
-            GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
-        });
 
         if (message.Success == false)
         {
@@ -216,16 +197,17 @@ public class PacketHandlerImpl : MonoBehaviour
     internal static bool Handle_S_OPTION(Session session, S_OPTION message)
     {
         //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
-        GameManager.Data.setting.totalVol = message.SettingOptions.TotalVol;
-        GameManager.Data.setting.backgroundVol = message.SettingOptions.BackgroundVol;
-        GameManager.Data.setting.effectVol = message.SettingOptions.EffectVol;
+        GameManager.Data.settings.TotalVol = message.SettingOptions.TotalVol;
+        GameManager.Data.settings.BackgroundVol = message.SettingOptions.BackgroundVol;
+        GameManager.Data.settings.EffectVol = message.SettingOptions.EffectVol;
 
-        GameManager.Data.setting.bTotalVol = message.SettingOptions.TotalVolOn;
-        GameManager.Data.setting.bBackgroundVol = message.SettingOptions.BackgroundVolOn;
-        GameManager.Data.setting.bEffectVol = message.SettingOptions.EffectVolOn;
+        GameManager.Data.settings.TotalVolOn = message.SettingOptions.TotalVolOn;
+        GameManager.Data.settings.BackgroundVolOn = message.SettingOptions.BackgroundVolOn;
+        GameManager.Data.settings.EffectVolOn = message.SettingOptions.EffectVolOn;
 
         return true;
     }
+    // TODO 볼륨 서버 저장 성공 여부
 
     internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
     {

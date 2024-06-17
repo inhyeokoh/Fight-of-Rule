@@ -32,17 +32,22 @@ message S_LOGIN {
     string token = 5;
 }
 
-message C_OPTION {
-    bool get_options = 1;
+message C_REQUEST_SETTINGS_OPTIONS {
 }
 
-message S_OPTION {
-    SETTING_OPTIONS setting_options = 1;
+message S_REQUEST_SETTINGS_OPTIONS {
+    SETTINGS_OPTIONS settings_options = 1;
 }
 
-message S_ASK_VERF
-{
+message C_SAVE_VOL_OPTIONS {
+    VOL_OPTIONS vol_options = 1;
+}
 
+message S_SAVE_VOL_OPTIONS {
+    bool success = 1;
+}
+
+message S_ASK_VERF {
 }
 
 message C_VERIFYING

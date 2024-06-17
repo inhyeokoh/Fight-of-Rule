@@ -34,7 +34,7 @@ public class UI_CharacterSelect : UI_Entity
         _DrawCharacterSlot();
 
         _entities[(int)Enum_UI_CharSelect.Setting].ClickAction = (PointerEventData data) => {
-            GameManager.UI.OpenOrClose(GameManager.UI.Setting);
+            GameManager.UI.OpenOrClose(GameManager.UI.Settings);
         };
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
@@ -43,8 +43,8 @@ public class UI_CharacterSelect : UI_Entity
 
         // 캐릭터 삭제
         _entities[(int)Enum_UI_CharSelect.Delete].ClickAction = (PointerEventData data) => {
-            GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
             GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDeleteCharacter);
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
         };
     }
 
@@ -56,5 +56,7 @@ public class UI_CharacterSelect : UI_Entity
             characterSlots[i] = slot.GetComponent<UI_Slot>();
             characterSlots[i].Index = i;
         }
+
+        characterSlots[0].gameObject.GetComponent<Toggle>().isOn = true;
     }
 }

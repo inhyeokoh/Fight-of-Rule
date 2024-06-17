@@ -1,11 +1,17 @@
 syntax = "proto3";
 
-message SETTING_OPTIONS {
-    float total_vol = 1;
-    float background_vol = 2;
-    float effect_vol = 3;
+message SETTINGS_OPTIONS {
+    VOL_OPTIONS vol_options = 1;
+}
 
-    bool total_vol_on = 4;
-    bool background_vol_on = 5; 
-    bool effect_vol_on = 6;
+message VOL_OPTIONS {
+    float master_vol = 1;
+    float bgm_vol = 2;
+    float effect_vol = 3;
+    float voice_vol = 4;
+
+    bool master_vol_on = 5;
+    bool bgm_vol_on = 6; 
+    bool effect_vol_on = 7;
+    bool voice_vol_on = 8;
 }

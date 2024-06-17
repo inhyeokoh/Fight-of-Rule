@@ -14,7 +14,7 @@ public class UI_ConfirmYN : UI_Entity
     bool _init;
     bool _useBlocker = true;
     TMP_Text _mainText;
-    Enum_ConfirmTypes confirmType;
+    Enum_ConfirmTypes confirmType = Enum_ConfirmTypes.AskDecidingNickName;
 
     enum Enum_UI_Confirm
     {
@@ -70,7 +70,6 @@ public class UI_ConfirmYN : UI_Entity
                     character_delete_pkt.SlotNum = GameManager.Data.SelectedSlotNum;
                     GameManager.Network.Send(PacketHandler.Instance.SerializePacket(character_delete_pkt));
 
-                    GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
                     GameManager.UI.ClosePopup(GameManager.UI.ConfirmYN);
                     break;
                 default:

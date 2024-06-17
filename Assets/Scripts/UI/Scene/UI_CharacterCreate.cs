@@ -13,7 +13,7 @@ public class UI_CharacterCreate : UI_Entity
 
     enum Enum_UI_JobSelect
     {
-        Setting = 0,
+        Setting,
         Panel_L,
         Panel_R,
         Select,
@@ -41,10 +41,9 @@ public class UI_CharacterCreate : UI_Entity
         jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
         _SetDefalutInfo();
 
-        // 팝업 열고 닫기
         _entities[(int)Enum_UI_JobSelect.Setting].ClickAction = (PointerEventData data) =>
         {
-            GameManager.UI.OpenOrClose(GameManager.UI.Setting);
+            GameManager.UI.OpenOrClose(GameManager.UI.Settings);
         };
 
         // 버튼 선택에 맞게 이미지, 설명란 및 저장할 데이터 변경
@@ -148,7 +147,5 @@ public class UI_CharacterCreate : UI_Entity
         new_character_pkt.Character.CharacterId = character.BaseInfo.CharacterId; // 기본값 0 전송
 
         GameManager.Network.Send(PacketHandler.Instance.SerializePacket(new_character_pkt));
-
-        GameManager.UI.OpenPopup(GameManager.UI.BlockAll);
     }
 }

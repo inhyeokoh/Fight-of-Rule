@@ -13,7 +13,7 @@ public class UIManager : SubClass<GameManager>
 
     public UI_SignUp SignUp;
     public UI_InputName InputName;
-    public UI_Setting Setting;
+    public UI_Setting Settings;
     public UI_Blocker Blocker;
     public UI_ConfirmYN ConfirmYN;
     public UI_ConfirmY ConfirmY;
@@ -79,7 +79,7 @@ public class UIManager : SubClass<GameManager>
         if (set)
         {
             SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
-            Setting = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Setting", popupCanvas.transform).GetComponent<UI_Setting>();
+            Settings = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Settings", popupCanvas.transform).GetComponent<UI_Setting>();
             InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform).GetComponent<UI_InputName>();
             ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform).GetComponent<UI_ConfirmYN>();
             ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform).GetComponent<UI_ConfirmY>();
@@ -91,6 +91,7 @@ public class UIManager : SubClass<GameManager>
             // 기존 OutGamePopup 전부 삭제
             for (int i = 0; i < popupCanvas.transform.childCount; i++)
             {
+                if (Settings) continue; // 환경설정 팝업 제외
                 GameManager.Resources.Destroy(popupCanvas.transform.GetChild(i).gameObject);
             }
         }
@@ -157,8 +158,12 @@ public class UIManager : SubClass<GameManager>
     // 가장 마지막에 연 팝업이 화면상 가장 위에 오도록
     public void SortPopupView()
     {
-        var popup = _activePopupList.Last.Value;
-        popup.transform.SetAsLastSibling();
+        UI_Entity popup;
+        if (_activePopupList.Last.Value != Blocker)
+        {
+            popup = _activePopupList.Last.Value;
+            popup.transform.SetAsLastSibling();
+        }
     }
 
     // 클릭한 팝업이 가장 앞으로 오도록
@@ -176,7 +181,6 @@ public class UIManager : SubClass<GameManager>
             if (blockerCount == 0)
             {
                 OpenPopup(Blocker);
-                // Blocker.gameObject.SetActive(true);
             }
             blockerCount++;
         }
@@ -186,7 +190,6 @@ public class UIManager : SubClass<GameManager>
             if (blockerCount <= 0)
             {
                 ClosePopup(Blocker);
-                // Blocker.gameObject.SetActive(false);
                 blockerCount = 0; // 음수 방지
             }
         }

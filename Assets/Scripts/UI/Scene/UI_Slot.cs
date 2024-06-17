@@ -11,6 +11,7 @@ public class UI_Slot : UI_Entity
     public int Index { get; set; }
 
     CHARACTER_INFO character;
+    Toggle toggle;
 
     enum Enum_UI_Slot
     {
@@ -29,9 +30,10 @@ public class UI_Slot : UI_Entity
     {
         base.Init();
 
-        Toggle toggleComponent = GetComponent<Toggle>();
-        toggleComponent.onValueChanged.AddListener(delegate {
-            OnToggleValueChanged(toggleComponent);
+        toggle = GetComponent<Toggle>();
+        toggle.onValueChanged.AddListener(delegate
+        {
+            OnToggleValueChanged(toggle);
         });
 
         character = GameManager.Data.characters[Index];
@@ -42,7 +44,7 @@ public class UI_Slot : UI_Entity
     {
         if (character != null) // 캐릭터 정보 존재시
         {
-            GetComponent<Toggle>().group = transform.parent.GetComponent<ToggleGroup>();
+            toggle.group = transform.parent.GetComponent<ToggleGroup>();
 
             string gender = character.BaseInfo.Gender ? "Men" : "Women";
             string job = Enum.GetName(typeof(Enum_Class), character.BaseInfo.Job);
@@ -57,8 +59,13 @@ public class UI_Slot : UI_Entity
                 $"성별: {gender}\n 체력: {character.Stat.Hp}/{ character.Stat.MaxHP}\n 공격력: {character.Stat.Attack}\n 이동속도: {character.Stat.Speed}\n ";
 
             _entities[(int)Enum_UI_Slot.Create].gameObject.SetActive(false); // 캐릭터 생성 버튼 비활성화 
-            _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) => {
-                Debug.Log("클릭 되냐");
+            _entities[(int)Enum_UI_Slot.Background].ClickAction = (PointerEventData data) =>
+            {
+                toggle.isOn = true;
+            };
+            _entities[(int)Enum_UI_Slot.Image].ClickAction = (PointerEventData data) =>
+            {
+                Debug.Log("이미지 클릭 되냐");
             };
         }
         else

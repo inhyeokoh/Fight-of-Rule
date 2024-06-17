@@ -236,18 +236,6 @@ public class MonsterItemDropData
     }
 }
 
-[Serializable]
-public class SettingsData : Data
-{
-    public float totalVol;
-    public float backgroundVol;
-    public float effectVol;
-
-    public bool bTotalVol;
-    public bool bBackgroundVol;
-    public bool bEffectVol;
-}
-
 [System.Serializable]
 public class QuestData : Data
 {    

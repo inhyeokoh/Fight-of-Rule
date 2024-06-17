@@ -1,5 +1,5 @@
- #define SERVER
-// #define INVENTEST
+#define SERVER
+//#define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;

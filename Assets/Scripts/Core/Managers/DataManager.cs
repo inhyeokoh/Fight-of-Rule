@@ -1,5 +1,5 @@
 // #define INGAMETEST
-// #define INVENTEST
+#define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,7 +10,8 @@ using Google.Protobuf;
 public class DataManager : SubClass<GameManager>
 {
     // 환경설정 정보
-    public SettingsData setting;
+    public SETTING_OPTIONS settings;
+    // public VOL_OPTIONS settings; 이걸로 변경
 
     // 캐릭터 정보
     public CHARACTER_INFO[] characters;
@@ -90,8 +91,7 @@ public class DataManager : SubClass<GameManager>
     public Dictionary<int, Npc> npcDict = new Dictionary<int, Npc>();
     /////////////////////////////////////////////////////////////////////////////////////
 
-    string path;
-    public string fileName;
+    string tableFolderPath;
 
     protected override void _Clear()
     {
@@ -105,7 +105,8 @@ public class DataManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        setting = new SettingsData();
+        settings = new SETTING_OPTIONS();
+        // settings = new VOL_OPTIONS(); 이걸로 변경
         characters = new CHARACTER_INFO[4];
 #if INVENTEST || INGAMETEST
         CurrentCharacter = new CHARACTER_INFO();
@@ -133,35 +134,8 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Xyz.Y = 0;
         CurrentCharacter.Xyz.Z = 0;
 #endif
-
-        // 유니티 기본 설정 경로. PC나 모바일 등등 어디든 프로젝트 이름으로 된 폴더 생김
-        path = Application.persistentDataPath + "/";
-
+        tableFolderPath = "Data/GoogleSheetsToCsv/TableFiles";
         DBDataLoad();
-    }
-
-    // 저장할 파일 이름과 저장할 클래스를 입력 받아 JSON 형식의 문자열로 바꾼 후, 로컬에 저장
-    public void SaveData(string fileName, Data info)
-    {
-        string data = JsonUtility.ToJson(info);
-        File.WriteAllText(path + fileName, data);
-    }
-
-    public void SaveData(string fileName, Data[] info)
-    {
-        string data = JsonUtility.ToJson(info);
-        File.WriteAllText(path + fileName, data);
-    }
-
-    public string LoadData(string fileName)
-    {
-        string data = File.ReadAllText(path + fileName);      
-        return data;
-    }
-
-    public bool CheckData(string fileName)
-    {
-        return File.Exists(path + fileName);
     }
 
     void DBDataLoad()
@@ -170,8 +144,8 @@ public class DataManager : SubClass<GameManager>
         MonstersDBReader();
         LevelReaderData("Data/WarriorLevelDB");
         SkillDBParsing("Data/SkillWarriorDB");
-        QuestDBParsing("Data/QuestDB");
-        NpcDBParsing("Data/NpcDB");
+        QuestTableParsing("QuestTable");
+        NpcTableParsing("NpcTable");
     }
 
     private void ItemDataParsing()
@@ -483,9 +457,9 @@ public class DataManager : SubClass<GameManager>
         }
     }
 
-    public void QuestDBParsing(string path)
+    public void QuestTableParsing(string fileName)
     {
-        List<Dictionary<string, string>> quest = CSVReader.Read(path);
+        List<Dictionary<string, string>> quest = CSVReader.Read(tableFolderPath + fileName);
 
         for (int i = 0; i < quest.Count; i++)
         {
@@ -515,9 +489,9 @@ public class DataManager : SubClass<GameManager>
         }
     }
 
-    public void NpcDBParsing(string path)
+    public void NpcTableParsing(string fileName)
     {
-        GameObject[] npcArray = GameObject.FindGameObjectsWithTag("Npc");
+        GameObject[] npcArray = GameObject.FindGameObjectsWithTag(tableFolderPath + fileName);
         foreach (GameObject npcObj in npcArray)
         {
             Npc npc = npcObj.GetComponent<Npc>();
@@ -526,13 +500,5 @@ public class DataManager : SubClass<GameManager>
                 npcDict.Add(npc.NpcID, npc);
             }
         }
-
-/*        List<Dictionary<string, string>> npcData = CSVReader.Read(path);
-
-        for (int i = 0; i < npcData.Count; i++)
-        {
-            int npcID = int.Parse(npcData[i]["npcID"]);
-            string name = npcData[i]["name"];
-        }*/
     }
 }
