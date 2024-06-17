@@ -434,23 +434,32 @@ public class DataManager : SubClass<GameManager>
             WarriorSkillData warrirSkill;
 
             int id = int.Parse(skill[i]["skill_id"]);
+            string skillType = skill[i]["skill_type"];
             string name = skill[i]["skill_name"];
             string desc = skill[i]["skill_desc"];
             string iconString = skill[i]["skill_icon"];
+            float[] duration = Check<float>("skill_duration",i,skill);
 
             //print(Resources.Load(iconString).name);
             Sprite icon = Resources.Load<Sprite>(iconString);
 
-            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]); ;
+            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]); 
             int skillMaxLevel = int.Parse(skill[i]["skill_maxlevel"]);
 
-            int[] skillLevelCondition = Array.ConvertAll(skill[i]["skill_levelcondition"].Split(","), int.Parse);
-            int[] skillPoint = Array.ConvertAll(skill[i]["skill_point"].Split(","), int.Parse);
-            int[] skillMP = Array.ConvertAll(skill[i]["skill_mp"].Split(","), int.Parse);
-            float[] skillCool = Array.ConvertAll(skill[i]["skill_cool"].Split(","), float.Parse);
-            int[] skillDamage = Array.ConvertAll(skill[i]["skill_damage"].Split(","), int.Parse);
+            int[] skillLevelCondition = Check<int>("skill_levelcondition", i, skill);
+            int[] skillPoint = Check<int>("skill_point", i, skill);
+            int[] skillMaxHP = Check<int>("skill_maxhp", i, skill);
+            int[] skillMaxMP = Check<int>("skill_maxmp", i, skill);
+            int[] skillAttack = Check<int>("skill_attack", i, skill);
+            int[] skillDefnse = Check<int>("skill_defense", i, skill);
+            int[] skillSpeed = Check<int>("skill_speed", i, skill);
+            int[] skillAttackSpeed = Check<int>("skill_attackspeed", i, skill);
+            int[] skillMP = Check<int>("skill_mp", i, skill);
+            float[] skillCool = Check<float>("skill_cool", i, skill);
+            int[] skillDamage = Check<int>("skill_damage", i, skill);
 
-            warrirSkill = new WarriorSkillData(id, name, desc, icon, skillNumber, skillMaxLevel, skillLevelCondition, skillPoint, skillMP, skillCool, skillDamage);
+         
+            warrirSkill = new WarriorSkillData(id, skillType, name, desc, icon, skillNumber,duration, skillMaxLevel, skillLevelCondition, skillPoint,skillMaxHP,skillMaxMP,skillAttack,skillDefnse,skillSpeed , skillAttackSpeed,skillMP, skillCool, skillDamage);
 
 
             warriorSkillData.Add(warrirSkill);
@@ -500,5 +509,24 @@ public class DataManager : SubClass<GameManager>
                 npcDict.Add(npc.NpcID, npc);
             }
         }
+    }
+
+    public T[] Check<T>(string dataName,int index, List<Dictionary<string, string>> skill)
+    {
+        if (skill[index][dataName] == "null")
+        {
+            return null;
+        }
+
+        string[] data = skill[index][dataName].Split(",");
+        T[] array = new T[data.Length];
+        
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i] = (T)Convert.ChangeType(data[i], typeof(T));
+        }
+
+        return array;       
+
     }
 }

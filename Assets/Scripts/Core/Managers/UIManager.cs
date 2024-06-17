@@ -1,4 +1,4 @@
-//#define INGAMETEST
+#define INGAMETEST
 //#define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;

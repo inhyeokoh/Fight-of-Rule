@@ -16,7 +16,9 @@ public class Node : IHeapItem<Node>
 
     public Vector3 vertexCenter;
 
-    public Vector3 currentVertex;
+    public int number;
+
+    //public Vector3 currentVertex;
 
 
     public Vector3[] vertexs;
@@ -26,21 +28,22 @@ public class Node : IHeapItem<Node>
 
     //현재 노드의 전 위치 노드 부모
     public Node parent;
+    public List<Node> neighbours = new List<Node>();
 
     //우선 순위 큐 최단경로를 찾기위한
     int heapIndex;
 
 
 
-    public Node(Vector3 _vertexOne,Vector3 _vertexTwo, Vector3 _vertexThree)
+    public Node(Vector3 _vertexOne, Vector3 _vertexTwo, Vector3 _vertexThree, int _number)
     {
         vertexOne = _vertexOne;
         vertexTwo = _vertexTwo;
         vertexThree = _vertexThree;
-
+        number = _number;
         vertexCenter = CalculatePolygonCenteroid(vertexOne, vertexTwo, vertexThree);
 
-        vertexs = new Vector3[] { vertexOne, vertexTwo, vertexThree, vertexCenter };
+        vertexs = new Vector3[] { vertexOne, vertexTwo, vertexThree};
     }
 
 

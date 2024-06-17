@@ -301,7 +301,7 @@ public abstract class MonsterState : SubMono<MonsterController>
             _board._monsterMovement.Dead();
             monsterState = Enum_MonsterState.Dead;
             expCharacter.EXP += _board._monsterStatus.exp;
-            Debug.Log(expCharacter.EXP);
+
             gameObject.GetComponent<Collider>().enabled = false;        
             Invoke("SetActive", 3);
             gameObject.GetComponent<MonsterState>().enabled = false;

@@ -41,46 +41,47 @@ public class InGameStateItem
 
     //현재 장비의 정보들을 보내주기 위한 컴포넌트
     [SerializeField]
-    private static bool stateComplete;
+    private static bool settingComplete;
 
     // 장비 세팅
     public void Setting(StateItemData stateItemData)
     {
         this.stateItemData = stateItemData;
         duration = stateItemData.duration;
-
-        if (!stateComplete)
+                
+        if (!settingComplete)        
         {
             playerStatus = PlayerController.instance._playerStat;
             playerCapability = PlayerController.instance._playerCapability;
             StateSetting();
             //print("적용 완료" + " " + gameObject.name);          
-            stateComplete = true;
+
+            settingComplete = true;      
         }
 
-        /*  if (!ok)
-          {
-              StateSetting();
-              ok = true;
-          }
-  */
+      /*  if (!ok)
+        {
+            StateSetting();
+            ok = true;
+        }
+*/
 
         state = new State(
-            () =>
-            {
+            () => 
+            {         
                 StateItems[stateItemData.id].enterAction?.Invoke(this);
-            },
-            () =>
+            },  
+            () =>    
             {
                 StateItems[stateItemData.id].fixedStayAction?.Invoke(this);
             },
-            () =>
+            () => 
             {
                 StateItems[stateItemData.id].stayAction?.Invoke(this);
-            },
+            }, 
             () =>
             {
-                StateItems[stateItemData.id].exitAction?.Invoke(this);
+                StateItems[stateItemData.id].exitAction?.Invoke(this);            
             });
         stateMachine = new StateMachine();
     }
@@ -136,8 +137,8 @@ public class InGameStateItem
        }
        ));
         StateItems.Add(515, new StateItem((item) =>
-        {
-            playerStatus.SumAttack += 10;
+        {       
+            playerStatus.SumAttack += item.stateItemData.attack;
         },
        (item) =>
        {
@@ -151,18 +152,21 @@ public class InGameStateItem
            else
            {
                item.duration -= Time.deltaTime;
+
+               Debug.Log($"공격력 물약 지속 시간 :{item.duration}");
            }
        },
        (item) =>
        {
-           playerStatus.SumAttack -= 10;
+           playerStatus.SumAttack -= item.stateItemData.attack;
            playerCapability.Remove(item);
+           Debug.Log($"캐릭터 공격력 : {playerStatus.SumAttack}");
        }
        ));
         StateItems.Add(518, new StateItem((item) =>
         {
-            playerStatus.SumDefense += 10;
-            Debug.Log($"방어력 물약 지속시간 {item.duration}");
+            playerStatus.SumDefense += item.stateItemData.defense;
+            Debug.Log($"방어력 물약 지속 시간 :{item.duration}");         
         },
        (item) =>
        {
@@ -176,14 +180,15 @@ public class InGameStateItem
            else
            {
                item.duration -= Time.deltaTime;
-               //Debug.Log("방어력의 물약 사용중");
+               Debug.Log($"방어력 물약 지속 시간 :{item.duration}");         
            }
        },
        (item) =>
        {
            playerStatus.SumDefense -= item.stateItemData.defense;
            playerCapability.Remove(item);
-           Debug.Log($"캐릭터 방어력 {item.duration}");
+
+           Debug.Log($"캐릭터 방어력 : {playerStatus.SumDefense}");
        }
        ));
         StateItems.Add(1000, new StateItem((item) =>
@@ -216,7 +221,7 @@ public class InGameStateItem
         },
         (item) =>
         {
-            playerStatus.SumAttack -= item.stateItemData.attack;
+           playerStatus.SumAttack -= item.stateItemData.attack;
         }));
         StateItems.Add(1002, new StateItem((item) =>
         {

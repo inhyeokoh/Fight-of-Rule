@@ -8,6 +8,8 @@ public enum WarriorSkill
     DubleSlash,
     SwordStorm,
     WheelWind,
+    WarriorAnger,
+    Default,
 }
 public class Warrior : CharacterState
 {

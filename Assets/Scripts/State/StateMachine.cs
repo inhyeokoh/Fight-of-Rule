@@ -70,8 +70,16 @@ public class StateMachine
     //상태를 체인지 하지말고 Exit만 발동하고 싶을때? 
     public void ExitState()
     {
+        Debug.Log(currentState);
         currentState.Exit();
         currentState = null;
+    }
+
+    // 패시브 스킬만
+
+    public void SkillExitState()
+    {
+        currentState.Exit();
     }
 
     //ReversState는 ChangeState에서 previousState변수에 저장됬었던 이전상태를 다시 전환하고 싶을때 호출하면됌

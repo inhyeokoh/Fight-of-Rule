@@ -6,16 +6,18 @@ public class CharacterCapability : SubMono<PlayerController>
 {
     InGameStateItem disposableItem;
     
+    Queue<StateItemData> disposableItemDatas;
     List<InGameStateItem> items;
-   
-    
-    List<PassivSkill> passivSkills;
+
+    [SerializeField]
+    List<PassiveSkill> skills;
 
     protected override void _Init()
     {
+        disposableItemDatas = new Queue<StateItemData>();
         disposableItem = new InGameStateItem();
         items = new List<InGameStateItem>();
-        passivSkills = new List<PassivSkill>();
+        skills = SkillManager.Skill.passiveSkills;
     }
 
     protected override void _Excute()
@@ -23,6 +25,13 @@ public class CharacterCapability : SubMono<PlayerController>
         for (int i = 0; i < items.Count; i++)
         {
             items[i].Stay();
+        }
+        for (int i = 0; i < skills.Count; i++)
+        {
+            if (skills[i].PassiveOn)
+            {
+                skills[i].Stay();
+            }
         }
     }
     protected override void _Clear()
@@ -40,8 +49,12 @@ public class CharacterCapability : SubMono<PlayerController>
             }
             else
             {
-                disposableItem.Setting(data);
-                disposableItem.Enter();
+                disposableItemDatas.Enqueue(data);
+                while(disposableItemDatas.Count > 0)
+                {
+                    disposableItem.Setting(disposableItemDatas.Dequeue());
+                    disposableItem.Enter();
+                }               
             }     
         }
         else

@@ -225,6 +225,39 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
     }
 
+    public void TakeOff(int equipType)
+    {
+        switch (equipType)
+        {
+            case 0:
+                equipments.Remove(currentHead);
+                currentHead.Exit();
+                headCheck = false;
+                break;
+            case 1:
+                equipments.Remove(currentBody);
+                currentBody.Exit();
+                bodyCheck = false;
+                break;
+            case 2:
+                equipments.Remove(currentHand);
+                currentHand.Exit();
+                handCheck = false;
+                break;
+            case 3:
+                equipments.Remove(currentFoot);
+                currentFoot.Exit();
+                footCheck = false;
+                break;
+            case 4:
+                equipments.Remove(currentWeapon);
+                currentWeapon.Exit();
+                weaponCheck = false;
+                break;
+            default:
+                return;
+        }
+    }
 
 
     /// <summary>
@@ -394,39 +427,5 @@ public class CharacterEquipment : SubMono<PlayerController>
         }
 
         return true;
-    }
-
-    public void TakeOff(int equipType)
-    {
-        switch (equipType)
-        {
-            case 0:
-                equipments.Remove(currentHead);
-                currentHead.Exit();
-                headCheck = false;
-                break;
-            case 1:
-                equipments.Remove(currentBody);
-                currentBody.Exit();
-                bodyCheck = false;
-                break;
-            case 2:
-                equipments.Remove(currentHand);
-                currentHand.Exit();
-                handCheck = false;
-                break;
-            case 3:
-                equipments.Remove(currentFoot);
-                currentFoot.Exit();
-                footCheck = false;
-                break;
-            case 4:
-                equipments.Remove(currentWeapon);
-                currentWeapon.Exit();
-                weaponCheck = false;
-                break;
-            default:
-                return;
-        }
     }
 }

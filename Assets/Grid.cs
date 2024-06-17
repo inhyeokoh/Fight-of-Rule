@@ -5,10 +5,17 @@ using UnityEngine.AI;
 
 public class Grid : MonoBehaviour
 {
-   
-    public Node[] vertes;
+
+    private Node[] vertes;
     public PathFinding pathFinding;
 
+    public int index;
+
+    private List<Node> path = new List<Node>();
+    private List<(Node nodeA, Node nodeB)> redLine = new List<(Node nodeA, Node nodeB)>();
+
+    Transform[] nodes;
+   
     private NavMeshData navMeshData;
     private NavMeshDataInstance navMeshDataInstance;
 
@@ -23,47 +30,71 @@ public class Grid : MonoBehaviour
         
         // NavMeshData를 기반으로 그리드 생성
         CrateGrid();
-        //pathFinding.FindPath();
+      //  pathFinding.FindPath();
     }
 
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        pathFinding.FindPath(path, redLine);
+       /* if (Input.GetKeyDown(KeyCode.M))
         {
-            pathFinding.FindPath();
+            if (path != null)
+            {
+                path.Clear();
+            }
+            if(redLine != null)
+            {
+                redLine.Clear();
+            }
+            nodes = pathFinding.FindPath(path, redLine);
+            print(path.Count);
+            print(redLine.Count);
+        }*/
+
+        /*if (path != null && path.Count > 0)
+        {
+            Debug.DrawLine(this.nodes[0].position, path[0].vertexCenter, Color.blue);
+
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                Debug.DrawLine(path[i].vertexCenter, path[i + 1].vertexCenter, Color.blue);
+            }
+
+            Debug.DrawLine(path[path.Count - 1].vertexCenter, nodes[1].position, Color.blue);
         }
+
+        if (redLine != null & redLine.Count > 0)
+        {
+            for (int i = 0; i < redLine.Count; i++)
+            {
+                Debug.DrawLine(redLine[i].nodeA.vertexCenter, redLine[i].nodeB.vertexCenter, Color.red);
+            }
+        }*/
     }
 
     void CrateGrid()
     {
         NavMeshTriangulation triangulation = NavMesh.CalculateTriangulation();
         vertes = new Node[triangulation.indices.Length / 3] ;
+        index = vertes.Length;
         int vertexsIndex = 0;
+        int number = 0;
 
         for (int i = 0; i < triangulation.indices.Length; i += 3)
         {
-            Vector3 vert0 = triangulation.vertices[triangulation.indices[i]];
-
-           /* if (vert0.y > 0 || vert0.y < 0)
-            { 
-                vert0.y =0;
-            }*/
-            Vector3 vert1 = triangulation.vertices[triangulation.indices[i + 1]];
-           /* if (vert1.y > 0 || vert1.y < 0)
-            {
-                vert1.y = 0;
-            }*/
+            Vector3 vert0 = triangulation.vertices[triangulation.indices[i]];       
+            Vector3 vert1 = triangulation.vertices[triangulation.indices[i + 1]];      
             Vector3 vert2 = triangulation.vertices[triangulation.indices[i + 2]];
-           /* if (vert2.y > 0 || vert2.y < 0)
-            {
-                vert2.y = 0;
-            }*/
-
-            vertes[vertexsIndex] = new Node(vert0, vert1, vert2);
+           
+            vertes[vertexsIndex] = new Node(vert0, vert1, vert2, number);
             vertexsIndex++;
+            number++;
         }
 
-        print(vertexsIndex);
+        for(int i =0; i < vertes.Length; i++)
+        {
+            vertes[i].neighbours = GetNeighborus(vertes[i]);
+        }
     }
 
     void OnDestroy()

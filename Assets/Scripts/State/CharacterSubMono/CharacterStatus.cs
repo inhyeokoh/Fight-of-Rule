@@ -6,29 +6,29 @@ public class CharacterStatus : SubMono<PlayerController>
 {
 
     //데이터를 전달받는 캐릭터의 순수능력치
-    private int characterMaxHP;
-    private int characterMaxMP;
-    private int characterMaxEXP;
-    private int characterAttack;
-    private int characterAttackSpeed;
-    private int characterDefense;
-    private int characterSpeed;
+     int characterMaxHP;
+     int characterMaxMP;
+     int characterMaxEXP;
+     int characterAttack;
+     int characterAttackSpeed;
+     int characterDefense;
+     int characterSpeed;
 
-    private int hp;
-    private int mp;
-    private int exp;
-    private int level;
-    private int skillDamage;
+     int hp;
+     int mp;
+     int exp;
+     int level;
+     int skillDamage;
 
     //인게임상에 캐릭터 능력치
-    private int sumMaxHP;
-    private int sumMaxMP;
-    private int sumAttack;
-    private int sumAttackSpeed;
-    private int sumDefense;
-    private int sumSpeed;
+     int sumMaxHP;
+     int sumMaxMP;
+     int sumAttack;
+     int sumAttackSpeed;
+     int sumDefense;
+     int sumSpeed;
 
-    private int skillPoint;
+     int skillPoint;
 
     public int SkillPoint { get { return skillPoint; } set { skillPoint = value; } }
 

@@ -136,28 +136,44 @@ public class LevelData : Data
 public class WarriorSkillData : Data
 {
     public int id;
+    public string skillType;
     public string name;
     public string desc;
     public Sprite icon;
     public WarriorSkill number;
+    public float[] skillDuration;
     public int maxLevel;
     public int[] levelCondition;
     public int[] skillPoint;
+    public int[] skillMaxHP;
+    public int[] skillMaxMP;
+    public int[] skillAttack;
+    public int[] skillDefense;
+    public int[] skillSpeed;
+    public int[] skillAttackSpeed;
     public int[] skillMP;
     public float[] skillCool;
     public int[] skillDamage;
 
-    public WarriorSkillData(int id, string name, string desc, Sprite icon, WarriorSkill number, int maxLevel, int[] levelCondition,
-        int[] skillPoint, int[] skillMP, float[] skillCool, int[] skillDamage)
+    public WarriorSkillData(int id, string skillType, string name, string desc, Sprite icon, WarriorSkill number, float[] skillDuration, int maxLevel, int[] levelCondition,
+        int[] skillPoint, int[] skillMaxHP, int[] skillMaxMP,int[] skillAttack, int[] skillDefense, int[] skillSpeed, int[] skillAttackSpeed, int[] skillMP,float[] skillCool, int[] skillDamage)
     {
         this.id = id;
+        this.skillType = skillType;
         this.name = name;
         this.desc = desc;
         this.icon = icon;
         this.number = number;
+        this.skillDuration = skillDuration;
         this.maxLevel = maxLevel;
         this.levelCondition = levelCondition;
         this.skillPoint = skillPoint;
+        this.skillMaxHP = skillMaxHP;
+        this.skillMaxMP = skillMaxMP;
+        this.skillAttack = skillAttack;
+        this.skillSpeed = skillSpeed;
+        this.skillDefense = skillDefense;
+        this.skillAttackSpeed = skillAttackSpeed;
         this.skillMP = skillMP;
         this.skillCool = skillCool;
         this.skillDamage = skillDamage;
