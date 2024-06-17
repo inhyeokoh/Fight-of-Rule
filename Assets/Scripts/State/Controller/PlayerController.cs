@@ -141,6 +141,8 @@ public class PlayerController : MonoBehaviour
             _levelSystem
         };
 
+        SkillManager.Skill.PlayerData();
+
         for (int i = 0; i < _controller.Count; i++)
         {
             _controller[i].Mount(this);
@@ -148,7 +150,6 @@ public class PlayerController : MonoBehaviour
         }
 
         _playerState.StateAdd();
-        SkillManager.Skill.PlayerData();
     }
 
     private void Start()

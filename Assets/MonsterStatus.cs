@@ -9,7 +9,7 @@ public class MonsterStatus : SubMono<MonsterController>
 
     public int hp;
     private int mp;
-    private int exp;
+    public int exp;
 
     private int attack;
     private float attackSpeed;

@@ -7,9 +7,6 @@ using Unity.VisualScripting;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] 
-    public Slider slider;
-
     static GameManager _Instance;
     public static GameManager Instance
     {

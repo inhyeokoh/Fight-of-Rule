@@ -25,6 +25,8 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField]
     private Skill activeSkill;
+    [SerializeField]
+    private Skill passiveSkill;
 
     public Collider[] players;
 
@@ -41,6 +43,8 @@ public class SkillManager : MonoBehaviour
 
     [SerializeField]
     Skill[] characterSkills;
+
+    public List<PassiveSkill> passiveSkills = new List<PassiveSkill>();
 
   
     public void Awake()
@@ -77,12 +81,25 @@ public class SkillManager : MonoBehaviour
             case Enum_Class.Warrior:
                 {
                     characterSkills = new Skill[GameManager.Data.warriorSkillData.Count];
-
+           
                     for (int i = 0; i < characterSkills.Length;i++)
                     {
-                        characterSkills[i] = activeSkill.Init();
-                        characterSkills[i].SKillDB(GameManager.Data.warriorSkillData[i]);
-                        characterSkills[i].SkillStat();
+                        if (GameManager.Data.warriorSkillData[i].skillType == "ActiveSkill")
+                        {
+                            characterSkills[i] = activeSkill.Init();
+                            characterSkills[i].SKillDB(GameManager.Data.warriorSkillData[i]);
+                            characterSkills[i].Setting();
+                            characterSkills[i].SkillStat();
+                        }
+                        else if (GameManager.Data.warriorSkillData[i].skillType == "PassiveSkill")
+                        {
+                            characterSkills[i] = passiveSkill.Init();
+                            characterSkills[i].SKillDB(GameManager.Data.warriorSkillData[i]);
+                            characterSkills[i].Setting();
+                            characterSkills[i].SkillStat();
+
+                            passiveSkills.Add(characterSkills[i] as PassiveSkill);
+                        }
                     }              
                     break;
                 }
@@ -132,7 +149,7 @@ public class SkillManager : MonoBehaviour
 
         skill.LevelReset();
     }
-  
+
     // 캐릭터의 공격력이 올라갔을때나 내려갔을때 스킬 데미지를 갱신
     public void SkillDamageUpdate()
     {
@@ -141,6 +158,6 @@ public class SkillManager : MonoBehaviour
             characterSkills[i].DESCUpdate();
         }
 
-        //DESCUIDamageUpdate();
-    }  
+        DESCUIDamageUpdate?.Invoke();
+    }
 }

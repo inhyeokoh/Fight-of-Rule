@@ -222,28 +222,28 @@ public class UI_PlayerInfo : UI_Entity
         CharacterStatus status = PlayerController.instance._playerStat;
 
         GameObject level = _infoBoard.transform.GetChild(3).gameObject;
-        level.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.level}";
+        level.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.Level}";
 
         GameObject exp = _infoBoard.transform.GetChild(4).gameObject;
-        exp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.exp}/{status.MaxEXP}";
+        exp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.EXP}/{status.MaxEXP}";
 
         GameObject hp = _statusBoard.transform.GetChild(0).gameObject;
-        hp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.hp}/{status.sumMaxHP}";
+        hp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.HP}/{status.SumMaxHP}";
 
         GameObject mp = _statusBoard.transform.GetChild(1).gameObject;
-        mp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.mp}/{status.sumMaxMP}";
+        mp.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.MP}/{status.SumMaxMP}";
 
         GameObject attack = _statusBoard.transform.GetChild(2).gameObject;
-        attack.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumAttack}";
+        attack.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.SumAttack}";
 
         GameObject atkSpeed = _statusBoard.transform.GetChild(3).gameObject;
-        atkSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumAttackSpeed}";
+        atkSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.SumAttackSpeed}";
 
         GameObject defense = _statusBoard.transform.GetChild(4).gameObject;
-        defense.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumDefense}";
+        defense.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.SumDefense}";
 
         GameObject moveSpeed = _statusBoard.transform.GetChild(5).gameObject;
-        moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.sumSpeed}";
+        moveSpeed.transform.GetChild(1).GetComponent<TMP_Text>().text = $"{status.SumSpeed}";
 
         /*        levelText = $"{status.level}";
                 expText = $"{status.exp}/{status.MaxEXP}";

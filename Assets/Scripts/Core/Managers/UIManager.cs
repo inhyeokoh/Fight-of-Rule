@@ -1,5 +1,5 @@
-//#define INGAMETEST
-#define INVENTEST
+#define INGAMETEST
+//#define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;

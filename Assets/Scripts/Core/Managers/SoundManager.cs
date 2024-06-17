@@ -15,6 +15,9 @@ public class SoundManager : SubClass<GameManager>
     }
 
     Slider masterSlider;
+    Slider bgmSlider;
+    Slider effectSlider;
+    Slider voiceSlider;
     AudioMixer audioMixer;
     AudioSource[] audios;
     Dictionary<string, AudioClip> bgm = new Dictionary<string, AudioClip>();
@@ -28,35 +31,49 @@ public class SoundManager : SubClass<GameManager>
 
     protected override void _Excute()
     {
-        //masterSlider.onValueChanged.AddListener()
-
-        masterSlider.onValueChanged.AddListener(SetMasterVolume);
+       /* masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+        effectSlider.onValueChanged.AddListener(SetEffectVolume);
+        voiceSlider.onValueChanged.AddListener(SetVoiceVolume);*/
     }
 
   
     protected override void _Init()
     {
-        audioMixer = Resources.Load<AudioMixer>("AudioMixer/FORAudio");
-        masterSlider = _board.slider;
-
-        masterSlider.onValueChanged.AddListener(SetMasterVolume);
-        AudioClip[] bgmSource;
-        bgmSource = Resources.LoadAll<AudioClip>("BGM");
-
-        for (int i = 0; i < bgmSource.Length; i++)
-        {
-            string name = bgmSource[i].name;
-            AudioClip source = bgmSource[i];
-
-            bgm.Add(name, source);
-        }   
+        audioMixer = Resources.Load<AudioMixer>("AudioMixer/FORAudio");     
+        LoadAllSource("BGM", "Effect", "Voice");
         audios = GameObject.Find("Main Camera").GetComponents<AudioSource>();
-      
+  
+        
         audios[(int)Enum_SoundType.BGM].loop = true;
         audios[(int)Enum_SoundType.EffectBGM].loop = true;
+    }
 
-        SoundChanage("추억의 길");
-         
+    private void LoadAllSource(string _bgm, string _effect, string _voice)
+    {
+        AudioClip[] bgmSource;
+        AudioClip[] effectSource;
+        AudioClip[] voiceSource;
+
+        bgmSource = Resources.LoadAll<AudioClip>(_bgm);
+        effectSource = Resources.LoadAll<AudioClip>(_effect);
+        voiceSource = Resources.LoadAll<AudioClip>(_voice);
+
+        LoadSource(bgmSource, bgm);
+        LoadSource(effectSource, effect);
+        LoadSource(voiceSource, voice);
+
+    }
+
+    private void LoadSource(AudioClip[] source,Dictionary<string, AudioClip> sourceClips)
+    {
+        for (int i = 0; i < source.Length; i++)
+        {
+            string name = source[i].name;
+            AudioClip sourceClip = source[i];
+
+            sourceClips.Add(name, sourceClip);
+        }
     }
 
     public void SoundAllClear()
@@ -117,6 +134,14 @@ public class SoundManager : SubClass<GameManager>
         }
 
     }
+    public void SliderSetting(Slider _masterSlider, Slider _bgmSlider, Slider _effectSlider, Slider _voiceSlider)
+    {
+        masterSlider = _masterSlider;
+        bgmSlider = _bgmSlider;
+        effectSlider = _effectSlider;
+        voiceSlider = _voiceSlider;
+    }
+
 
     public void SetMasterVolume(float volume)
     {
@@ -131,11 +156,6 @@ public class SoundManager : SubClass<GameManager>
     {
         audioMixer.SetFloat("Effect", Mathf.Log10(volume) * 20);
     }
-    public void SetEffectBGMVolume(float volume)
-    {
-        audioMixer.SetFloat("EffectBGM", Mathf.Log10(volume) * 20);
-    }
-
     public void SetVoiceVolume(float volume)
     {
         audioMixer.SetFloat("Voice", Mathf.Log10(volume) * 20);
