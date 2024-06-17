@@ -134,25 +134,25 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Xyz.Y = 0;
         CurrentCharacter.Xyz.Z = 0;
 #endif
-        tableFolderPath = "Data/GoogleSheetsToCsv/TableFiles";
+        tableFolderPath = "Data/GoogleSheetsToCsv/TableFiles/";
         DBDataLoad();
     }
 
     void DBDataLoad()
     {
-        ItemDataParsing();
-        MonstersDBReader();
-        LevelReaderData("Data/WarriorLevelDB");
-        SkillDBParsing("Data/SkillWarriorDB");
+        ItemTableParsing();
+        SkillTableParsing("WarriorSkillTable");
+        MonstersTableParsing();
+        LevelTableParsing("WarriorLevelTable");
         QuestTableParsing("QuestTable");
         NpcTableParsing("NpcTable");
     }
 
-    private void ItemDataParsing()
+    private void ItemTableParsing()
     {
-        List<Dictionary<string, string>> consumptionData = CSVReader.Read("Data/ItemsConsumptionItemDB");
-        List<Dictionary<string, string>> equipmentData = CSVReader.Read("Data/ItemsEquipmentDB");
-        List<Dictionary<string, string>> etcData = CSVReader.Read("Data/ItemsETCDB");
+        List<Dictionary<string, string>> consumptionData = CSVReader.Read($"{tableFolderPath}ItemsConsumptionItemTable");
+        List<Dictionary<string, string>> equipmentData = CSVReader.Read($"{tableFolderPath}ItemsEquipmentTable");
+        List<Dictionary<string, string>> etcData = CSVReader.Read($"{ tableFolderPath}ItemsETCTable");
 
 
         for (int i = 0; i < consumptionData.Count; i++)
@@ -310,10 +310,10 @@ public class DataManager : SubClass<GameManager>
         return null;
     }
 
-    private void MonstersDBReader()
+    private void MonstersTableParsing()
     {
-        List<Dictionary<string, string>> data = CSVReader.Read("Data/MonstersDB");
-        List<Dictionary<string, string>> dropData = CSVReader.Read("Data/MonsterItemDropDB");
+        List<Dictionary<string, string>> data = CSVReader.Read($"{tableFolderPath}MonsterTable");
+        List<Dictionary<string, string>> dropData = CSVReader.Read($"{tableFolderPath}MonsterItemTable");
 
         for (int i = 0; i < data.Count; i++)
         {
@@ -377,9 +377,9 @@ public class DataManager : SubClass<GameManager>
         return monster;
     }
 
-    private void LevelReaderData(string characterClass)
+    private void LevelTableParsing(string characterClass)
     {
-        List<Dictionary<string, string>> levelDatas = CSVReader.Read(characterClass);
+        List<Dictionary<string, string>> levelDatas = CSVReader.Read(tableFolderPath + characterClass);
 
         for (int i = 0; i < levelDatas.Count; i++)
         {
@@ -425,9 +425,9 @@ public class DataManager : SubClass<GameManager>
         return currentLevelData;
     }
 
-    public void SkillDBParsing(string skillDB)
+    public void SkillTableParsing(string fileName)
     {
-        List<Dictionary<string, string>> skill = CSVReader.Read(skillDB);
+        List<Dictionary<string, string>> skill = CSVReader.Read(tableFolderPath + fileName);
 
         for (int i = 0; i < skill.Count; i++)
         {

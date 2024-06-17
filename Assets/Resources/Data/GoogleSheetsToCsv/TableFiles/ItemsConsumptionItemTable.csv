@@ -13,7 +13,7 @@ item_id,item_name,item_desc,item_icon,item_class,item_type,item_grade,item_detai
 511,하급경험치물약,EXP 100을 올려줍니다.,path,Default,Consumption,Normal,Default,9999999,1,0,0,0,0,0,0,0,100,0,0,50,false,0
 512,중급경험치물약,EXP 1000을 올려줍니다.,path,Default,Consumption,Normal,Default,9999999,1,0,0,0,0,0,0,0,1000,0,0,50,false,0
 513,상급경험치물약,EXP 10000을 올려줍니다.,path,Default,Consumption,Normal,Default,9999999,1,0,0,0,0,0,0,0,10000,0,0,50,false,0
-514,이상한 약,Attack, Defense, MaxHP, MaxMP 능력을 10 올려줍니다.,path,Default,Consumption,Epic,Default,9999999,1,0,10,10,0,0,0,0,0,10,10,10,false,0
+514,이상한 약,"Attack, Defense, MaxHP, MaxMP 능력을 10 올려줍니다.",path,Default,Consumption,Epic,Default,9999999,1,0,10,10,0,0,0,0,0,10,10,10,false,0
 515,전사의 물약,5분간 Attack 10을 올려줍니다.,Materials/ItemIcons/WarriorsPotion,Default,Consumption,Normal,Default,200,100,0,10,0,0,0,0,0,0,0,0,100,true,180
 516,이동속도의 물약,5분간 Speed 5를 올려줍니다.,path,Default,Consumption,Normal,Default,200,100,0,0,0,5,0,0,0,0,0,0,100,true,180
 517,공격속도의 물약,5분간 AttackSpeed 5를 올려줍니다.,path,Default,Consumption,Normal,Default,200,100,0,0,0,0,5,0,0,0,0,0,100,true,180
