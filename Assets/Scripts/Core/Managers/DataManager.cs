@@ -1,4 +1,4 @@
-// #define INGAMETEST
+//#define INGAMETEST
 #define INVENTEST
 using System;
 using System.Collections;
@@ -25,26 +25,26 @@ public class DataManager : SubClass<GameManager>
     public CHARACTER_INFO CurrentCharacter { get; set; }
 
     // 어딘가엔 들고 있어야함
-/*    public long CharId { get; set; }
-    string charName;
-    public string CharName
-    {
-        get { return charName; }
-        set { charName = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
-    }
-    int job;
-    public int Job
-    {
-        get { return job; }
-        set { job = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
-    }
-    bool gender;
-    public bool Gender
-    {
-        get { return gender; }
-        set { gender = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
-    }
-    Vector3 pos;*/
+    /*    public long CharId { get; set; }
+        string charName;
+        public string CharName
+        {
+            get { return charName; }
+            set { charName = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+        }
+        int job;
+        public int Job
+        {
+            get { return job; }
+            set { job = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+        }
+        bool gender;
+        public bool Gender
+        {
+            get { return gender; }
+            set { gender = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+        }
+        Vector3 pos;*/
 
     /// <summary>
     /// 아이템 데이터
@@ -134,25 +134,25 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Xyz.Y = 0;
         CurrentCharacter.Xyz.Z = 0;
 #endif
-        tableFolderPath = "Data/GoogleSheetsToCsv/TableFiles/";
+        tableFolderPath = "Data/SheetsToCsv/bin/Debug/TableFiles/";
         DBDataLoad();
     }
 
     void DBDataLoad()
     {
-        ItemDataParsing();
-        MonstersDBReader();
-        LevelReaderData("WarriorLevelSystem");
-        SkillDBParsing("WarriorSkillDB");
+        ItemTableParsing();
+        SkillTableParsing("WarriorSkillTable");
+        MonstersTableParsing();
+        LevelTableParsing("WarriorLevelTable");
         QuestTableParsing("QuestTable");
         NpcTableParsing("NpcTable");
     }
 
-    private void ItemDataParsing()
+    private void ItemTableParsing()
     {
-        List<Dictionary<string, string>> consumptionData = CSVReader.Read(tableFolderPath + "ItemsConsumptionItemDB");
-        List<Dictionary<string, string>> equipmentData = CSVReader.Read(tableFolderPath + "ItemsEquipmentDB");
-        List<Dictionary<string, string>> etcData = CSVReader.Read(tableFolderPath + "ItemsETCDB");
+        List<Dictionary<string, string>> consumptionData = CSVReader.Read($"{tableFolderPath}ItemsConsumptionItemTable");
+        List<Dictionary<string, string>> equipmentData = CSVReader.Read($"{tableFolderPath}ItemsEquipmentTable");
+        List<Dictionary<string, string>> etcData = CSVReader.Read($"{ tableFolderPath}ItemsETCTable");
 
 
         for (int i = 0; i < consumptionData.Count; i++)
@@ -263,7 +263,7 @@ public class DataManager : SubClass<GameManager>
 
             itemDataPasing = new EquipmentItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
                 itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
-                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement, itemData.durationBool,itemData.duration);
+                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement, itemData.durationBool, itemData.duration);
 
             return itemDataPasing;
         }
@@ -310,10 +310,10 @@ public class DataManager : SubClass<GameManager>
         return null;
     }
 
-    private void MonstersDBReader()
+    private void MonstersTableParsing()
     {
-        List<Dictionary<string, string>> data = CSVReader.Read(tableFolderPath + "MonstersDB");
-        List<Dictionary<string, string>> dropData = CSVReader.Read(tableFolderPath + "MonsterItemDropDB");
+        List<Dictionary<string, string>> data = CSVReader.Read($"{tableFolderPath}MonsterTable");
+        List<Dictionary<string, string>> dropData = CSVReader.Read($"{tableFolderPath}MonsterItemTable");
 
         for (int i = 0; i < data.Count; i++)
         {
@@ -377,9 +377,9 @@ public class DataManager : SubClass<GameManager>
         return monster;
     }
 
-    private void LevelReaderData(string fileName)
+    private void LevelTableParsing(string characterClass)
     {
-        List<Dictionary<string, string>> levelDatas = CSVReader.Read(tableFolderPath + fileName);
+        List<Dictionary<string, string>> levelDatas = CSVReader.Read(tableFolderPath + characterClass);
 
         for (int i = 0; i < levelDatas.Count; i++)
         {
@@ -394,9 +394,9 @@ public class DataManager : SubClass<GameManager>
 
             levelData = new LevelData(level, maxhp, maxmp, maxexp, attack, defense);
 
-            switch (fileName)
+            switch (characterClass)
             {
-                case "WarriorLevelDB":
+                case "Data/WarriorLevelDB":
                     warriorLevelDatas.Add(level, levelData);
                     break;
             }
@@ -425,7 +425,7 @@ public class DataManager : SubClass<GameManager>
         return currentLevelData;
     }
 
-    public void SkillDBParsing(string fileName)
+    public void SkillTableParsing(string fileName)
     {
         List<Dictionary<string, string>> skill = CSVReader.Read(tableFolderPath + fileName);
 
@@ -438,12 +438,12 @@ public class DataManager : SubClass<GameManager>
             string name = skill[i]["skill_name"];
             string desc = skill[i]["skill_desc"];
             string iconString = skill[i]["skill_icon"];
-            float[] duration = Check<float>("skill_duration",i,skill);
+            float[] duration = Check<float>("skill_duration", i, skill);
 
             //print(Resources.Load(iconString).name);
             Sprite icon = Resources.Load<Sprite>(iconString);
 
-            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]); 
+            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]);
             int skillMaxLevel = int.Parse(skill[i]["skill_maxlevel"]);
 
             int[] skillLevelCondition = Check<int>("skill_levelcondition", i, skill);
@@ -458,8 +458,8 @@ public class DataManager : SubClass<GameManager>
             float[] skillCool = Check<float>("skill_cool", i, skill);
             int[] skillDamage = Check<int>("skill_damage", i, skill);
 
-         
-            warrirSkill = new WarriorSkillData(id, skillType, name, desc, icon, skillNumber,duration, skillMaxLevel, skillLevelCondition, skillPoint,skillMaxHP,skillMaxMP,skillAttack,skillDefnse,skillSpeed , skillAttackSpeed,skillMP, skillCool, skillDamage);
+
+            warrirSkill = new WarriorSkillData(id, skillType, name, desc, icon, skillNumber, duration, skillMaxLevel, skillLevelCondition, skillPoint, skillMaxHP, skillMaxMP, skillAttack, skillDefnse, skillSpeed, skillAttackSpeed, skillMP, skillCool, skillDamage);
 
 
             warriorSkillData.Add(warrirSkill);
@@ -500,7 +500,7 @@ public class DataManager : SubClass<GameManager>
 
     public void NpcTableParsing(string fileName)
     {
-        GameObject[] npcArray = GameObject.FindGameObjectsWithTag(tableFolderPath + fileName);
+        GameObject[] npcArray = GameObject.FindGameObjectsWithTag("Npc");
         foreach (GameObject npcObj in npcArray)
         {
             Npc npc = npcObj.GetComponent<Npc>();
@@ -511,7 +511,7 @@ public class DataManager : SubClass<GameManager>
         }
     }
 
-    public T[] Check<T>(string dataName,int index, List<Dictionary<string, string>> skill)
+    public T[] Check<T>(string dataName, int index, List<Dictionary<string, string>> skill)
     {
         if (skill[index][dataName] == "null")
         {
@@ -520,13 +520,13 @@ public class DataManager : SubClass<GameManager>
 
         string[] data = skill[index][dataName].Split(",");
         T[] array = new T[data.Length];
-        
+
         for (int i = 0; i < array.Length; i++)
         {
             array[i] = (T)Convert.ChangeType(data[i], typeof(T));
         }
 
-        return array;       
+        return array;
 
     }
 }

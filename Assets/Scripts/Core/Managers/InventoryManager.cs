@@ -76,7 +76,7 @@ public class InventoryManager : SubClass<GameManager>
 
     void _GetInvenDataFromTable()
     {
-        var item = CSVReader.Read("Data/InvenItems");
+        var item = CSVReader.Read("Data/SheetsToCsv/bin/Debug/TableFiles/InvenDB");
         for (int i = 0; i < item.Count; i++)
         {
             int id = int.Parse(item[i]["id"]);

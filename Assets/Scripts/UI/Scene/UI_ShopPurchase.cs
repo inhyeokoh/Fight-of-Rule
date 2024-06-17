@@ -86,7 +86,7 @@ public class UI_ShopPurchase : UI_Entity
 
     void _DrawSlots()
     {
-        var item = CSVReader.Read("Data/ShopItems");
+        var item = CSVReader.Read("Data/SheetsToCsv/bin/Debug/TableFiles/ShopTable");
         shopItemCount = item.Count;
         shopItems = new ItemData[shopItemCount];
 

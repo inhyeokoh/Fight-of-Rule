@@ -48,14 +48,14 @@ public class UI_DropConfirm : UI_Entity
                     break;
             }
 
-            transform.parent.gameObject.SetActive(false);
+            GameManager.UI.ClosePopup(GameManager.UI.InGameConfirmYN);
         };
 
         _entities[(int)Enum_UI_DropConfirm.Cancel].ClickAction = (PointerEventData data) => {
-            transform.parent.gameObject.SetActive(false);
+            GameManager.UI.ClosePopup(GameManager.UI.InGameConfirmYN);
         };
 
-        transform.parent.gameObject.SetActive(false);
+        transform.gameObject.SetActive(false);
     }
 
     public void ChangeText(Enum_DropUIParent UIName , int slotIndex)
