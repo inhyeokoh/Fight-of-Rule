@@ -84,7 +84,6 @@ public class UI_Setting : UI_Entity
         };
         _entities[(int)Enum_UI_Settings.Accept].ClickAction = (PointerEventData data) =>
         {
-            SaveVolOptions();
             GameManager.UI.ClosePopup(GameManager.UI.Settings);
         };
         _entities[(int)Enum_UI_Settings.Cancel].ClickAction = (PointerEventData data) =>
@@ -172,19 +171,22 @@ public class UI_Setting : UI_Entity
                 case 0:
                     volType.text = Enum.GetName(typeof(Enum_SliderTypes), 0);
                     volSliders[i].value = GameManager.Data.volOptions.MasterVol;
-                    onOffToggle.onValueChanged.AddListener((value) => GameManager.Sound.SetMute("Master", value));
+                    onOffToggle.onValueChanged.AddListener((value) => GameManager.Sound.MuteOnOff(SoundManager.Enum_SoundSlider.Master, value));
                     break;
                 case 1:
                     volType.text = Enum.GetName(typeof(Enum_SliderTypes), 1);
                     volSliders[i].value = GameManager.Data.volOptions.BgmVol;
+                    onOffToggle.onValueChanged.AddListener((value) => GameManager.Sound.MuteOnOff(SoundManager.Enum_SoundSlider.BGM, value));
                     break;
                 case 2:
                     volType.text = Enum.GetName(typeof(Enum_SliderTypes), 2);
                     volSliders[i].value = GameManager.Data.volOptions.EffectVol;
+                    onOffToggle.onValueChanged.AddListener((value) => GameManager.Sound.MuteOnOff(SoundManager.Enum_SoundSlider.Effect, value));
                     break;
                 case 3:
                     volType.text = Enum.GetName(typeof(Enum_SliderTypes), 3);
                     volSliders[i].value = GameManager.Data.volOptions.VoiceVol;
+                    onOffToggle.onValueChanged.AddListener((value) => GameManager.Sound.MuteOnOff(SoundManager.Enum_SoundSlider.Voice, value));
                     break;
                 default:
                     break;
