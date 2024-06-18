@@ -7,7 +7,7 @@ using Unity.VisualScripting;
 using TMPro;
 
 public class GameManager : MonoBehaviour
-{   
+{
     static GameManager _Instance;
     public static GameManager Instance
     {
