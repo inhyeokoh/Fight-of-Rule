@@ -52,7 +52,7 @@ public class UI_CharacterSelect : UI_Entity
     {
         for (int i = 0; i < _totalSlot; i++)
         {
-            GameObject slot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/CharacterSlot2", panel.transform);
+            GameObject slot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/CharacterSlot", panel.transform);
             characterSlots[i] = slot.GetComponent<UI_Slot>();
             characterSlots[i].Index = i;
         }

@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
             _pool,
             _resources,
             _threadPool,
-            //_sound,
+            _sound,
             _networkManager,
             _uiManager,
             _dataManager,

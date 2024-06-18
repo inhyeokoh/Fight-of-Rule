@@ -31,16 +31,13 @@ public class SoundManager : SubClass<GameManager>
 
     protected override void _Excute()
     {
-       /* masterSlider.onValueChanged.AddListener(SetMasterVolume);
-        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
-        effectSlider.onValueChanged.AddListener(SetEffectVolume);
-        voiceSlider.onValueChanged.AddListener(SetVoiceVolume);*/
+
     }
 
   
     protected override void _Init()
     {
-        audioMixer = Resources.Load<AudioMixer>("AudioMixer/FORAudio");     
+        audioMixer = Resources.Load<AudioMixer>("AudioMixer/FORAudio");
         LoadAllSource("BGM", "Effect", "Voice");
         audios = GameObject.Find("Main Camera").GetComponents<AudioSource>();
   
@@ -140,6 +137,11 @@ public class SoundManager : SubClass<GameManager>
         bgmSlider = _bgmSlider;
         effectSlider = _effectSlider;
         voiceSlider = _voiceSlider;
+
+        masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+        effectSlider.onValueChanged.AddListener(SetEffectVolume);
+        voiceSlider.onValueChanged.AddListener(SetVoiceVolume);
     }
 
 

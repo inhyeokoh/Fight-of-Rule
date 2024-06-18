@@ -194,20 +194,28 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_OPTION(Session session, S_OPTION message)
+    internal static bool Handle_S_REQUEST_SETTINGS_OPTIONS(Session session, S_REQUEST_SETTINGS_OPTIONS message)
     {
-        //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
-        GameManager.Data.settings.TotalVol = message.SettingOptions.TotalVol;
-        GameManager.Data.settings.BackgroundVol = message.SettingOptions.BackgroundVol;
-        GameManager.Data.settings.EffectVol = message.SettingOptions.EffectVol;
+        // 성공 여부?
 
-        GameManager.Data.settings.TotalVolOn = message.SettingOptions.TotalVolOn;
-        GameManager.Data.settings.BackgroundVolOn = message.SettingOptions.BackgroundVolOn;
-        GameManager.Data.settings.EffectVolOn = message.SettingOptions.EffectVolOn;
+        //서버로부터 받아온 환경설정 정보들을 메모리에 올리기 
+        GameManager.Data.volOptions.MasterVol = message.SettingsOptions.VolOptions.MasterVol;
+        GameManager.Data.volOptions.BgmVol = message.SettingsOptions.VolOptions.BgmVol;
+        GameManager.Data.volOptions.EffectVol = message.SettingsOptions.VolOptions.EffectVol;
+        GameManager.Data.volOptions.VoiceVol = message.SettingsOptions.VolOptions.VoiceVol;
+
+        GameManager.Data.volOptions.MasterVolOn = message.SettingsOptions.VolOptions.MasterVolOn;
+        GameManager.Data.volOptions.BgmVolOn = message.SettingsOptions.VolOptions.BgmVolOn;
+        GameManager.Data.volOptions.EffectVolOn = message.SettingsOptions.VolOptions.EffectVolOn;
+        GameManager.Data.volOptions.VoiceVolOn = message.SettingsOptions.VolOptions.VoiceVolOn;
 
         return true;
     }
-    // TODO 볼륨 서버 저장 성공 여부
+
+    internal static bool Handle_S_SAVE_VOL_OPTIONS(Session session, S_SAVE_VOL_OPTIONS message)
+    {
+        return true;
+    }
 
     internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
     {

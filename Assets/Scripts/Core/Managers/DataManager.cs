@@ -1,5 +1,5 @@
 //#define INGAMETEST
-#define INVENTEST
+//#define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,8 +10,7 @@ using Google.Protobuf;
 public class DataManager : SubClass<GameManager>
 {
     // 환경설정 정보
-    public SETTING_OPTIONS settings;
-    // public VOL_OPTIONS settings; 이걸로 변경
+    public VOL_OPTIONS volOptions;
 
     // 캐릭터 정보
     public CHARACTER_INFO[] characters;
@@ -105,8 +104,7 @@ public class DataManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        settings = new SETTING_OPTIONS();
-        // settings = new VOL_OPTIONS(); 이걸로 변경
+        volOptions = new VOL_OPTIONS();
         characters = new CHARACTER_INFO[4];
 #if INVENTEST || INGAMETEST
         CurrentCharacter = new CHARACTER_INFO();

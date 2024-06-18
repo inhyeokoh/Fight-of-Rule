@@ -17,27 +17,30 @@ class PacketHandler
         PKT_S_SIGNUP = 2,
         PKT_C_LOGIN = 3,
         PKT_S_LOGIN = 4,
-        PKT_C_OPTION = 5,
-        PKT_S_OPTION = 6,
-        PKT_S_ASK_VERF = 7,
-        PKT_C_VERIFYING = 8,
-        PKT_S_VERIFYING = 9,
-        PKT_C_NICKNAME = 10,
-        PKT_S_NICKNAME = 11,
-        PKT_C_CHARACTERS = 12,
-        PKT_S_CHARACTERS = 13,
-        PKT_C_NEW_CHARACTER = 14,
-        PKT_S_NEW_CHARACTER = 15,
-        PKT_C_DELETE_CHARACTER = 16,
-        PKT_S_DELETE_CHARACTER = 17,
-        PKT_S_ITEMINFO = 18,
+        PKT_C_REQUEST_SETTINGS_OPTIONS = 5,
+        PKT_S_REQUEST_SETTINGS_OPTIONS = 6,
+        PKT_C_SAVE_VOL_OPTIONS = 7,
+        PKT_S_SAVE_VOL_OPTIONS = 8,
+        PKT_S_ASK_VERF = 9,
+        PKT_C_VERIFYING = 10,
+        PKT_S_VERIFYING = 11,
+        PKT_C_NICKNAME = 12,
+        PKT_S_NICKNAME = 13,
+        PKT_C_CHARACTERS = 14,
+        PKT_S_CHARACTERS = 15,
+        PKT_C_NEW_CHARACTER = 16,
+        PKT_S_NEW_CHARACTER = 17,
+        PKT_C_DELETE_CHARACTER = 18,
+        PKT_S_DELETE_CHARACTER = 19,
+        PKT_S_ITEMINFO = 20,
     };
     Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>> _handler = new Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>>();
     public void Init()
     {
         _handler.Add((ushort)PacketType.PKT_S_SIGNUP, (session, buffer) => PacketHandlerImpl.Handle_S_SIGNUP(session, _HandlePacket<S_SIGNUP>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_LOGIN, (session, buffer) => PacketHandlerImpl.Handle_S_LOGIN(session, _HandlePacket<S_LOGIN>(buffer)));
-        _handler.Add((ushort)PacketType.PKT_S_OPTION, (session, buffer) => PacketHandlerImpl.Handle_S_OPTION(session, _HandlePacket<S_OPTION>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_REQUEST_SETTINGS_OPTIONS, (session, buffer) => PacketHandlerImpl.Handle_S_REQUEST_SETTINGS_OPTIONS(session, _HandlePacket<S_REQUEST_SETTINGS_OPTIONS>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_SAVE_VOL_OPTIONS, (session, buffer) => PacketHandlerImpl.Handle_S_SAVE_VOL_OPTIONS(session, _HandlePacket<S_SAVE_VOL_OPTIONS>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_ASK_VERF, (session, buffer) => PacketHandlerImpl.Handle_S_ASK_VERF(session, _HandlePacket<S_ASK_VERF>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_VERIFYING, (session, buffer) => PacketHandlerImpl.Handle_S_VERIFYING(session, _HandlePacket<S_VERIFYING>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_NICKNAME, (session, buffer) => PacketHandlerImpl.Handle_S_NICKNAME(session, _HandlePacket<S_NICKNAME>(buffer)));
@@ -48,7 +51,8 @@ class PacketHandler
     }
     public ArraySegment<byte> SerializePacket(C_SIGNUP pkt) { return _serializePacket(pkt, PacketType.PKT_C_SIGNUP); }
     public ArraySegment<byte> SerializePacket(C_LOGIN pkt) { return _serializePacket(pkt, PacketType.PKT_C_LOGIN); }
-    public ArraySegment<byte> SerializePacket(C_OPTION pkt) { return _serializePacket(pkt, PacketType.PKT_C_OPTION); }
+    public ArraySegment<byte> SerializePacket(C_REQUEST_SETTINGS_OPTIONS pkt) { return _serializePacket(pkt, PacketType.PKT_C_REQUEST_SETTINGS_OPTIONS); }
+    public ArraySegment<byte> SerializePacket(C_SAVE_VOL_OPTIONS pkt) { return _serializePacket(pkt, PacketType.PKT_C_SAVE_VOL_OPTIONS); }
     public ArraySegment<byte> SerializePacket(C_VERIFYING pkt) { return _serializePacket(pkt, PacketType.PKT_C_VERIFYING); }
     public ArraySegment<byte> SerializePacket(C_NICKNAME pkt) { return _serializePacket(pkt, PacketType.PKT_C_NICKNAME); }
     public ArraySegment<byte> SerializePacket(C_CHARACTERS pkt) { return _serializePacket(pkt, PacketType.PKT_C_CHARACTERS); }
