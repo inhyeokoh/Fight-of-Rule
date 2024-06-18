@@ -48,11 +48,12 @@ public class SoundManager : SubClass<GameManager>
 
     protected override void _Excute()
     {
-
     }
+
+
     protected override void _Init()
     {
-        audioMixer = Resources.Load<AudioMixer>("AudioMixer/FORAudio");     
+        audioMixer = Resources.Load<AudioMixer>("AudioMixer/FORAudio");
         LoadAllSource("BGM", "Effect", "Voice");
         audios = GameObject.Find("Main Camera").GetComponents<AudioSource>();
 
@@ -127,6 +128,7 @@ public class SoundManager : SubClass<GameManager>
 
     public void SoundChanage(string soundClip, Enum_SoundType soundType = Enum_SoundType.BGM)
     {
+
         if (audios[(int)soundType].clip != null)
         {
             audios[(int)soundType].clip = null;
@@ -166,10 +168,8 @@ public class SoundManager : SubClass<GameManager>
         effectSlider.onValueChanged.AddListener((value) => SetVolume("Effect",effectMute, value));
         voiceSlider.onValueChanged.AddListener((value) => SetVolume("Voice",voiceMute, value));
 
-
         VolumeSetting();
     }
-
 
     public void MuteOnOff(Enum_SoundSlider soundSlider, bool muteCheck)
     {
@@ -187,7 +187,6 @@ public class SoundManager : SubClass<GameManager>
             case Enum_SoundSlider.Voice:
                 VoiceMuteSound(muteCheck);
                 break;
-
         }
     }
 

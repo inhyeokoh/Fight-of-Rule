@@ -15,7 +15,6 @@ public class UI_Login : UI_Entity
         PWField,        
         Login,
         SignUp,
-        Settings,
         Quit
     }
 
@@ -48,9 +47,6 @@ public class UI_Login : UI_Entity
                 GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
             });
 #endif
-        };
-        _entities[(int)Enum_UI_Logins.Settings].ClickAction = (PointerEventData data) => {
-            GameManager.UI.OpenOrClose(GameManager.UI.Settings);
         };
 
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {

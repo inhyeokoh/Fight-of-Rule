@@ -13,7 +13,6 @@ public class UI_CharacterCreate : UI_Entity
 
     enum Enum_UI_JobSelect
     {
-        Setting,
         Panel_L,
         Panel_R,
         Select,
@@ -22,8 +21,9 @@ public class UI_CharacterCreate : UI_Entity
         Archer,
         Men,
         Women,
-        GoBack,
         JobDescription,
+        GoBack,
+        Settings
     }
 
     protected override Type GetUINamesAsType()
@@ -41,7 +41,7 @@ public class UI_CharacterCreate : UI_Entity
         jobImage = _entities[(int)Enum_UI_JobSelect.Panel_L].GetComponent<Image>();
         _SetDefalutInfo();
 
-        _entities[(int)Enum_UI_JobSelect.Setting].ClickAction = (PointerEventData data) =>
+        _entities[(int)Enum_UI_JobSelect.Settings].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.OpenOrClose(GameManager.UI.Settings);
         };
