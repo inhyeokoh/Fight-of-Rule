@@ -131,7 +131,13 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Xyz.X = 0;
         CurrentCharacter.Xyz.Y = 0;
         CurrentCharacter.Xyz.Z = 0;
+
+        volOptions.MasterVol = 0.7f;
+        volOptions.BgmVol = 0.6f;
+        volOptions.EffectVol = 0.5f;
+        volOptions.VoiceVol = 0.5f;
 #endif
+
         tableFolderPath = "Data/SheetsToCsv/bin/Debug/TableFiles/";
         DBDataLoad();
     }

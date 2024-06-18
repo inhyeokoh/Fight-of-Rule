@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
+using TMPro;
 
 public class GameManager : MonoBehaviour
-{
+{   
     static GameManager _Instance;
     public static GameManager Instance
     {

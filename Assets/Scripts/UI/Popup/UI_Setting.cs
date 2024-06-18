@@ -36,17 +36,17 @@ public class UI_Setting : UI_Entity
 
     enum Enum_SettingTypes
     {
-        Audio,
-        GamePlay,
-        ShortCutKey,
+        오디오,
+        게임플레이,
+        단축키
     }
 
     enum Enum_SliderTypes
     {
-        Master,
-        BGM,
-        Effect,
-        Voice
+        전체음량,
+        배경음악,
+        효과음,
+        음성
     }
 
     protected override Type GetUINamesAsType()
@@ -84,7 +84,7 @@ public class UI_Setting : UI_Entity
         };
         _entities[(int)Enum_UI_Settings.Accept].ClickAction = (PointerEventData data) =>
         {
-            _SaveVolOptions();
+            SaveVolOptions();
             GameManager.UI.ClosePopup(GameManager.UI.Settings);
         };
         _entities[(int)Enum_UI_Settings.Cancel].ClickAction = (PointerEventData data) =>
@@ -108,6 +108,10 @@ public class UI_Setting : UI_Entity
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// 왼쪽 패널에 있는 토글 선택에 따라 해당되는 내용을 Panel_R 에 활성화
+    /// ex. Panel_L 볼륨 설정 -> Panel_R 볼륨 설정 옵션, Panel_L 게임 키 -> Panel_R 키설정
+    /// </summary>
     void _SetPanel_L()
     {
         settingTypeToggles = new Toggle[settingTypesCount];
@@ -118,13 +122,13 @@ public class UI_Setting : UI_Entity
             switch (i)
             {
                 case 0:
-                    togName.text = "Audio";
+                    togName.text = Enum.GetName(typeof(Enum_SettingTypes), 0);
                     break;
                 case 1:
-                    togName.text = "GamePlay";
+                    togName.text = Enum.GetName(typeof(Enum_SettingTypes), 1);
                     break;
                 case 2:
-                    togName.text = "ShortCut Key";
+                    togName.text = Enum.GetName(typeof(Enum_SettingTypes), 2);
                     break;
                 default:
                     break;
@@ -138,52 +142,59 @@ public class UI_Setting : UI_Entity
 
         settingTypeToggles[0].isOn = true; // 첫번째 항목 선택
     }
+    void _SettingTypeChanged(int toggleIndex)
+    {
+        bool isToggleOn = settingTypeToggles[toggleIndex].isOn;
+        Transform childObject = _entities[(int)Enum_UI_Settings.Panel_R].transform.GetChild(toggleIndex);
+        childObject.gameObject.SetActive(isToggleOn);
+    }
 
+    /// <summary>
+    /// 볼륨 패널 오브젝트 생성과 동시에 텍스트 변경 + 저장된 볼륨값 가져오기
+    /// </summary>
     void _SetVolOptions()
     {
         volSliders = new Slider[volSlidersCount];
         for (int i = 0; i < volSlidersCount; i++)
         {
             GameObject volume = GameManager.Resources.Instantiate("Prefabs/UI/Scene/Volume", _entities[(int)Enum_UI_Settings.Panel_R].transform.GetChild(0).transform);
-            volSliders[i] = volume.GetComponentInChildren<Slider>();
+            volSliders[i] = volume.GetComponentInChildren<Slider>(); // 볼륨 슬라이더
+            Toggle onOffToggle = volume.GetComponentInChildren<Toggle>();
+
             TMP_Text[] texts = volume.GetComponentsInChildren<TMP_Text>();
+            TMP_Text volType = texts[0];
+            TMP_Text volValue = texts[1];
+            TMP_Text volOn = texts[2];
 
             // 저장된 볼륨 설정 + 텍스트 변경
             switch (i)
             {
                 case 0:
-                    texts[0].text = Enum.GetName(typeof(Enum_SliderTypes), 0);
+                    volType.text = Enum.GetName(typeof(Enum_SliderTypes), 0);
                     volSliders[i].value = GameManager.Data.volOptions.MasterVol;
+                    onOffToggle.onValueChanged.AddListener((value) => GameManager.Sound.SetMute("Master", value));
                     break;
                 case 1:
-                    texts[0].text = Enum.GetName(typeof(Enum_SliderTypes), 1);
+                    volType.text = Enum.GetName(typeof(Enum_SliderTypes), 1);
                     volSliders[i].value = GameManager.Data.volOptions.BgmVol;
                     break;
                 case 2:
-                    texts[0].text = Enum.GetName(typeof(Enum_SliderTypes), 2);
+                    volType.text = Enum.GetName(typeof(Enum_SliderTypes), 2);
                     volSliders[i].value = GameManager.Data.volOptions.EffectVol;
                     break;
                 case 3:
-                    texts[0].text = Enum.GetName(typeof(Enum_SliderTypes), 3);
+                    volType.text = Enum.GetName(typeof(Enum_SliderTypes), 3);
                     volSliders[i].value = GameManager.Data.volOptions.VoiceVol;
                     break;
                 default:
                     break;
             }
-            texts[1].text = $"{Mathf.Floor(volSliders[i].value * 100)} %"; // 초기 텍스트 설정
+            volValue.text = $"{Mathf.Floor(volSliders[i].value * 100)} %"; // 초기 텍스트 설정
             volSliders[i].onValueChanged.AddListener((value) => {
-                texts[1].text = $"{Mathf.Floor(value * 100)} %";
+                volValue.text = $"{Mathf.Floor(value * 100)} %";
             });
-            texts[2].text = $"{texts[0].text} On";
+            volOn.text = $"{volType.text} 켜기";
         }
-    }
-
-    // Panel_L에 있는 토글 선택 여부에 따라서 해당되는 내용을 Panel_R 에 활성화 (ex. Panel_L 볼륨 설정 -> Panel_R 볼륨 설정 옵션들)
-    void _SettingTypeChanged(int toggleIndex)
-    {
-        bool isToggleOn = settingTypeToggles[toggleIndex].isOn;
-        Transform childObject = _entities[(int)Enum_UI_Settings.Panel_R].transform.GetChild(toggleIndex);
-        childObject.gameObject.SetActive(isToggleOn);
     }
 
     // 볼륨 초기화
@@ -192,30 +203,6 @@ public class UI_Setting : UI_Entity
         foreach (var slider in volSliders)
         {
             slider.value = value;
-        }
-    }
-
-    /// <summary>
-    /// 기존값이랑 비교해서 1% 이상 차이날 경우 로컬 저장 + 서버 저장 요청
-    /// </summary>
-    void _SaveVolOptions()
-    {
-        if (GameManager.Data.volOptions.MasterVol - volSliders[0].value > 0.01f ||
-            GameManager.Data.volOptions.BgmVol - volSliders[1].value > 0.01f ||
-            GameManager.Data.volOptions.EffectVol - volSliders[2].value > 0.01f || // 값의 차이가 1% 이상 나는 부분이 있다면,
-            GameManager.Data.volOptions.VoiceVol - volSliders[3].value > 0.01f)
-        {
-            GameManager.Data.volOptions.MasterVol = volSliders[0].value;
-            GameManager.Data.volOptions.BgmVol = volSliders[1].value;
-            GameManager.Data.volOptions.EffectVol = volSliders[2].value;
-            GameManager.Data.volOptions.VoiceVol = volSliders[3].value;
-
-            // 저장할 볼륨 서버로 전송
-            C_SAVE_VOL_OPTIONS save_vol_options = new C_SAVE_VOL_OPTIONS();
-            save_vol_options.VolOptions = GameManager.Data.volOptions;
-
-            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(save_vol_options));
-            // TODO : AddPacketPair
         }
     }
 }

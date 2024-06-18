@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/MonsterItemTable.csv.meta
+guid: f06f28718b760eb468b9b6d3369c1248
+========
 guid: 4dddc9e4a70ee3444bbaff214551aa00
+>>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/Google.Apis.Core.xml.meta
 TextScriptImporter:
   externalObjects: {}
   userData: 

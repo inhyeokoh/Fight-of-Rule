@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Data/GoogleSheetsToCsv/TableFiles/ItemsETCTable.csv.meta
+<<<<<<<< HEAD:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/ItemsETCTable.csv.meta
+guid: c695579e586991d44b24b879952832cb
+========
+guid: 387eb829b27860d42b89e0fa7e02a6aa
+>>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/Google.Apis.Sheets.v4.xml.meta
+=======
 guid: 7f29374fc7a494d409220d946a6d64ac
+>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/ItemsETCTable.csv.meta
 TextScriptImporter:
   externalObjects: {}
   userData: 

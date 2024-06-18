@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Data/GoogleSheetsToCsv/TableFiles/ItemsConsumptionItemTable.csv.meta
+guid: a3f008ffbc2d34e44bcb4dd6346f4fdd
+=======
 guid: 9cf5ed8b10664de4e85cd1da258fae48
+>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/ItemsConsumptionItemTable.csv.meta
 TextScriptImporter:
   externalObjects: {}
   userData: 
