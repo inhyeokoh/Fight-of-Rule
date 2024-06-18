@@ -4,9 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
+using TMPro;
 
 public class GameManager : MonoBehaviour
-{
+{   
     static GameManager _Instance;
     public static GameManager Instance
     {
@@ -128,7 +129,7 @@ public class GameManager : MonoBehaviour
             _pool,
             _resources,
             _threadPool,
-            //_sound,
+            _sound,
             _networkManager,
             _uiManager,
             _dataManager,

@@ -14,6 +14,16 @@ public class SoundManager : SubClass<GameManager>
         Voice,
     }
 
+    bool masterMute;
+    bool bgmMute;
+    bool effectMute;
+    bool voiceMute;
+
+    float currentMasterSound;
+    float currentBGMSound;
+    float currentEffectSound;
+    float currentVoiceSound;
+
     Slider masterSlider;
     Slider bgmSlider;
     Slider effectSlider;
@@ -31,23 +41,26 @@ public class SoundManager : SubClass<GameManager>
 
     protected override void _Excute()
     {
-       /* masterSlider.onValueChanged.AddListener(SetMasterVolume);
-        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
-        effectSlider.onValueChanged.AddListener(SetEffectVolume);
-        voiceSlider.onValueChanged.AddListener(SetVoiceVolume);*/
-    }
 
-  
+    }
     protected override void _Init()
     {
         audioMixer = Resources.Load<AudioMixer>("AudioMixer/FORAudio");     
         LoadAllSource("BGM", "Effect", "Voice");
         audios = GameObject.Find("Main Camera").GetComponents<AudioSource>();
-  
-        
+
         audios[(int)Enum_SoundType.BGM].loop = true;
         audios[(int)Enum_SoundType.EffectBGM].loop = true;
     }
+
+    public void VolumeSetting()
+    {
+        SetMasterVolume(masterSlider.value);
+        SetMasterVolume(bgmSlider.value);
+        SetMasterVolume(effectSlider.value);
+        SetMasterVolume(voiceSlider.value);
+    }
+
 
     private void LoadAllSource(string _bgm, string _effect, string _voice)
     {
@@ -58,7 +71,7 @@ public class SoundManager : SubClass<GameManager>
         bgmSource = Resources.LoadAll<AudioClip>(_bgm);
         effectSource = Resources.LoadAll<AudioClip>(_effect);
         voiceSource = Resources.LoadAll<AudioClip>(_voice);
-
+ 
         LoadSource(bgmSource, bgm);
         LoadSource(effectSource, effect);
         LoadSource(voiceSource, voice);
@@ -140,25 +153,134 @@ public class SoundManager : SubClass<GameManager>
         bgmSlider = _bgmSlider;
         effectSlider = _effectSlider;
         voiceSlider = _voiceSlider;
+
+        masterSlider.onValueChanged.AddListener(SetMasterVolume);
+        bgmSlider.onValueChanged.AddListener(SetBGMVolume);
+        effectSlider.onValueChanged.AddListener(SetEffectVolume);
+        voiceSlider.onValueChanged.AddListener(SetVoiceVolume);
+
+
+        VolumeSetting();
+    }
+
+    public void SetMute(string soundSource)
+    {
+        switch (soundSource)
+        {
+            case "Master":
+                MasterMuteSound();
+                break;
+            case "BGM":
+                BGMMuteSound();
+                break;
+            case "Effect":
+                EffectMuteSound();
+                break;
+            case "Voice":
+                VoiceMuteSound();
+                break;
+
+        }
     }
 
 
+    public void MasterMuteSound()
+    {
+        if (masterMute)
+        {         
+            masterMute = false;
+            SetMasterVolume(currentMasterSound);
+        }
+        else
+        {
+            float previousMasterSound = currentMasterSound;
+            SetMasterVolume(0.001f);
+            masterMute = true;
+            currentMasterSound = previousMasterSound;
+        }
+    }
+    public void BGMMuteSound()
+    {
+        if (bgmMute)
+        {
+            bgmMute = false;
+            SetBGMVolume(currentBGMSound);
+        }
+        else
+        {
+            float previousBGMSound = currentBGMSound;
+            SetBGMVolume(0.001f);
+            bgmMute = true;
+            currentBGMSound = previousBGMSound;
+        }
+    }
+    public void EffectMuteSound()
+    {     
+        if (effectMute)
+        {
+            effectMute = false;
+            SetEffectVolume(currentEffectSound);
+        }
+        else
+        {
+            float previousEffectSound = currentEffectSound;
+            SetEffectVolume(0.001f);
+            effectMute = true;
+            currentEffectSound = previousEffectSound;
+        }
+    }
+    public void VoiceMuteSound()
+    {
+       
+        if (voiceMute)
+        {
+            voiceMute = false;
+            SetVoiceVolume(currentVoiceSound);
+        }
+        else
+        {
+            float previousVoiceSound = currentVoiceSound;
+            SetVoiceVolume(0.001f);
+            voiceMute = true;
+            currentVoiceSound = previousVoiceSound;
+        }
+    }
     public void SetMasterVolume(float volume)
     {
-        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        currentMasterSound = volume;
+        
+        if (!masterMute)
+        {
+            audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        }
     }
 
     public void SetBGMVolume(float volume)
     {
-        audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        currentBGMSound = volume;
+        
+        if (!bgmMute)
+        {
+            audioMixer.SetFloat("BGM", Mathf.Log10(volume) * 20);
+        }
     }
     public void SetEffectVolume(float volume)
     {
-        audioMixer.SetFloat("Effect", Mathf.Log10(volume) * 20);
+        currentEffectSound = volume;
+       
+        if (!effectMute)
+        {
+            audioMixer.SetFloat("Effect", Mathf.Log10(volume) * 20);
+        }
     }
     public void SetVoiceVolume(float volume)
     {
-        audioMixer.SetFloat("Voice", Mathf.Log10(volume) * 20);
+        currentVoiceSound = volume;
+       
+        if (!voiceMute)
+        {
+            audioMixer.SetFloat("Voice", Mathf.Log10(volume) * 20);
+        }
     }
     public void SetVolume(string sound, float volume)
     {

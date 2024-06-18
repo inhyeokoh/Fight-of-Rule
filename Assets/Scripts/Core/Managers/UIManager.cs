@@ -1,5 +1,5 @@
-#define INGAMETEST
-//#define INVENTEST
+//#define INGAMETEST
+#define INVENTEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -204,7 +204,7 @@ public class UIManager : SubClass<GameManager>
             }
         }
         int beforeLast = activatePopupIndex - 1;
-        Blocker.transform.SetSiblingIndex(beforeLast);
+        // Blocker.transform.SetSiblingIndex(beforeLast);
     }
 
 
