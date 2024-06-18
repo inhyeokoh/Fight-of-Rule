@@ -486,7 +486,7 @@ public class PathFinding : MonoBehaviour
             }
         }
 
-
+        path.Add(end);
         paths1 = path;
         return path;
 
@@ -563,7 +563,7 @@ public class PathFinding : MonoBehaviour
             }
         }
 
-
+/*
           for (int i = 0; i < apexLeftLine.Count; i++)
           {
               Gizmos.color = Color.green;
@@ -574,7 +574,7 @@ public class PathFinding : MonoBehaviour
           {
             Gizmos.color = Color.yellow;
             Gizmos.DrawLine(apexRightLine[i].a, apexRightLine[i].b);
-        }
+        }*/
   
     }
 }
