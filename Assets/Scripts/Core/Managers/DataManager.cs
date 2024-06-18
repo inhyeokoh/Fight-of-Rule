@@ -134,6 +134,7 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Xyz.Y = 0;
         CurrentCharacter.Xyz.Z = 0;
 #endif
+
         tableFolderPath = "Data/SheetsToCsv/bin/Debug/TableFiles/";
         DBDataLoad();
     }

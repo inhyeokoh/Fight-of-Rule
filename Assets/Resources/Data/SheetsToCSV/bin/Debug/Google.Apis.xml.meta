@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/ItemsEquipmentTable.csv.meta
+guid: 3f1aec16bd11179489c49caa9a756cac
+========
 guid: 26c12449dbc1b704788316cb4c0a2ed8
+>>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/Google.Apis.xml.meta
 TextScriptImporter:
   externalObjects: {}
   userData: 
