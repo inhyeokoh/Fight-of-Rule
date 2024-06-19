@@ -96,18 +96,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Escape",
+                    "name": "Inven",
                     "type": "Button",
-                    "id": "85498f2e-cc96-4800-8c73-51d3e8d50548",
+                    "id": "97954831-d54f-4421-bf14-a63408e8cbde",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Inven",
+                    "name": "PlayerInfo",
                     "type": "Button",
-                    "id": "97954831-d54f-4421-bf14-a63408e8cbde",
+                    "id": "552be450-892c-4676-8c35-990cb0fda028",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -227,17 +227,6 @@
                 },
                 {
                     "name": "",
-                    "id": "1c7b8290-b1a9-4b8e-a3ec-a0a8a598ce26",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Escape",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "85f0c55b-3225-4a45-a565-c3534287a7ef",
                     "path": "<Keyboard>/i",
                     "interactions": "",
@@ -246,17 +235,46 @@
                     "action": "Inven",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2001d2bd-c162-44b5-8740-5eec5534f120",
+                    "path": "<Keyboard>/p",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PlayerInfo",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
         {
-            "name": "OutGame",
+            "name": "UI",
             "id": "4bbea7dd-2140-42e6-a6fb-9a8c1c9c67e3",
             "actions": [
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "70b0d337-2bfe-4332-8cd1-f3e525ecbf44",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
                 {
                     "name": "Escape",
                     "type": "Button",
                     "id": "6ac46f20-a9ab-4b41-8671-f48e73e99dab",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Tab",
+                    "type": "Button",
+                    "id": "5dce4e51-8601-4dc7-9eb1-78cac12398ea",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -272,6 +290,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Escape",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d3b46e2d-e453-4d4e-9959-b4704380d7da",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tab",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e27662fa-b1e0-4ebb-a6ac-aada04f1ccaf",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Enter",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

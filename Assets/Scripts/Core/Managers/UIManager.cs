@@ -55,7 +55,7 @@ public class UIManager : SubClass<GameManager>
         _activePopupList = new LinkedList<UI_Entity>();
 #elif CLIENT_TEST
         ConnectPlayerInput();
-        GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_UserInput"); // UI 키입력 기능들을 수행할 수 있는 프리팹 생성
+        GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력 기능들을 수행할 수 있는 프리팹 생성
         popupCanvas = GameObject.Find("PopupCanvas");
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
         PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();

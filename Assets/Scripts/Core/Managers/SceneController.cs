@@ -17,6 +17,7 @@ public class SceneController : MonoBehaviour
         Select,
         Create,
         StatePattern,
+        Inventory,
         Loading    
     }
 
@@ -70,9 +71,10 @@ public class SceneController : MonoBehaviour
         {
             SceneManager.LoadScene(--curSceneIdx);
         }
-        else if (curSceneIdx == (int)Enum_Scenes.StatePattern)
+        else if (curSceneIdx == (int)Enum_Scenes.StatePattern || curSceneIdx == (int)Enum_Scenes.Inventory)
         {
-            SceneManager.LoadScene((int)Enum_Scenes.Title);
+            // TODO 게임 종료 묻는 팝업 띄우고 로그인 화면으로 전환
+            ExitGame();
         }
     }
 
