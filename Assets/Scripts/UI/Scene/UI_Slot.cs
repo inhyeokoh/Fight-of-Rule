@@ -5,6 +5,7 @@ using System;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI_Slot : UI_Entity
 {
@@ -76,7 +77,7 @@ public class UI_Slot : UI_Entity
             // 캐릭터 생성버튼에 기능 부여
             _entities[(int)Enum_UI_Slot.Create].ClickAction = (PointerEventData data) => {
                 GameManager.Data.SelectedSlotNum = Index;
-                GameManager.Scene.LoadScene("Create");
+                SceneManager.LoadScene("Create");
             };
         }
     }

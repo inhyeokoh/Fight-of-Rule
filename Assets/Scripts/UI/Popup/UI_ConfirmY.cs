@@ -30,7 +30,9 @@ public class UI_ConfirmY : UI_Entity
         ExistUser,
         SignUpSuccess,
         LoginFail,
-        ExistNickName
+        ExistNickName,
+        CharacterDeleteFail,
+        CharacterDeleteSuccess
     }
 
     private void OnEnable()
@@ -87,6 +89,12 @@ public class UI_ConfirmY : UI_Entity
                 break;
             case Enum_ConfirmTypes.ExistNickName:
                 _mainText.text = $"존재하는 닉네임 입니다!";
+                break;
+            case Enum_ConfirmTypes.CharacterDeleteFail:
+                _mainText.text = $"캐릭터 삭제에 실패하였습니다.";
+                break;
+            case Enum_ConfirmTypes.CharacterDeleteSuccess:
+                _mainText.text = $"캐릭터가 삭제 되였습니다.";
                 break;
             default:
                 break;

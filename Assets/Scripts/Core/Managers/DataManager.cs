@@ -1,5 +1,5 @@
-//#define INGAMETEST
-//#define INVENTEST
+//#define SERVER
+#define CLIENT_TEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -106,7 +106,11 @@ public class DataManager : SubClass<GameManager>
     {
         volOptions = new VOL_OPTIONS();
         characters = new CHARACTER_INFO[4];
-#if INVENTEST || INGAMETEST
+
+        tableFolderPath = "Data/SheetsToCSV/bin/Debug/TableFiles/";
+        DBDataLoad();
+#if SERVER
+#elif CLIENT_TEST
         CurrentCharacter = new CHARACTER_INFO();
         CurrentCharacter.BaseInfo = new CHARACTER_BASE();
         CurrentCharacter.BaseInfo.CharacterId = 0;
@@ -137,9 +141,6 @@ public class DataManager : SubClass<GameManager>
         volOptions.EffectVol = 0.5f;
         volOptions.VoiceVol = 0.5f;
 #endif
-
-        tableFolderPath = "Data/SheetsToCsv/bin/Debug/TableFiles/";
-        DBDataLoad();
     }
 
     void DBDataLoad()

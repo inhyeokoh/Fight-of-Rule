@@ -147,7 +147,7 @@ public class UI_Inventory : UI_Entity
 
     public void RestrictItemDescrPos()
     {
-        Vector2 option = new Vector2(300f, -165f);
+        Vector2 option = new Vector2(170f, -135f);
         StartCoroutine(RestrictUIPos(descrPanel, _descrUISize, option));
     }
 
@@ -266,7 +266,7 @@ public class UI_Inventory : UI_Entity
         GameManager.Inven.ExtendItemList();
     }
 
-    // 아이템 획득 테스트용도
+    [Obsolete("Just For Test. Not use anymore.")]
     void _PressGetItem()
     {
         var item = GameManager.Data.StateItemDataReader(500);

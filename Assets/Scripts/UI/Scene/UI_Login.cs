@@ -1,5 +1,5 @@
-// #define SERVER
-#define CLIENT
+//#define SERVER
+#define CLIENT_TEST
 using System;
 using TMPro;
 using UnityEngine;
@@ -39,7 +39,7 @@ public class UI_Login : UI_Entity
 
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt)); 
 
-#elif CLIENT
+#elif CLIENT_TEST
             // 서버 없이 씬 넘어가기
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
@@ -50,7 +50,7 @@ public class UI_Login : UI_Entity
         };
 
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {
-            GameManager.Scene.ExitGame();
+            SceneController.instance.ExitGame();
         };
     }
 }

@@ -69,7 +69,7 @@ public class UI_CharacterCreate : UI_Entity
         };
 
         _entities[(int)Enum_UI_JobSelect.GoBack].ClickAction = (PointerEventData data) => {
-            GameManager.Scene.GetPreviousScene();
+            SceneController.instance.LoadPreviousScene();
         };
     }
 

@@ -13,10 +13,11 @@ public class UI_CharacterSelect : UI_Entity
 
     enum Enum_UI_CharSelect
     {
-        Setting,
         Panel,
         Start,
-        Delete
+        Delete,
+        Settings,
+        GoBack
     }
 
     protected override Type GetUINamesAsType()
@@ -33,7 +34,7 @@ public class UI_CharacterSelect : UI_Entity
         characterSlots = new UI_Slot[_totalSlot];
         _DrawCharacterSlot();
 
-        _entities[(int)Enum_UI_CharSelect.Setting].ClickAction = (PointerEventData data) => {
+        _entities[(int)Enum_UI_CharSelect.Settings].ClickAction = (PointerEventData data) => {
             GameManager.UI.OpenOrClose(GameManager.UI.Settings);
         };
 
@@ -45,6 +46,10 @@ public class UI_CharacterSelect : UI_Entity
         _entities[(int)Enum_UI_CharSelect.Delete].ClickAction = (PointerEventData data) => {
             GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDeleteCharacter);
             GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
+        };
+
+        _entities[(int)Enum_UI_CharSelect.GoBack].ClickAction = (PointerEventData data) => {
+            SceneController.instance.LoadPreviousScene();
         };
     }
 

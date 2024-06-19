@@ -1,3 +1,5 @@
+//#define SERVER
+#define CLIENT_TEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -62,21 +64,27 @@ public class InventoryManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-    }
-
-    public void ConnectInvenUI()
-    {
         items = new List<ItemData>(new ItemData[TotalSlotCount]);
         equips = new List<ItemData>(new ItemData[EquipSlotCount]);
-
-        inven = GameManager.UI.Inventory;
-        _playerInfo = GameManager.UI.PlayerInfo;
-        _GetInvenDataFromTable();
+#if SERVER
+#elif CLIENT_TEST
+        ConnectInven();
+#endif
     }
 
-    void _GetInvenDataFromTable()
+    /// <summary>
+    /// 게임 플레이씬 도달 후 필요한 팝업들 생성 이후에 호출이 필요한 것들.
+    /// </summary>
+    public void ConnectInven()
     {
-        var item = CSVReader.Read("Data/SheetsToCsv/bin/Debug/TableFiles/InvenDB");
+        inven = GameManager.UI.Inventory;
+        _playerInfo = GameManager.UI.PlayerInfo;
+        _GetInvenDataFromDB();
+    }
+
+    void _GetInvenDataFromDB()
+    {
+        var item = CSVReader.Read("Data/SheetsToCSV/bin/Debug/TableFiles/InvenDB");
         for (int i = 0; i < item.Count; i++)
         {
             int id = int.Parse(item[i]["id"]);
@@ -87,7 +95,7 @@ public class InventoryManager : SubClass<GameManager>
             items[slotNum] = GameManager.Data.StateItemDataReader(id);
             items[slotNum].count = count;
 
-            // TODO 장비아이템은 고유번호
+            // TODO 장비아이템은 고유번호 분리
         }
     }
 

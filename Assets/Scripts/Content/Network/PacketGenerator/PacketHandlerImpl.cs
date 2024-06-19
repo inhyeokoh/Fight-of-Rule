@@ -183,13 +183,21 @@ public class PacketHandlerImpl : MonoBehaviour
 
         if (message.Success == false)
         {
-            Debug.Log("캐릭터 삭제 실패");
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.CharacterDeleteFail);
+            });
             return false;
         }
         // 캐릭터 데이터 삭제
         GameManager.Data.characters[message.SlotNum] = null;
-        Debug.Log("캐릭터 삭제 완료");
-        // TODO UI갱신
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+            GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.CharacterDeleteSuccess);
+        });
+        // TODO UI 즉시 갱신
 
         return true;
     }

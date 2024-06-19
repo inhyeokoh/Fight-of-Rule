@@ -41,6 +41,7 @@ public class QuestManager : SubClass<GameManager>
         // TEST
         unAvailableQuestList.Add(totalQuestDict[0]);
         unAvailableQuestList.Add(totalQuestDict[1]);
+        // UpdateAvailableQuests();
     }
 
     // 레벨업 시에 시작 가능한 퀘스트 목록 갱신

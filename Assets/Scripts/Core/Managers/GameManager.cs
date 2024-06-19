@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
 
     List<SubClass<GameManager>> _managers;
-
+        
 
     /*==================
      *     Pool
@@ -89,15 +89,6 @@ public class GameManager : MonoBehaviour
     public static DataManager Data { get { return Instance._dataManager; } }
 
     /*==================
-    *    SceneManager
-    =================*/
-    SceneManager2 _sceneManager = new SceneManager2();
-    /// <summary>
-    /// Change Scene
-    /// </summary>
-    public static SceneManager2 Scene { get { return Instance._sceneManager; } }
-
-    /*==================
     *    InventoryManager
     =================*/
     InventoryManager _invenManager = new InventoryManager();
@@ -133,7 +124,6 @@ public class GameManager : MonoBehaviour
             _networkManager,
             _uiManager,
             _dataManager,
-            _sceneManager,
             _invenManager,
             _questManager
         };
