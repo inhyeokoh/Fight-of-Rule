@@ -1,5 +1,5 @@
-//#define SERVER
-#define CLIENT_TEST
+#define SERVER
+//#define CLIENT_TEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +10,8 @@ public class UIManager : SubClass<GameManager>
     PlayerInput pi;
     InputAction moveAction;
     InputAction fireAction;
+
+    public UI_Login Login;
 
     public UI_SignUp SignUp;
     public UI_InputName InputName;
@@ -50,6 +52,8 @@ public class UIManager : SubClass<GameManager>
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
 #if SERVER
+        // 임시
+        Login = GameManager.Resources.Instantiate("Prefabs/UI/Popup/UI_Login", GameObject.Find("Canvas").transform).GetComponent<UI_Login>();
         popupCanvas = GameObject.Find("PopupCanvas");
         Object.DontDestroyOnLoad(popupCanvas);
         _activePopupList = new LinkedList<UI_Entity>();
@@ -80,7 +84,7 @@ public class UIManager : SubClass<GameManager>
         switch (sceneName)
         {
             case Enum_PopupSetJunction.Title:
-                GameManager.Resources.Instantiate($"Prefabs/UI/Base/UI_UserInput"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
+                GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
                 SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
                 Settings = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Settings", popupCanvas.transform).GetComponent<UI_Setting>();
                 InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform).GetComponent<UI_InputName>();

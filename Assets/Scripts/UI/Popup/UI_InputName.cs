@@ -68,4 +68,9 @@ public class UI_InputName : UI_Entity
 
         gameObject.SetActive(false);
     }
+
+    public override void AcceptAction()
+    {
+        _entities[(int)Enum_UI_InputName.Accept].ClickAction?.Invoke(null);
+    }
 }

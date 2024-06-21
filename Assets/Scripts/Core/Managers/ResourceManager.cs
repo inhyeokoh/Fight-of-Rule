@@ -35,6 +35,33 @@ public class ResourceManager : SubClass<GameManager>
         return Instantiate(Original, parent);
     }
 
+/*    public GameObject Instantiate(string objPath, Transform parent = null, string fontPath)
+    {
+        GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
+        foreach (var gameObject in rootGameObjects)
+        {
+            TMP_Text[] allTMPTextComponents = gameObject.GetComponentsInChildren<TMP_Text>();
+            foreach (TMP_Text tmpTextComponent in allTMPTextComponents)
+            {
+                tmpTextComponent.font = Resources.Load<TMP_FontAsset>(path_BMJUA_Font);
+                EditorUtility.SetDirty(tmpTextComponent); // 변경 사항을 저장
+            }
+        }
+
+
+        GameObject Original = Load<GameObject>(objPath);
+        TMPro.TMP_Text.fon font = Load<TMPro.TMP_FontAsset>(fontPath);
+
+        if (Original == null)
+        {
+            Debug.Log(path);
+            return null;
+        }
+
+        return Instantiate(Original, parent);
+    }*/
+
+
     public GameObject Instantiate(GameObject preLoadedobj, Transform parent = null)
     {
         if (preLoadedobj.GetComponent<Poolable>() != null)

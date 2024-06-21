@@ -1,5 +1,5 @@
-//#define SERVER
-#define CLIENT_TEST
+#define SERVER
+//#define CLIENT_TEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +10,7 @@ public class SceneController : MonoBehaviour
 {
     public static SceneController instance = null;
     int curSceneIdx;
+    public Enum_Scenes curScene;
 
     public enum Enum_Scenes
     {
@@ -42,7 +43,7 @@ public class SceneController : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         curSceneIdx = SceneManager.GetActiveScene().buildIndex;
-
+        Enum_Scenes curScene = (Enum_Scenes)curSceneIdx;
 #if SERVER
         GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.Title);
         if (scene.name == "StatePattern")

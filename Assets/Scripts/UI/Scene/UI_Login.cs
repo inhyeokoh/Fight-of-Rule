@@ -31,6 +31,9 @@ public class UI_Login : UI_Entity
             GameManager.UI.OpenOrClose(GameManager.UI.SignUp);
         };
 
+        _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { ClickLogin(); });
+        _entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { ClickLogin(); });
+
         _entities[(int)Enum_UI_Logins.Login].ClickAction = (PointerEventData data) => {
 #if SERVER
             C_LOGIN login_ask_pkt = new C_LOGIN();
@@ -47,10 +50,15 @@ public class UI_Login : UI_Entity
                 GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
             });
 #endif
-        };
+        };       
 
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {
             SceneController.instance.ExitGame();
         };
+    }
+
+    private void ClickLogin()
+    {
+        _entities[(int)Enum_UI_Logins.Login].ClickAction?.Invoke(null);
     }
 }

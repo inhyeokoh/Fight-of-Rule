@@ -31,6 +31,31 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     protected List<UI_Entity> _subUIs = new List<UI_Entity>();
     //현재 UI의 하위 UI요소들
     protected Dictionary<int, UI_Entity> _entities = new Dictionary<int, UI_Entity>();
+    public virtual void AcceptAction() {}
+    int curInputFieldIndex;
+    protected List<TMP_InputField> inputFields = new List<TMP_InputField>();
+    public void TabAction()
+    {
+        if (inputFields.Count == 0) return;
+
+        // 현재 focus된 inputField 찾기
+        for (int i = 0; i < inputFields.Count; i++)
+        {
+            if (inputFields[i].isFocused)
+            {
+                curInputFieldIndex = i;
+            }
+        }
+
+        curInputFieldIndex++;
+        // 마지막 inputField 이후엔 초기 inputField로
+        if (curInputFieldIndex > inputFields.Count - 1)
+        {
+            curInputFieldIndex = 0;
+        }
+        inputFields[curInputFieldIndex].Select();
+    }
+
 
     //UI컴포넌트들 모음
     static List<Type> _components = new List<Type>()
@@ -107,6 +132,12 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
                     if (!_entities.ContainsKey(str))  // 키가 이미 존재하는지 확인
                     {
                         _entities.Add(str, uientity);
+                    }
+
+                    if (names[str].Contains("Field"))
+                    {
+                        var inputField = obj.GetComponent<TMP_InputField>();
+                        inputFields.Add(inputField);
                     }
                     break;
                 }
