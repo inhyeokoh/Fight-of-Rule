@@ -1,5 +1,5 @@
-#define SERVER
-//#define CLIENT_TEST
+//#define SERVER
+#define CLIENT_TEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,5 +1,6 @@
-#define SERVER
-//#define CLIENT_TEST
+//#define SERVER
+//#define CLIENT_TEST_FROM_TITLE
+#define CLIENT_TEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -52,7 +53,10 @@ public class UIManager : SubClass<GameManager>
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
 #if SERVER
-        // 임시
+        popupCanvas = GameObject.Find("PopupCanvas");
+        Object.DontDestroyOnLoad(popupCanvas);
+        _activePopupList = new LinkedList<UI_Entity>();
+#elif CLIENT_TEST_FROM_TITLE
         Login = GameManager.Resources.Instantiate("Prefabs/UI/Popup/UI_Login", GameObject.Find("Canvas").transform).GetComponent<UI_Login>();
         popupCanvas = GameObject.Find("PopupCanvas");
         Object.DontDestroyOnLoad(popupCanvas);

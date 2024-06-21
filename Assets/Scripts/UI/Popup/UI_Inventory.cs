@@ -17,8 +17,9 @@ public class UI_Inventory : UI_Entity
     public Rect panelRect;
     Vector2 _descrUISize;
 
-    TMP_Text[] upTogNames;
-    Toggle[] upToggles;
+    UI_ItemSlot[] _cachedItemSlots;
+    Toggle[] itemTypeToggles;
+    int itemTypesCount;
 
     List<ItemData> _items;
 
@@ -43,6 +44,14 @@ public class UI_Inventory : UI_Entity
         DescrPanel,
     }
 
+    enum Enum_ItemTypeInKorean
+    {
+        전체,
+        장비,
+        소비,
+        기타
+    }
+
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_Inventory);
@@ -57,8 +66,6 @@ public class UI_Inventory : UI_Entity
     {
         base.Init();
         _content = _entities[(int)Enum_UI_Inventory.ScrollView].transform.GetChild(0).GetChild(0).gameObject; // Content 담기는 오브젝트
-        upTogNames = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<TMP_Text>();
-        upToggles = _entities[(int)Enum_UI_Inventory.Panel_U].GetComponentsInChildren<Toggle>();
         panelRect = _entities[(int)Enum_UI_Inventory.Panel].GetComponent<RectTransform>().rect;
         goldPanel = _entities[(int)Enum_UI_Inventory.Gold].gameObject;
         dragImg = _entities[(int)Enum_UI_Inventory.DragImg].gameObject;
@@ -66,10 +73,11 @@ public class UI_Inventory : UI_Entity
         closeBtn = _entities[(int)Enum_UI_Inventory.Close].gameObject;
         _descrUISize = _GetUISize(descrPanel);
 
+        itemTypesCount = Enum.GetValues(typeof(Enum_ItemTypeInKorean)).Length;
         _items = GameManager.Inven.items;
 
-        _SetPanel_U();
         _DrawSlots();
+        _SetPanel_U();
         UpdateGoldPanel(GameManager.Inven.Gold);
 
         foreach (var _subUI in _subUIs)
@@ -122,7 +130,6 @@ public class UI_Inventory : UI_Entity
         {
             _PressGetItem();
             GameManager.UI.OpenPopup(GameManager.UI.PlayerInfo);
-            childPopups.Add(GameManager.UI.PlayerInfo);
         };
 
         // 인벤토리 닫기
@@ -137,114 +144,84 @@ public class UI_Inventory : UI_Entity
     // 인벤토리 내 초기 슬롯 생성
     void _DrawSlots()
     {
+        _cachedItemSlots = new UI_ItemSlot[_items.Count];
         for (int i = 0; i < GameManager.Inven.TotalSlotCount; i++)
         {
-            GameObject _itemSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform);
-            _itemSlot.name = "ItemSlot_" + i;
-            _itemSlot.GetComponent<UI_ItemSlot>().Index = i;
-        }
-    }
-
-    public void RestrictItemDescrPos()
-    {
-        Vector2 option = new Vector2(170f, -135f);
-        StartCoroutine(RestrictUIPos(descrPanel, _descrUISize, option));
-    }
-
-    public void StopRestrictItemDescrPos(PointerEventData data)
-    {
-        StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
-    }
-
-    // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
-    Vector2 _GetUISize(GameObject UI)
-    {
-        Vector2 leftBottom = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.min);
-        Vector2 rightTop = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.max);
-        Vector2 UISize = rightTop - leftBottom;
-        return UISize;
-    }
-
-    // UI가 화면 밖으로 넘어가지 않도록 위치 제한
-    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize, Vector2? option = null)
-    {
-        while (true)
-        {
-            Vector3 mousePos = Input.mousePosition;
-            float x = Math.Clamp(mousePos.x + option.Value.x, UISize.x / 2, Screen.width - (UISize.x / 2));
-            float y = Math.Clamp(mousePos.y + option.Value.y, UISize.y / 2, Screen.height - (UISize.y / 2));
-            UI.transform.position = new Vector2(x, y);
-            yield return null;
+            _cachedItemSlots[i] = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform).GetComponent<UI_ItemSlot>();
+            _cachedItemSlots[i].Index = i;
         }
     }
 
     void _SetPanel_U()
     {
-        upTogNames[0].text = "All";
-        upTogNames[1].text = "Equipment";
-        upTogNames[2].text = "Consumption";
-        upTogNames[3].text = "Material";
-        upTogNames[4].text = "Etc";
-
-        upToggles[0].onValueChanged.AddListener((value) => _ToggleValueChanged(value, "All")); // 전체보기
-        for (int i = 1; i < upToggles.Length; i++) // 전체보기를 제외한 분류
+        itemTypeToggles = new Toggle[itemTypesCount];
+        for (int i = 0; i < itemTypesCount; i++)
         {
-            string typeName = upTogNames[i].text;
-            upToggles[i].onValueChanged.AddListener((value) => _ToggleValueChanged(value, typeName));
+            itemTypeToggles[i] = GameManager.Resources.Instantiate("Prefabs/UI/Scene/InvenItemTypeToggle", _entities[(int)Enum_UI_Inventory.Panel_U].transform).GetComponent<Toggle>();
+
+            TMP_Text itemTypeToggleName = itemTypeToggles[i].GetComponentInChildren<TMP_Text>();
+            itemTypeToggleName.text = Enum.GetName(typeof(Enum_ItemTypeInKorean), i);
+
+            itemTypeToggles[i].isOn = false;
+            itemTypeToggles[i].group = _entities[(int)Enum_UI_Inventory.Panel_U].transform.GetComponent<ToggleGroup>();
         }
     }
 
-    void _ToggleValueChanged(bool value, string typeName)
+    public void AddListenerToItemTypeToggle()
+    {
+        itemTypeToggles[0].onValueChanged.AddListener((value) => _ToggleValueChanged(value, (int)Enum_ItemTypeInKorean.전체));
+        for (int i = 1; i < itemTypesCount; i++) // 전체보기를 제외한 분류
+        {
+            int index = i;
+            itemTypeToggles[index].onValueChanged.AddListener((value) => _ToggleValueChanged(value, index));
+        }
+    }
+
+    void _ToggleValueChanged(bool value, int typeNum)
     {
         if (value)
         {
-            if (typeName == "All")
+            if (typeNum == (int)Enum_ItemTypeInKorean.전체)
             {
-                for (int i = 0; i < _items.Count; i++)
-                {
-                    if (_items[i] == null)
-                    {
-                        continue;
-                    }
-                    UI_ItemSlot slot = _content.transform.GetChild(i).GetComponent<UI_ItemSlot>();
-                    slot.RenderBright();
-                }
+                _RenderAllItemsBright();
             }
             else
             {
-                _RenderByType(typeName);
+                _RenderByType(typeNum);
             }
+        }
+    }
+
+    // 전체 아이템을 밝게 렌더링
+    void _RenderAllItemsBright()
+    {
+        for (int i = 0; i < _items.Count; i++)
+        {
+            if (_items[i] == null) continue;
+
+            _cachedItemSlots[i].RenderBright();
         }
     }
 
     // 선택한 타입에 해당 아이템은 색 밝게, 나머지는 약간 어둡게
-    void _RenderByType(string typeName)
+    void _RenderByType(int typeNum)
     {
-        // 문자열을 해당 열거형으로 변환
-        Enum_ItemType targetType;
-        if (!Enum.TryParse(typeName, out targetType))
-        {
-            return; //못 바꾸면 return
-        }
+        Enum_ItemType targetType = (Enum_ItemType)(typeNum - 1);
 
         for (int i = 0; i < _items.Count; i++)
         {
-            if (_items[i] == null)
-            {
-                continue;
-            }
+            if (_items[i] == null) continue;
 
-            UI_ItemSlot slot = _content.transform.GetChild(i).GetComponent<UI_ItemSlot>();
-            if (_items[i].itemType != targetType) // 다른 타입은 어둡게 그리기
+            if (_items[i].itemType != targetType)
             {
-                slot.RenderDark();
+                _cachedItemSlots[i].RenderDark();
             }
             else
             {
-                slot.RenderBright();
+                _cachedItemSlots[i].RenderBright();
             }
         }
-    }
+    }     
 
     // 아이템 배열 정보에 맞게 UI 갱신 시키는 메서드
     public void UpdateInvenSlot(int slotIndex)
@@ -285,6 +262,39 @@ public class UI_Inventory : UI_Entity
         }
 
         return false;
+    }
+
+    public void RestrictItemDescrPos()
+    {
+        Vector2 option = new Vector2(170f, -135f);
+        StartCoroutine(RestrictUIPos(descrPanel, _descrUISize, option));
+    }
+
+    public void StopRestrictItemDescrPos(PointerEventData data)
+    {
+        StopCoroutine(RestrictUIPos(descrPanel, _descrUISize));
+    }
+
+    // UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 사이즈 계산
+    Vector2 _GetUISize(GameObject UI)
+    {
+        Vector2 leftBottom = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.min);
+        Vector2 rightTop = UI.transform.TransformPoint(UI.GetComponent<RectTransform>().rect.max);
+        Vector2 UISize = rightTop - leftBottom;
+        return UISize;
+    }
+
+    // UI가 화면 밖으로 넘어가지 않도록 위치 제한
+    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize, Vector2? option = null)
+    {
+        while (true)
+        {
+            Vector3 mousePos = Input.mousePosition;
+            float x = Math.Clamp(mousePos.x + option.Value.x, UISize.x / 2, Screen.width - (UISize.x / 2));
+            float y = Math.Clamp(mousePos.y + option.Value.y, UISize.y / 2, Screen.height - (UISize.y / 2));
+            UI.transform.position = new Vector2(x, y);
+            yield return null;
+        }
     }
 
     public void UpdateGoldPanel(long gold)

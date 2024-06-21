@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class ResourceManager : SubClass<GameManager>
 {
@@ -22,7 +23,7 @@ public class ResourceManager : SubClass<GameManager>
         return Resources.Load<T>(path); //일단 기존 방식이랑 mapping
     }
 
-    public GameObject Instantiate(string path, Transform parent = null)
+/*    public GameObject Instantiate(string path, Transform parent = null)
     {
         GameObject Original = Load<GameObject>(path);
 
@@ -33,34 +34,27 @@ public class ResourceManager : SubClass<GameManager>
         }
 
         return Instantiate(Original, parent);
-    }
+    }*/
 
-/*    public GameObject Instantiate(string objPath, Transform parent = null, string fontPath)
+    // 폰트 적용하며 생성
+    public GameObject Instantiate(string objPath, Transform parent = null, string fontPath = FontSetter.path_BMJUA_Font)
     {
-        GameObject[] rootGameObjects = SceneManager.GetActiveScene().GetRootGameObjects();
-        foreach (var gameObject in rootGameObjects)
-        {
-            TMP_Text[] allTMPTextComponents = gameObject.GetComponentsInChildren<TMP_Text>();
-            foreach (TMP_Text tmpTextComponent in allTMPTextComponents)
-            {
-                tmpTextComponent.font = Resources.Load<TMP_FontAsset>(path_BMJUA_Font);
-                EditorUtility.SetDirty(tmpTextComponent); // 변경 사항을 저장
-            }
-        }
-
-
         GameObject Original = Load<GameObject>(objPath);
-        TMPro.TMP_Text.fon font = Load<TMPro.TMP_FontAsset>(fontPath);
 
         if (Original == null)
         {
-            Debug.Log(path);
+            Debug.Log(objPath);
             return null;
         }
 
-        return Instantiate(Original, parent);
-    }*/
+        TMP_Text[] allTMPTextComponents = Original.GetComponentsInChildren<TMP_Text>();
+        foreach (TMP_Text tmpTextComponent in allTMPTextComponents)
+        {
+            tmpTextComponent.font = Resources.Load<TMP_FontAsset>(fontPath);
+        }
 
+        return Instantiate(Original, parent);
+    }
 
     public GameObject Instantiate(GameObject preLoadedobj, Transform parent = null)
     {

@@ -66,4 +66,9 @@ public class UI_SignUp : UI_Entity
 
         gameObject.SetActive(false);
     }
+
+    public override void AcceptAction()
+    {
+        _entities[(int)Enum_UI_SignUp.Create].ClickAction?.Invoke(null);
+    }
 }

@@ -46,21 +46,20 @@ public class UI_ItemSlot : UI_Entity
         //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
         {
-            if (!CheckItemNull())
-            {
-                GameManager.UI.GetPopupForward(GameManager.UI.Inventory);
-                _inven.dragImg.SetActive(true);
-                _inven.dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
-            }
+            if (CheckItemNull()) return; // 비어있는 칸 드래그 거부
+
+            GameManager.UI.GetPopupForward(GameManager.UI.Inventory);
+            _inven.dragImg.SetActive(true);
+            _inven.dragImg.GetComponent<Image>().sprite = _iconImg.sprite;  // 드래그 이미지를 현재 이미지로
+
         };
 
         //드래그 중
         _entities[(int)Enum_UI_ItemSlot.IconImg].DragAction = (PointerEventData data) =>
         {
-            if (!CheckItemNull())
-            {
-                _inven.dragImg.transform.position = data.position;
-            }
+            if (CheckItemNull()) return;
+
+            _inven.dragImg.transform.position = data.position;
         };
 
         //드래그 끝
@@ -68,14 +67,14 @@ public class UI_ItemSlot : UI_Entity
         {
             if (CheckItemNull()) return;
             
-            if (CheckSlotDrop(data) && !_inven.CheckUIOutDrop()) // 드래그 드롭한 오브젝트가 아이템 슬롯이어야함
+            if (!_inven.CheckUIOutDrop() && CheckSlotDrop(data)) // 인벤토리 내에서 드롭 + 슬롯 안에 정확히 드롭
             {
                 _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().Index;
                 GameManager.Inven.DragAndDropItems(Index, _otherIndex);
             }
-            else if (_inven.CheckUIOutDrop()) // 인벤토리 UI 밖에 드롭할 경우
+            else if (_inven.CheckUIOutDrop()) // 인벤토리 밖에 드롭한 경우
             {
-                if (CheckSlotDrop(data)) // 드래그 드롭한 오브젝트가 장비 슬롯인 경우
+                if (CheckSlotDrop(data)) // 플레이어 정보창 장비 슬롯에 드롭한 경우
                 {
                     _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_EquipSlot>().Index;
                     GameManager.Inven.InvenToEquipSlot(Index, _otherIndex);
@@ -85,14 +84,14 @@ public class UI_ItemSlot : UI_Entity
                     if (_invenItems[Index].count == 1)
                     {
                         // 버릴지 되묻는 팝업
-                        GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
                         GameManager.UI.InGameConfirmYN.ChangeText(UI_InGameConfirmYN.Enum_ConfirmTypes.InvenSingleDrop, Index);
+                        GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
                     }
                     else
                     {
                         // 버릴 아이템 이름 + 수량 적는 팝업
-                        GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
                         GameManager.UI.InGameConfirmYN.ChangeText(UI_InGameConfirmYN.Enum_ConfirmTypes.InvenPluralDrop, Index);
+                        GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmYN);
                     }
                 }
             }
@@ -146,6 +145,8 @@ public class UI_ItemSlot : UI_Entity
                 }
             }
         };
+
+        _inven.AddListenerToItemTypeToggle();
     }
 
     // 슬롯 번호에 맞게 아이템 그리기

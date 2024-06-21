@@ -73,7 +73,6 @@ public class UserInputOnUI : MonoBehaviour
             else if (GameManager.UI._activePopupList.Count > 0)
             {
                 GameManager.UI._activePopupList.Last.Value.TabAction();
-                Debug.Log(GameManager.UI._activePopupList.Last.Value);
             }
         }
     }

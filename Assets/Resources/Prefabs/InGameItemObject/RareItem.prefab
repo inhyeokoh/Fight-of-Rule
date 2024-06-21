@@ -56,8 +56,9 @@ MonoBehaviour:
     itemGrade: 0
     purchaseprice: 0
     sellingprice: 0
-    count: 0
     maxCount: 0
+    count: 0
+    slotNum: 0
   cam: {fileID: 0}
   itemText: {fileID: 7968998657620462829}
 --- !u!65 &4292020341692231992
@@ -19682,7 +19683,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3045121458587402318, guid: 6821b3660b847ec4eb24d0caa0dfa07a, type: 2}
+  - {fileID: 3891330947877374064, guid: 059a8f526de18e24fb438d5647bf4617, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -19726,8 +19727,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Sample text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 6821b3660b847ec4eb24d0caa0dfa07a, type: 2}
-  m_sharedMaterial: {fileID: -3045121458587402318, guid: 6821b3660b847ec4eb24d0caa0dfa07a,
+  m_fontAsset: {fileID: 11400000, guid: 059a8f526de18e24fb438d5647bf4617, type: 2}
+  m_sharedMaterial: {fileID: 3891330947877374064, guid: 059a8f526de18e24fb438d5647bf4617,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
