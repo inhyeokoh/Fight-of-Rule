@@ -9,7 +9,9 @@ using UnityEngine.UI;
 public class UI_Dialog : UI_Entity
 {
     List<Quest> accessibleQuests;
+    int _npcID;
 
+    CameraMovement cameraMovement;
     GameObject nextButton;
     GameObject acceptButton;
     GameObject questPanel;
@@ -42,11 +44,12 @@ public class UI_Dialog : UI_Entity
     {
         if (GameManager.UI.init)
         {
-            // UI 위에서 아닌 팝업 OnEnable시 제어
             GameManager.UI.PointerOnUI(true);
             nextButton.SetActive(false);
             acceptButton.SetActive(false);
             _ShowQuests();
+            cameraMovement.NpcPos = GameManager.Data.npcDict[_npcID].transform.position;
+            cameraMovement.ZoomState = CameraMovement.Enum_ZoomTypes.DialogZoom;
             mainText.text = defaultText;
             dialogCount = 0;
         }
@@ -64,6 +67,7 @@ public class UI_Dialog : UI_Entity
     {
         base.Init();
 
+        cameraMovement = Camera.main.GetComponent<CameraMovement>();
         questPanel = _entities[(int)Enum_UI_Dialog.QuestPanel].gameObject;
         nextButton = _entities[(int)Enum_UI_Dialog.Next].gameObject;
         acceptButton = _entities[(int)Enum_UI_Dialog.Accept].gameObject;
@@ -104,7 +108,8 @@ public class UI_Dialog : UI_Entity
 
     public void HandOverNpcID(int npcID)
     {
-        accessibleQuests = GameManager.Data.npcDict[npcID].AccessibleQuests ?? null;
+        _npcID = npcID;
+        accessibleQuests = GameManager.Data.npcDict[_npcID].AccessibleQuests ?? null;
     }
 
     void _ShowQuests()

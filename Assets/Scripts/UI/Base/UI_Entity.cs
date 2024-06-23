@@ -31,7 +31,7 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     protected List<UI_Entity> _subUIs = new List<UI_Entity>();
     //현재 UI의 하위 UI요소들
     protected Dictionary<int, UI_Entity> _entities = new Dictionary<int, UI_Entity>();
-    public virtual void AcceptAction() {}
+    public virtual void AcceptAction() { EventSystem.current.SetSelectedGameObject(null); }
     int curInputFieldIndex;
     protected List<TMP_InputField> inputFields = new List<TMP_InputField>();
     public void TabAction()

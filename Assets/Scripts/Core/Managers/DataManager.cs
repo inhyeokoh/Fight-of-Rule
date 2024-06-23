@@ -1,4 +1,4 @@
-//#define SERVER
+#define SERVER
 #define CLIENT_TEST
 using System;
 using System.Collections;
@@ -85,7 +85,7 @@ public class DataManager : SubClass<GameManager>
     /////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// NPC 데이터
+    /// NPC 데이터. { key = npcID, value = Npc }
     /// </summary>
     public Dictionary<int, Npc> npcDict = new Dictionary<int, Npc>();
     /////////////////////////////////////////////////////////////////////////////////////
@@ -106,6 +106,7 @@ public class DataManager : SubClass<GameManager>
     {
         volOptions = new VOL_OPTIONS();
         characters = new CHARACTER_INFO[4];
+        CurrentCharacter = new CHARACTER_INFO();
 
         tableFolderPath = "Data/SheetsToCSV/bin/Debug/TableFiles/";
         DBDataLoad();

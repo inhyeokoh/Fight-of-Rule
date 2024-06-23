@@ -8,7 +8,6 @@ using Google.Protobuf;
 public class UI_InputName : UI_Entity
 {
     public string nickname;
-    TMP_Text _instruction;
 
     enum Enum_UI_InputName
     {
@@ -28,8 +27,10 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
-        _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
+        TMP_Text _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
         _instruction.text = "한글, 영문, 숫자 포함 12자까지 가능합니다.";
+
+/*        _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { ClickAccept(); });*/
 
         foreach (var _subUI in _subUIs)
         {
@@ -41,6 +42,7 @@ public class UI_InputName : UI_Entity
 
         _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
             nickname = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().text;
+
             // string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-R]{1,12}", "", RegexOptions.Singleline);
 
 /*            // 특수문자 안되게
@@ -58,6 +60,8 @@ public class UI_InputName : UI_Entity
             {*/
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
+            Debug.Log(nickname);
+            Debug.Log(nick_DupAsk_pkt.Nickname);
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
 /*        };*/
     };

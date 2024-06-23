@@ -9,7 +9,6 @@ public class UI_CharacterSelect : UI_Entity
 {
     GameObject panel;
     int _totalSlot = 4;
-    UI_Slot[] characterSlots;
 
     enum Enum_UI_CharSelect
     {
@@ -30,8 +29,6 @@ public class UI_CharacterSelect : UI_Entity
         base.Init();
 
         panel = _entities[(int)Enum_UI_CharSelect.Panel].gameObject;
-
-        characterSlots = new UI_Slot[_totalSlot];
         _DrawCharacterSlot();
 
         _entities[(int)Enum_UI_CharSelect.Settings].ClickAction = (PointerEventData data) => {
@@ -39,6 +36,8 @@ public class UI_CharacterSelect : UI_Entity
         };
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
+            if (GameManager.Data.CurrentCharacter == null) return;
+
             UI_Loading.LoadScene("StatePattern");
         };
 
@@ -58,10 +57,7 @@ public class UI_CharacterSelect : UI_Entity
         for (int i = 0; i < _totalSlot; i++)
         {
             GameObject slot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/CharacterSlot", panel.transform);
-            characterSlots[i] = slot.GetComponent<UI_Slot>();
-            characterSlots[i].Index = i;
+            slot.GetComponent<UI_CharacterSlot>().Index = i;
         }
-
-        characterSlots[0].gameObject.GetComponent<Toggle>().isOn = true;
     }
 }

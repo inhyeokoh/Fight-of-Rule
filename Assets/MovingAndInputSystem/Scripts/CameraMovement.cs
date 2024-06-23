@@ -20,9 +20,35 @@ public class CameraMovement : MonoBehaviour
     public float zoomOffsetZ1;
     public float zoomOffsetZ2;
     private int zoomLvl = 1;
+        
+    public enum Enum_ZoomTypes
+    {
+        Default,
+        DialogZoom,    
+    }
+    Enum_ZoomTypes zoomState;
+    public Enum_ZoomTypes ZoomState
+    {
+        get { return zoomState; }
+        set
+        {
+            if (zoomState != value)
+            {
+                zoomState = value;
+                OnZoomStateChanged();
+            }
+        }
+    }
+    public Vector3 NpcPos { get; set; }
+    Vector3 midPos;
 
     [SerializeField]
     private float scrollSpeed = 1.0f;
+
+    private void Awake()
+    {
+        zoomState = Enum_ZoomTypes.Default;
+    }
 
     private void Update()
     {
@@ -85,4 +111,54 @@ public class CameraMovement : MonoBehaviour
         }
     }
 
+
+    void OnZoomStateChanged()
+    {
+        switch (zoomState)
+        {
+            case Enum_ZoomTypes.Default:
+                zoomLvl = 1;
+                break;
+            case Enum_ZoomTypes.DialogZoom:
+                Vector3 dialogZoomPos = CalculateDialogZoomPos();
+                StartCoroutine(MoveCameraToPosition(dialogZoomPos));
+                break;
+        }
+    }
+
+    private Vector3 CalculateDialogZoomPos()
+    {
+        float distance = 10f;
+
+        // 캐릭터와 Npc의 중점
+        midPos = (target.transform.position + NpcPos) / 2.0f;
+        // 캐릭터에서 Npc로 향하는 벡터
+        Vector3 forward = (target.transform.position - NpcPos).normalized;
+
+        // 캐릭터의 우측 방향 벡터 (캐릭터가 바라보는 방향과 하늘 방향의 외적)
+        Vector3 rightDirection = Vector3.Cross(forward, Vector3.up).normalized;
+        // 캐릭터의 우측과 하늘 사이 45도 방향 벡터 계산
+        Vector3 direction45 = (rightDirection + Vector3.up).normalized;
+
+        // 목표 위치 계산
+        Vector3 targetPosition = midPos + direction45 * distance;
+        return targetPosition;
+    }
+
+
+    IEnumerator MoveCameraToPosition(Vector3 targetPosition)
+    {
+        while (Vector3.Distance(transform.position, targetPosition) > 1f)
+        {
+            transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 50f);
+
+            Quaternion targetRotation = Quaternion.LookRotation(midPos - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 50f);
+
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        transform.LookAt(midPos);
+    }
 }

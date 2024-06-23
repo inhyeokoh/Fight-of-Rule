@@ -22,47 +22,44 @@ public static partial class ItemMessageReflection {
   static ItemMessageReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChFJdGVtTWVzc2FnZS5wcm90byLkAgoKRVFVSVBfSVRFTRIPCgdpdGVtX2lk",
-          "GAEgASgFEhEKCWl0ZW1fbmFtZRgCIAEoCRISCgppdGVtX2NsYXNzGAMgASgJ",
-          "EhEKCWl0ZW1fdHlwZRgEIAEoCRISCgppdGVtX2dyYWRlGAUgASgJEhcKD2l0",
-          "ZW1fZGV0YWlsdHlwZRgGIAEoCRISCgppdGVtX2xldmVsGAcgASgFEhMKC2l0",
-          "ZW1fYXR0YWNrGAggASgFEhQKDGl0ZW1fZGVmZW5zZRgJIAEoBRISCgppdGVt",
-          "X3NwZWVkGAogASgFEhgKEGl0ZW1fYXR0YWNrc3BlZWQYCyABKAUSDwoHaXRl",
-          "bV9ocBgMIAEoBRIPCgdpdGVtX21wGA0gASgFEhAKCGl0ZW1fZXhwGA4gASgF",
-          "EhIKCml0ZW1fbWF4aHAYDyABKAUSEgoKaXRlbV9tYXhtcBgQIAEoBRIVCg1p",
-          "dGVtX21heGNvdW50GBEgASgFIuYCCgxDT05TVU1FX0lURU0SDwoHaXRlbV9p",
-          "ZBgBIAEoBRIRCglpdGVtX25hbWUYAiABKAkSEgoKaXRlbV9jbGFzcxgDIAEo",
-          "CRIRCglpdGVtX3R5cGUYBCABKAkSEgoKaXRlbV9ncmFkZRgFIAEoCRIXCg9p",
-          "dGVtX2RldGFpbHR5cGUYBiABKAkSEgoKaXRlbV9sZXZlbBgHIAEoBRITCgtp",
-          "dGVtX2F0dGFjaxgIIAEoBRIUCgxpdGVtX2RlZmVuc2UYCSABKAUSEgoKaXRl",
-          "bV9zcGVlZBgKIAEoBRIYChBpdGVtX2F0dGFja3NwZWVkGAsgASgFEg8KB2l0",
-          "ZW1faHAYDCABKAUSDwoHaXRlbV9tcBgNIAEoBRIQCghpdGVtX2V4cBgOIAEo",
-          "BRISCgppdGVtX21heGhwGA8gASgFEhIKCml0ZW1fbWF4bXAYECABKAUSFQoN",
-          "aXRlbV9tYXhjb3VudBgRIAEoBSJYCghFVENfSVRFTRIPCgdpdGVtX2lkGAEg",
-          "ASgFEhEKCWl0ZW1fbmFtZRgCIAEoCRIRCglpdGVtX3R5cGUYAyABKAkSFQoN",
-          "aXRlbV9tYXhjb3VudBgEIAEoBWIGcHJvdG8z"));
+          "ChFJdGVtTWVzc2FnZS5wcm90byKNAQoJSVRFTV9EQVRBEgoKAmlkGAEgASgF",
+          "EgwKBG5hbWUYAiABKAkSDAoEdHlwZRgDIAEoCRINCgVncmFkZRgEIAEoCRIV",
+          "Cg1zZWxsaW5nX3ByaWNlGAUgASgDEhEKCW1heF9jb3VudBgGIAEoBRINCgVj",
+          "b3VudBgHIAEoBRIQCghzbG90X251bRgIIAEoBSKZAgoOU1RBVEVJVEVNX0RB",
+          "VEESHQoJaXRlbV9kYXRhGAEgASgLMgouSVRFTV9EQVRBEhIKCml0ZW1fY2xh",
+          "c3MYAiABKAkSEwoLZGV0YWlsX3R5cGUYAyABKAkSDQoFbGV2ZWwYBCABKAUS",
+          "DgoGYXR0YWNrGAUgASgFEg8KB2RlZmVuc2UYBiABKAUSDQoFc3BlZWQYByAB",
+          "KAUSFAoMYXR0YWNrX3NwZWVkGAggASgFEgsKA2V4cBgJIAEoBRIKCgJocBgK",
+          "IAEoBRIKCgJtcBgLIAEoBRINCgVtYXhIcBgMIAEoBRINCgVtYXhNcBgNIAEo",
+          "BRIVCg1kdXJhdGlvbl9ib29sGA4gASgIEhAKCGR1cmF0aW9uGA8gASgCIncK",
+          "EkVRVUlQTUVOVElURU1fREFUQRInCg5zdGF0ZWl0ZW1fZGF0YRgBIAEoCzIP",
+          "LlNUQVRFSVRFTV9EQVRBEhkKEW1heF9yZWluZm9yY2VtZW50GAIgASgFEh0K",
+          "FWN1cnJlbnRfcmVpbmZvcmNlbWVudBgDIAEoBSI6CglJTlZFTlRPUlkSEgoK",
+          "aW52ZW5fc2l6ZRgBIAEoBRIZCgVpdGVtcxgCIAMoCzIKLklURU1fREFUQWIG",
+          "cHJvdG8z"));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::EQUIP_ITEM), global::EQUIP_ITEM.Parser, new[]{ "ItemId", "ItemName", "ItemClass", "ItemType", "ItemGrade", "ItemDetailtype", "ItemLevel", "ItemAttack", "ItemDefense", "ItemSpeed", "ItemAttackspeed", "ItemHp", "ItemMp", "ItemExp", "ItemMaxhp", "ItemMaxmp", "ItemMaxcount" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::CONSUME_ITEM), global::CONSUME_ITEM.Parser, new[]{ "ItemId", "ItemName", "ItemClass", "ItemType", "ItemGrade", "ItemDetailtype", "ItemLevel", "ItemAttack", "ItemDefense", "ItemSpeed", "ItemAttackspeed", "ItemHp", "ItemMp", "ItemExp", "ItemMaxhp", "ItemMaxmp", "ItemMaxcount" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::ETC_ITEM), global::ETC_ITEM.Parser, new[]{ "ItemId", "ItemName", "ItemType", "ItemMaxcount" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::ITEM_DATA), global::ITEM_DATA.Parser, new[]{ "Id", "Name", "Type", "Grade", "SellingPrice", "MaxCount", "Count", "SlotNum" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::STATEITEM_DATA), global::STATEITEM_DATA.Parser, new[]{ "ItemData", "ItemClass", "DetailType", "Level", "Attack", "Defense", "Speed", "AttackSpeed", "Exp", "Hp", "Mp", "MaxHp", "MaxMp", "DurationBool", "Duration" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::EQUIPMENTITEM_DATA), global::EQUIPMENTITEM_DATA.Parser, new[]{ "StateitemData", "MaxReinforcement", "CurrentReinforcement" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::INVENTORY), global::INVENTORY.Parser, new[]{ "InvenSize", "Items" }, null, null, null, null)
         }));
   }
   #endregion
 
 }
 #region Messages
-public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
+public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
 #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     , pb::IBufferMessage
 #endif
 {
-  private static readonly pb::MessageParser<EQUIP_ITEM> _parser = new pb::MessageParser<EQUIP_ITEM>(() => new EQUIP_ITEM());
+  private static readonly pb::MessageParser<ITEM_DATA> _parser = new pb::MessageParser<ITEM_DATA>(() => new ITEM_DATA());
   private pb::UnknownFieldSet _unknownFields;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public static pb::MessageParser<EQUIP_ITEM> Parser { get { return _parser; } }
+  public static pb::MessageParser<ITEM_DATA> Parser { get { return _parser; } }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -78,7 +75,7 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public EQUIP_ITEM() {
+  public ITEM_DATA() {
     OnConstruction();
   }
 
@@ -86,269 +83,143 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public EQUIP_ITEM(EQUIP_ITEM other) : this() {
-    itemId_ = other.itemId_;
-    itemName_ = other.itemName_;
-    itemClass_ = other.itemClass_;
-    itemType_ = other.itemType_;
-    itemGrade_ = other.itemGrade_;
-    itemDetailtype_ = other.itemDetailtype_;
-    itemLevel_ = other.itemLevel_;
-    itemAttack_ = other.itemAttack_;
-    itemDefense_ = other.itemDefense_;
-    itemSpeed_ = other.itemSpeed_;
-    itemAttackspeed_ = other.itemAttackspeed_;
-    itemHp_ = other.itemHp_;
-    itemMp_ = other.itemMp_;
-    itemExp_ = other.itemExp_;
-    itemMaxhp_ = other.itemMaxhp_;
-    itemMaxmp_ = other.itemMaxmp_;
-    itemMaxcount_ = other.itemMaxcount_;
+  public ITEM_DATA(ITEM_DATA other) : this() {
+    id_ = other.id_;
+    name_ = other.name_;
+    type_ = other.type_;
+    grade_ = other.grade_;
+    sellingPrice_ = other.sellingPrice_;
+    maxCount_ = other.maxCount_;
+    count_ = other.count_;
+    slotNum_ = other.slotNum_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public EQUIP_ITEM Clone() {
-    return new EQUIP_ITEM(this);
+  public ITEM_DATA Clone() {
+    return new ITEM_DATA(this);
   }
 
-  /// <summary>Field number for the "item_id" field.</summary>
-  public const int ItemIdFieldNumber = 1;
-  private int itemId_;
+  /// <summary>Field number for the "id" field.</summary>
+  public const int IdFieldNumber = 1;
+  private int id_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemId {
-    get { return itemId_; }
+  public int Id {
+    get { return id_; }
     set {
-      itemId_ = value;
+      id_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_name" field.</summary>
-  public const int ItemNameFieldNumber = 2;
-  private string itemName_ = "";
+  /// <summary>Field number for the "name" field.</summary>
+  public const int NameFieldNumber = 2;
+  private string name_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemName {
-    get { return itemName_; }
+  public string Name {
+    get { return name_; }
     set {
-      itemName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      name_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "item_class" field.</summary>
-  public const int ItemClassFieldNumber = 3;
-  private string itemClass_ = "";
+  /// <summary>Field number for the "type" field.</summary>
+  public const int TypeFieldNumber = 3;
+  private string type_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemClass {
-    get { return itemClass_; }
+  public string Type {
+    get { return type_; }
     set {
-      itemClass_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "item_type" field.</summary>
-  public const int ItemTypeFieldNumber = 4;
-  private string itemType_ = "";
+  /// <summary>Field number for the "grade" field.</summary>
+  public const int GradeFieldNumber = 4;
+  private string grade_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemType {
-    get { return itemType_; }
+  public string Grade {
+    get { return grade_; }
     set {
-      itemType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      grade_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "item_grade" field.</summary>
-  public const int ItemGradeFieldNumber = 5;
-  private string itemGrade_ = "";
+  /// <summary>Field number for the "selling_price" field.</summary>
+  public const int SellingPriceFieldNumber = 5;
+  private long sellingPrice_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemGrade {
-    get { return itemGrade_; }
+  public long SellingPrice {
+    get { return sellingPrice_; }
     set {
-      itemGrade_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      sellingPrice_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_detailtype" field.</summary>
-  public const int ItemDetailtypeFieldNumber = 6;
-  private string itemDetailtype_ = "";
+  /// <summary>Field number for the "max_count" field.</summary>
+  public const int MaxCountFieldNumber = 6;
+  private int maxCount_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemDetailtype {
-    get { return itemDetailtype_; }
+  public int MaxCount {
+    get { return maxCount_; }
     set {
-      itemDetailtype_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      maxCount_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_level" field.</summary>
-  public const int ItemLevelFieldNumber = 7;
-  private int itemLevel_;
+  /// <summary>Field number for the "count" field.</summary>
+  public const int CountFieldNumber = 7;
+  private int count_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemLevel {
-    get { return itemLevel_; }
+  public int Count {
+    get { return count_; }
     set {
-      itemLevel_ = value;
+      count_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_attack" field.</summary>
-  public const int ItemAttackFieldNumber = 8;
-  private int itemAttack_;
+  /// <summary>Field number for the "slot_num" field.</summary>
+  public const int SlotNumFieldNumber = 8;
+  private int slotNum_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemAttack {
-    get { return itemAttack_; }
+  public int SlotNum {
+    get { return slotNum_; }
     set {
-      itemAttack_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_defense" field.</summary>
-  public const int ItemDefenseFieldNumber = 9;
-  private int itemDefense_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemDefense {
-    get { return itemDefense_; }
-    set {
-      itemDefense_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_speed" field.</summary>
-  public const int ItemSpeedFieldNumber = 10;
-  private int itemSpeed_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemSpeed {
-    get { return itemSpeed_; }
-    set {
-      itemSpeed_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_attackspeed" field.</summary>
-  public const int ItemAttackspeedFieldNumber = 11;
-  private int itemAttackspeed_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemAttackspeed {
-    get { return itemAttackspeed_; }
-    set {
-      itemAttackspeed_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_hp" field.</summary>
-  public const int ItemHpFieldNumber = 12;
-  private int itemHp_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemHp {
-    get { return itemHp_; }
-    set {
-      itemHp_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_mp" field.</summary>
-  public const int ItemMpFieldNumber = 13;
-  private int itemMp_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMp {
-    get { return itemMp_; }
-    set {
-      itemMp_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_exp" field.</summary>
-  public const int ItemExpFieldNumber = 14;
-  private int itemExp_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemExp {
-    get { return itemExp_; }
-    set {
-      itemExp_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_maxhp" field.</summary>
-  public const int ItemMaxhpFieldNumber = 15;
-  private int itemMaxhp_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMaxhp {
-    get { return itemMaxhp_; }
-    set {
-      itemMaxhp_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_maxmp" field.</summary>
-  public const int ItemMaxmpFieldNumber = 16;
-  private int itemMaxmp_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMaxmp {
-    get { return itemMaxmp_; }
-    set {
-      itemMaxmp_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_maxcount" field.</summary>
-  public const int ItemMaxcountFieldNumber = 17;
-  private int itemMaxcount_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMaxcount {
-    get { return itemMaxcount_; }
-    set {
-      itemMaxcount_ = value;
+      slotNum_ = value;
     }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
-    return Equals(other as EQUIP_ITEM);
+    return Equals(other as ITEM_DATA);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public bool Equals(EQUIP_ITEM other) {
+  public bool Equals(ITEM_DATA other) {
     if (ReferenceEquals(other, null)) {
       return false;
     }
     if (ReferenceEquals(other, this)) {
       return true;
     }
-    if (ItemId != other.ItemId) return false;
-    if (ItemName != other.ItemName) return false;
-    if (ItemClass != other.ItemClass) return false;
-    if (ItemType != other.ItemType) return false;
-    if (ItemGrade != other.ItemGrade) return false;
-    if (ItemDetailtype != other.ItemDetailtype) return false;
-    if (ItemLevel != other.ItemLevel) return false;
-    if (ItemAttack != other.ItemAttack) return false;
-    if (ItemDefense != other.ItemDefense) return false;
-    if (ItemSpeed != other.ItemSpeed) return false;
-    if (ItemAttackspeed != other.ItemAttackspeed) return false;
-    if (ItemHp != other.ItemHp) return false;
-    if (ItemMp != other.ItemMp) return false;
-    if (ItemExp != other.ItemExp) return false;
-    if (ItemMaxhp != other.ItemMaxhp) return false;
-    if (ItemMaxmp != other.ItemMaxmp) return false;
-    if (ItemMaxcount != other.ItemMaxcount) return false;
+    if (Id != other.Id) return false;
+    if (Name != other.Name) return false;
+    if (Type != other.Type) return false;
+    if (Grade != other.Grade) return false;
+    if (SellingPrice != other.SellingPrice) return false;
+    if (MaxCount != other.MaxCount) return false;
+    if (Count != other.Count) return false;
+    if (SlotNum != other.SlotNum) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -356,23 +227,14 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override int GetHashCode() {
     int hash = 1;
-    if (ItemId != 0) hash ^= ItemId.GetHashCode();
-    if (ItemName.Length != 0) hash ^= ItemName.GetHashCode();
-    if (ItemClass.Length != 0) hash ^= ItemClass.GetHashCode();
-    if (ItemType.Length != 0) hash ^= ItemType.GetHashCode();
-    if (ItemGrade.Length != 0) hash ^= ItemGrade.GetHashCode();
-    if (ItemDetailtype.Length != 0) hash ^= ItemDetailtype.GetHashCode();
-    if (ItemLevel != 0) hash ^= ItemLevel.GetHashCode();
-    if (ItemAttack != 0) hash ^= ItemAttack.GetHashCode();
-    if (ItemDefense != 0) hash ^= ItemDefense.GetHashCode();
-    if (ItemSpeed != 0) hash ^= ItemSpeed.GetHashCode();
-    if (ItemAttackspeed != 0) hash ^= ItemAttackspeed.GetHashCode();
-    if (ItemHp != 0) hash ^= ItemHp.GetHashCode();
-    if (ItemMp != 0) hash ^= ItemMp.GetHashCode();
-    if (ItemExp != 0) hash ^= ItemExp.GetHashCode();
-    if (ItemMaxhp != 0) hash ^= ItemMaxhp.GetHashCode();
-    if (ItemMaxmp != 0) hash ^= ItemMaxmp.GetHashCode();
-    if (ItemMaxcount != 0) hash ^= ItemMaxcount.GetHashCode();
+    if (Id != 0) hash ^= Id.GetHashCode();
+    if (Name.Length != 0) hash ^= Name.GetHashCode();
+    if (Type.Length != 0) hash ^= Type.GetHashCode();
+    if (Grade.Length != 0) hash ^= Grade.GetHashCode();
+    if (SellingPrice != 0L) hash ^= SellingPrice.GetHashCode();
+    if (MaxCount != 0) hash ^= MaxCount.GetHashCode();
+    if (Count != 0) hash ^= Count.GetHashCode();
+    if (SlotNum != 0) hash ^= SlotNum.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -391,73 +253,37 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     output.WriteRawMessage(this);
   #else
-    if (ItemId != 0) {
+    if (Id != 0) {
       output.WriteRawTag(8);
-      output.WriteInt32(ItemId);
+      output.WriteInt32(Id);
     }
-    if (ItemName.Length != 0) {
+    if (Name.Length != 0) {
       output.WriteRawTag(18);
-      output.WriteString(ItemName);
+      output.WriteString(Name);
     }
-    if (ItemClass.Length != 0) {
+    if (Type.Length != 0) {
       output.WriteRawTag(26);
-      output.WriteString(ItemClass);
+      output.WriteString(Type);
     }
-    if (ItemType.Length != 0) {
+    if (Grade.Length != 0) {
       output.WriteRawTag(34);
-      output.WriteString(ItemType);
+      output.WriteString(Grade);
     }
-    if (ItemGrade.Length != 0) {
-      output.WriteRawTag(42);
-      output.WriteString(ItemGrade);
+    if (SellingPrice != 0L) {
+      output.WriteRawTag(40);
+      output.WriteInt64(SellingPrice);
     }
-    if (ItemDetailtype.Length != 0) {
-      output.WriteRawTag(50);
-      output.WriteString(ItemDetailtype);
+    if (MaxCount != 0) {
+      output.WriteRawTag(48);
+      output.WriteInt32(MaxCount);
     }
-    if (ItemLevel != 0) {
+    if (Count != 0) {
       output.WriteRawTag(56);
-      output.WriteInt32(ItemLevel);
+      output.WriteInt32(Count);
     }
-    if (ItemAttack != 0) {
+    if (SlotNum != 0) {
       output.WriteRawTag(64);
-      output.WriteInt32(ItemAttack);
-    }
-    if (ItemDefense != 0) {
-      output.WriteRawTag(72);
-      output.WriteInt32(ItemDefense);
-    }
-    if (ItemSpeed != 0) {
-      output.WriteRawTag(80);
-      output.WriteInt32(ItemSpeed);
-    }
-    if (ItemAttackspeed != 0) {
-      output.WriteRawTag(88);
-      output.WriteInt32(ItemAttackspeed);
-    }
-    if (ItemHp != 0) {
-      output.WriteRawTag(96);
-      output.WriteInt32(ItemHp);
-    }
-    if (ItemMp != 0) {
-      output.WriteRawTag(104);
-      output.WriteInt32(ItemMp);
-    }
-    if (ItemExp != 0) {
-      output.WriteRawTag(112);
-      output.WriteInt32(ItemExp);
-    }
-    if (ItemMaxhp != 0) {
-      output.WriteRawTag(120);
-      output.WriteInt32(ItemMaxhp);
-    }
-    if (ItemMaxmp != 0) {
-      output.WriteRawTag(128, 1);
-      output.WriteInt32(ItemMaxmp);
-    }
-    if (ItemMaxcount != 0) {
-      output.WriteRawTag(136, 1);
-      output.WriteInt32(ItemMaxcount);
+      output.WriteInt32(SlotNum);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -469,73 +295,37 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-    if (ItemId != 0) {
+    if (Id != 0) {
       output.WriteRawTag(8);
-      output.WriteInt32(ItemId);
+      output.WriteInt32(Id);
     }
-    if (ItemName.Length != 0) {
+    if (Name.Length != 0) {
       output.WriteRawTag(18);
-      output.WriteString(ItemName);
+      output.WriteString(Name);
     }
-    if (ItemClass.Length != 0) {
+    if (Type.Length != 0) {
       output.WriteRawTag(26);
-      output.WriteString(ItemClass);
+      output.WriteString(Type);
     }
-    if (ItemType.Length != 0) {
+    if (Grade.Length != 0) {
       output.WriteRawTag(34);
-      output.WriteString(ItemType);
+      output.WriteString(Grade);
     }
-    if (ItemGrade.Length != 0) {
-      output.WriteRawTag(42);
-      output.WriteString(ItemGrade);
+    if (SellingPrice != 0L) {
+      output.WriteRawTag(40);
+      output.WriteInt64(SellingPrice);
     }
-    if (ItemDetailtype.Length != 0) {
-      output.WriteRawTag(50);
-      output.WriteString(ItemDetailtype);
+    if (MaxCount != 0) {
+      output.WriteRawTag(48);
+      output.WriteInt32(MaxCount);
     }
-    if (ItemLevel != 0) {
+    if (Count != 0) {
       output.WriteRawTag(56);
-      output.WriteInt32(ItemLevel);
+      output.WriteInt32(Count);
     }
-    if (ItemAttack != 0) {
+    if (SlotNum != 0) {
       output.WriteRawTag(64);
-      output.WriteInt32(ItemAttack);
-    }
-    if (ItemDefense != 0) {
-      output.WriteRawTag(72);
-      output.WriteInt32(ItemDefense);
-    }
-    if (ItemSpeed != 0) {
-      output.WriteRawTag(80);
-      output.WriteInt32(ItemSpeed);
-    }
-    if (ItemAttackspeed != 0) {
-      output.WriteRawTag(88);
-      output.WriteInt32(ItemAttackspeed);
-    }
-    if (ItemHp != 0) {
-      output.WriteRawTag(96);
-      output.WriteInt32(ItemHp);
-    }
-    if (ItemMp != 0) {
-      output.WriteRawTag(104);
-      output.WriteInt32(ItemMp);
-    }
-    if (ItemExp != 0) {
-      output.WriteRawTag(112);
-      output.WriteInt32(ItemExp);
-    }
-    if (ItemMaxhp != 0) {
-      output.WriteRawTag(120);
-      output.WriteInt32(ItemMaxhp);
-    }
-    if (ItemMaxmp != 0) {
-      output.WriteRawTag(128, 1);
-      output.WriteInt32(ItemMaxmp);
-    }
-    if (ItemMaxcount != 0) {
-      output.WriteRawTag(136, 1);
-      output.WriteInt32(ItemMaxcount);
+      output.WriteInt32(SlotNum);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
@@ -547,56 +337,29 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public int CalculateSize() {
     int size = 0;
-    if (ItemId != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemId);
+    if (Id != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Id);
     }
-    if (ItemName.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemName);
+    if (Name.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
     }
-    if (ItemClass.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemClass);
+    if (Type.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
     }
-    if (ItemType.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemType);
+    if (Grade.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(Grade);
     }
-    if (ItemGrade.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemGrade);
+    if (SellingPrice != 0L) {
+      size += 1 + pb::CodedOutputStream.ComputeInt64Size(SellingPrice);
     }
-    if (ItemDetailtype.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemDetailtype);
+    if (MaxCount != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxCount);
     }
-    if (ItemLevel != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemLevel);
+    if (Count != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Count);
     }
-    if (ItemAttack != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemAttack);
-    }
-    if (ItemDefense != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemDefense);
-    }
-    if (ItemSpeed != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemSpeed);
-    }
-    if (ItemAttackspeed != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemAttackspeed);
-    }
-    if (ItemHp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemHp);
-    }
-    if (ItemMp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemMp);
-    }
-    if (ItemExp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemExp);
-    }
-    if (ItemMaxhp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemMaxhp);
-    }
-    if (ItemMaxmp != 0) {
-      size += 2 + pb::CodedOutputStream.ComputeInt32Size(ItemMaxmp);
-    }
-    if (ItemMaxcount != 0) {
-      size += 2 + pb::CodedOutputStream.ComputeInt32Size(ItemMaxcount);
+    if (SlotNum != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(SlotNum);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -606,60 +369,33 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void MergeFrom(EQUIP_ITEM other) {
+  public void MergeFrom(ITEM_DATA other) {
     if (other == null) {
       return;
     }
-    if (other.ItemId != 0) {
-      ItemId = other.ItemId;
+    if (other.Id != 0) {
+      Id = other.Id;
     }
-    if (other.ItemName.Length != 0) {
-      ItemName = other.ItemName;
+    if (other.Name.Length != 0) {
+      Name = other.Name;
     }
-    if (other.ItemClass.Length != 0) {
-      ItemClass = other.ItemClass;
+    if (other.Type.Length != 0) {
+      Type = other.Type;
     }
-    if (other.ItemType.Length != 0) {
-      ItemType = other.ItemType;
+    if (other.Grade.Length != 0) {
+      Grade = other.Grade;
     }
-    if (other.ItemGrade.Length != 0) {
-      ItemGrade = other.ItemGrade;
+    if (other.SellingPrice != 0L) {
+      SellingPrice = other.SellingPrice;
     }
-    if (other.ItemDetailtype.Length != 0) {
-      ItemDetailtype = other.ItemDetailtype;
+    if (other.MaxCount != 0) {
+      MaxCount = other.MaxCount;
     }
-    if (other.ItemLevel != 0) {
-      ItemLevel = other.ItemLevel;
+    if (other.Count != 0) {
+      Count = other.Count;
     }
-    if (other.ItemAttack != 0) {
-      ItemAttack = other.ItemAttack;
-    }
-    if (other.ItemDefense != 0) {
-      ItemDefense = other.ItemDefense;
-    }
-    if (other.ItemSpeed != 0) {
-      ItemSpeed = other.ItemSpeed;
-    }
-    if (other.ItemAttackspeed != 0) {
-      ItemAttackspeed = other.ItemAttackspeed;
-    }
-    if (other.ItemHp != 0) {
-      ItemHp = other.ItemHp;
-    }
-    if (other.ItemMp != 0) {
-      ItemMp = other.ItemMp;
-    }
-    if (other.ItemExp != 0) {
-      ItemExp = other.ItemExp;
-    }
-    if (other.ItemMaxhp != 0) {
-      ItemMaxhp = other.ItemMaxhp;
-    }
-    if (other.ItemMaxmp != 0) {
-      ItemMaxmp = other.ItemMaxmp;
-    }
-    if (other.ItemMaxcount != 0) {
-      ItemMaxcount = other.ItemMaxcount;
+    if (other.SlotNum != 0) {
+      SlotNum = other.SlotNum;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -677,71 +413,35 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
         case 8: {
-          ItemId = input.ReadInt32();
+          Id = input.ReadInt32();
           break;
         }
         case 18: {
-          ItemName = input.ReadString();
+          Name = input.ReadString();
           break;
         }
         case 26: {
-          ItemClass = input.ReadString();
+          Type = input.ReadString();
           break;
         }
         case 34: {
-          ItemType = input.ReadString();
+          Grade = input.ReadString();
           break;
         }
-        case 42: {
-          ItemGrade = input.ReadString();
+        case 40: {
+          SellingPrice = input.ReadInt64();
           break;
         }
-        case 50: {
-          ItemDetailtype = input.ReadString();
+        case 48: {
+          MaxCount = input.ReadInt32();
           break;
         }
         case 56: {
-          ItemLevel = input.ReadInt32();
+          Count = input.ReadInt32();
           break;
         }
         case 64: {
-          ItemAttack = input.ReadInt32();
-          break;
-        }
-        case 72: {
-          ItemDefense = input.ReadInt32();
-          break;
-        }
-        case 80: {
-          ItemSpeed = input.ReadInt32();
-          break;
-        }
-        case 88: {
-          ItemAttackspeed = input.ReadInt32();
-          break;
-        }
-        case 96: {
-          ItemHp = input.ReadInt32();
-          break;
-        }
-        case 104: {
-          ItemMp = input.ReadInt32();
-          break;
-        }
-        case 112: {
-          ItemExp = input.ReadInt32();
-          break;
-        }
-        case 120: {
-          ItemMaxhp = input.ReadInt32();
-          break;
-        }
-        case 128: {
-          ItemMaxmp = input.ReadInt32();
-          break;
-        }
-        case 136: {
-          ItemMaxcount = input.ReadInt32();
+          SlotNum = input.ReadInt32();
           break;
         }
       }
@@ -760,71 +460,35 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
           break;
         case 8: {
-          ItemId = input.ReadInt32();
+          Id = input.ReadInt32();
           break;
         }
         case 18: {
-          ItemName = input.ReadString();
+          Name = input.ReadString();
           break;
         }
         case 26: {
-          ItemClass = input.ReadString();
+          Type = input.ReadString();
           break;
         }
         case 34: {
-          ItemType = input.ReadString();
+          Grade = input.ReadString();
           break;
         }
-        case 42: {
-          ItemGrade = input.ReadString();
+        case 40: {
+          SellingPrice = input.ReadInt64();
           break;
         }
-        case 50: {
-          ItemDetailtype = input.ReadString();
+        case 48: {
+          MaxCount = input.ReadInt32();
           break;
         }
         case 56: {
-          ItemLevel = input.ReadInt32();
+          Count = input.ReadInt32();
           break;
         }
         case 64: {
-          ItemAttack = input.ReadInt32();
-          break;
-        }
-        case 72: {
-          ItemDefense = input.ReadInt32();
-          break;
-        }
-        case 80: {
-          ItemSpeed = input.ReadInt32();
-          break;
-        }
-        case 88: {
-          ItemAttackspeed = input.ReadInt32();
-          break;
-        }
-        case 96: {
-          ItemHp = input.ReadInt32();
-          break;
-        }
-        case 104: {
-          ItemMp = input.ReadInt32();
-          break;
-        }
-        case 112: {
-          ItemExp = input.ReadInt32();
-          break;
-        }
-        case 120: {
-          ItemMaxhp = input.ReadInt32();
-          break;
-        }
-        case 128: {
-          ItemMaxmp = input.ReadInt32();
-          break;
-        }
-        case 136: {
-          ItemMaxcount = input.ReadInt32();
+          SlotNum = input.ReadInt32();
           break;
         }
       }
@@ -834,16 +498,16 @@ public sealed partial class EQUIP_ITEM : pb::IMessage<EQUIP_ITEM>
 
 }
 
-public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
+public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
 #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     , pb::IBufferMessage
 #endif
 {
-  private static readonly pb::MessageParser<CONSUME_ITEM> _parser = new pb::MessageParser<CONSUME_ITEM>(() => new CONSUME_ITEM());
+  private static readonly pb::MessageParser<STATEITEM_DATA> _parser = new pb::MessageParser<STATEITEM_DATA>(() => new STATEITEM_DATA());
   private pb::UnknownFieldSet _unknownFields;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public static pb::MessageParser<CONSUME_ITEM> Parser { get { return _parser; } }
+  public static pb::MessageParser<STATEITEM_DATA> Parser { get { return _parser; } }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -859,7 +523,7 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public CONSUME_ITEM() {
+  public STATEITEM_DATA() {
     OnConstruction();
   }
 
@@ -867,59 +531,45 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public CONSUME_ITEM(CONSUME_ITEM other) : this() {
-    itemId_ = other.itemId_;
-    itemName_ = other.itemName_;
+  public STATEITEM_DATA(STATEITEM_DATA other) : this() {
+    itemData_ = other.itemData_ != null ? other.itemData_.Clone() : null;
     itemClass_ = other.itemClass_;
-    itemType_ = other.itemType_;
-    itemGrade_ = other.itemGrade_;
-    itemDetailtype_ = other.itemDetailtype_;
-    itemLevel_ = other.itemLevel_;
-    itemAttack_ = other.itemAttack_;
-    itemDefense_ = other.itemDefense_;
-    itemSpeed_ = other.itemSpeed_;
-    itemAttackspeed_ = other.itemAttackspeed_;
-    itemHp_ = other.itemHp_;
-    itemMp_ = other.itemMp_;
-    itemExp_ = other.itemExp_;
-    itemMaxhp_ = other.itemMaxhp_;
-    itemMaxmp_ = other.itemMaxmp_;
-    itemMaxcount_ = other.itemMaxcount_;
+    detailType_ = other.detailType_;
+    level_ = other.level_;
+    attack_ = other.attack_;
+    defense_ = other.defense_;
+    speed_ = other.speed_;
+    attackSpeed_ = other.attackSpeed_;
+    exp_ = other.exp_;
+    hp_ = other.hp_;
+    mp_ = other.mp_;
+    maxHp_ = other.maxHp_;
+    maxMp_ = other.maxMp_;
+    durationBool_ = other.durationBool_;
+    duration_ = other.duration_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public CONSUME_ITEM Clone() {
-    return new CONSUME_ITEM(this);
+  public STATEITEM_DATA Clone() {
+    return new STATEITEM_DATA(this);
   }
 
-  /// <summary>Field number for the "item_id" field.</summary>
-  public const int ItemIdFieldNumber = 1;
-  private int itemId_;
+  /// <summary>Field number for the "item_data" field.</summary>
+  public const int ItemDataFieldNumber = 1;
+  private global::ITEM_DATA itemData_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemId {
-    get { return itemId_; }
+  public global::ITEM_DATA ItemData {
+    get { return itemData_; }
     set {
-      itemId_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_name" field.</summary>
-  public const int ItemNameFieldNumber = 2;
-  private string itemName_ = "";
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemName {
-    get { return itemName_; }
-    set {
-      itemName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      itemData_ = value;
     }
   }
 
   /// <summary>Field number for the "item_class" field.</summary>
-  public const int ItemClassFieldNumber = 3;
+  public const int ItemClassFieldNumber = 2;
   private string itemClass_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -930,206 +580,192 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
     }
   }
 
-  /// <summary>Field number for the "item_type" field.</summary>
-  public const int ItemTypeFieldNumber = 4;
-  private string itemType_ = "";
+  /// <summary>Field number for the "detail_type" field.</summary>
+  public const int DetailTypeFieldNumber = 3;
+  private string detailType_ = "";
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemType {
-    get { return itemType_; }
+  public string DetailType {
+    get { return detailType_; }
     set {
-      itemType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      detailType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
     }
   }
 
-  /// <summary>Field number for the "item_grade" field.</summary>
-  public const int ItemGradeFieldNumber = 5;
-  private string itemGrade_ = "";
+  /// <summary>Field number for the "level" field.</summary>
+  public const int LevelFieldNumber = 4;
+  private int level_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemGrade {
-    get { return itemGrade_; }
+  public int Level {
+    get { return level_; }
     set {
-      itemGrade_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      level_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_detailtype" field.</summary>
-  public const int ItemDetailtypeFieldNumber = 6;
-  private string itemDetailtype_ = "";
+  /// <summary>Field number for the "attack" field.</summary>
+  public const int AttackFieldNumber = 5;
+  private int attack_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemDetailtype {
-    get { return itemDetailtype_; }
+  public int Attack {
+    get { return attack_; }
     set {
-      itemDetailtype_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      attack_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_level" field.</summary>
-  public const int ItemLevelFieldNumber = 7;
-  private int itemLevel_;
+  /// <summary>Field number for the "defense" field.</summary>
+  public const int DefenseFieldNumber = 6;
+  private int defense_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemLevel {
-    get { return itemLevel_; }
+  public int Defense {
+    get { return defense_; }
     set {
-      itemLevel_ = value;
+      defense_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_attack" field.</summary>
-  public const int ItemAttackFieldNumber = 8;
-  private int itemAttack_;
+  /// <summary>Field number for the "speed" field.</summary>
+  public const int SpeedFieldNumber = 7;
+  private int speed_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemAttack {
-    get { return itemAttack_; }
+  public int Speed {
+    get { return speed_; }
     set {
-      itemAttack_ = value;
+      speed_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_defense" field.</summary>
-  public const int ItemDefenseFieldNumber = 9;
-  private int itemDefense_;
+  /// <summary>Field number for the "attack_speed" field.</summary>
+  public const int AttackSpeedFieldNumber = 8;
+  private int attackSpeed_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemDefense {
-    get { return itemDefense_; }
+  public int AttackSpeed {
+    get { return attackSpeed_; }
     set {
-      itemDefense_ = value;
+      attackSpeed_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_speed" field.</summary>
-  public const int ItemSpeedFieldNumber = 10;
-  private int itemSpeed_;
+  /// <summary>Field number for the "exp" field.</summary>
+  public const int ExpFieldNumber = 9;
+  private int exp_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemSpeed {
-    get { return itemSpeed_; }
+  public int Exp {
+    get { return exp_; }
     set {
-      itemSpeed_ = value;
+      exp_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_attackspeed" field.</summary>
-  public const int ItemAttackspeedFieldNumber = 11;
-  private int itemAttackspeed_;
+  /// <summary>Field number for the "hp" field.</summary>
+  public const int HpFieldNumber = 10;
+  private int hp_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemAttackspeed {
-    get { return itemAttackspeed_; }
+  public int Hp {
+    get { return hp_; }
     set {
-      itemAttackspeed_ = value;
+      hp_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_hp" field.</summary>
-  public const int ItemHpFieldNumber = 12;
-  private int itemHp_;
+  /// <summary>Field number for the "mp" field.</summary>
+  public const int MpFieldNumber = 11;
+  private int mp_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemHp {
-    get { return itemHp_; }
+  public int Mp {
+    get { return mp_; }
     set {
-      itemHp_ = value;
+      mp_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_mp" field.</summary>
-  public const int ItemMpFieldNumber = 13;
-  private int itemMp_;
+  /// <summary>Field number for the "maxHp" field.</summary>
+  public const int MaxHpFieldNumber = 12;
+  private int maxHp_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMp {
-    get { return itemMp_; }
+  public int MaxHp {
+    get { return maxHp_; }
     set {
-      itemMp_ = value;
+      maxHp_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_exp" field.</summary>
-  public const int ItemExpFieldNumber = 14;
-  private int itemExp_;
+  /// <summary>Field number for the "maxMp" field.</summary>
+  public const int MaxMpFieldNumber = 13;
+  private int maxMp_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemExp {
-    get { return itemExp_; }
+  public int MaxMp {
+    get { return maxMp_; }
     set {
-      itemExp_ = value;
+      maxMp_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_maxhp" field.</summary>
-  public const int ItemMaxhpFieldNumber = 15;
-  private int itemMaxhp_;
+  /// <summary>Field number for the "duration_bool" field.</summary>
+  public const int DurationBoolFieldNumber = 14;
+  private bool durationBool_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMaxhp {
-    get { return itemMaxhp_; }
+  public bool DurationBool {
+    get { return durationBool_; }
     set {
-      itemMaxhp_ = value;
+      durationBool_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_maxmp" field.</summary>
-  public const int ItemMaxmpFieldNumber = 16;
-  private int itemMaxmp_;
+  /// <summary>Field number for the "duration" field.</summary>
+  public const int DurationFieldNumber = 15;
+  private float duration_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMaxmp {
-    get { return itemMaxmp_; }
+  public float Duration {
+    get { return duration_; }
     set {
-      itemMaxmp_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "item_maxcount" field.</summary>
-  public const int ItemMaxcountFieldNumber = 17;
-  private int itemMaxcount_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMaxcount {
-    get { return itemMaxcount_; }
-    set {
-      itemMaxcount_ = value;
+      duration_ = value;
     }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
-    return Equals(other as CONSUME_ITEM);
+    return Equals(other as STATEITEM_DATA);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public bool Equals(CONSUME_ITEM other) {
+  public bool Equals(STATEITEM_DATA other) {
     if (ReferenceEquals(other, null)) {
       return false;
     }
     if (ReferenceEquals(other, this)) {
       return true;
     }
-    if (ItemId != other.ItemId) return false;
-    if (ItemName != other.ItemName) return false;
+    if (!object.Equals(ItemData, other.ItemData)) return false;
     if (ItemClass != other.ItemClass) return false;
-    if (ItemType != other.ItemType) return false;
-    if (ItemGrade != other.ItemGrade) return false;
-    if (ItemDetailtype != other.ItemDetailtype) return false;
-    if (ItemLevel != other.ItemLevel) return false;
-    if (ItemAttack != other.ItemAttack) return false;
-    if (ItemDefense != other.ItemDefense) return false;
-    if (ItemSpeed != other.ItemSpeed) return false;
-    if (ItemAttackspeed != other.ItemAttackspeed) return false;
-    if (ItemHp != other.ItemHp) return false;
-    if (ItemMp != other.ItemMp) return false;
-    if (ItemExp != other.ItemExp) return false;
-    if (ItemMaxhp != other.ItemMaxhp) return false;
-    if (ItemMaxmp != other.ItemMaxmp) return false;
-    if (ItemMaxcount != other.ItemMaxcount) return false;
+    if (DetailType != other.DetailType) return false;
+    if (Level != other.Level) return false;
+    if (Attack != other.Attack) return false;
+    if (Defense != other.Defense) return false;
+    if (Speed != other.Speed) return false;
+    if (AttackSpeed != other.AttackSpeed) return false;
+    if (Exp != other.Exp) return false;
+    if (Hp != other.Hp) return false;
+    if (Mp != other.Mp) return false;
+    if (MaxHp != other.MaxHp) return false;
+    if (MaxMp != other.MaxMp) return false;
+    if (DurationBool != other.DurationBool) return false;
+    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Duration, other.Duration)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -1137,23 +773,21 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override int GetHashCode() {
     int hash = 1;
-    if (ItemId != 0) hash ^= ItemId.GetHashCode();
-    if (ItemName.Length != 0) hash ^= ItemName.GetHashCode();
+    if (itemData_ != null) hash ^= ItemData.GetHashCode();
     if (ItemClass.Length != 0) hash ^= ItemClass.GetHashCode();
-    if (ItemType.Length != 0) hash ^= ItemType.GetHashCode();
-    if (ItemGrade.Length != 0) hash ^= ItemGrade.GetHashCode();
-    if (ItemDetailtype.Length != 0) hash ^= ItemDetailtype.GetHashCode();
-    if (ItemLevel != 0) hash ^= ItemLevel.GetHashCode();
-    if (ItemAttack != 0) hash ^= ItemAttack.GetHashCode();
-    if (ItemDefense != 0) hash ^= ItemDefense.GetHashCode();
-    if (ItemSpeed != 0) hash ^= ItemSpeed.GetHashCode();
-    if (ItemAttackspeed != 0) hash ^= ItemAttackspeed.GetHashCode();
-    if (ItemHp != 0) hash ^= ItemHp.GetHashCode();
-    if (ItemMp != 0) hash ^= ItemMp.GetHashCode();
-    if (ItemExp != 0) hash ^= ItemExp.GetHashCode();
-    if (ItemMaxhp != 0) hash ^= ItemMaxhp.GetHashCode();
-    if (ItemMaxmp != 0) hash ^= ItemMaxmp.GetHashCode();
-    if (ItemMaxcount != 0) hash ^= ItemMaxcount.GetHashCode();
+    if (DetailType.Length != 0) hash ^= DetailType.GetHashCode();
+    if (Level != 0) hash ^= Level.GetHashCode();
+    if (Attack != 0) hash ^= Attack.GetHashCode();
+    if (Defense != 0) hash ^= Defense.GetHashCode();
+    if (Speed != 0) hash ^= Speed.GetHashCode();
+    if (AttackSpeed != 0) hash ^= AttackSpeed.GetHashCode();
+    if (Exp != 0) hash ^= Exp.GetHashCode();
+    if (Hp != 0) hash ^= Hp.GetHashCode();
+    if (Mp != 0) hash ^= Mp.GetHashCode();
+    if (MaxHp != 0) hash ^= MaxHp.GetHashCode();
+    if (MaxMp != 0) hash ^= MaxMp.GetHashCode();
+    if (DurationBool != false) hash ^= DurationBool.GetHashCode();
+    if (Duration != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Duration);
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -1172,73 +806,65 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     output.WriteRawMessage(this);
   #else
-    if (ItemId != 0) {
-      output.WriteRawTag(8);
-      output.WriteInt32(ItemId);
-    }
-    if (ItemName.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(ItemName);
+    if (itemData_ != null) {
+      output.WriteRawTag(10);
+      output.WriteMessage(ItemData);
     }
     if (ItemClass.Length != 0) {
-      output.WriteRawTag(26);
+      output.WriteRawTag(18);
       output.WriteString(ItemClass);
     }
-    if (ItemType.Length != 0) {
-      output.WriteRawTag(34);
-      output.WriteString(ItemType);
+    if (DetailType.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(DetailType);
     }
-    if (ItemGrade.Length != 0) {
-      output.WriteRawTag(42);
-      output.WriteString(ItemGrade);
+    if (Level != 0) {
+      output.WriteRawTag(32);
+      output.WriteInt32(Level);
     }
-    if (ItemDetailtype.Length != 0) {
-      output.WriteRawTag(50);
-      output.WriteString(ItemDetailtype);
+    if (Attack != 0) {
+      output.WriteRawTag(40);
+      output.WriteInt32(Attack);
     }
-    if (ItemLevel != 0) {
+    if (Defense != 0) {
+      output.WriteRawTag(48);
+      output.WriteInt32(Defense);
+    }
+    if (Speed != 0) {
       output.WriteRawTag(56);
-      output.WriteInt32(ItemLevel);
+      output.WriteInt32(Speed);
     }
-    if (ItemAttack != 0) {
+    if (AttackSpeed != 0) {
       output.WriteRawTag(64);
-      output.WriteInt32(ItemAttack);
+      output.WriteInt32(AttackSpeed);
     }
-    if (ItemDefense != 0) {
+    if (Exp != 0) {
       output.WriteRawTag(72);
-      output.WriteInt32(ItemDefense);
+      output.WriteInt32(Exp);
     }
-    if (ItemSpeed != 0) {
+    if (Hp != 0) {
       output.WriteRawTag(80);
-      output.WriteInt32(ItemSpeed);
+      output.WriteInt32(Hp);
     }
-    if (ItemAttackspeed != 0) {
+    if (Mp != 0) {
       output.WriteRawTag(88);
-      output.WriteInt32(ItemAttackspeed);
+      output.WriteInt32(Mp);
     }
-    if (ItemHp != 0) {
+    if (MaxHp != 0) {
       output.WriteRawTag(96);
-      output.WriteInt32(ItemHp);
+      output.WriteInt32(MaxHp);
     }
-    if (ItemMp != 0) {
+    if (MaxMp != 0) {
       output.WriteRawTag(104);
-      output.WriteInt32(ItemMp);
+      output.WriteInt32(MaxMp);
     }
-    if (ItemExp != 0) {
+    if (DurationBool != false) {
       output.WriteRawTag(112);
-      output.WriteInt32(ItemExp);
+      output.WriteBool(DurationBool);
     }
-    if (ItemMaxhp != 0) {
-      output.WriteRawTag(120);
-      output.WriteInt32(ItemMaxhp);
-    }
-    if (ItemMaxmp != 0) {
-      output.WriteRawTag(128, 1);
-      output.WriteInt32(ItemMaxmp);
-    }
-    if (ItemMaxcount != 0) {
-      output.WriteRawTag(136, 1);
-      output.WriteInt32(ItemMaxcount);
+    if (Duration != 0F) {
+      output.WriteRawTag(125);
+      output.WriteFloat(Duration);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -1250,73 +876,65 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-    if (ItemId != 0) {
-      output.WriteRawTag(8);
-      output.WriteInt32(ItemId);
-    }
-    if (ItemName.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(ItemName);
+    if (itemData_ != null) {
+      output.WriteRawTag(10);
+      output.WriteMessage(ItemData);
     }
     if (ItemClass.Length != 0) {
-      output.WriteRawTag(26);
+      output.WriteRawTag(18);
       output.WriteString(ItemClass);
     }
-    if (ItemType.Length != 0) {
-      output.WriteRawTag(34);
-      output.WriteString(ItemType);
+    if (DetailType.Length != 0) {
+      output.WriteRawTag(26);
+      output.WriteString(DetailType);
     }
-    if (ItemGrade.Length != 0) {
-      output.WriteRawTag(42);
-      output.WriteString(ItemGrade);
+    if (Level != 0) {
+      output.WriteRawTag(32);
+      output.WriteInt32(Level);
     }
-    if (ItemDetailtype.Length != 0) {
-      output.WriteRawTag(50);
-      output.WriteString(ItemDetailtype);
+    if (Attack != 0) {
+      output.WriteRawTag(40);
+      output.WriteInt32(Attack);
     }
-    if (ItemLevel != 0) {
+    if (Defense != 0) {
+      output.WriteRawTag(48);
+      output.WriteInt32(Defense);
+    }
+    if (Speed != 0) {
       output.WriteRawTag(56);
-      output.WriteInt32(ItemLevel);
+      output.WriteInt32(Speed);
     }
-    if (ItemAttack != 0) {
+    if (AttackSpeed != 0) {
       output.WriteRawTag(64);
-      output.WriteInt32(ItemAttack);
+      output.WriteInt32(AttackSpeed);
     }
-    if (ItemDefense != 0) {
+    if (Exp != 0) {
       output.WriteRawTag(72);
-      output.WriteInt32(ItemDefense);
+      output.WriteInt32(Exp);
     }
-    if (ItemSpeed != 0) {
+    if (Hp != 0) {
       output.WriteRawTag(80);
-      output.WriteInt32(ItemSpeed);
+      output.WriteInt32(Hp);
     }
-    if (ItemAttackspeed != 0) {
+    if (Mp != 0) {
       output.WriteRawTag(88);
-      output.WriteInt32(ItemAttackspeed);
+      output.WriteInt32(Mp);
     }
-    if (ItemHp != 0) {
+    if (MaxHp != 0) {
       output.WriteRawTag(96);
-      output.WriteInt32(ItemHp);
+      output.WriteInt32(MaxHp);
     }
-    if (ItemMp != 0) {
+    if (MaxMp != 0) {
       output.WriteRawTag(104);
-      output.WriteInt32(ItemMp);
+      output.WriteInt32(MaxMp);
     }
-    if (ItemExp != 0) {
+    if (DurationBool != false) {
       output.WriteRawTag(112);
-      output.WriteInt32(ItemExp);
+      output.WriteBool(DurationBool);
     }
-    if (ItemMaxhp != 0) {
-      output.WriteRawTag(120);
-      output.WriteInt32(ItemMaxhp);
-    }
-    if (ItemMaxmp != 0) {
-      output.WriteRawTag(128, 1);
-      output.WriteInt32(ItemMaxmp);
-    }
-    if (ItemMaxcount != 0) {
-      output.WriteRawTag(136, 1);
-      output.WriteInt32(ItemMaxcount);
+    if (Duration != 0F) {
+      output.WriteRawTag(125);
+      output.WriteFloat(Duration);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
@@ -1328,56 +946,50 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public int CalculateSize() {
     int size = 0;
-    if (ItemId != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemId);
-    }
-    if (ItemName.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemName);
+    if (itemData_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(ItemData);
     }
     if (ItemClass.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemClass);
     }
-    if (ItemType.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemType);
+    if (DetailType.Length != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeStringSize(DetailType);
     }
-    if (ItemGrade.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemGrade);
+    if (Level != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
     }
-    if (ItemDetailtype.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemDetailtype);
+    if (Attack != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Attack);
     }
-    if (ItemLevel != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemLevel);
+    if (Defense != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Defense);
     }
-    if (ItemAttack != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemAttack);
+    if (Speed != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Speed);
     }
-    if (ItemDefense != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemDefense);
+    if (AttackSpeed != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(AttackSpeed);
     }
-    if (ItemSpeed != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemSpeed);
+    if (Exp != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Exp);
     }
-    if (ItemAttackspeed != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemAttackspeed);
+    if (Hp != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Hp);
     }
-    if (ItemHp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemHp);
+    if (Mp != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Mp);
     }
-    if (ItemMp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemMp);
+    if (MaxHp != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxHp);
     }
-    if (ItemExp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemExp);
+    if (MaxMp != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxMp);
     }
-    if (ItemMaxhp != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemMaxhp);
+    if (DurationBool != false) {
+      size += 1 + 1;
     }
-    if (ItemMaxmp != 0) {
-      size += 2 + pb::CodedOutputStream.ComputeInt32Size(ItemMaxmp);
-    }
-    if (ItemMaxcount != 0) {
-      size += 2 + pb::CodedOutputStream.ComputeInt32Size(ItemMaxcount);
+    if (Duration != 0F) {
+      size += 1 + 4;
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -1387,60 +999,57 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void MergeFrom(CONSUME_ITEM other) {
+  public void MergeFrom(STATEITEM_DATA other) {
     if (other == null) {
       return;
     }
-    if (other.ItemId != 0) {
-      ItemId = other.ItemId;
-    }
-    if (other.ItemName.Length != 0) {
-      ItemName = other.ItemName;
+    if (other.itemData_ != null) {
+      if (itemData_ == null) {
+        ItemData = new global::ITEM_DATA();
+      }
+      ItemData.MergeFrom(other.ItemData);
     }
     if (other.ItemClass.Length != 0) {
       ItemClass = other.ItemClass;
     }
-    if (other.ItemType.Length != 0) {
-      ItemType = other.ItemType;
+    if (other.DetailType.Length != 0) {
+      DetailType = other.DetailType;
     }
-    if (other.ItemGrade.Length != 0) {
-      ItemGrade = other.ItemGrade;
+    if (other.Level != 0) {
+      Level = other.Level;
     }
-    if (other.ItemDetailtype.Length != 0) {
-      ItemDetailtype = other.ItemDetailtype;
+    if (other.Attack != 0) {
+      Attack = other.Attack;
     }
-    if (other.ItemLevel != 0) {
-      ItemLevel = other.ItemLevel;
+    if (other.Defense != 0) {
+      Defense = other.Defense;
     }
-    if (other.ItemAttack != 0) {
-      ItemAttack = other.ItemAttack;
+    if (other.Speed != 0) {
+      Speed = other.Speed;
     }
-    if (other.ItemDefense != 0) {
-      ItemDefense = other.ItemDefense;
+    if (other.AttackSpeed != 0) {
+      AttackSpeed = other.AttackSpeed;
     }
-    if (other.ItemSpeed != 0) {
-      ItemSpeed = other.ItemSpeed;
+    if (other.Exp != 0) {
+      Exp = other.Exp;
     }
-    if (other.ItemAttackspeed != 0) {
-      ItemAttackspeed = other.ItemAttackspeed;
+    if (other.Hp != 0) {
+      Hp = other.Hp;
     }
-    if (other.ItemHp != 0) {
-      ItemHp = other.ItemHp;
+    if (other.Mp != 0) {
+      Mp = other.Mp;
     }
-    if (other.ItemMp != 0) {
-      ItemMp = other.ItemMp;
+    if (other.MaxHp != 0) {
+      MaxHp = other.MaxHp;
     }
-    if (other.ItemExp != 0) {
-      ItemExp = other.ItemExp;
+    if (other.MaxMp != 0) {
+      MaxMp = other.MaxMp;
     }
-    if (other.ItemMaxhp != 0) {
-      ItemMaxhp = other.ItemMaxhp;
+    if (other.DurationBool != false) {
+      DurationBool = other.DurationBool;
     }
-    if (other.ItemMaxmp != 0) {
-      ItemMaxmp = other.ItemMaxmp;
-    }
-    if (other.ItemMaxcount != 0) {
-      ItemMaxcount = other.ItemMaxcount;
+    if (other.Duration != 0F) {
+      Duration = other.Duration;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -1457,72 +1066,67 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
-        case 8: {
-          ItemId = input.ReadInt32();
+        case 10: {
+          if (itemData_ == null) {
+            ItemData = new global::ITEM_DATA();
+          }
+          input.ReadMessage(ItemData);
           break;
         }
         case 18: {
-          ItemName = input.ReadString();
-          break;
-        }
-        case 26: {
           ItemClass = input.ReadString();
           break;
         }
-        case 34: {
-          ItemType = input.ReadString();
+        case 26: {
+          DetailType = input.ReadString();
           break;
         }
-        case 42: {
-          ItemGrade = input.ReadString();
+        case 32: {
+          Level = input.ReadInt32();
           break;
         }
-        case 50: {
-          ItemDetailtype = input.ReadString();
+        case 40: {
+          Attack = input.ReadInt32();
+          break;
+        }
+        case 48: {
+          Defense = input.ReadInt32();
           break;
         }
         case 56: {
-          ItemLevel = input.ReadInt32();
+          Speed = input.ReadInt32();
           break;
         }
         case 64: {
-          ItemAttack = input.ReadInt32();
+          AttackSpeed = input.ReadInt32();
           break;
         }
         case 72: {
-          ItemDefense = input.ReadInt32();
+          Exp = input.ReadInt32();
           break;
         }
         case 80: {
-          ItemSpeed = input.ReadInt32();
+          Hp = input.ReadInt32();
           break;
         }
         case 88: {
-          ItemAttackspeed = input.ReadInt32();
+          Mp = input.ReadInt32();
           break;
         }
         case 96: {
-          ItemHp = input.ReadInt32();
+          MaxHp = input.ReadInt32();
           break;
         }
         case 104: {
-          ItemMp = input.ReadInt32();
+          MaxMp = input.ReadInt32();
           break;
         }
         case 112: {
-          ItemExp = input.ReadInt32();
+          DurationBool = input.ReadBool();
           break;
         }
-        case 120: {
-          ItemMaxhp = input.ReadInt32();
-          break;
-        }
-        case 128: {
-          ItemMaxmp = input.ReadInt32();
-          break;
-        }
-        case 136: {
-          ItemMaxcount = input.ReadInt32();
+        case 125: {
+          Duration = input.ReadFloat();
           break;
         }
       }
@@ -1540,72 +1144,67 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
           break;
-        case 8: {
-          ItemId = input.ReadInt32();
+        case 10: {
+          if (itemData_ == null) {
+            ItemData = new global::ITEM_DATA();
+          }
+          input.ReadMessage(ItemData);
           break;
         }
         case 18: {
-          ItemName = input.ReadString();
-          break;
-        }
-        case 26: {
           ItemClass = input.ReadString();
           break;
         }
-        case 34: {
-          ItemType = input.ReadString();
+        case 26: {
+          DetailType = input.ReadString();
           break;
         }
-        case 42: {
-          ItemGrade = input.ReadString();
+        case 32: {
+          Level = input.ReadInt32();
           break;
         }
-        case 50: {
-          ItemDetailtype = input.ReadString();
+        case 40: {
+          Attack = input.ReadInt32();
+          break;
+        }
+        case 48: {
+          Defense = input.ReadInt32();
           break;
         }
         case 56: {
-          ItemLevel = input.ReadInt32();
+          Speed = input.ReadInt32();
           break;
         }
         case 64: {
-          ItemAttack = input.ReadInt32();
+          AttackSpeed = input.ReadInt32();
           break;
         }
         case 72: {
-          ItemDefense = input.ReadInt32();
+          Exp = input.ReadInt32();
           break;
         }
         case 80: {
-          ItemSpeed = input.ReadInt32();
+          Hp = input.ReadInt32();
           break;
         }
         case 88: {
-          ItemAttackspeed = input.ReadInt32();
+          Mp = input.ReadInt32();
           break;
         }
         case 96: {
-          ItemHp = input.ReadInt32();
+          MaxHp = input.ReadInt32();
           break;
         }
         case 104: {
-          ItemMp = input.ReadInt32();
+          MaxMp = input.ReadInt32();
           break;
         }
         case 112: {
-          ItemExp = input.ReadInt32();
+          DurationBool = input.ReadBool();
           break;
         }
-        case 120: {
-          ItemMaxhp = input.ReadInt32();
-          break;
-        }
-        case 128: {
-          ItemMaxmp = input.ReadInt32();
-          break;
-        }
-        case 136: {
-          ItemMaxcount = input.ReadInt32();
+        case 125: {
+          Duration = input.ReadFloat();
           break;
         }
       }
@@ -1615,16 +1214,16 @@ public sealed partial class CONSUME_ITEM : pb::IMessage<CONSUME_ITEM>
 
 }
 
-public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
+public sealed partial class EQUIPMENTITEM_DATA : pb::IMessage<EQUIPMENTITEM_DATA>
 #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     , pb::IBufferMessage
 #endif
 {
-  private static readonly pb::MessageParser<ETC_ITEM> _parser = new pb::MessageParser<ETC_ITEM>(() => new ETC_ITEM());
+  private static readonly pb::MessageParser<EQUIPMENTITEM_DATA> _parser = new pb::MessageParser<EQUIPMENTITEM_DATA>(() => new EQUIPMENTITEM_DATA());
   private pb::UnknownFieldSet _unknownFields;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public static pb::MessageParser<ETC_ITEM> Parser { get { return _parser; } }
+  public static pb::MessageParser<EQUIPMENTITEM_DATA> Parser { get { return _parser; } }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
@@ -1640,7 +1239,7 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public ETC_ITEM() {
+  public EQUIPMENTITEM_DATA() {
     OnConstruction();
   }
 
@@ -1648,87 +1247,73 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public ETC_ITEM(ETC_ITEM other) : this() {
-    itemId_ = other.itemId_;
-    itemName_ = other.itemName_;
-    itemType_ = other.itemType_;
-    itemMaxcount_ = other.itemMaxcount_;
+  public EQUIPMENTITEM_DATA(EQUIPMENTITEM_DATA other) : this() {
+    stateitemData_ = other.stateitemData_ != null ? other.stateitemData_.Clone() : null;
+    maxReinforcement_ = other.maxReinforcement_;
+    currentReinforcement_ = other.currentReinforcement_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public ETC_ITEM Clone() {
-    return new ETC_ITEM(this);
+  public EQUIPMENTITEM_DATA Clone() {
+    return new EQUIPMENTITEM_DATA(this);
   }
 
-  /// <summary>Field number for the "item_id" field.</summary>
-  public const int ItemIdFieldNumber = 1;
-  private int itemId_;
+  /// <summary>Field number for the "stateitem_data" field.</summary>
+  public const int StateitemDataFieldNumber = 1;
+  private global::STATEITEM_DATA stateitemData_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemId {
-    get { return itemId_; }
+  public global::STATEITEM_DATA StateitemData {
+    get { return stateitemData_; }
     set {
-      itemId_ = value;
+      stateitemData_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_name" field.</summary>
-  public const int ItemNameFieldNumber = 2;
-  private string itemName_ = "";
+  /// <summary>Field number for the "max_reinforcement" field.</summary>
+  public const int MaxReinforcementFieldNumber = 2;
+  private int maxReinforcement_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemName {
-    get { return itemName_; }
+  public int MaxReinforcement {
+    get { return maxReinforcement_; }
     set {
-      itemName_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      maxReinforcement_ = value;
     }
   }
 
-  /// <summary>Field number for the "item_type" field.</summary>
-  public const int ItemTypeFieldNumber = 3;
-  private string itemType_ = "";
+  /// <summary>Field number for the "current_reinforcement" field.</summary>
+  public const int CurrentReinforcementFieldNumber = 3;
+  private int currentReinforcement_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemType {
-    get { return itemType_; }
+  public int CurrentReinforcement {
+    get { return currentReinforcement_; }
     set {
-      itemType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
-    }
-  }
-
-  /// <summary>Field number for the "item_maxcount" field.</summary>
-  public const int ItemMaxcountFieldNumber = 4;
-  private int itemMaxcount_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int ItemMaxcount {
-    get { return itemMaxcount_; }
-    set {
-      itemMaxcount_ = value;
+      currentReinforcement_ = value;
     }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override bool Equals(object other) {
-    return Equals(other as ETC_ITEM);
+    return Equals(other as EQUIPMENTITEM_DATA);
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public bool Equals(ETC_ITEM other) {
+  public bool Equals(EQUIPMENTITEM_DATA other) {
     if (ReferenceEquals(other, null)) {
       return false;
     }
     if (ReferenceEquals(other, this)) {
       return true;
     }
-    if (ItemId != other.ItemId) return false;
-    if (ItemName != other.ItemName) return false;
-    if (ItemType != other.ItemType) return false;
-    if (ItemMaxcount != other.ItemMaxcount) return false;
+    if (!object.Equals(StateitemData, other.StateitemData)) return false;
+    if (MaxReinforcement != other.MaxReinforcement) return false;
+    if (CurrentReinforcement != other.CurrentReinforcement) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -1736,10 +1321,9 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public override int GetHashCode() {
     int hash = 1;
-    if (ItemId != 0) hash ^= ItemId.GetHashCode();
-    if (ItemName.Length != 0) hash ^= ItemName.GetHashCode();
-    if (ItemType.Length != 0) hash ^= ItemType.GetHashCode();
-    if (ItemMaxcount != 0) hash ^= ItemMaxcount.GetHashCode();
+    if (stateitemData_ != null) hash ^= StateitemData.GetHashCode();
+    if (MaxReinforcement != 0) hash ^= MaxReinforcement.GetHashCode();
+    if (CurrentReinforcement != 0) hash ^= CurrentReinforcement.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -1758,21 +1342,17 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
   #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
     output.WriteRawMessage(this);
   #else
-    if (ItemId != 0) {
-      output.WriteRawTag(8);
-      output.WriteInt32(ItemId);
+    if (stateitemData_ != null) {
+      output.WriteRawTag(10);
+      output.WriteMessage(StateitemData);
     }
-    if (ItemName.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(ItemName);
+    if (MaxReinforcement != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(MaxReinforcement);
     }
-    if (ItemType.Length != 0) {
-      output.WriteRawTag(26);
-      output.WriteString(ItemType);
-    }
-    if (ItemMaxcount != 0) {
-      output.WriteRawTag(32);
-      output.WriteInt32(ItemMaxcount);
+    if (CurrentReinforcement != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(CurrentReinforcement);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -1784,21 +1364,17 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-    if (ItemId != 0) {
-      output.WriteRawTag(8);
-      output.WriteInt32(ItemId);
+    if (stateitemData_ != null) {
+      output.WriteRawTag(10);
+      output.WriteMessage(StateitemData);
     }
-    if (ItemName.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(ItemName);
+    if (MaxReinforcement != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(MaxReinforcement);
     }
-    if (ItemType.Length != 0) {
-      output.WriteRawTag(26);
-      output.WriteString(ItemType);
-    }
-    if (ItemMaxcount != 0) {
-      output.WriteRawTag(32);
-      output.WriteInt32(ItemMaxcount);
+    if (CurrentReinforcement != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(CurrentReinforcement);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
@@ -1810,17 +1386,14 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public int CalculateSize() {
     int size = 0;
-    if (ItemId != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemId);
+    if (stateitemData_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(StateitemData);
     }
-    if (ItemName.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemName);
+    if (MaxReinforcement != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(MaxReinforcement);
     }
-    if (ItemType.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemType);
-    }
-    if (ItemMaxcount != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemMaxcount);
+    if (CurrentReinforcement != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(CurrentReinforcement);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -1830,21 +1403,21 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void MergeFrom(ETC_ITEM other) {
+  public void MergeFrom(EQUIPMENTITEM_DATA other) {
     if (other == null) {
       return;
     }
-    if (other.ItemId != 0) {
-      ItemId = other.ItemId;
+    if (other.stateitemData_ != null) {
+      if (stateitemData_ == null) {
+        StateitemData = new global::STATEITEM_DATA();
+      }
+      StateitemData.MergeFrom(other.StateitemData);
     }
-    if (other.ItemName.Length != 0) {
-      ItemName = other.ItemName;
+    if (other.MaxReinforcement != 0) {
+      MaxReinforcement = other.MaxReinforcement;
     }
-    if (other.ItemType.Length != 0) {
-      ItemType = other.ItemType;
-    }
-    if (other.ItemMaxcount != 0) {
-      ItemMaxcount = other.ItemMaxcount;
+    if (other.CurrentReinforcement != 0) {
+      CurrentReinforcement = other.CurrentReinforcement;
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -1861,20 +1434,241 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
         default:
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
           break;
+        case 10: {
+          if (stateitemData_ == null) {
+            StateitemData = new global::STATEITEM_DATA();
+          }
+          input.ReadMessage(StateitemData);
+          break;
+        }
+        case 16: {
+          MaxReinforcement = input.ReadInt32();
+          break;
+        }
+        case 24: {
+          CurrentReinforcement = input.ReadInt32();
+          break;
+        }
+      }
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+          break;
+        case 10: {
+          if (stateitemData_ == null) {
+            StateitemData = new global::STATEITEM_DATA();
+          }
+          input.ReadMessage(StateitemData);
+          break;
+        }
+        case 16: {
+          MaxReinforcement = input.ReadInt32();
+          break;
+        }
+        case 24: {
+          CurrentReinforcement = input.ReadInt32();
+          break;
+        }
+      }
+    }
+  }
+  #endif
+
+}
+
+public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
+#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    , pb::IBufferMessage
+#endif
+{
+  private static readonly pb::MessageParser<INVENTORY> _parser = new pb::MessageParser<INVENTORY>(() => new INVENTORY());
+  private pb::UnknownFieldSet _unknownFields;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pb::MessageParser<INVENTORY> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::ItemMessageReflection.Descriptor.MessageTypes[3]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public INVENTORY() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public INVENTORY(INVENTORY other) : this() {
+    invenSize_ = other.invenSize_;
+    items_ = other.items_.Clone();
+    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public INVENTORY Clone() {
+    return new INVENTORY(this);
+  }
+
+  /// <summary>Field number for the "inven_size" field.</summary>
+  public const int InvenSizeFieldNumber = 1;
+  private int invenSize_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int InvenSize {
+    get { return invenSize_; }
+    set {
+      invenSize_ = value;
+    }
+  }
+
+  /// <summary>Field number for the "items" field.</summary>
+  public const int ItemsFieldNumber = 2;
+  private static readonly pb::FieldCodec<global::ITEM_DATA> _repeated_items_codec
+      = pb::FieldCodec.ForMessage(18, global::ITEM_DATA.Parser);
+  private readonly pbc::RepeatedField<global::ITEM_DATA> items_ = new pbc::RepeatedField<global::ITEM_DATA>();
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public pbc::RepeatedField<global::ITEM_DATA> Items {
+    get { return items_; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override bool Equals(object other) {
+    return Equals(other as INVENTORY);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public bool Equals(INVENTORY other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (InvenSize != other.InvenSize) return false;
+    if(!items_.Equals(other.items_)) return false;
+    return Equals(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (InvenSize != 0) hash ^= InvenSize.GetHashCode();
+    hash ^= items_.GetHashCode();
+    if (_unknownFields != null) {
+      hash ^= _unknownFields.GetHashCode();
+    }
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void WriteTo(pb::CodedOutputStream output) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    output.WriteRawMessage(this);
+  #else
+    if (InvenSize != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(InvenSize);
+    }
+    items_.WriteTo(output, _repeated_items_codec);
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(output);
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+    if (InvenSize != 0) {
+      output.WriteRawTag(8);
+      output.WriteInt32(InvenSize);
+    }
+    items_.WriteTo(ref output, _repeated_items_codec);
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(ref output);
+    }
+  }
+  #endif
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int CalculateSize() {
+    int size = 0;
+    if (InvenSize != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(InvenSize);
+    }
+    size += items_.CalculateSize(_repeated_items_codec);
+    if (_unknownFields != null) {
+      size += _unknownFields.CalculateSize();
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(INVENTORY other) {
+    if (other == null) {
+      return;
+    }
+    if (other.InvenSize != 0) {
+      InvenSize = other.InvenSize;
+    }
+    items_.Add(other.items_);
+    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(pb::CodedInputStream input) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    input.ReadRawMessage(this);
+  #else
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+          break;
         case 8: {
-          ItemId = input.ReadInt32();
+          InvenSize = input.ReadInt32();
           break;
         }
         case 18: {
-          ItemName = input.ReadString();
-          break;
-        }
-        case 26: {
-          ItemType = input.ReadString();
-          break;
-        }
-        case 32: {
-          ItemMaxcount = input.ReadInt32();
+          items_.AddEntriesFrom(input, _repeated_items_codec);
           break;
         }
       }
@@ -1893,19 +1687,11 @@ public sealed partial class ETC_ITEM : pb::IMessage<ETC_ITEM>
           _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
           break;
         case 8: {
-          ItemId = input.ReadInt32();
+          InvenSize = input.ReadInt32();
           break;
         }
         case 18: {
-          ItemName = input.ReadString();
-          break;
-        }
-        case 26: {
-          ItemType = input.ReadString();
-          break;
-        }
-        case 32: {
-          ItemMaxcount = input.ReadInt32();
+          items_.AddEntriesFrom(ref input, _repeated_items_codec);
           break;
         }
       }

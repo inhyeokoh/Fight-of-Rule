@@ -1,4 +1,4 @@
-//#define SERVER
+#define SERVER
 #define CLIENT_TEST
 using System;
 using TMPro;
@@ -43,7 +43,6 @@ public class UI_Login : UI_Entity
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt)); 
 
 #elif CLIENT_TEST
-            // 서버 없이 씬 넘어가기
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
                 var loadAsync = SceneManager.LoadSceneAsync("Create");

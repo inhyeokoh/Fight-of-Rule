@@ -96,8 +96,19 @@ message S_DELETE_CHARACTER {
     int64 slot_num = 2;
 }
 
+message C_INGAME {
+    int64 character_id = 1;
+}
+
+message S_INGAME {
+    bool success = 1;
+    INVENTORY inventory = 2;
+    // TODO : 퀘스트, 장비
+}
+
+message C_ITEMINFO {
+}
+
 message S_ITEMINFO {
-    EQUIP_ITEM equip_item = 1;
-    CONSUME_ITEM consume_item = 2;
-    ETC_ITEM etc_item = 3;
+    ITEM_DATA item_data = 1;
 }

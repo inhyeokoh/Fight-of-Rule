@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// Esc, Enter, Tab 기능
@@ -66,7 +67,7 @@ public class UserInputOnUI : MonoBehaviour
     {
         if (context.action.phase == InputActionPhase.Performed)
         {
-            if (SceneController.instance.curScene == SceneController.Enum_Scenes.Title && GameManager.UI._activePopupList.Count == 0)
+            if (SceneController.instance.curScene == SceneController.Enum_Scenes.Title && GameManager.UI._activePopupList.Count == 0) // SceneController.instance.curScene == SceneController.Enum_Scenes.Title 이게 별로
             {
                 GameManager.UI.Login.TabAction();
             }

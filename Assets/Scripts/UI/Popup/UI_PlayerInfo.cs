@@ -161,7 +161,7 @@ public class UI_PlayerInfo : UI_Entity
 
         _infoBoard.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = "직업";
         _job = _infoBoard.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
-        string strJob = Enum.GetName(typeof(Enum_Class), character.BaseInfo.Job);
+        string strJob = Enum.GetName(typeof(Enum_Class), character.BaseInfo.CharacterClass);
         _job.text = $"{strJob}";
 
         _infoBoard.transform.GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = "성별";

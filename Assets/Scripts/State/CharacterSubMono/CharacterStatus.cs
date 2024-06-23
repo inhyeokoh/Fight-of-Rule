@@ -1,3 +1,5 @@
+#define SERVER
+//#define TEST_CLIENT
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -242,6 +244,20 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
+#if SERVER
+        level = GameManager.Data.CurrentCharacter.Stat.Level;
+        characterMaxHP = GameManager.Data.CurrentCharacter.Stat.MaxHP;
+        characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;
+        characterMaxEXP = GameManager.Data.CurrentCharacter.Stat.MaxEXP;
+
+        hp = GameManager.Data.CurrentCharacter.Stat.Hp;
+        mp = GameManager.Data.CurrentCharacter.Stat.Mp;
+        exp = GameManager.Data.CurrentCharacter.Stat.Exp;
+        characterAttack = GameManager.Data.CurrentCharacter.Stat.Attack;
+        characterAttackSpeed = GameManager.Data.CurrentCharacter.Stat.AttackSpeed;
+        characterDefense = GameManager.Data.CurrentCharacter.Stat.Defense;
+        characterSpeed = GameManager.Data.CurrentCharacter.Stat.Speed;
+#elif TEST_CLIENT
         level = GameManager.Data.CurrentCharacter.Stat.Level;
         characterMaxHP = GameManager.Data.CurrentCharacter.Stat.MaxHP;
         characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;
@@ -261,6 +277,7 @@ public class CharacterStatus : SubMono<PlayerController>
         sumAttackSpeed = characterAttackSpeed;
         sumDefense = characterDefense;
         sumSpeed = characterSpeed;
+#endif
     }
 
     protected override void _Excute()

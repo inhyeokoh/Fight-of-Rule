@@ -1,5 +1,5 @@
-//#define SERVER
-#define CLIENT_TEST
+#define SERVER
+//#define CLIENT_TEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,8 +45,11 @@ public class SceneController : MonoBehaviour
         curSceneIdx = SceneManager.GetActiveScene().buildIndex;
         Enum_Scenes curScene = (Enum_Scenes)curSceneIdx;
 #if SERVER
-        GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.Title);
-        if (scene.name == "StatePattern")
+        if (scene.name == "Title")
+        {
+            GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.Title);
+        }
+        else if (scene.name == "StatePattern")
         {
             GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.StatePattern);
             GameManager.UI.ConnectPlayerInput();
