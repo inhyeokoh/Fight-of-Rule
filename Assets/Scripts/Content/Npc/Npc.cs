@@ -4,8 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum Enum_NpcType
+{
+    Quest,
+    Shop
+    // TODO : 제작 Npc 등등
+}
+
 public class Npc : MonoBehaviour
 {
+    [SerializeField]
+    string npcName;
+
     [SerializeField]
     int npcID;
     public int NpcID
@@ -13,8 +23,9 @@ public class Npc : MonoBehaviour
         get { return npcID; }
         set { npcID = value; }
     }
-    [SerializeField]
-    string npcName;
+
+    Enum_NpcType npcType;
+
     List<Quest> assignedQuests = new List<Quest>();
 
     List<Quest> accessibleQuests = new List<Quest>();

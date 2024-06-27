@@ -1,4 +1,4 @@
-#define SERVER
+//#define SERVER
 #define CLIENT_TEST
 using System;
 using System.Collections;
@@ -116,7 +116,7 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.BaseInfo = new CHARACTER_BASE();
         CurrentCharacter.BaseInfo.CharacterId = 0;
         CurrentCharacter.BaseInfo.Nickname = ByteString.CopyFrom("HelloWorld", System.Text.Encoding.Unicode);
-        CurrentCharacter.BaseInfo.Job = 0;
+        CurrentCharacter.BaseInfo.CharacterClass = 0;
         CurrentCharacter.BaseInfo.Gender = true;
 
         CurrentCharacter.Stat = new CHARACTER_STATUS();

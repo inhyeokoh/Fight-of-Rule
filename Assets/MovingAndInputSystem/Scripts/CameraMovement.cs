@@ -52,7 +52,11 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
-        if (zoomLvl == 1)
+        if (zoomState == Enum_ZoomTypes.DialogZoom)
+        {
+
+        }
+        else if (zoomLvl == 1)
         {
             Vector3 desiredPosition =
                 new Vector3(
@@ -89,7 +93,6 @@ public class CameraMovement : MonoBehaviour
         }
 
         ScrollUpDown();
-
     }
 
     private void ScrollUpDown()
@@ -121,14 +124,16 @@ public class CameraMovement : MonoBehaviour
                 break;
             case Enum_ZoomTypes.DialogZoom:
                 Vector3 dialogZoomPos = CalculateDialogZoomPos();
-                StartCoroutine(MoveCameraToPosition(dialogZoomPos));
+                transform.position = dialogZoomPos;
+                transform.LookAt(midPos);
+                //StartCoroutine(MoveCameraToPosition(dialogZoomPos));
                 break;
         }
     }
 
     private Vector3 CalculateDialogZoomPos()
     {
-        float distance = 10f;
+        float distance = 15f;
 
         // 캐릭터와 Npc의 중점
         midPos = (target.transform.position + NpcPos) / 2.0f;
@@ -146,9 +151,9 @@ public class CameraMovement : MonoBehaviour
     }
 
 
-    IEnumerator MoveCameraToPosition(Vector3 targetPosition)
+/*    IEnumerator MoveCameraToPosition(Vector3 targetPosition)
     {
-        while (Vector3.Distance(transform.position, targetPosition) > 1f)
+        while (Vector3.Distance(transform.position, targetPosition) > 3f)
         {
             transform.position = Vector3.Lerp(transform.position, targetPosition, Time.deltaTime * 50f);
 
@@ -158,7 +163,9 @@ public class CameraMovement : MonoBehaviour
             yield return null;
         }
 
+        Debug.Log("while문 종료");
         transform.position = targetPosition;
-        transform.LookAt(midPos);
-    }
+        Quaternion.LookRotation(midPos - transform.position);
+        //transform.LookAt(midPos);
+    }*/
 }

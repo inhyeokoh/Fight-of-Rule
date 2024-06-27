@@ -93,6 +93,10 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.ClosePopup(GameManager.UI.Login);
+        });
         // 신규 유저        
         if (message.Character.Count == 0)
         {

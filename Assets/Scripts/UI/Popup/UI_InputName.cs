@@ -43,28 +43,26 @@ public class UI_InputName : UI_Entity
         _entities[(int)Enum_UI_InputName.Accept].ClickAction = (PointerEventData data) => {
             nickname = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().text;
 
-            // string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-R]{1,12}", "", RegexOptions.Singleline);
+            string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-힣]", "", RegexOptions.Singleline);
+            //string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-R]{1,12}", "", RegexOptions.Singleline);
 
-/*            // 특수문자 안되게
             if (nickname.Equals(nickChecker) == false)
             {
-                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
-                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Special characters and spaces are not allowed.");
+                childPopups.Add(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText(UI_ConfirmY.Enum_ConfirmTypes.NoSpecialCharacters);
             }
-            else if (nickname.Length < 2 || nickname.Length > 16)
+            else if (nickname.Length < 2 || nickname.Length > 12)
             {
-                GameManager.UI.OpenChildPopup(GameManager.UI.ConfirmY, true);
-                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText("Please enter at least 2 characters and no more than 16 characters.");
+                childPopups.Add(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.GetComponent<UI_ConfirmY>().ChangeText(UI_ConfirmY.Enum_ConfirmTypes.LimitNickNameLength);
             }
             else
-            {*/
+            {
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
-            Debug.Log(nickname);
-            Debug.Log(nick_DupAsk_pkt.Nickname);
-            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
-/*        };*/
-    };
+                GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+            };
+        };
 
         _entities[(int)Enum_UI_InputName.Cancel].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.InputName);
@@ -73,8 +71,9 @@ public class UI_InputName : UI_Entity
         gameObject.SetActive(false);
     }
 
-    public override void AcceptAction()
+    public override void EnterAction()
     {
+        base.EnterAction();
         _entities[(int)Enum_UI_InputName.Accept].ClickAction?.Invoke(null);
     }
 }

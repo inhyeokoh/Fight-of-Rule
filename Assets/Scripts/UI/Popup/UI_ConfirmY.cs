@@ -30,6 +30,8 @@ public class UI_ConfirmY : UI_Entity
         ExistUser,
         SignUpSuccess,
         LoginFail,
+        NoSpecialCharacters,
+        LimitNickNameLength,
         ExistNickName,
         CharacterDeleteFail,
         CharacterDeleteSuccess
@@ -86,6 +88,12 @@ public class UI_ConfirmY : UI_Entity
                 break;
             case Enum_ConfirmTypes.LoginFail:
                 _mainText.text = $"로그인에 실패했습니다. 잠시 후에 다시 시도하십시오.";
+                break;
+            case Enum_ConfirmTypes.NoSpecialCharacters:
+                _mainText.text = $"특수문자는 사용이 불가합니다.";
+                break;
+            case Enum_ConfirmTypes.LimitNickNameLength:
+                _mainText.text = $"2자 이상 12자 이하로 입력하십시오.";
                 break;
             case Enum_ConfirmTypes.ExistNickName:
                 _mainText.text = $"존재하는 닉네임 입니다!";

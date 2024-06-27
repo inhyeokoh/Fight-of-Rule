@@ -48,7 +48,7 @@ public class UI_CharacterSelect : UI_Entity
         };
 
         _entities[(int)Enum_UI_CharSelect.GoBack].ClickAction = (PointerEventData data) => {
-            SceneController.instance.LoadPreviousScene();
+            GameManager.Scene.LoadPreviousScene();
         };
     }
 

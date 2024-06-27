@@ -23,7 +23,7 @@ public class ResourceManager : SubClass<GameManager>
         return Resources.Load<T>(path); //일단 기존 방식이랑 mapping
     }
 
-/*    public GameObject Instantiate(string path, Transform parent = null)
+    public GameObject Instantiate(string path, Transform parent = null)
     {
         GameObject Original = Load<GameObject>(path);
 
@@ -31,26 +31,6 @@ public class ResourceManager : SubClass<GameManager>
         {
             Debug.Log(path);
             return null;
-        }
-
-        return Instantiate(Original, parent);
-    }*/
-
-    // 폰트 적용하며 생성
-    public GameObject Instantiate(string objPath, Transform parent = null, string fontPath = FontSetter.path_BMJUA_Font)
-    {
-        GameObject Original = Load<GameObject>(objPath);
-
-        if (Original == null)
-        {
-            Debug.Log(objPath);
-            return null;
-        }
-
-        TMP_Text[] allTMPTextComponents = Original.GetComponentsInChildren<TMP_Text>();
-        foreach (TMP_Text tmpTextComponent in allTMPTextComponents)
-        {
-            tmpTextComponent.font = Resources.Load<TMP_FontAsset>(fontPath);
         }
 
         return Instantiate(Original, parent);

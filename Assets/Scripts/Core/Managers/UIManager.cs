@@ -1,6 +1,6 @@
-#define SERVER
+//#define SERVER
 //#define CLIENT_TEST_FROM_TITLE
-//#define CLIENT_TEST
+#define CLIENT_TEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -13,7 +13,6 @@ public class UIManager : SubClass<GameManager>
     InputAction fireAction;
 
     public UI_Login Login;
-
     public UI_SignUp SignUp;
     public UI_InputName InputName;
     public UI_Setting Settings;
@@ -32,7 +31,7 @@ public class UIManager : SubClass<GameManager>
     //public GameObject SkillWindow;
     public UI_InGameMain InGameMain;
 
-    GameObject popupCanvas;
+    public GameObject popupCanvas;
 
     int blockerCount = 0;
     public bool init;
@@ -52,19 +51,15 @@ public class UIManager : SubClass<GameManager>
     {
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
+        _activePopupList = new LinkedList<UI_Entity>();
+        popupCanvas = GameObject.Find("PopupCanvas");
 #if SERVER
-        popupCanvas = GameObject.Find("PopupCanvas");
         Object.DontDestroyOnLoad(popupCanvas);
-        _activePopupList = new LinkedList<UI_Entity>();
 #elif CLIENT_TEST_FROM_TITLE
-        Login = GameManager.Resources.Instantiate("Prefabs/UI/Popup/UI_Login", GameObject.Find("Canvas").transform).GetComponent<UI_Login>();
-        popupCanvas = GameObject.Find("PopupCanvas");
         Object.DontDestroyOnLoad(popupCanvas);
-        _activePopupList = new LinkedList<UI_Entity>();
 #elif CLIENT_TEST
         ConnectPlayerInput();
         GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력 기능들을 수행할 수 있는 프리팹 생성
-        popupCanvas = GameObject.Find("PopupCanvas");
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
         PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();
         Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform).GetComponent<UI_Shop>();
@@ -72,7 +67,6 @@ public class UIManager : SubClass<GameManager>
         InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
         InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
         Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
-        _activePopupList = new LinkedList<UI_Entity>();
 #endif
         init = true;
     }
@@ -88,7 +82,8 @@ public class UIManager : SubClass<GameManager>
         switch (sceneName)
         {
             case Enum_PopupSetJunction.Title:
-                GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 관련된 기능들을 수행할 수 있는 프리팹 생성
+                GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력을 수행할 수 있는 프리팹 생성
+                Login = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Login", popupCanvas.transform).GetComponent<UI_Login>();
                 SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
                 Settings = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Settings", popupCanvas.transform).GetComponent<UI_Setting>();
                 InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform).GetComponent<UI_InputName>();
@@ -163,11 +158,9 @@ public class UIManager : SubClass<GameManager>
     // 가장 마지막에 연 팝업이 화면상 가장 위에 오도록
     public void SortPopupView()
     {
-        UI_Entity popup;
         if (_activePopupList.Last.Value != Blocker)
         {
-            popup = _activePopupList.Last.Value;
-            popup.transform.SetAsLastSibling();
+            _activePopupList.Last.Value.transform.SetAsLastSibling();
         }
     }
 

@@ -27,7 +27,7 @@ public class UI_Shop : UI_Entity
         Interact,
         Close,
         Panel,
-        Panel_U,
+        TradeOptions,
         DescrPanel,
         NotifyFull,
         PurchaseCountConfirm
@@ -47,8 +47,8 @@ public class UI_Shop : UI_Entity
     private void OnDisable()
     {
         GameManager.UI.PointerOnUI(false);
-        GameManager.UI.Inventory.GetComponent<UI_Inventory>().closeBtn.SetActive(true);
-        _ReturnSellListToInven();
+        GameManager.UI.Inventory.closeBtn.SetActive(true);
+        shopSell.ReturnSellListToInven();
         shopRepurchase.EmptyTempForSold();
         GameManager.UI.Inventory.gameObject.SetActive(false);
     }
@@ -57,14 +57,13 @@ public class UI_Shop : UI_Entity
     {
         base.Init();
         descrPanel = _entities[(int)Enum_UI_Shop.DescrPanel].gameObject;
-        panel_U_Buttons = _entities[(int)Enum_UI_Shop.Panel_U].GetComponentsInChildren<Toggle>();
+        panel_U_Buttons = _entities[(int)Enum_UI_Shop.TradeOptions].GetComponentsInChildren<Toggle>();
         shopSell = _entities[(int)Enum_UI_Shop.Panel].GetComponentInChildren<UI_ShopSell>();
         shopRepurchase = _entities[(int)Enum_UI_Shop.Panel].GetComponentInChildren<UI_ShopRepurchase>();
         panelRect = _entities[(int)Enum_UI_Shop.Panel].GetComponent<RectTransform>().rect;
         _descrUISize = _GetUISize(descrPanel);
 
-        _SetPanel_UButtons();
-
+        _SetTradeOptionToggles();
 
         foreach (var _subUI in _subUIs)
         {
@@ -145,7 +144,7 @@ public class UI_Shop : UI_Entity
         GameManager.UI.Inventory.GetComponent<UI_Inventory>().closeBtn.SetActive(false);
     }
 
-    void _SetPanel_UButtons()
+    void _SetTradeOptionToggles()
     {
         for (int i = 0; i < panel_U_Buttons.Length; i++)
         {
@@ -162,14 +161,14 @@ public class UI_Shop : UI_Entity
         childObject.SetActive(isToggleOn);
     }
 
-    // 상점 품목 우클릭으로 인벤토리로 되돌리기
+    // 상점 품목 인벤토리로 되돌리기
     public void ShopToInven(UI_ShopSlot.Enum_ShopSlotTypes slotType, int index)
     {
         int emptyIndex = GameManager.Inven.EmptySlot;
         switch (slotType)
         {
             case UI_ShopSlot.Enum_ShopSlotTypes.Sell:
-                UI_ShopSell shopSell = GameManager.UI.Shop.GetComponentInChildren<UI_ShopSell>();
+                UI_ShopSell shopSell = GetComponentInChildren<UI_ShopSell>();
                 GameManager.Inven.items[emptyIndex] = shopSell.shopItems[index];
                 shopSell.shopItems[index] = null;
 
@@ -178,7 +177,7 @@ public class UI_Shop : UI_Entity
                 shopSell.transform.GetChild(0).GetChild(index).GetComponent<UI_ShopSlot>().ItemRender();
                 break;
             case UI_ShopSlot.Enum_ShopSlotTypes.Repurchase:
-                UI_ShopRepurchase shopRepurchase = GameManager.UI.Shop.GetComponentInChildren<UI_ShopRepurchase>();
+                UI_ShopRepurchase shopRepurchase = GetComponentInChildren<UI_ShopRepurchase>();
                 GameManager.Inven.items[emptyIndex] = shopRepurchase.tempSoldItems[index];
                 GameManager.Inven.Gold -= shopRepurchase.tempSoldItems[index].sellingprice; // 구매 가격 아니고 판매 가격으로 재구매임. 
                 shopRepurchase.tempSoldItems[index] = null;
@@ -189,16 +188,5 @@ public class UI_Shop : UI_Entity
             default:
                 break;
         }
-    }
-
-    void _ReturnSellListToInven()
-    {
-        for (int i = 0; i < shopSell.shopItems.Length; i++)
-        {
-            if (shopSell.shopItems[i] != null)
-            {
-                ShopToInven(UI_ShopSlot.Enum_ShopSlotTypes.Sell, i);
-            }
-        }     
     }
 }

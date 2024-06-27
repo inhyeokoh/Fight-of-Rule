@@ -23,11 +23,11 @@ public static partial class ItemMessageReflection {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
           "ChFJdGVtTWVzc2FnZS5wcm90byKNAQoJSVRFTV9EQVRBEgoKAmlkGAEgASgF",
-          "EgwKBG5hbWUYAiABKAkSDAoEdHlwZRgDIAEoCRINCgVncmFkZRgEIAEoCRIV",
+          "EgwKBG5hbWUYAiABKAkSDAoEdHlwZRgDIAEoBRINCgVncmFkZRgEIAEoBRIV",
           "Cg1zZWxsaW5nX3ByaWNlGAUgASgDEhEKCW1heF9jb3VudBgGIAEoBRINCgVj",
           "b3VudBgHIAEoBRIQCghzbG90X251bRgIIAEoBSKZAgoOU1RBVEVJVEVNX0RB",
           "VEESHQoJaXRlbV9kYXRhGAEgASgLMgouSVRFTV9EQVRBEhIKCml0ZW1fY2xh",
-          "c3MYAiABKAkSEwoLZGV0YWlsX3R5cGUYAyABKAkSDQoFbGV2ZWwYBCABKAUS",
+          "c3MYAiABKAUSEwoLZGV0YWlsX3R5cGUYAyABKAUSDQoFbGV2ZWwYBCABKAUS",
           "DgoGYXR0YWNrGAUgASgFEg8KB2RlZmVuc2UYBiABKAUSDQoFc3BlZWQYByAB",
           "KAUSFAoMYXR0YWNrX3NwZWVkGAggASgFEgsKA2V4cBgJIAEoBRIKCgJocBgK",
           "IAEoBRIKCgJtcBgLIAEoBRINCgVtYXhIcBgMIAEoBRINCgVtYXhNcBgNIAEo",
@@ -127,25 +127,25 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
 
   /// <summary>Field number for the "type" field.</summary>
   public const int TypeFieldNumber = 3;
-  private string type_ = "";
+  private int type_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string Type {
+  public int Type {
     get { return type_; }
     set {
-      type_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      type_ = value;
     }
   }
 
   /// <summary>Field number for the "grade" field.</summary>
   public const int GradeFieldNumber = 4;
-  private string grade_ = "";
+  private int grade_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string Grade {
+  public int Grade {
     get { return grade_; }
     set {
-      grade_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      grade_ = value;
     }
   }
 
@@ -229,8 +229,8 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
     int hash = 1;
     if (Id != 0) hash ^= Id.GetHashCode();
     if (Name.Length != 0) hash ^= Name.GetHashCode();
-    if (Type.Length != 0) hash ^= Type.GetHashCode();
-    if (Grade.Length != 0) hash ^= Grade.GetHashCode();
+    if (Type != 0) hash ^= Type.GetHashCode();
+    if (Grade != 0) hash ^= Grade.GetHashCode();
     if (SellingPrice != 0L) hash ^= SellingPrice.GetHashCode();
     if (MaxCount != 0) hash ^= MaxCount.GetHashCode();
     if (Count != 0) hash ^= Count.GetHashCode();
@@ -261,13 +261,13 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
       output.WriteRawTag(18);
       output.WriteString(Name);
     }
-    if (Type.Length != 0) {
-      output.WriteRawTag(26);
-      output.WriteString(Type);
+    if (Type != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(Type);
     }
-    if (Grade.Length != 0) {
-      output.WriteRawTag(34);
-      output.WriteString(Grade);
+    if (Grade != 0) {
+      output.WriteRawTag(32);
+      output.WriteInt32(Grade);
     }
     if (SellingPrice != 0L) {
       output.WriteRawTag(40);
@@ -303,13 +303,13 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
       output.WriteRawTag(18);
       output.WriteString(Name);
     }
-    if (Type.Length != 0) {
-      output.WriteRawTag(26);
-      output.WriteString(Type);
+    if (Type != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(Type);
     }
-    if (Grade.Length != 0) {
-      output.WriteRawTag(34);
-      output.WriteString(Grade);
+    if (Grade != 0) {
+      output.WriteRawTag(32);
+      output.WriteInt32(Grade);
     }
     if (SellingPrice != 0L) {
       output.WriteRawTag(40);
@@ -343,11 +343,11 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
     if (Name.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
     }
-    if (Type.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Type);
+    if (Type != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Type);
     }
-    if (Grade.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(Grade);
+    if (Grade != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Grade);
     }
     if (SellingPrice != 0L) {
       size += 1 + pb::CodedOutputStream.ComputeInt64Size(SellingPrice);
@@ -379,10 +379,10 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
     if (other.Name.Length != 0) {
       Name = other.Name;
     }
-    if (other.Type.Length != 0) {
+    if (other.Type != 0) {
       Type = other.Type;
     }
-    if (other.Grade.Length != 0) {
+    if (other.Grade != 0) {
       Grade = other.Grade;
     }
     if (other.SellingPrice != 0L) {
@@ -420,12 +420,12 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
           Name = input.ReadString();
           break;
         }
-        case 26: {
-          Type = input.ReadString();
+        case 24: {
+          Type = input.ReadInt32();
           break;
         }
-        case 34: {
-          Grade = input.ReadString();
+        case 32: {
+          Grade = input.ReadInt32();
           break;
         }
         case 40: {
@@ -467,12 +467,12 @@ public sealed partial class ITEM_DATA : pb::IMessage<ITEM_DATA>
           Name = input.ReadString();
           break;
         }
-        case 26: {
-          Type = input.ReadString();
+        case 24: {
+          Type = input.ReadInt32();
           break;
         }
-        case 34: {
-          Grade = input.ReadString();
+        case 32: {
+          Grade = input.ReadInt32();
           break;
         }
         case 40: {
@@ -570,25 +570,25 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
 
   /// <summary>Field number for the "item_class" field.</summary>
   public const int ItemClassFieldNumber = 2;
-  private string itemClass_ = "";
+  private int itemClass_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string ItemClass {
+  public int ItemClass {
     get { return itemClass_; }
     set {
-      itemClass_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      itemClass_ = value;
     }
   }
 
   /// <summary>Field number for the "detail_type" field.</summary>
   public const int DetailTypeFieldNumber = 3;
-  private string detailType_ = "";
+  private int detailType_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public string DetailType {
+  public int DetailType {
     get { return detailType_; }
     set {
-      detailType_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
+      detailType_ = value;
     }
   }
 
@@ -774,8 +774,8 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
   public override int GetHashCode() {
     int hash = 1;
     if (itemData_ != null) hash ^= ItemData.GetHashCode();
-    if (ItemClass.Length != 0) hash ^= ItemClass.GetHashCode();
-    if (DetailType.Length != 0) hash ^= DetailType.GetHashCode();
+    if (ItemClass != 0) hash ^= ItemClass.GetHashCode();
+    if (DetailType != 0) hash ^= DetailType.GetHashCode();
     if (Level != 0) hash ^= Level.GetHashCode();
     if (Attack != 0) hash ^= Attack.GetHashCode();
     if (Defense != 0) hash ^= Defense.GetHashCode();
@@ -810,13 +810,13 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
       output.WriteRawTag(10);
       output.WriteMessage(ItemData);
     }
-    if (ItemClass.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(ItemClass);
+    if (ItemClass != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(ItemClass);
     }
-    if (DetailType.Length != 0) {
-      output.WriteRawTag(26);
-      output.WriteString(DetailType);
+    if (DetailType != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(DetailType);
     }
     if (Level != 0) {
       output.WriteRawTag(32);
@@ -880,13 +880,13 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
       output.WriteRawTag(10);
       output.WriteMessage(ItemData);
     }
-    if (ItemClass.Length != 0) {
-      output.WriteRawTag(18);
-      output.WriteString(ItemClass);
+    if (ItemClass != 0) {
+      output.WriteRawTag(16);
+      output.WriteInt32(ItemClass);
     }
-    if (DetailType.Length != 0) {
-      output.WriteRawTag(26);
-      output.WriteString(DetailType);
+    if (DetailType != 0) {
+      output.WriteRawTag(24);
+      output.WriteInt32(DetailType);
     }
     if (Level != 0) {
       output.WriteRawTag(32);
@@ -949,11 +949,11 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
     if (itemData_ != null) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(ItemData);
     }
-    if (ItemClass.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(ItemClass);
+    if (ItemClass != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemClass);
     }
-    if (DetailType.Length != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeStringSize(DetailType);
+    if (DetailType != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(DetailType);
     }
     if (Level != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(Level);
@@ -1009,10 +1009,10 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
       }
       ItemData.MergeFrom(other.ItemData);
     }
-    if (other.ItemClass.Length != 0) {
+    if (other.ItemClass != 0) {
       ItemClass = other.ItemClass;
     }
-    if (other.DetailType.Length != 0) {
+    if (other.DetailType != 0) {
       DetailType = other.DetailType;
     }
     if (other.Level != 0) {
@@ -1073,12 +1073,12 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
           input.ReadMessage(ItemData);
           break;
         }
-        case 18: {
-          ItemClass = input.ReadString();
+        case 16: {
+          ItemClass = input.ReadInt32();
           break;
         }
-        case 26: {
-          DetailType = input.ReadString();
+        case 24: {
+          DetailType = input.ReadInt32();
           break;
         }
         case 32: {
@@ -1151,12 +1151,12 @@ public sealed partial class STATEITEM_DATA : pb::IMessage<STATEITEM_DATA>
           input.ReadMessage(ItemData);
           break;
         }
-        case 18: {
-          ItemClass = input.ReadString();
+        case 16: {
+          ItemClass = input.ReadInt32();
           break;
         }
-        case 26: {
-          DetailType = input.ReadString();
+        case 24: {
+          DetailType = input.ReadInt32();
           break;
         }
         case 32: {

@@ -11,19 +11,25 @@ public class UI_Dialog : UI_Entity
     List<Quest> accessibleQuests;
     int _npcID;
 
-    CameraMovement cameraMovement;
-    GameObject nextButton;
-    GameObject acceptButton;
+    CameraFollow cameraFollow;
+
+    #region 퀘스트 목록
     GameObject questPanel;
+    ToggleGroup toggleGroup;
     GameObject canComplete;
     GameObject available;
     GameObject ongoing;
-    TMP_Text mainText;
-    string defaultText = "오늘은 무슨 일이 생기려나...";
+    #endregion
 
-    ToggleGroup toggleGroup;
-    Quest selectedQuest;
+    #region 대화창
+    TMP_Text mainText;
+    const string defaultText = "오늘은 무슨 일이 생기려나...";
+    GameObject nextButton;
+    GameObject acceptButton;
     int dialogCount;
+    #endregion
+
+    Quest selectedQuest;
         
     enum Enum_UI_Dialog
     {
@@ -48,8 +54,9 @@ public class UI_Dialog : UI_Entity
             nextButton.SetActive(false);
             acceptButton.SetActive(false);
             _ShowQuests();
-            cameraMovement.NpcPos = GameManager.Data.npcDict[_npcID].transform.position;
-            cameraMovement.ZoomState = CameraMovement.Enum_ZoomTypes.DialogZoom;
+            cameraFollow = GameObject.FindWithTag("vCam").GetComponent<CameraFollow>();
+            cameraFollow.NpcPos = GameManager.Data.npcDict[_npcID].transform.position;
+            cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.DialogZoom;
             mainText.text = defaultText;
             dialogCount = 0;
         }
@@ -67,7 +74,7 @@ public class UI_Dialog : UI_Entity
     {
         base.Init();
 
-        cameraMovement = Camera.main.GetComponent<CameraMovement>();
+        cameraFollow = Camera.main.GetComponent<CameraFollow>();
         questPanel = _entities[(int)Enum_UI_Dialog.QuestPanel].gameObject;
         nextButton = _entities[(int)Enum_UI_Dialog.Next].gameObject;
         acceptButton = _entities[(int)Enum_UI_Dialog.Accept].gameObject;

@@ -35,7 +35,7 @@ public class UserInputOnUI : MonoBehaviour
         {
             if (GameManager.UI._activePopupList.Count > 0)
             {
-                GameManager.UI._activePopupList.Last.Value.AcceptAction();
+                GameManager.UI._activePopupList.Last.Value.EnterAction();
             }
         }
     }
@@ -50,11 +50,11 @@ public class UserInputOnUI : MonoBehaviour
         {
             if (GameManager.UI._activePopupList.Count > 0)
             {
-                GameManager.UI.ClosePopup(GameManager.UI._activePopupList.Last.Value);
+                GameManager.UI._activePopupList.Last.Value.EscAction();
             }
             else
             {
-                SceneController.instance.LoadPreviousScene();                
+                GameManager.Scene.LoadPreviousScene();
             }           
         }
     }
@@ -67,11 +67,7 @@ public class UserInputOnUI : MonoBehaviour
     {
         if (context.action.phase == InputActionPhase.Performed)
         {
-            if (SceneController.instance.curScene == SceneController.Enum_Scenes.Title && GameManager.UI._activePopupList.Count == 0) // SceneController.instance.curScene == SceneController.Enum_Scenes.Title 이게 별로
-            {
-                GameManager.UI.Login.TabAction();
-            }
-            else if (GameManager.UI._activePopupList.Count > 0)
+            if (GameManager.UI._activePopupList.Count > 0)
             {
                 GameManager.UI._activePopupList.Last.Value.TabAction();
             }

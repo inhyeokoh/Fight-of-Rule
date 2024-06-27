@@ -88,6 +88,16 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static DataManager Data { get { return Instance._dataManager; } }
 
+
+    /*==================
+    *    SceneControlManager
+    =================*/
+    SceneControlManager _sceneControlManager = new SceneControlManager();
+    /// <summary>
+    /// Control progress when changing scenes
+    /// </summary>
+    public static SceneControlManager Scene { get { return Instance._sceneControlManager; } }
+
     /*==================
     *    InventoryManager
     =================*/
@@ -124,6 +134,7 @@ public class GameManager : MonoBehaviour
             _networkManager,
             _uiManager,
             _dataManager,
+            _sceneControlManager,
             _invenManager,
             _questManager
         };

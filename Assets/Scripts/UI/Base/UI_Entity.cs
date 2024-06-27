@@ -31,7 +31,12 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     protected List<UI_Entity> _subUIs = new List<UI_Entity>();
     //현재 UI의 하위 UI요소들
     protected Dictionary<int, UI_Entity> _entities = new Dictionary<int, UI_Entity>();
-    public virtual void AcceptAction() { EventSystem.current.SetSelectedGameObject(null); }
+    public virtual void EnterAction() { EventSystem.current.SetSelectedGameObject(null); }
+    public virtual void EscAction()
+    {
+        GameManager.UI.ClosePopup(this);
+    }
+
     int curInputFieldIndex;
     protected List<TMP_InputField> inputFields = new List<TMP_InputField>();
     public void TabAction()
@@ -57,17 +62,17 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     }
 
 
-    //UI컴포넌트들 모음
+    //UI컴포넌트들 모음. 오브젝트에 UI컴포넌트가 여러개 있을 경우, 해당 순서가 유의미함.
     static List<Type> _components = new List<Type>()
     {
         typeof(Button),
         typeof(Slider),
-        typeof(Image),
-        typeof(RawImage),
         typeof(Toggle),
         typeof(TMP_InputField),
         typeof(TMP_Dropdown),
         typeof(TMP_Text),
+        typeof(Image),
+        typeof(RawImage),
     };
 
     protected void Start()
@@ -104,6 +109,10 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
             // UI요소라면 다음 코드가 실행됨
             comp.Mount(this);
             _subUIs.Add(comp);
+            if (comp)
+            {
+
+            }
         }
     }
 
@@ -130,14 +139,12 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
                 if (component.gameObject.name == names[str])
                 {
                     if (!_entities.ContainsKey(str))  // 키가 이미 존재하는지 확인
-                    {
+                    {                        
                         _entities.Add(str, uientity);
-                    }
-
-                    if (names[str].Contains("Field"))
-                    {
-                        var inputField = obj.GetComponent<TMP_InputField>();
-                        inputFields.Add(inputField);
+                        if (uientity.UIType == typeof(TMP_InputField))
+                        {
+                            inputFields.Add(uientity.gameObject.GetComponent<TMP_InputField>());
+                        }
                     }
                     break;
                 }

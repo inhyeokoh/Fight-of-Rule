@@ -298,8 +298,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: Enter text...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 059a8f526de18e24fb438d5647bf4617, type: 2}
+  m_sharedMaterial: {fileID: 3891330947877374064, guid: 059a8f526de18e24fb438d5647bf4617,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -453,8 +454,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 059a8f526de18e24fb438d5647bf4617, type: 2}
+  m_sharedMaterial: {fileID: 3891330947877374064, guid: 059a8f526de18e24fb438d5647bf4617,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -665,8 +667,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uD655\uC778"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 059a8f526de18e24fb438d5647bf4617, type: 2}
+  m_sharedMaterial: {fileID: 3891330947877374064, guid: 059a8f526de18e24fb438d5647bf4617,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -863,7 +866,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8662389254753622354}
-  - component: {fileID: 3822559292904343610}
+  - component: {fileID: 4787637228045751}
   m_Layer: 5
   m_Name: InGameConfirmYN
   m_TagString: Untagged
@@ -896,7 +899,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3822559292904343610
+--- !u!114 &4787637228045751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -905,7 +908,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8662389254753622355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76afc9eadee941345816fa67054af392, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e9c10ca0cf630c47819ab49f7b8ce58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   childPopups: []
@@ -1175,8 +1178,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\uCDE8\uC18C"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 059a8f526de18e24fb438d5647bf4617, type: 2}
+  m_sharedMaterial: {fileID: 3891330947877374064, guid: 059a8f526de18e24fb438d5647bf4617,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1310,8 +1314,9 @@ MonoBehaviour:
       m_Calls: []
   m_text: "00 \uD558\uC2DC\uACA0\uC2B5\uB2C8\uAE4C?"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 059a8f526de18e24fb438d5647bf4617, type: 2}
+  m_sharedMaterial: {fileID: 3891330947877374064, guid: 059a8f526de18e24fb438d5647bf4617,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

@@ -24,6 +24,7 @@ public class UI_InGameConfirmYN : UI_Entity
     private void OnDisable()
     {
         GameManager.UI.UseBlocker(false);
+        GameManager.UI.PointerOnUI(false);
     }
 
     enum Enum_UI_InGameConfirmYN
@@ -54,6 +55,20 @@ public class UI_InGameConfirmYN : UI_Entity
         confirmType = Enum_ConfirmTypes.InvenSingleDrop;
         _mainText = _entities[(int)Enum_UI_InGameConfirmYN.MainText].transform.GetChild(0).GetComponent<TMP_Text>();
         _inputField = _entities[(int)Enum_UI_InGameConfirmYN.InputField].gameObject;
+
+        foreach (var _subUI in _subUIs)
+        {
+            // UI위에 커서가 있을 시 캐릭터 행동 제약
+            _subUI.PointerEnterAction = (PointerEventData data) =>
+            {
+                GameManager.UI.PointerOnUI(true);
+            };
+
+            _subUI.PointerExitAction = (PointerEventData data) =>
+            {
+                GameManager.UI.PointerOnUI(false);
+            };
+        }
 
         _entities[(int)Enum_UI_InGameConfirmYN.Accept].ClickAction = (PointerEventData data) => {
             int inputCount = 0;
