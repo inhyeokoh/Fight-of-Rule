@@ -50,7 +50,7 @@ public class CharacterStatus : SubMono<PlayerController>
         {
             level = value;
             GameManager.UI.PlayerInfo.UpdateStatus();
-            GameManager.Quest.UpdateAvailableQuests();
+            GameManager.Quest.QuestAvailableByLevel(value);
         }
     }
     public int HP

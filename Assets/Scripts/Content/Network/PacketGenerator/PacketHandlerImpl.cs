@@ -234,7 +234,7 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
+    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO message)
     {
         return true;
     }

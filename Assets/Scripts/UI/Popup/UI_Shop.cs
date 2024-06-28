@@ -25,7 +25,6 @@ public class UI_Shop : UI_Entity
     enum Enum_UI_Shop
     {
         Interact,
-        Close,
         Panel,
         TradeOptions,
         DescrPanel,
@@ -96,12 +95,6 @@ public class UI_Shop : UI_Entity
         {
             _offset = data.position - _dragBeginPos;
             transform.position = _shopUIPos + _offset;
-        };
-
-        // 상점 창 닫기
-        _entities[(int)Enum_UI_Shop.Close].ClickAction = (PointerEventData data) =>
-        {
-            GameManager.UI.ClosePopup(GameManager.UI.Shop);
         };
     }
 

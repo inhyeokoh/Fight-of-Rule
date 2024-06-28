@@ -11,7 +11,7 @@ public enum Enum_QuestType
     WeeklyRepeat
 }
 
-// 특정 레벨 도달 및 특정 퀘스트 완료 시 NotAvailable -> Available
+// 특정 레벨 도달 및 이전 퀘스트 완료 시 NotAvailable -> Available
 public enum Enum_QuestProgress
 {
     UnAvailable,
@@ -23,19 +23,20 @@ public enum Enum_QuestProgress
 
 public class Quest
 {
-    public Enum_QuestProgress progress { get; set; } = Enum_QuestProgress.UnAvailable;
+    public Enum_QuestProgress progress { get; set; }
     public QuestData questData;
 
     // 완료 조건
     public int questObjCount;
     public int questMonsterCount;
 
-    private bool _canComplete;
+    public bool previousQuestComplete = true;
+    bool _canComplete;
     public bool CanComplete
     {
         get
         {
-            return _CheckCanCompleteQuest();
+            return _AreAllGoalsCompleted();
         }
         private set
         {
@@ -59,41 +60,56 @@ public class Quest
     /// <summary>
     /// 퀘스트 시작 레벨 충족 여부와 사전 퀘스트 완료 여부 검사
     /// </summary>
-    public void CheckAvailable()
+/*    public void CheckAvailable()
     {
         if (PlayerController.instance._playerStat.Level < questData.requiredLevel) return;
 
         if (questData.previousQuestID.HasValue && GameManager.Quest.totalQuestDict[questData.previousQuestID.Value].progress != Enum_QuestProgress.Completed) return;
 
         SetProgress(Enum_QuestProgress.Available);
-    }
+    }*/
 
-    bool _CheckCanCompleteQuest()
+/*    bool _CheckCanCompleteQuest()
     {
         if (progress != Enum_QuestProgress.Ongoing) return false;
 
-        if (questData.questMonsterRequiredCount <= questMonsterCount &&
-            questData.questObjRequiredCount <= questObjCount)
+        if (_AreAllGoalsCompleted())
         {
             SetProgress(Enum_QuestProgress.CanComplete);
             _canComplete = true;
             return true;
         }
+        else
+        {
+            _canComplete = false;
+            return false;
+        }
+    }*/
 
-        _canComplete = false;
-        return false;
+    bool _AreAllGoalsCompleted()
+    {
+        foreach (var goal in questData.goals)
+        {
+            if (!goal.IsCompleted())
+            {
+                _canComplete = false;
+            }
+        }
+
+        SetProgress(Enum_QuestProgress.CanComplete);
+        _canComplete = true;
+        return true;
     }
 
     public Quest(int questID)
     {
+        SetProgress(Enum_QuestProgress.UnAvailable);
         questData = GameManager.Data.questDict[questID];
         // NPC에 퀘스트 분배
-        foreach (var npcID in questData.npcID)
+
+        if (GameManager.Data.npcDict.ContainsKey(questData.npcID))
         {
-            if (GameManager.Data.npcDict.ContainsKey(npcID))
-            {
-                GameManager.Data.npcDict[npcID].AssignQuest(this);
-            }
+            GameManager.Data.npcDict[questData.npcID].DetectQuestProgress(this);
         }
     }
 
@@ -102,34 +118,49 @@ public class Quest
     /// </summary>
     public void ReceiveEventWhenQuestStarts()
     {
-        if (!string.IsNullOrEmpty(questData.questMonster))
+        if (questData.goals.Count == 0) return;
+
+        foreach (var goal in questData.goals)
         {
-            MonsterState.OnMonsterKilled += _OnMonsterKilled;
-        }
-        if (!string.IsNullOrEmpty(questData.questObj))
-        {
-            GameManager.Inven.OnItemGet += OnItemGet;
+            if (goal is MonsterGoal monsterGoal)
+            {
+                MonsterState.OnMonsterKilled += _OnMonsterKilled;
+            }
+            else if (goal is ObjectGoal objGoal)
+            {
+                GameManager.Inven.OnItemGet += OnItemGet;
+            }
         }
     }
 
     void _OnMonsterKilled(int monsterID)
     {
-        if (monsterID == GameManager.Data.monsterNameToID[questData.questMonster])
+        foreach (var goal in questData.goals)
         {
-            questMonsterCount++;
-            // Debug.Log($"{questData.questMonster} 처치 수: {questMonsterCount}");
+            if (goal is MonsterGoal monsterGoal)
+            {
+                if (monsterID == GameManager.Data.monsterNameToID[monsterGoal.MonsterName])
+                {
+                    monsterGoal.IncrementCount(1);
+                }
+            }
         }
-        _CheckCanCompleteQuest();
+        _AreAllGoalsCompleted(); // 수정 필요
     }
 
     public void OnItemGet(int itemID, int itemCount)
     {
-        if (itemID == GameManager.Data.DropItems[questData.questObj])
+        foreach (var goal in questData.goals)
         {
-            questObjCount += itemCount;
-            // Debug.Log($"{questData.questObj} 아이템 수: {itemCount}");
+            if (goal is ObjectGoal objGoal)
+            {
+                if (itemID == GameManager.Data.DropItems[objGoal.ObjectName])
+                {
+                    objGoal.IncrementCount(1);
+                }
+            }
         }
-        _CheckCanCompleteQuest();
+        _AreAllGoalsCompleted();
     }
 
     // TODO 보상 지급
