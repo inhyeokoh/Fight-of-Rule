@@ -45,7 +45,7 @@ public class CharacterMovement : SubMono<PlayerController>
     {
         playerRigidbody = gameObject.GetComponent<Rigidbody>();
         playerTransform = gameObject.GetComponent<Transform>();
-        //_board.camera.GetComponent<CameraMovement>().target = gameObject;
+        _board.camera.GetComponent<CameraMovement>().target = gameObject;
     }
 
     /*  public void CharacterTransformRigidBody(GameObject clone)

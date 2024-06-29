@@ -1,4 +1,4 @@
-/*using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -169,4 +169,4 @@ public class CameraMovement : MonoBehaviour
         Quaternion.LookRotation(midPos - transform.position);
         //transform.LookAt(midPos);
     }
-}*/
+}
