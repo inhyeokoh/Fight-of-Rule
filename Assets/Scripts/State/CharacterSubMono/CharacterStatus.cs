@@ -49,8 +49,8 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             level = value;
-            //GameManager.UI.PlayerInfo.UpdateStatus();
-            GameManager.Quest.UpdateAvailableQuests();
+            GameManager.UI.PlayerInfo.UpdateStatus();
+            GameManager.Quest.QuestAvailableByLevel(value);
         }
     }
     public int HP
@@ -242,7 +242,7 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        Level = GameManager.Data.CurrentCharacter.Stat.Level;
+        level = GameManager.Data.CurrentCharacter.Stat.Level;
         characterMaxHP = GameManager.Data.CurrentCharacter.Stat.MaxHP;
         characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;
         characterMaxEXP = GameManager.Data.CurrentCharacter.Stat.MaxEXP;

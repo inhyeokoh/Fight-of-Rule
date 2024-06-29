@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< HEAD:Assets/Resources/Data/GoogleSheetsToCsv/TableFiles/WarriorSkillTable.csv.meta
-guid: 0ed6fea804a55e0499b9d718f140e2d7
-=======
-guid: b30ca25dddb7fcd40b349bf768e52a06
->>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/WarriorSkillTable.csv.meta
+guid: bea4678d5b99a724d841f2d9af415617
 TextScriptImporter:
   externalObjects: {}
   userData: 

@@ -52,7 +52,6 @@ public class ItemManager : MonoBehaviour
             case Enum_Grade.Legendary:
                 gameObject = GameManager.Resources.Instantiate("Prefabs/InGameItemObject/LegendaryItem");
                 gameObject.transform.position = pos;
-                //                 gameObject = Instantiate(itemObjects[4], position, rotation);
                 gameObject.GetComponent<ItemObject>().Setting(data);
                 break;
             default:

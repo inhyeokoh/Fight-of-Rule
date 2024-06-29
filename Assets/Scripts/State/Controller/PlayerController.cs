@@ -124,10 +124,38 @@ public class PlayerController : MonoBehaviour
                     _levelSystem = clone.GetComponent<LevelSystem>();
                     break;
                 }
-        }
+        }        
 
         camera = Camera.main;
 
+        /*_controller = new List<SubMono<PlayerController>>
+        {
+            _playerStat,
+            _playerState,
+            _playerExternalStat,
+            _playerEquipment,
+            _playerMovement,
+            _playerCapability,
+            _eventHandler,
+            _animationController,
+            _effector,
+            _interaction,
+            _levelSystem
+        };
+
+        SkillManager.Skill.PlayerData();
+
+        for (int i = 0; i < _controller.Count; i++)
+        {
+            _controller[i].Mount(this);
+            _controller[i].Init();
+        }
+
+        _playerState.StateAdd();*/
+    }
+
+    private void Start()
+    {
         _controller = new List<SubMono<PlayerController>>
         {
             _playerStat,
@@ -152,36 +180,6 @@ public class PlayerController : MonoBehaviour
         }
 
         _playerState.StateAdd();
-    }
-
-    private void Start()
-    {
-       /* camera = Camera.main;
-
-        _controller = new List<SubMono<PlayerController>>
-        {
-            _playerStat,
-            _playerState,
-            _playerExternalStat,
-            _playerEquipment,
-            _playerMovement,
-            _playerCapability,
-            _eventHandler,
-            _animationController,
-            _effector,
-            _interaction,
-            _levelSystem
-        };
-
-        SkillManager.Skill.PlayerData();
-
-        for (int i = 0; i < _controller.Count; i++)
-        {
-            _controller[i].Mount(this);
-            _controller[i].Init();
-        }
-
-        _playerState.StateAdd();*/
     }
 
     // 현재 상태패턴 그리고 장비 상태패턴 호출
@@ -258,7 +256,7 @@ public class PlayerController : MonoBehaviour
                     }
                     else
                     {
-                        // NPC 방향으로 이동 후, 일정거리 도달 시 대화장자
+                        // NPC 방향으로 이동 후, 일정거리 도달 시 대화 팝업
                         _moveTowardsNpcCoroutine = StartCoroutine(MoveTowardsNpc(hitObject, dialogDist));
                     }
                 }
@@ -302,7 +300,7 @@ public class PlayerController : MonoBehaviour
         // NPC로부터 dialogDist만큼 떨어진 지점 계산
         Vector3 targetPosition = npcPosition - direction * dialogDist;
 
-        while (Vector3.Distance(_playerMovement.transform.position, targetPosition) > 0.1f)
+        while (Vector3.Distance(_playerMovement.transform.position, targetPosition) > 0.5f)
         {
             _playerMovement.TargetPosition = new Vector3(targetPosition.x, _playerMovement.playerTransform.position.y, targetPosition.z);
             _playerState.ChangeState((int)Enum_CharacterState.Move);
@@ -351,8 +349,6 @@ public class PlayerController : MonoBehaviour
         {
             _playerStat.EXP += 2000000;      
         }
-
-
     }
 
     public void OnClick(InputAction.CallbackContext context)
@@ -495,7 +491,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    public void Inven(InputAction.CallbackContext context)
+    {
+        if (context.action.phase == InputActionPhase.Performed)
+        {
+            GameManager.UI.OpenOrClose(GameManager.UI.Inventory);
+        }
+    }
 
+    public void PlayerInfo(InputAction.CallbackContext context)
+    {
+        if (context.action.phase == InputActionPhase.Performed)
+        {
+            GameManager.UI.OpenOrClose(GameManager.UI.PlayerInfo);
+        }
+    }
 
     // 이벤트들에 정보들을 받기위한 메서드들
     public void DistributeState(int Event)

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Data
@@ -271,53 +272,99 @@ public class MonsterItemDropData
 
 [System.Serializable]
 public class QuestData : Data
-{    
+{
     // 퀘스트 정보
     public int questID;
     public string title;
-    public int[] npcID; // TODO -> 완료 조건 항목으로 변경
+    public int npcID;
     public Enum_QuestType questType;
-    public string[] desc;
-    public string summary; // 내용 요약본
-    public string[] congratulation; // 퀘스트 완료 메시지
+    public string[] conversationText;
+    public string summaryText;
+    public string ongoingText;
+    public string[] completeText;
 
     // 시작 조건
     public int requiredLevel;
-    public int? previousQuestID; // 사전 수행 퀘스트. 필요 시 리스트 형식으로 변경
+    public int? nextQuestID;
 
-    // 완료 조건 TODO: 오브젝트랑 몬스터 ID는 다수 가능하게 수정
-
-    // Goal들을 여러개
-    public string questObj;
-    public int questObjRequiredCount;
-
-    public string questMonster;
-    public int questMonsterRequiredCount;
+    // 완료 조건
+    public List<QuestGoal> goals; // 여러 목표를 담을 리스트
 
     // 보상
     public int expReward;
     public long goldReward;
     public string itemReward;
 
-    public QuestData(int questID, string title, int[] npcID, Enum_QuestType questType, string[] desc, string summary, string[] congratulation, int requiredLevel, int? previousQuestID,
-        string questObj, int questObjRequiredCount, string questMonster, int questMonsterRequiredCount, int expReward, long goldReward, string itemReward)
+    public QuestData(int questID, string title, int npcID, Enum_QuestType questType, string[] conversationText, string summaryText, string ongoingText, string[] completeText, int requiredLevel, int? nextQuestID,
+        List<QuestGoal> goals, int expReward, long goldReward, string itemReward)
     {
         this.questID = questID;
         this.title = title;
         this.npcID = npcID;
         this.questType = questType;
-        this.desc = desc;
-        this.summary = summary;
-        this.congratulation = congratulation;
+        this.conversationText = conversationText;
+        this.summaryText = summaryText;
+        this.ongoingText = ongoingText;
+        this.completeText = completeText;
         this.requiredLevel = requiredLevel;
-        this.previousQuestID = previousQuestID;
-        this.questObj = questObj;
-        this.questObjRequiredCount = questObjRequiredCount;
-        this.questMonster = questMonster;
-        this.questMonsterRequiredCount = questMonsterRequiredCount;
+        this.nextQuestID = nextQuestID;
+        this.goals = goals;
         this.expReward = expReward;
         this.goldReward = goldReward;
         this.itemReward = itemReward;
     }
 }
 
+public abstract class QuestGoal
+{
+    public abstract bool IsCompleted();
+}
+
+public class ObjectGoal : QuestGoal
+{
+    public string ObjectName { get; set; }
+    public int RequiredCount { get; set; }
+    private int currentCount;
+
+    public ObjectGoal(string objectName, int requiredCount)
+    {
+        ObjectName = objectName;
+        RequiredCount = requiredCount;
+        currentCount = 0; // 초기화
+    }
+
+    public void IncrementCount(int amount)
+    {
+        currentCount += amount;
+    }
+
+    public override bool IsCompleted()
+    {
+        return currentCount >= RequiredCount;
+    }
+}
+
+public class MonsterGoal : QuestGoal
+{
+    public string MonsterName { get; set; }
+    public int RequiredCount { get; set; }
+    private int currentCount;
+
+    public MonsterGoal(string monsterName, int requiredCount)
+    {
+        MonsterName = monsterName;
+        RequiredCount = requiredCount;
+        currentCount = 0;
+    }
+
+    public void IncrementCount(int amount)
+    {
+        currentCount += amount;
+        Debug.LogError($"{MonsterName} {currentCount}/{RequiredCount}");
+    }
+
+    public override bool IsCompleted()
+    {
+        return currentCount >= RequiredCount;
+    }
+}

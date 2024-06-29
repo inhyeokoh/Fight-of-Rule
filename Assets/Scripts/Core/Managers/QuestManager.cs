@@ -1,3 +1,4 @@
+#define CLIENT_TEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,8 +8,10 @@ public class QuestManager : SubClass<GameManager>
 {
     // 전체 퀘스트
     public Dictionary<int, Quest> totalQuestDict = new Dictionary<int, Quest>();
-    // 시작 불가 퀘스트 목록
-    List<Quest> unAvailableQuestList = new List<Quest>();
+
+    Dictionary<int, List<Quest>> questsByLevel = new Dictionary<int, List<Quest>>();
+    public Dictionary<int, List<Quest>> questsByNpcID = new Dictionary<int, List<Quest>>();
+
     // 시작 가능 퀘스트 목록
     List<Quest> availableQuestList = new List<Quest>();
     // 진행중인 퀘스트 목록
@@ -29,51 +32,84 @@ public class QuestManager : SubClass<GameManager>
         _SetQuestList();
     }
 
-    void _SetQuestList()
+    /// <summary>
+    /// questsByLevel Dict에 퀘스트 추가
+    /// </summary>
+    void AddQuestsByLevel(Quest quest)
     {
-        foreach (var quest in GameManager.Data.questDict)
+        if (!questsByLevel.ContainsKey(quest.questData.requiredLevel))
         {
-            totalQuestDict.Add(quest.Key, new Quest(quest.Key));
+            questsByLevel[quest.questData.requiredLevel] = new List<Quest>();
         }
-
-        // 서버에서 가져오지 않을까..?
-
-        // TEST
-        unAvailableQuestList.Add(totalQuestDict[0]);
-        unAvailableQuestList.Add(totalQuestDict[1]);
+        questsByLevel[quest.questData.requiredLevel].Add(quest);
     }
 
-    // 레벨업 시에 시작 가능한 퀘스트 목록 갱신
-    public void UpdateAvailableQuests()
+    /// <summary>
+    /// questsByNpcId Dict에 퀘스트 추가
+    /// </summary>
+    void AddQuestsByNpcID(Quest quest)
     {
-        for (int i = unAvailableQuestList.Count - 1; i >= 0; i--)
+        if (!questsByNpcID.ContainsKey(quest.questData.npcID))
         {
-            var quest = unAvailableQuestList[i];
-            quest.CheckAvailable();
-            if (quest.progress == Enum_QuestProgress.Available)
+            questsByNpcID[quest.questData.npcID] = new List<Quest>();
+        }
+        questsByNpcID[quest.questData.npcID].Add(quest);
+    }
+
+
+
+    public void QuestAvailableByLevel(int level)
+    {
+        if (questsByLevel.ContainsKey(level))
+        {
+            foreach (var quest in questsByLevel[level])
             {
-                unAvailableQuestList.RemoveAt(i);
-                availableQuestList.Add(quest);
-                // TODO 퀘스트 팝업 내 배치 순서
+                if (quest.progress == Enum_QuestProgress.UnAvailable)
+                {
+                    quest.progress = Enum_QuestProgress.Available;
+                    availableQuestList.Add(quest);
+                }
             }
         }
     }
 
-    // NPC 대화나 자동 퀘스트 알림UI를 통한 퀘스트 수락
+    void _SetQuestList()
+    {
+        foreach (var questKeyValue in GameManager.Data.questDict)
+        {
+            Quest quest = new Quest(questKeyValue.Key);
+            totalQuestDict.Add(questKeyValue.Key, quest);
+            AddQuestsByLevel(quest);
+            AddQuestsByNpcID(quest);            
+        }
+
+        QuestAvailableByLevel(1);
+        foreach (var npc in GameManager.Data.npcDict)
+        {
+            npc.Value.UpdateQuestIcon();
+        }
+        // 퀘스트 진행 상황을 서버랑 어떻게 통신할건가...?
+    }
+
+    /// <summary>
+    /// NPC 대화나 자동 퀘스트 알림UI를 통한 퀘스트 수락
+    /// </summary>
     public void ReceiveQuest(int questId)
     {
         Quest quest = totalQuestDict[questId];
-
-        if (quest.progress != Enum_QuestProgress.Available) return;
 
         quest.SetProgress(Enum_QuestProgress.Ongoing);
         availableQuestList.Remove(quest);
         onGoingQuestList.Add(quest);
         quest.ReceiveEventWhenQuestStarts();
-        if (!String.IsNullOrEmpty(quest.questData.questObj))
+
+        foreach (var goal in quest.questData.goals)
         {
-            // 퀘스트 아이템이 이미 인벤에 있는지 체크
-            GameManager.Inven.SearchItem(GameManager.Data.DropItems[quest.questData.questObj]);
+            if (goal is ObjectGoal objGoal)
+            {
+                // 퀘스트 아이템이 이미 인벤에 있는지 체크
+                GameManager.Inven.SearchItem(GameManager.Data.DropItems[objGoal.ObjectName]);
+            }
         }
     }
 
@@ -93,10 +129,7 @@ public class QuestManager : SubClass<GameManager>
     {
         Quest quest = totalQuestDict[questId];
         quest.SetProgress(Enum_QuestProgress.Completed);
-        if (quest.CanComplete)
-        {
-            onGoingQuestList.Remove(quest);
-            completedQuestList.Add(quest);
-        }
+        onGoingQuestList.Remove(quest);
+        completedQuestList.Add(quest);
     }
 }

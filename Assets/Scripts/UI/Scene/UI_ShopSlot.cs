@@ -147,10 +147,10 @@ public class UI_ShopSlot : UI_Entity
         {
             case Enum_ShopSlotTypes.Purchase:
                 _amountText.SetActive(false);
-                if (Index < shopPurchase.shopItemCount)
+                if (Index < shopPurchase.shopItemList.Length)
                 {
                     transform.GetChild(1).GetComponent<TMP_Text>().text = shopPurchase.shopItems[Index].name; // 이름
-                    transform.GetChild(2).GetComponent<TMP_Text>().text = $"{shopPurchase.shopItems[Index].purchaseprice}"; // 구매 가격
+                    transform.GetChild(2).GetComponent<TMP_Text>().text = $"{shopPurchase.shopItemList[Index].itemPrice}"; // 구매 가격
                     _iconImg.color = new Color32(255, 255, 255, 255);
                     _iconImg.sprite = shopPurchase.shopItems[Index].icon;
                 }
@@ -266,7 +266,7 @@ public class UI_ShopSlot : UI_Entity
 
                 if (shopPurchase.shopItems[Index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
                 {
-                    StateItemData itemData = ItemParsing.itemDatas[shopPurchase.shopItems[Index].id] as StateItemData;
+                    StateItemData itemData = GameManager.Data.itemDatas[shopPurchase.shopItems[Index].id] as StateItemData;
                     int[] stats = { itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp };
                     string descLines = string.Format(shopPurchase.shopItems[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
                     string[] lines = descLines.Split("\n");
@@ -295,7 +295,7 @@ public class UI_ShopSlot : UI_Entity
 
                 if (shopSell.shopItems[Index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
                 {
-                    StateItemData itemData = ItemParsing.itemDatas[shopSell.shopItems[Index].id] as StateItemData;
+                    StateItemData itemData = GameManager.Data.itemDatas[shopSell.shopItems[Index].id] as StateItemData;
                     int[] stats = { itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp };
                     string descLines = string.Format(shopSell.shopItems[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
                     string[] lines = descLines.Split("\n");
@@ -324,7 +324,7 @@ public class UI_ShopSlot : UI_Entity
 
                 if (shopRepurchase.tempSoldItems[Index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
                 {
-                    StateItemData itemData = ItemParsing.itemDatas[shopRepurchase.tempSoldItems[Index].id] as StateItemData;
+                    StateItemData itemData = GameManager.Data.itemDatas[shopRepurchase.tempSoldItems[Index].id] as StateItemData;
                     int[] stats = { itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp };
                     string descLines = string.Format(shopRepurchase.tempSoldItems[Index].desc, $"{itemData.level}\n", $"{itemData.attack}\n", $"{itemData.defense}\n", $"{itemData.speed}\n", $"{itemData.attackSpeed}\n", $"{itemData.maxHp}\n", $"{itemData.maxMp}\n");
                     string[] lines = descLines.Split("\n");

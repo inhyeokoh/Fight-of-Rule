@@ -1,5 +1,6 @@
-#define INGAMETEST
-//#define INVENTEST
+//#define SERVER
+#define CLIENT_TEST_PROPIM
+#define CLIENT_TEST_HYEOK
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -79,15 +80,21 @@ public class DataManager : SubClass<GameManager>
     /////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// 퀘스트 데이터
+    /// 퀘스트 데이터. ( key = questID, value = QuestData )
     /// </summary>
     public Dictionary<int, QuestData> questDict = new Dictionary<int, QuestData>();
     /////////////////////////////////////////////////////////////////////////////////////
 
     /// <summary>
-    /// NPC 데이터
+    /// NPC 데이터. { key = npcID, value = Npc }
     /// </summary>
     public Dictionary<int, Npc> npcDict = new Dictionary<int, Npc>();
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    /// <summary>
+    /// NPC 데이터. { key = npcID, value = List<ShopItem></ShopItem> }
+    /// </summary>
+    public Dictionary<int, ShopItem[]> shopDict = new Dictionary<int, ShopItem[]>();
     /////////////////////////////////////////////////////////////////////////////////////
 
     string tableFolderPath;
@@ -106,12 +113,17 @@ public class DataManager : SubClass<GameManager>
     {
         volOptions = new VOL_OPTIONS();
         characters = new CHARACTER_INFO[4];
-#if INVENTEST || INGAMETEST
+        CurrentCharacter = new CHARACTER_INFO();
+
+        tableFolderPath = "Data/SheetsToCSV/bin/Debug/TableFiles/";
+        DBDataLoad();
+#if SERVER
+#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         CurrentCharacter = new CHARACTER_INFO();
         CurrentCharacter.BaseInfo = new CHARACTER_BASE();
         CurrentCharacter.BaseInfo.CharacterId = 0;
         CurrentCharacter.BaseInfo.Nickname = ByteString.CopyFrom("HelloWorld", System.Text.Encoding.Unicode);
-        CurrentCharacter.BaseInfo.Job = 0;
+        CurrentCharacter.BaseInfo.CharacterClass = 0;
         CurrentCharacter.BaseInfo.Gender = true;
 
         CurrentCharacter.Stat = new CHARACTER_STATUS();
@@ -137,9 +149,6 @@ public class DataManager : SubClass<GameManager>
         volOptions.EffectVol = 0.5f;
         volOptions.VoiceVol = 0.5f;
 #endif
-
-        tableFolderPath = "Data/SheetsToCsv/bin/Debug/TableFiles/";
-        DBDataLoad();
     }
 
     void DBDataLoad()
@@ -150,6 +159,7 @@ public class DataManager : SubClass<GameManager>
         LevelTableParsing("WarriorLevelTable");
         QuestTableParsing("QuestTable");
         NpcTableParsing("NpcTable");
+        ShopTableParsing("ShopTable");
     }
 
     private void ItemTableParsing()
@@ -468,24 +478,46 @@ public class DataManager : SubClass<GameManager>
         {
             QuestData questData;
 
-            int questID = int.Parse(quest[i]["questID"]);
-            string name = quest[i]["title"];
-            int[] npcID = Array.ConvertAll(quest[i]["npcID"].Split(","), int.Parse);
-            Enum_QuestType questType = (Enum_QuestType)Enum.Parse(typeof(Enum_QuestType), quest[i]["questType"]);
-            string[] desc = quest[i]["desc"].Split("/");
-            string summary = quest[i]["summary"];
-            string[] congratulation = quest[i]["congratulation"].Split("/");
-            int requiredLevel = int.Parse(quest[i]["requiredLevel"]);
-            int? previousQuestID = int.TryParse(quest[i]["previousQuestID"], out int tempPreviousQuestID) ? tempPreviousQuestID : null;
-            string questObj = quest[i]["questObj"];
-            int questObjRequiredCount = int.Parse(quest[i]["questObjRequiredCount"]);
-            string questMonster = quest[i]["questMonster"];
-            int questMonsterRequiredCount = int.Parse(quest[i]["questMonsterRequiredCount"]);
-            int expReward = int.Parse(quest[i]["expReward"]);
-            long goldReward = int.Parse(quest[i]["goldReward"]);
-            string itemReward = quest[i]["itemReward"];
+            int questID = int.Parse(quest[i]["quest_id"]);
+            string title = quest[i]["title"];
+            int npcID = int.Parse(quest[i]["npc_id"]);
+            Enum_QuestType questType = (Enum_QuestType)Enum.Parse(typeof(Enum_QuestType), quest[i]["quest_type"]);
+            string[] conversationText = quest[i]["conversation_text"].Split("/");
+            string summaryText = quest[i]["summary_text"];
+            string ongoingText = quest[i]["ongoing_text"];
+            string[] completeText = quest[i]["complete_text"].Split("/");
+            int requiredLevel = int.Parse(quest[i]["required_level"]);
+            int? nextQuestID = int.TryParse(quest[i]["next_quest_id"], out int tempNextQuestID) ? tempNextQuestID : null;
+            string[] questObj = String.IsNullOrEmpty(quest[i]["quest_obj"]) ? null : quest[i]["quest_obj"].Split(",");
+            int[] questObjRequiredCount = String.IsNullOrEmpty(quest[i]["quest_obj_required_count"]) ? null : Array.ConvertAll(quest[i]["quest_obj_required_count"].Split(","), int.Parse);
+            string[] questMonster = String.IsNullOrEmpty(quest[i]["quest_monster"]) ? null : quest[i]["quest_monster"].Split(",");
+            int[] questMonsterRequiredCount = String.IsNullOrEmpty(quest[i]["quest_monster_required_count"]) ? null : Array.ConvertAll(quest[i]["quest_monster_required_count"].Split(","), int.Parse);
+            int expReward = int.Parse(quest[i]["exp_reward"]);
+            long goldReward = int.Parse(quest[i]["gold_reward"]);
+            string itemReward = quest[i]["item_reward"];
 
-            questData = new QuestData(questID, name, npcID, questType, desc, summary, congratulation, requiredLevel, previousQuestID, questObj, questObjRequiredCount, questMonster, questMonsterRequiredCount,
+            List<QuestGoal> goals = new List<QuestGoal>();
+
+            if (questObj != null)
+            {
+                for (int j = 0; j < questObj.Length; j++)
+                {
+                    ObjectGoal objGoal = new ObjectGoal(questObj[j], questObjRequiredCount[j]);
+                    goals.Add(objGoal);
+                }
+            }
+
+            if (questMonster != null)
+            {
+                for (int j = 0; j < questMonster.Length; j++)
+                {
+                    MonsterGoal monsterGoal = new MonsterGoal(questMonster[j], questMonsterRequiredCount[j]);
+
+                    goals.Add(monsterGoal);
+                }
+            }
+
+            questData = new QuestData(questID, title, npcID, questType, conversationText, summaryText, ongoingText, completeText, requiredLevel, nextQuestID, goals,
                 expReward, goldReward, itemReward);
 
             questDict.Add(questID, questData);
@@ -494,6 +526,8 @@ public class DataManager : SubClass<GameManager>
 
     public void NpcTableParsing(string fileName)
     {
+        List<Dictionary<string, string>> npcTable = CSVReader.Read(tableFolderPath + fileName);
+
         GameObject[] npcArray = GameObject.FindGameObjectsWithTag("Npc");
         foreach (GameObject npcObj in npcArray)
         {
@@ -502,6 +536,44 @@ public class DataManager : SubClass<GameManager>
             {
                 npcDict.Add(npc.NpcID, npc);
             }
+        }
+
+        for (int i = 0; i < npcTable.Count; i++)
+        {
+            int npcID = int.Parse(npcTable[i]["npc_id"]);
+            string name = npcTable[i]["name"];
+            string type = npcTable[i]["type"];
+            string defaultText = npcTable[i]["default_text"];
+            npcDict[npcID].name = name; // 오브젝트명 변경
+            npcDict[npcID].NpcName = name;
+            npcDict[npcID].npcType = (Enum_NpcType)Enum.Parse(typeof(Enum_NpcType), type);
+            npcDict[npcID].DefaultText = defaultText;
+        }
+    }
+
+    public void ShopTableParsing(string fileName)
+    {
+        List<Dictionary<string, string>> shopTable = CSVReader.Read(tableFolderPath + fileName);
+
+        for (int i = 0; i < shopTable.Count; i++)
+        {
+            int npcID = int.Parse(shopTable[i]["npc_id"]);
+
+            int[] sellingItemIDs = Array.ConvertAll(shopTable[i]["selling_item_id"].Split(","), int.Parse);
+            int[] sellingPrices = Array.ConvertAll(shopTable[i]["selling_price"].Split(","), int.Parse);
+            ShopItem[] shopItems = new ShopItem[sellingItemIDs.Length];
+            for (int j = 0; j < sellingItemIDs.Length; j++)
+            {
+                ShopItem item = new ShopItem
+                {
+                    itemID = sellingItemIDs[j],
+                    itemPrice = sellingPrices[j],
+                    iconSprite = itemDatas[sellingItemIDs[j]].icon
+                };
+                shopItems[j] = item;
+            }
+
+            shopDict.Add(npcID, shopItems);
         }
     }
 

@@ -66,6 +66,7 @@ public class UI_ShopSell : UI_Entity
         _entities[(int)Enum_UI_ShopPurchase.Reset].ClickAction = (PointerEventData data) =>
         {
             _EmptyShopSlot();
+            ReturnSellListToInven();
             UpdateGoldPanel();
         };
     }
@@ -132,6 +133,18 @@ public class UI_ShopSell : UI_Entity
             }
         }
     }
+
+    public void ReturnSellListToInven()
+    {
+        for (int i = 0; i < shopItems.Length; i++)
+        {
+            if (shopItems[i] != null)
+            {
+                shopUI.ShopToInven(UI_ShopSlot.Enum_ShopSlotTypes.Sell, i);
+            }
+        }
+    }
+
 
     void _UpdateSlotUIs()
     {

@@ -38,8 +38,8 @@ public class UI_InGameConfirmY : UI_Entity
     private void OnDisable()
     {
         GameManager.UI.UseBlocker(false);
+        GameManager.UI.PointerOnUI(false);
     }
-
 
     protected override Type GetUINamesAsType()
     {
@@ -51,6 +51,20 @@ public class UI_InGameConfirmY : UI_Entity
         base.Init();
         confirmType = Enum_ConfirmTypes.NotEnoughMoney;
         _mainText = _entities[(int)Enum_UI_InGameConfirmY.MainText].transform.GetChild(0).GetComponent<TMP_Text>();
+
+        foreach (var _subUI in _subUIs)
+        {
+            // UI위에 커서가 있을 시 캐릭터 행동 제약
+            _subUI.PointerEnterAction = (PointerEventData data) =>
+            {
+                GameManager.UI.PointerOnUI(true);
+            };
+
+            _subUI.PointerExitAction = (PointerEventData data) =>
+            {
+                GameManager.UI.PointerOnUI(false);
+            };
+        }
 
         _entities[(int)Enum_UI_InGameConfirmY.Accept].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.InGameConfirmY);

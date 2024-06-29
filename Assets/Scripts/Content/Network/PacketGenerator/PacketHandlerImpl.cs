@@ -93,6 +93,10 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
         }
 
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.ClosePopup(GameManager.UI.Login);
+        });
         // 신규 유저        
         if (message.Character.Count == 0)
         {
@@ -110,7 +114,7 @@ public class PacketHandlerImpl : MonoBehaviour
         // 기존 유저
         foreach (var charInfo in message.Character)
         {
-            GameManager.Data.characters[charInfo.BaseInfo.SlotNum] = charInfo;
+            GameManager.Data.characters[charInfo.BaseInfo.SlotIndex] = charInfo;
         }
 
         // 캐릭터 선택씬 이동
@@ -121,6 +125,11 @@ public class PacketHandlerImpl : MonoBehaviour
         });
 
         return true;
+    }
+
+    internal static bool Handle_S_INGAME(Session session, S_INGAME s_INGAME)
+    {
+        throw new NotImplementedException();
     }
 
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
@@ -166,7 +175,7 @@ public class PacketHandlerImpl : MonoBehaviour
         }
 
         // 캐릭터 생성 가능 시
-        Debug.Log(message.Character.BaseInfo.Job);
+        Debug.Log(message.Character.BaseInfo.CharacterClass);
         GameManager.Data.characters[GameManager.Data.SelectedSlotNum] = message.Character;
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
@@ -183,13 +192,21 @@ public class PacketHandlerImpl : MonoBehaviour
 
         if (message.Success == false)
         {
-            Debug.Log("캐릭터 삭제 실패");
+            GameManager.ThreadPool.UniAsyncJob(() =>
+            {
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+                GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.CharacterDeleteFail);
+            });
             return false;
         }
         // 캐릭터 데이터 삭제
         GameManager.Data.characters[message.SlotNum] = null;
-        Debug.Log("캐릭터 삭제 완료");
-        // TODO UI갱신
+        GameManager.ThreadPool.UniAsyncJob(() =>
+        {
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
+            GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.CharacterDeleteSuccess);
+        });
+        // TODO UI 즉시 갱신
 
         return true;
     }
@@ -217,7 +234,7 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO s_ITEMINFO)
+    internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO message)
     {
         return true;
     }

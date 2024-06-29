@@ -38,7 +38,7 @@ public class UI_Setting : UI_Entity
     {
         오디오,
         게임플레이,
-        단축키
+        키세팅
     }
 
     enum Enum_SliderTypes

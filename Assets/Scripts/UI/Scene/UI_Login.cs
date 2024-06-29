@@ -1,5 +1,5 @@
-// #define SERVER
-#define CLIENT
+//#define SERVER
+#define CLIENT_TEST
 using System;
 using TMPro;
 using UnityEngine;
@@ -18,6 +18,9 @@ public class UI_Login : UI_Entity
         Quit
     }
 
+    TMP_InputField idField;
+    TMP_InputField pwField;
+
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_Logins);
@@ -26,6 +29,8 @@ public class UI_Login : UI_Entity
     protected override void Init()
     {
         base.Init();
+
+        //idField = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>();
 
         _entities[(int)Enum_UI_Logins.SignUp].ClickAction = (PointerEventData data) => {
             GameManager.UI.OpenOrClose(GameManager.UI.SignUp);
@@ -39,18 +44,27 @@ public class UI_Login : UI_Entity
 
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt)); 
 
-#elif CLIENT
-            // 서버 없이 씬 넘어가기
+#elif CLIENT_TEST
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
                 var loadAsync = SceneManager.LoadSceneAsync("Create");
                 GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
             });
 #endif
-        };
+        };       
 
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {
             GameManager.Scene.ExitGame();
         };
+    }
+
+    public override void EnterAction()
+    {
+        base.EnterAction();
+        _entities[(int)Enum_UI_Logins.Login].ClickAction?.Invoke(null);
+    }
+
+    public override void EscAction()
+    {        
     }
 }

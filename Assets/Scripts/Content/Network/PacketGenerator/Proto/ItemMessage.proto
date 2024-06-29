@@ -1,48 +1,71 @@
 syntax = "proto3";
 
-message EQUIP_ITEM {
-    int32 item_id = 1;
-    string item_name = 2;
-    string item_class = 3;
-    string item_type = 4;
-    string item_grade = 5;
-    string item_detailtype = 6;
-    int32 item_level = 7; 
-    int32 item_attack = 8;
-    int32 item_defense = 9;
-    int32 item_speed = 10;
-    int32 item_attackspeed = 11;
-    int32 item_hp = 12;
-    int32 item_mp = 13;
-    int32 item_exp = 14;
-    int32 item_maxhp = 15;
-    int32 item_maxmp = 16;
-    int32 item_maxcount = 17;
+message ITEM_DATA {
+    int32 id = 1;
+    int32 attributes = 2;
+    int64 selling_price = 3;
+    int32 max_count = 4;
+    int32 count = 5;
+    int32 slot_num = 6;
+
+    enum ITEM_TYPES
+    {
+        EQUIPMENT = 0;
+        CONSUMPTION = 1;
+        ETC = 2; 
+    }
+    enum ITEM_GRADES
+    {
+        NORMAL = 0;
+        RARE = 1;
+        EPIC = 2;
+        UNIQUE = 3;
+        LEGENDARY = 4;
+    }
 }
 
-message CONSUME_ITEM {
-    int32 item_id = 1;
-    string item_name = 2;
-    string item_class = 3;
-    string item_type = 4;
-    string item_grade = 5;
-    string item_detailtype = 6;
-    int32 item_level = 7; 
-    int32 item_attack = 8;
-    int32 item_defense = 9;
-    int32 item_speed = 10;
-    int32 item_attackspeed = 11;
-    int32 item_hp = 12;
-    int32 item_mp = 13;
-    int32 item_exp = 14;
-    int32 item_maxhp = 15;
-    int32 item_maxmp = 16;
-    int32 item_maxcount = 17;
+message STATEITEM_DATA {
+    ITEM_DATA item_data = 1;
+    int32 level = 2; 
+    int32 attack = 3;
+    int32 defense = 4;
+    int32 speed = 5;
+    int32 attack_speed = 6;
+    int32 exp = 7;
+    int32 hp = 8;
+    int32 mp = 9;
+    int32 maxHp = 10;
+    int32 maxMp = 11;
+    bool duration_bool = 12;
+    float duration = 13;
+
+    enum ITEM_CLASS
+    {
+        WARRIOR = 0;
+        WIZARD = 1;
+        ARCHER = 2;
+        DEFAULT = 3;
+    }
+    enum ITEM_DETAILTYPES
+    {
+        DEFAULT = 0;
+        WEAPON = 1;
+        HEAD = 2;
+        BODY = 3;
+        HAND = 4;
+        FOOT = 5;
+        POTION = 6;
+        BOX = 7;
+    }
 }
 
-message ETC_ITEM {
-    int32 item_id = 1;
-    string item_name = 2; 
-    string item_type = 3;
-    int32 item_maxcount = 4;
+message EQUIPMENTITEM_DATA {
+    STATEITEM_DATA stateitem_data = 1;
+    int32 max_reinforcement = 2;
+    int32 current_reinforcement = 3;
+}
+
+message INVENTORY {
+    int32 inven_size = 1;
+    repeated ITEM_DATA items = 2;;
 }

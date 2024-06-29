@@ -25,19 +25,20 @@ public static partial class CharacterMessageReflection {
           "ChZDaGFyYWN0ZXJNZXNzYWdlLnByb3RvInIKDkNIQVJBQ1RFUl9JTkZPEiIK",
           "CWJhc2VfaW5mbxgBIAEoCzIPLkNIQVJBQ1RFUl9CQVNFEh8KBHN0YXQYAiAB",
           "KAsyES5DSEFSQUNURVJfU1RBVFVTEhsKA3h5ehgDIAEoCzIOLkNIQVJBQ1RF",
-          "Ul9QT1MiZwoOQ0hBUkFDVEVSX0JBU0USFAoMY2hhcmFjdGVyX2lkGAEgASgD",
-          "EhAKCHNsb3RfbnVtGAIgASgFEhAKCG5pY2tuYW1lGAMgASgMEgsKA2pvYhgE",
-          "IAEoBRIOCgZnZW5kZXIYBSABKAgiuQEKEENIQVJBQ1RFUl9TVEFUVVMSDQoF",
-          "bGV2ZWwYASABKAUSDQoFbWF4SFAYAiABKAUSCgoCaHAYAyABKAUSDQoFbWF4",
-          "TVAYBCABKAUSCgoCbXAYBSABKAUSDgoGbWF4RVhQGAYgASgFEgsKA2V4cBgH",
-          "IAEoBRIOCgZhdHRhY2sYCCABKAUSEwoLYXR0YWNrU3BlZWQYCSABKAUSDwoH",
-          "ZGVmZW5zZRgKIAEoBRINCgVzcGVlZBgLIAEoBSIwCg1DSEFSQUNURVJfUE9T",
-          "EgkKAXgYASABKAISCQoBeRgCIAEoAhIJCgF6GAMgASgCYgZwcm90bzM="));
+          "Ul9QT1MidQoOQ0hBUkFDVEVSX0JBU0USFAoMY2hhcmFjdGVyX2lkGAEgASgD",
+          "EhIKCnNsb3RfaW5kZXgYAiABKAUSEAoIbmlja25hbWUYAyABKAwSFwoPY2hh",
+          "cmFjdGVyX2NsYXNzGAQgASgFEg4KBmdlbmRlchgFIAEoCCK5AQoQQ0hBUkFD",
+          "VEVSX1NUQVRVUxINCgVsZXZlbBgBIAEoBRINCgVtYXhIUBgCIAEoBRIKCgJo",
+          "cBgDIAEoBRINCgVtYXhNUBgEIAEoBRIKCgJtcBgFIAEoBRIOCgZtYXhFWFAY",
+          "BiABKAUSCwoDZXhwGAcgASgFEg4KBmF0dGFjaxgIIAEoBRITCgthdHRhY2tT",
+          "cGVlZBgJIAEoBRIPCgdkZWZlbnNlGAogASgFEg0KBXNwZWVkGAsgASgFIjAK",
+          "DUNIQVJBQ1RFUl9QT1MSCQoBeBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyAB",
+          "KAJiBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_INFO), global::CHARACTER_INFO.Parser, new[]{ "BaseInfo", "Stat", "Xyz" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_BASE), global::CHARACTER_BASE.Parser, new[]{ "CharacterId", "SlotNum", "Nickname", "Job", "Gender" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_BASE), global::CHARACTER_BASE.Parser, new[]{ "CharacterId", "SlotIndex", "Nickname", "CharacterClass", "Gender" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_STATUS), global::CHARACTER_STATUS.Parser, new[]{ "Level", "MaxHP", "Hp", "MaxMP", "Mp", "MaxEXP", "Exp", "Attack", "AttackSpeed", "Defense", "Speed" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_POS), global::CHARACTER_POS.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null)
         }));
@@ -371,9 +372,9 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public CHARACTER_BASE(CHARACTER_BASE other) : this() {
     characterId_ = other.characterId_;
-    slotNum_ = other.slotNum_;
+    slotIndex_ = other.slotIndex_;
     nickname_ = other.nickname_;
-    job_ = other.job_;
+    characterClass_ = other.characterClass_;
     gender_ = other.gender_;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
@@ -396,15 +397,15 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
     }
   }
 
-  /// <summary>Field number for the "slot_num" field.</summary>
-  public const int SlotNumFieldNumber = 2;
-  private int slotNum_;
+  /// <summary>Field number for the "slot_index" field.</summary>
+  public const int SlotIndexFieldNumber = 2;
+  private int slotIndex_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int SlotNum {
-    get { return slotNum_; }
+  public int SlotIndex {
+    get { return slotIndex_; }
     set {
-      slotNum_ = value;
+      slotIndex_ = value;
     }
   }
 
@@ -420,15 +421,15 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
     }
   }
 
-  /// <summary>Field number for the "job" field.</summary>
-  public const int JobFieldNumber = 4;
-  private int job_;
+  /// <summary>Field number for the "character_class" field.</summary>
+  public const int CharacterClassFieldNumber = 4;
+  private int characterClass_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int Job {
-    get { return job_; }
+  public int CharacterClass {
+    get { return characterClass_; }
     set {
-      job_ = value;
+      characterClass_ = value;
     }
   }
 
@@ -460,9 +461,9 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
       return true;
     }
     if (CharacterId != other.CharacterId) return false;
-    if (SlotNum != other.SlotNum) return false;
+    if (SlotIndex != other.SlotIndex) return false;
     if (Nickname != other.Nickname) return false;
-    if (Job != other.Job) return false;
+    if (CharacterClass != other.CharacterClass) return false;
     if (Gender != other.Gender) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
@@ -472,9 +473,9 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
   public override int GetHashCode() {
     int hash = 1;
     if (CharacterId != 0L) hash ^= CharacterId.GetHashCode();
-    if (SlotNum != 0) hash ^= SlotNum.GetHashCode();
+    if (SlotIndex != 0) hash ^= SlotIndex.GetHashCode();
     if (Nickname.Length != 0) hash ^= Nickname.GetHashCode();
-    if (Job != 0) hash ^= Job.GetHashCode();
+    if (CharacterClass != 0) hash ^= CharacterClass.GetHashCode();
     if (Gender != false) hash ^= Gender.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
@@ -498,17 +499,17 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
       output.WriteRawTag(8);
       output.WriteInt64(CharacterId);
     }
-    if (SlotNum != 0) {
+    if (SlotIndex != 0) {
       output.WriteRawTag(16);
-      output.WriteInt32(SlotNum);
+      output.WriteInt32(SlotIndex);
     }
     if (Nickname.Length != 0) {
       output.WriteRawTag(26);
       output.WriteBytes(Nickname);
     }
-    if (Job != 0) {
+    if (CharacterClass != 0) {
       output.WriteRawTag(32);
-      output.WriteInt32(Job);
+      output.WriteInt32(CharacterClass);
     }
     if (Gender != false) {
       output.WriteRawTag(40);
@@ -528,17 +529,17 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
       output.WriteRawTag(8);
       output.WriteInt64(CharacterId);
     }
-    if (SlotNum != 0) {
+    if (SlotIndex != 0) {
       output.WriteRawTag(16);
-      output.WriteInt32(SlotNum);
+      output.WriteInt32(SlotIndex);
     }
     if (Nickname.Length != 0) {
       output.WriteRawTag(26);
       output.WriteBytes(Nickname);
     }
-    if (Job != 0) {
+    if (CharacterClass != 0) {
       output.WriteRawTag(32);
-      output.WriteInt32(Job);
+      output.WriteInt32(CharacterClass);
     }
     if (Gender != false) {
       output.WriteRawTag(40);
@@ -557,14 +558,14 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
     if (CharacterId != 0L) {
       size += 1 + pb::CodedOutputStream.ComputeInt64Size(CharacterId);
     }
-    if (SlotNum != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(SlotNum);
+    if (SlotIndex != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(SlotIndex);
     }
     if (Nickname.Length != 0) {
       size += 1 + pb::CodedOutputStream.ComputeBytesSize(Nickname);
     }
-    if (Job != 0) {
-      size += 1 + pb::CodedOutputStream.ComputeInt32Size(Job);
+    if (CharacterClass != 0) {
+      size += 1 + pb::CodedOutputStream.ComputeInt32Size(CharacterClass);
     }
     if (Gender != false) {
       size += 1 + 1;
@@ -584,14 +585,14 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
     if (other.CharacterId != 0L) {
       CharacterId = other.CharacterId;
     }
-    if (other.SlotNum != 0) {
-      SlotNum = other.SlotNum;
+    if (other.SlotIndex != 0) {
+      SlotIndex = other.SlotIndex;
     }
     if (other.Nickname.Length != 0) {
       Nickname = other.Nickname;
     }
-    if (other.Job != 0) {
-      Job = other.Job;
+    if (other.CharacterClass != 0) {
+      CharacterClass = other.CharacterClass;
     }
     if (other.Gender != false) {
       Gender = other.Gender;
@@ -616,7 +617,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
           break;
         }
         case 16: {
-          SlotNum = input.ReadInt32();
+          SlotIndex = input.ReadInt32();
           break;
         }
         case 26: {
@@ -624,7 +625,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
           break;
         }
         case 32: {
-          Job = input.ReadInt32();
+          CharacterClass = input.ReadInt32();
           break;
         }
         case 40: {
@@ -651,7 +652,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
           break;
         }
         case 16: {
-          SlotNum = input.ReadInt32();
+          SlotIndex = input.ReadInt32();
           break;
         }
         case 26: {
@@ -659,7 +660,7 @@ public sealed partial class CHARACTER_BASE : pb::IMessage<CHARACTER_BASE>
           break;
         }
         case 32: {
-          Job = input.ReadInt32();
+          CharacterClass = input.ReadInt32();
           break;
         }
         case 40: {
