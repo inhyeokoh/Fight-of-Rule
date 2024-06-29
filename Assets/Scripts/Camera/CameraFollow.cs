@@ -36,17 +36,21 @@ public class CameraFollow : MonoBehaviour
         }
     }
     public Vector3 NpcPos { get; set; }
-    Vector3 midPos;
+    Transform lookAtTransform;
 
     void Start()
     {
         virtualCamera = GetComponent<CinemachineVirtualCamera>();
         cmTransposer = virtualCamera.GetCinemachineComponent<CinemachineTransposer>();
         player = GameObject.FindWithTag("Player").transform;
+
+        // LookAt을 위한 Transform을 플레이어의 Transform으로 초기화
+        lookAtTransform = new GameObject("LookAtTransform").transform;
+
         if (virtualCamera != null)
         {
             virtualCamera.Follow = player;
-            virtualCamera.LookAt = player;  
+            virtualCamera.LookAt = player;
         }
     }
 
@@ -64,6 +68,9 @@ public class CameraFollow : MonoBehaviour
 
     private void OnMouseScroll(InputAction.CallbackContext context)
     {
+        if (zoomState != Enum_ZoomTypes.Default)
+            return;
+
         float scrollValue = context.ReadValue<float>();
         if (scrollValue > 0)
         {
@@ -81,7 +88,6 @@ public class CameraFollow : MonoBehaviour
 
     void UpdateCameraZoom()
     {
-        // 카메라의 Field of View, Follow OffSet 변경
         virtualCamera.m_Lens.FieldOfView = _zoomFOV[_zoomLevel];
         cmTransposer.m_FollowOffset = _followOffsets[_zoomLevel];
     }
@@ -90,32 +96,28 @@ public class CameraFollow : MonoBehaviour
     {
         switch (zoomState)
         {
-            case Enum_ZoomTypes.Default:                
+            case Enum_ZoomTypes.Default:
+                UpdateCameraZoom();
+                virtualCamera.LookAt = player;
                 break;
             case Enum_ZoomTypes.DialogZoom:
-                Vector3 dialogZoomPos = CalculateDialogZoomPos();
-                transform.position = dialogZoomPos;
-                transform.LookAt(midPos);
+                SetDialogCameraPosition();
                 break;
         }
     }
 
-    private Vector3 CalculateDialogZoomPos()
+    void SetDialogCameraPosition()
     {
-        float distance = 15f;
+        // NPC와 플레이어 사이의 중간 지점
+        Vector3 midPoint = (player.position + NpcPos) / 2;
+        // NPC와 플레이어 사이의 방향 벡터
+        Vector3 direction = (NpcPos - player.position).normalized;
+        Vector3 rightOffset = Vector3.Cross(Vector3.up, direction).normalized * 6f;
 
-        // 캐릭터와 Npc의 중점
-        midPos = (player.transform.position + NpcPos) / 2.0f;
-        // 캐릭터에서 Npc로 향하는 벡터
-        Vector3 forward = (player.transform.position - NpcPos).normalized;
+        lookAtTransform.position = midPoint;
 
-        // 캐릭터의 우측 방향 벡터 (캐릭터가 바라보는 방향과 하늘 방향의 외적)
-        Vector3 rightDirection = Vector3.Cross(forward, Vector3.up).normalized;
-        // 캐릭터의 우측과 하늘 사이 45도 방향 벡터 계산
-        Vector3 direction45 = (rightDirection + Vector3.up).normalized;
-
-        // 목표 위치 계산
-        Vector3 targetPosition = midPos + direction45 * distance;
-        return targetPosition;
+        cmTransposer.m_FollowOffset = rightOffset + new Vector3(0, 4f, 0); // 조금 더 위로 올림
+        virtualCamera.m_Lens.FieldOfView = 80f;
+        virtualCamera.LookAt = lookAtTransform;
     }
 }

@@ -99,7 +99,6 @@ public class QuestManager : SubClass<GameManager>
         Quest quest = totalQuestDict[questId];
 
         quest.SetProgress(Enum_QuestProgress.Ongoing);
-        Debug.Log(quest.progress);
         availableQuestList.Remove(quest);
         onGoingQuestList.Add(quest);
         quest.ReceiveEventWhenQuestStarts();

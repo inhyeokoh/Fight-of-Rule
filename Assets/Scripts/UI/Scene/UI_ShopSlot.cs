@@ -147,7 +147,7 @@ public class UI_ShopSlot : UI_Entity
         {
             case Enum_ShopSlotTypes.Purchase:
                 _amountText.SetActive(false);
-                if (Index < shopPurchase.shopItemCount)
+                if (Index < shopPurchase.shopItemList.Count)
                 {
                     transform.GetChild(1).GetComponent<TMP_Text>().text = shopPurchase.shopItems[Index].name; // 이름
                     transform.GetChild(2).GetComponent<TMP_Text>().text = $"{shopPurchase.shopItems[Index].purchaseprice}"; // 구매 가격

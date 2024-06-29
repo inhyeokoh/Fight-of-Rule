@@ -32,10 +32,7 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     //현재 UI의 하위 UI요소들
     protected Dictionary<int, UI_Entity> _entities = new Dictionary<int, UI_Entity>();
     public virtual void EnterAction() { EventSystem.current.SetSelectedGameObject(null); }
-    public virtual void EscAction()
-    {
-        GameManager.UI.ClosePopup(this);
-    }
+    public virtual void EscAction() { GameManager.UI.ClosePopup(this); }
 
     int curInputFieldIndex;
     protected List<TMP_InputField> inputFields = new List<TMP_InputField>();
@@ -60,7 +57,6 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
         }
         inputFields[curInputFieldIndex].Select();
     }
-
 
     //UI컴포넌트들 모음. 오브젝트에 UI컴포넌트가 여러개 있을 경우, 해당 순서가 유의미함.
     static List<Type> _components = new List<Type>()
@@ -109,10 +105,6 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
             // UI요소라면 다음 코드가 실행됨
             comp.Mount(this);
             _subUIs.Add(comp);
-            if (comp)
-            {
-
-            }
         }
     }
 

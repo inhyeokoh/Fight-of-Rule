@@ -9,6 +9,7 @@ using UnityEngine.UI;
 public class UI_Shop : UI_Entity
 {
     public GameObject descrPanel;
+    public UI_ShopPurchase shopPurchase;
     public UI_ShopSell shopSell;
     public UI_ShopRepurchase shopRepurchase;
 
@@ -39,13 +40,14 @@ public class UI_Shop : UI_Entity
 
     private void OnEnable()
     {
+        // 인벤토리도 같이 열려야함
         GameManager.UI.Inventory.gameObject.SetActive(true);
-        StartCoroutine(DeactivateWithDelay());
+        StartCoroutine(DeactivateCloseButtonWithDelay());
     }
 
     private void OnDisable()
     {
-        GameManager.UI.PointerOnUI(false);
+        //GameManager.UI.PointerOnUI(false);
         GameManager.UI.Inventory.closeBtn.SetActive(true);
         shopSell.ReturnSellListToInven();
         shopRepurchase.EmptyTempForSold();
@@ -57,6 +59,7 @@ public class UI_Shop : UI_Entity
         base.Init();
         descrPanel = _entities[(int)Enum_UI_Shop.DescrPanel].gameObject;
         panel_U_Buttons = _entities[(int)Enum_UI_Shop.TradeOptions].GetComponentsInChildren<Toggle>();
+        shopPurchase = _entities[(int)Enum_UI_Shop.Panel].GetComponentInChildren<UI_ShopPurchase>();
         shopSell = _entities[(int)Enum_UI_Shop.Panel].GetComponentInChildren<UI_ShopSell>();
         shopRepurchase = _entities[(int)Enum_UI_Shop.Panel].GetComponentInChildren<UI_ShopRepurchase>();
         panelRect = _entities[(int)Enum_UI_Shop.Panel].GetComponent<RectTransform>().rect;
@@ -77,10 +80,10 @@ public class UI_Shop : UI_Entity
                 GameManager.UI.PointerOnUI(true);
             };
 
-            _subUI.PointerExitAction = (PointerEventData data) =>
+/*            _subUI.PointerExitAction = (PointerEventData data) =>
             {
                 GameManager.UI.PointerOnUI(false);
-            };
+            };*/
         }
 
         // 상점 창 드래그 시작
@@ -131,10 +134,10 @@ public class UI_Shop : UI_Entity
         }
     }
 
-    IEnumerator DeactivateWithDelay()
+    IEnumerator DeactivateCloseButtonWithDelay()
     {
         yield return new WaitUntil(() => GameManager.UI.Inventory.gameObject.activeSelf);
-        GameManager.UI.Inventory.GetComponent<UI_Inventory>().closeBtn.SetActive(false);
+        GameManager.UI.Inventory.closeBtn.SetActive(false);
     }
 
     void _SetTradeOptionToggles()

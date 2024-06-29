@@ -18,6 +18,9 @@ public class UI_Login : UI_Entity
         Quit
     }
 
+    TMP_InputField idField;
+    TMP_InputField pwField;
+
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_Logins);
@@ -26,6 +29,8 @@ public class UI_Login : UI_Entity
     protected override void Init()
     {
         base.Init();
+
+        //idField = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>();
 
         _entities[(int)Enum_UI_Logins.SignUp].ClickAction = (PointerEventData data) => {
             GameManager.UI.OpenOrClose(GameManager.UI.SignUp);

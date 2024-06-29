@@ -601,7 +601,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   childPopups: []
   shopItems: []
-  shopItemCount: 0
   shopTotalCount: 0
   shopBasketItems: []
   shopBasketCount: 0
@@ -5385,6 +5384,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   childPopups: []
   descrPanel: {fileID: 0}
+  shopPurchase: {fileID: 0}
   shopSell: {fileID: 0}
   shopRepurchase: {fileID: 0}
   panel_U_Buttons: []

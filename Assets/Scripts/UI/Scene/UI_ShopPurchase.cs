@@ -6,22 +6,26 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 
+public struct ShopItem
+{
+    public int itemID;
+    public int itemPrice;
+}
+
 public class UI_ShopPurchase : UI_Entity
 {
     GameObject shopSlots;
     GameObject goldPanel;
     GameObject basket;
-    UI_Shop shopUI;
 
     public ItemData[] shopItems;
-    public int shopItemCount;
-    public int shopTotalCount; // 물품 담을 수 있는 칸 수
+    public List<ShopItem> shopItemList;
+    public int shopTotalCount = 8; // 물품 담을 수 있는 칸 수
     public ItemData[] shopBasketItems;
-    public int shopBasketCount;
+    public int shopBasketCount = 6;
 
     long _totalPurchaseGold;
     public long AfterPurchaseGold { get; private set; }
-
     enum Enum_UI_ShopPurchase
     {
         ShopSlots,
@@ -52,7 +56,6 @@ public class UI_ShopPurchase : UI_Entity
         shopSlots = _entities[(int)Enum_UI_ShopPurchase.ShopSlots].gameObject;
         goldPanel = _entities[(int)Enum_UI_ShopPurchase.GoldPanel].gameObject;
         basket = _entities[(int)Enum_UI_ShopPurchase.Basket].gameObject;
-        shopUI = transform.GetComponentInParent<UI_Shop>();
         shopTotalCount = 8;
         shopBasketCount = 6;
         shopBasketItems = new ItemData[shopBasketCount];
@@ -86,27 +89,30 @@ public class UI_ShopPurchase : UI_Entity
 
     void _DrawSlots()
     {
-        var item = CSVReader.Read("Data/SheetsToCsv/bin/Debug/TableFiles/ShopTable");
-        shopItemCount = item.Count;
-        shopItems = new ItemData[shopItemCount];
-
         for (int i = 0; i < shopTotalCount; i++)
         {
             GameObject _shopSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ShopSlot", shopSlots.transform);
             _shopSlot.GetComponent<UI_ShopSlot>().Index = i;
-
-            if (i < shopItemCount)
-            {
-                // id에 해당하는 아이템 참조
-                int id = int.Parse(item[i]["id"]);
-                shopItems[i] = GameManager.Data.itemDatas[id];
-            }
         }
 
         for (int i = 0; i < shopBasketCount; i++)
         {
             GameObject shopBasketSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ShopBasketSlot", basket.transform);
             shopBasketSlot.GetComponent<UI_ShopBasketSlot>().index = i;
+        }
+    }
+
+
+    public void DrawSellingItems(int npcID)
+    {
+        shopItemList = GameManager.Data.shopDict[npcID];
+        shopItems = new ItemData[shopItemList.Count];
+
+        for (int i = 0; i < shopItemList.Count; i++)
+        {
+            // id에 해당하는 아이템 참조
+            int id = shopItemList[i].itemID;
+            shopItems[i] = GameManager.Data.itemDatas[id];
         }
     }
 

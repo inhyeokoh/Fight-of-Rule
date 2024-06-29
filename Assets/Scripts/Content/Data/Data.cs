@@ -260,9 +260,10 @@ public class QuestData : Data
     public string title;
     public int npcID;
     public Enum_QuestType questType;
-    public string[] desc;
-    public string summary;
-    public string[] congratulation;
+    public string[] conversationText;
+    public string summaryText;
+    public string ongoingText;
+    public string[] completeText;
 
     // 시작 조건
     public int requiredLevel;
@@ -276,16 +277,17 @@ public class QuestData : Data
     public long goldReward;
     public string itemReward;
 
-    public QuestData(int questID, string title, int npcID, Enum_QuestType questType, string[] desc, string summary, string[] congratulation, int requiredLevel, int? nextQuestID,
+    public QuestData(int questID, string title, int npcID, Enum_QuestType questType, string[] conversationText, string summaryText, string ongoingText, string[] completeText, int requiredLevel, int? nextQuestID,
         List<QuestGoal> goals, int expReward, long goldReward, string itemReward)
     {
         this.questID = questID;
         this.title = title;
         this.npcID = npcID;
         this.questType = questType;
-        this.desc = desc;
-        this.summary = summary;
-        this.congratulation = congratulation;
+        this.conversationText = conversationText;
+        this.summaryText = summaryText;
+        this.ongoingText = ongoingText;
+        this.completeText = completeText;
         this.requiredLevel = requiredLevel;
         this.nextQuestID = nextQuestID;
         this.goals = goals;
@@ -340,6 +342,7 @@ public class MonsterGoal : QuestGoal
     public void IncrementCount(int amount)
     {
         currentCount += amount;
+        Debug.LogError($"{MonsterName} {currentCount}/{RequiredCount}");
     }
 
     public override bool IsCompleted()

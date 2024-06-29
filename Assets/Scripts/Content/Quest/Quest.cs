@@ -32,17 +32,6 @@ public class Quest
 
     public bool previousQuestComplete = true;
     bool _canComplete;
-    public bool CanComplete
-    {
-        get
-        {
-            return _AreAllGoalsCompleted();
-        }
-        private set
-        {
-            _canComplete = value;
-        }
-    }
 
     // 퀘스트 상태 변화 이벤트
     public delegate void QuestProgressChanged();
@@ -86,19 +75,19 @@ public class Quest
         }
     }*/
 
-    bool _AreAllGoalsCompleted()
+    void _CheckGoals()
     {
         foreach (var goal in questData.goals)
         {
             if (!goal.IsCompleted())
             {
                 _canComplete = false;
+                return;
             }
         }
 
         SetProgress(Enum_QuestProgress.CanComplete);
         _canComplete = true;
-        return true;
     }
 
     public Quest(int questID)
@@ -145,7 +134,7 @@ public class Quest
                 }
             }
         }
-        _AreAllGoalsCompleted(); // 수정 필요
+        _CheckGoals(); // 수정 필요
     }
 
     public void OnItemGet(int itemID, int itemCount)
@@ -160,7 +149,7 @@ public class Quest
                 }
             }
         }
-        _AreAllGoalsCompleted();
+        _CheckGoals();
     }
 
     // TODO 보상 지급

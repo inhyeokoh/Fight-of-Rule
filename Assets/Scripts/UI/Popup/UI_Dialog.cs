@@ -25,7 +25,6 @@ public class UI_Dialog : UI_Entity
 
     #region 대화창
     TMP_Text mainText;
-    const string Default_Text = "오늘은 무슨 일이 생기려나...";
     GameObject nextButton;
     GameObject acceptButton;
     int dialogCount;
@@ -52,28 +51,23 @@ public class UI_Dialog : UI_Entity
     {
         if (!GameManager.UI.init) return;
 
+        GameManager.UI.PointerOnUI(true);
+        nextButton.SetActive(false);
+        acceptButton.SetActive(false);
+        cameraFollow = GameObject.FindWithTag("vCam").GetComponent<CameraFollow>();
+        cameraFollow.NpcPos = GameManager.Data.npcDict[_npcID].transform.position;
+        cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.DialogZoom;
+        mainText.text = GameManager.Data.npcDict[_npcID].DefaultText;
         switch (_npcType)
         {
             case Enum_NpcType.Quest:
-                GameManager.UI.PointerOnUI(true);
-                nextButton.SetActive(false);
-                acceptButton.SetActive(false);
                 _ShowQuests();
-                cameraFollow = GameObject.FindWithTag("vCam").GetComponent<CameraFollow>();
-                cameraFollow.NpcPos = GameManager.Data.npcDict[_npcID].transform.position;
-                cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.DialogZoom;
-                mainText.text = Default_Text;
                 dialogCount = 0;
                 break;
             case Enum_NpcType.Shop:
+                GameManager.UI.Shop.shopPurchase.DrawSellingItems(_npcID);
                 GameManager.UI.OpenPopup(GameManager.UI.Shop);
                 questPanel.SetActive(false);
-                nextButton.SetActive(false);
-                acceptButton.SetActive(false);
-                cameraFollow = GameObject.FindWithTag("vCam").GetComponent<CameraFollow>();
-                cameraFollow.NpcPos = GameManager.Data.npcDict[_npcID].transform.position;
-                cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.DialogZoom;
-                mainText.text = Default_Text;
                 break;
             default:
 #if UNITY_EDITOR
@@ -103,13 +97,17 @@ public class UI_Dialog : UI_Entity
 #endif
                 break;
         }
+
+        if (cameraFollow != null)
+        {
+            cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.Default;
+        }
     }
 
     protected override void Init()
     {
         base.Init();
 
-        cameraFollow = Camera.main.GetComponent<CameraFollow>();
         questPanel = _entities[(int)Enum_UI_Dialog.QuestPanel].gameObject;
         nextButton = _entities[(int)Enum_UI_Dialog.Next].gameObject;
         acceptButton = _entities[(int)Enum_UI_Dialog.Accept].gameObject;
@@ -182,7 +180,7 @@ public class UI_Dialog : UI_Entity
             }
         }
 
-        if (accessibleQuests == null)
+        if (accessibleQuests.Count == 0)
         {
             questPanel.SetActive(false);
             return;
@@ -228,6 +226,8 @@ public class UI_Dialog : UI_Entity
     // 퀘스트 패널 하위 버튼에 OnClick 연결 
     public void ContinueWithSelectedQuest()
     {
+        if (selectedQuest == null) return;
+
         questPanel.SetActive(false);
         nextButton.SetActive(true);
 
@@ -239,23 +239,23 @@ public class UI_Dialog : UI_Entity
         switch (selectedQuest.progress)
         {
             case Enum_QuestProgress.Available:
-                mainText.text = selectedQuest.questData.desc[dialogCount++];
-                if (dialogCount == selectedQuest.questData.desc.Length)
+                mainText.text = selectedQuest.questData.conversationText[dialogCount++];
+                if (dialogCount == selectedQuest.questData.conversationText.Length)
                 {
                     nextButton.SetActive(false);
                     acceptButton.SetActive(true);
                 }
                 break;
             case Enum_QuestProgress.Ongoing:
-                mainText.text = "아직인가요?";
+                mainText.text = selectedQuest.questData.ongoingText;
                 nextButton.SetActive(false);
                 break;
             case Enum_QuestProgress.CanComplete:
-                mainText.text = selectedQuest.questData.congratulation[dialogCount++];
-                if (dialogCount == selectedQuest.questData.congratulation.Length)
+                mainText.text = selectedQuest.questData.completeText[dialogCount++];
+                if (dialogCount == selectedQuest.questData.completeText.Length)
                 {
                     nextButton.SetActive(false);
-                    acceptButton.SetActive(true);
+                    acceptButton.SetActive(true); // 이거 대신 퀘스트 보상 팝업
                 }
                 break;
             default:

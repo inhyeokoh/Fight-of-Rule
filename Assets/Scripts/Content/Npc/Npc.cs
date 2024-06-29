@@ -28,6 +28,7 @@ public class Npc : MonoBehaviour
         set { npcID = value; }
     }
     public Enum_NpcType npcType { get; set; }
+    public string DefaultText { get; set; }
 
     [SerializeField]
     QuestMarkers questMarker;
