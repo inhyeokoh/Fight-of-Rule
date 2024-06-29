@@ -8,15 +8,6 @@ public class Data
 {
 }
 
-[Serializable]
-public class LoginData : Data
-{
-    public string id;
-    public string pw;
-    public int slotCount;
-}
-
-
 [System.Serializable]
 public class EquipmentItemData : StateItemData
 {
@@ -24,8 +15,8 @@ public class EquipmentItemData : StateItemData
     public int currentReinforcement;
 
     public EquipmentItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
-        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int maxReinforcement, int count = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemClass,  itemGrade,  itemType,  detailType,  purchaseprice,  sellingprice,  level,  attack,  defense
-        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, count)
+        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int maxReinforcement, bool durationBool, float duration, int count = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemClass,  itemGrade,  itemType,  detailType,  purchaseprice,  sellingprice,  level,  attack,  defense
+        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, durationBool,duration, count )
     {
         this.maxReinforcement = maxReinforcement;
         this.currentReinforcement = currentReinforcement;
@@ -48,9 +39,11 @@ public class StateItemData : ItemData
     public int mp;
     public int maxHp;
     public int maxMp;
+    public bool durationBool;
+    public float duration;
 
     public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
-        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, bool durationBool,float duration, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
     {
         this.itemClass = itemClass;   
         this.detailType = detailType;      
@@ -65,6 +58,8 @@ public class StateItemData : ItemData
         this.maxHp = maxHp;
         this.maxMp = maxMp;
         this.maxCount = maxCount;
+        this.durationBool = durationBool;
+        this.duration = duration;
     }
 
 
@@ -99,7 +94,7 @@ public class ItemData : Data
         this.slotNum = slotNum;
     }
 
-    public ItemData(ItemData item)
+    public ItemData(ItemData item, int count)
     {
         this.id = item.id;
         this.name = item.name;
@@ -110,7 +105,7 @@ public class ItemData : Data
         this.purchaseprice = item.purchaseprice;
         this.sellingprice = item.sellingprice;
         this.maxCount = item.maxCount;
-        this.count = item.count;
+        this.count = count;
         this.slotNum = item.slotNum;
     }
 }
@@ -141,28 +136,44 @@ public class LevelData : Data
 public class WarriorSkillData : Data
 {
     public int id;
+    public string skillType;
     public string name;
     public string desc;
     public Sprite icon;
     public WarriorSkill number;
+    public float[] skillDuration;
     public int maxLevel;
     public int[] levelCondition;
     public int[] skillPoint;
+    public int[] skillMaxHP;
+    public int[] skillMaxMP;
+    public int[] skillAttack;
+    public int[] skillDefense;
+    public int[] skillSpeed;
+    public int[] skillAttackSpeed;
     public int[] skillMP;
     public float[] skillCool;
     public int[] skillDamage;
 
-    public WarriorSkillData(int id, string name, string desc, Sprite icon, WarriorSkill number, int maxLevel, int[] levelCondition,
-        int[] skillPoint, int[] skillMP, float[] skillCool, int[] skillDamage)
+    public WarriorSkillData(int id, string skillType, string name, string desc, Sprite icon, WarriorSkill number, float[] skillDuration, int maxLevel, int[] levelCondition,
+        int[] skillPoint, int[] skillMaxHP, int[] skillMaxMP,int[] skillAttack, int[] skillDefense, int[] skillSpeed, int[] skillAttackSpeed, int[] skillMP,float[] skillCool, int[] skillDamage)
     {
         this.id = id;
+        this.skillType = skillType;
         this.name = name;
         this.desc = desc;
         this.icon = icon;
         this.number = number;
+        this.skillDuration = skillDuration;
         this.maxLevel = maxLevel;
         this.levelCondition = levelCondition;
         this.skillPoint = skillPoint;
+        this.skillMaxHP = skillMaxHP;
+        this.skillMaxMP = skillMaxMP;
+        this.skillAttack = skillAttack;
+        this.skillSpeed = skillSpeed;
+        this.skillDefense = skillDefense;
+        this.skillAttackSpeed = skillAttackSpeed;
         this.skillMP = skillMP;
         this.skillCool = skillCool;
         this.skillDamage = skillDamage;
@@ -241,70 +252,55 @@ public class MonsterItemDropData
     }
 }
 
+[System.Serializable]
+public class QuestData : Data
+{    
+    // 퀘스트 정보
+    public int questID;
+    public string title;
+    public int[] npcID; // TODO -> 완료 조건 항목으로 변경
+    public Enum_QuestType questType;
+    public string[] desc;
+    public string summary; // 내용 요약본
+    public string[] congratulation; // 퀘스트 완료 메시지
 
+    // 시작 조건
+    public int requiredLevel;
+    public int? previousQuestID; // 사전 수행 퀘스트. 필요 시 리스트 형식으로 변경
 
+    // 완료 조건 TODO: 오브젝트랑 몬스터 ID는 다수 가능하게 수정
 
-[Serializable]
-public class SettingsData : Data
-{
-    public float totalVol;
-    public float backgroundVol;
-    public float effectVol;
+    // Goal들을 여러개
+    public string questObj;
+    public int questObjRequiredCount;
 
-    public bool bTotalVol;
-    public bool bBackgroundVol;
-    public bool bEffectVol;
-}
+    public string questMonster;
+    public int questMonsterRequiredCount;
 
-[Serializable]
-public class CharData : Data
-{
-    public enum Enum_Job
+    // 보상
+    public int expReward;
+    public long goldReward;
+    public string itemReward;
+
+    public QuestData(int questID, string title, int[] npcID, Enum_QuestType questType, string[] desc, string summary, string[] congratulation, int requiredLevel, int? previousQuestID,
+        string questObj, int questObjRequiredCount, string questMonster, int questMonsterRequiredCount, int expReward, long goldReward, string itemReward)
     {
-        Warrior,
-        Wizard,   
-        Archer
-    }
-
-    public string charName;
-    public int job;
-    public bool gender;
-
-    public int level;
-    public int maxHP;
-    public int hp;
-    public int maxMP;
-    public int mp;
-    public int maxEXP;
-    public int exp;
-    public int attack;
-    public int attackSpeed;
-    public int defense;
-    public int speed;
-
-    public CharData()
-    {
-        charName = "기본 이름";
-        job = 0;
-        gender = true;
-
-        level = 1;
-        maxHP = 100;
-        hp = 100;
-        maxMP = 100;
-        mp = 100;
-        maxEXP = 100;
-        exp = 0;
-        attack = 5;
-        attackSpeed = 1;
-        defense = 3;
-        speed = 10;
-    }
-
-    public CharData(int job) : this()
-    {
-        this.job = job;
+        this.questID = questID;
+        this.title = title;
+        this.npcID = npcID;
+        this.questType = questType;
+        this.desc = desc;
+        this.summary = summary;
+        this.congratulation = congratulation;
+        this.requiredLevel = requiredLevel;
+        this.previousQuestID = previousQuestID;
+        this.questObj = questObj;
+        this.questObjRequiredCount = questObjRequiredCount;
+        this.questMonster = questMonster;
+        this.questMonsterRequiredCount = questMonsterRequiredCount;
+        this.expReward = expReward;
+        this.goldReward = goldReward;
+        this.itemReward = itemReward;
     }
 }
-
 

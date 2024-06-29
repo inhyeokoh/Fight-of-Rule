@@ -29,6 +29,8 @@ public class Interaction : SubMono<PlayerController>
             if (Input.GetKeyDown(KeyCode.Z))
             {
                 GameObject clone = InGameItems[0];
+                GameManager.Inven.GetItem(clone.GetComponent<ItemObject>().item);
+
                 InGameItems.RemoveAt(0);
                 clone.SetActive(false);
             }

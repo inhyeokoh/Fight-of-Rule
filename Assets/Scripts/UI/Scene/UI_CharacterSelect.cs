@@ -3,9 +3,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UI_CharacterSelect : UI_Entity
 {
+    GameObject panel;
+    int _totalSlot = 4;
+    UI_Slot[] characterSlots;
+
     enum Enum_UI_CharSelect
     {
         Setting,
@@ -19,19 +24,39 @@ public class UI_CharacterSelect : UI_Entity
         return typeof(Enum_UI_CharSelect);
     }
 
-
     protected override void Init()
     {
         base.Init();
 
+        panel = _entities[(int)Enum_UI_CharSelect.Panel].gameObject;
+
+        characterSlots = new UI_Slot[_totalSlot];
+        _DrawCharacterSlot();
+
         _entities[(int)Enum_UI_CharSelect.Setting].ClickAction = (PointerEventData data) => {
-            GameManager.UI.OpenOrClose(GameManager.UI.Setting);
+            GameManager.UI.OpenOrClose(GameManager.UI.Settings);
         };
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
             UI_Loading.LoadScene("StatePattern");
         };
 
-        // TODO 캐릭터 삭제
+        // 캐릭터 삭제
+        _entities[(int)Enum_UI_CharSelect.Delete].ClickAction = (PointerEventData data) => {
+            GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDeleteCharacter);
+            GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
+        };
+    }
+
+    void _DrawCharacterSlot()
+    {
+        for (int i = 0; i < _totalSlot; i++)
+        {
+            GameObject slot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/CharacterSlot", panel.transform);
+            characterSlots[i] = slot.GetComponent<UI_Slot>();
+            characterSlots[i].Index = i;
+        }
+
+        characterSlots[0].gameObject.GetComponent<Toggle>().isOn = true;
     }
 }

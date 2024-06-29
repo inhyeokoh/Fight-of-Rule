@@ -8,11 +8,11 @@ public class CharacterEquipment : SubMono<PlayerController>
     /// 각각의 장비들 체크
     /// </summary>
     [SerializeField]
-    InGameStateItem currentWeapon;
-    InGameStateItem currentHead;
-    InGameStateItem currentBody;
-    InGameStateItem currentHand;
-    InGameStateItem currentFoot;
+    InGameStateItem currentWeapon = new InGameStateItem();
+    InGameStateItem currentHead = new InGameStateItem();
+    InGameStateItem currentBody = new InGameStateItem();
+    InGameStateItem currentHand = new InGameStateItem();
+    InGameStateItem currentFoot = new InGameStateItem();
 
     /// <summary>
     /// 장비가 껴져있는지 체크
@@ -42,7 +42,7 @@ public class CharacterEquipment : SubMono<PlayerController>
 
     protected override void _Excute()
     {
-       
+
     }
 
     protected override void _Init()
@@ -55,151 +55,155 @@ public class CharacterEquipment : SubMono<PlayerController>
     /// 장비를 끼면 껴져있는지 체크하는 메서드
     /// </summary>
     /// <param name="equipment"></param>
-    public void EquipmentCheck(InGameStateItem equipment)
+    public bool EquipmentCheck(StateItemData equipment, out int equipType)
     {
-        Change(equipment);
+        bool pass = false;
+
+        pass = Change(equipment,out equipType);
+
+        return pass;
     }
 
 
-   /* public void WeaponCheck(InGameItemEquipment weapon)
-    {
-        if (_board._class != weapon.EquipmentClass || _board._playerStat.Level < weapon.Level)
-        {
-            Debug.Log("이 장비는 낄수 없습니다.");
-            return;
-        }
+    /* public void WeaponCheck(InGameItemEquipment weapon)
+     {
+         if (_board._class != weapon.EquipmentClass || _board._playerStat.Level < weapon.Level)
+         {
+             Debug.Log("이 장비는 낄수 없습니다.");
+             return;
+         }
 
 
-        if (weaponCheck)
-        {
-             print("갈아낌");
-             equipments.Remove(currentWeapon);
-             currentWeapon.Exit();
+         if (weaponCheck)
+         {
+              print("갈아낌");
+              equipments.Remove(currentWeapon);
+              currentWeapon.Exit();
+              currentWeapon = weapon;
+              currentWeapon.Enter();
+              equipments.Add(currentWeapon);           
+         }
+         else
+         {
+             print("꼈음");
              currentWeapon = weapon;
+             weaponCheck = true;
              currentWeapon.Enter();
-             equipments.Add(currentWeapon);           
-        }
-        else
-        {
-            print("꼈음");
-            currentWeapon = weapon;
-            weaponCheck = true;
-            currentWeapon.Enter();
-            equipments.Add(currentWeapon);
-        }
-    }  
+             equipments.Add(currentWeapon);
+         }
+     }  
 
-    public void HeadCheck(InGameItemEquipment head)
-    {
-        if (_board._class != head.EquipmentClass || _board._playerStat.Level < head.Level)
-        {
-            Debug.Log("이 장비는 낄수 없습니다.");
-            return;
-        }
+     public void HeadCheck(InGameItemEquipment head)
+     {
+         if (_board._class != head.EquipmentClass || _board._playerStat.Level < head.Level)
+         {
+             Debug.Log("이 장비는 낄수 없습니다.");
+             return;
+         }
 
 
-        if (headCheck)
-        {
-            print("갈아낌");
-            equipments.Remove(currentHead);
-            currentHead.Exit();
-            currentHead = head;         
-            currentHead.Enter();
-            equipments.Add(currentHead);
-        }
-        else
-        {
-            print("꼈음");
-            currentHead = head;
-            headCheck = true;
-            currentHead.Enter();
-            equipments.Add(currentHead);
-        }
+         if (headCheck)
+         {
+             print("갈아낌");
+             equipments.Remove(currentHead);
+             currentHead.Exit();
+             currentHead = head;         
+             currentHead.Enter();
+             equipments.Add(currentHead);
+         }
+         else
+         {
+             print("꼈음");
+             currentHead = head;
+             headCheck = true;
+             currentHead.Enter();
+             equipments.Add(currentHead);
+         }
 
-    }
+     }
 
-    public void BodyCheck(InGameItemEquipment body)
-    {
-        if (_board._class != body.EquipmentClass || _board._playerStat.Level < body.Level)
-        {
-            Debug.Log("이 장비는 낄수 없습니다.");
-            return;
-        }
-
-
-        if (bodyCheck)
-        {
-            print("갈아낌");
-
-            equipments.Remove(currentBody);
-            currentBody.Exit();
-
-            currentBody = body;
-            
-            currentBody.Enter();
-        }
-        else
-        {
-            print("꼈음");
-            currentBody = body;
-            bodyCheck = true;
-            currentBody.Enter();
-        }
-    }
-
-    public void HandCheck(InGameItemEquipment hand)
-    {
-        if (_board._class != hand.EquipmentClass || _board._playerStat.Level < hand.Level)
-        {
-            Debug.Log("이 장비는 낄수 없습니다.");
-            return;
-        }
+     public void BodyCheck(InGameItemEquipment body)
+     {
+         if (_board._class != body.EquipmentClass || _board._playerStat.Level < body.Level)
+         {
+             Debug.Log("이 장비는 낄수 없습니다.");
+             return;
+         }
 
 
-        if (handCheck)
-        {
-            print("갈아낌");
-            currentHand.Exit();
+         if (bodyCheck)
+         {
+             print("갈아낌");
 
-            currentHand = hand;
+             equipments.Remove(currentBody);
+             currentBody.Exit();
 
-            currentHand.Enter();
-        }
-        else
-        {
-            print("꼈음");
-            currentHand = hand;
-            handCheck = true;
-            currentHand.Enter();
-        }
-    }
+             currentBody = body;
 
-    public void FootCheck(InGameItemEquipment foot)
-    {
-        if (_board._class != foot.EquipmentClass || _board._playerStat.Level < foot.Level)
-        {
-            Debug.Log("이 장비는 낄수 없습니다.");
-            return;
-        }
+             currentBody.Enter();
+         }
+         else
+         {
+             print("꼈음");
+             currentBody = body;
+             bodyCheck = true;
+             currentBody.Enter();
+         }
+     }
+
+     public void HandCheck(InGameItemEquipment hand)
+     {
+         if (_board._class != hand.EquipmentClass || _board._playerStat.Level < hand.Level)
+         {
+             Debug.Log("이 장비는 낄수 없습니다.");
+             return;
+         }
 
 
-        if (footCheck)
-        {
-            print("갈아낌");
-            currentFoot.Exit();
+         if (handCheck)
+         {
+             print("갈아낌");
+             currentHand.Exit();
 
-            currentFoot = foot;
+             currentHand = hand;
 
-            currentFoot.Enter();
-        }
-        else
-        {
-            print("꼈음");
-            currentFoot = foot;
-            footCheck = true;
-            currentFoot.Enter();
-        }
-    }*/
+             currentHand.Enter();
+         }
+         else
+         {
+             print("꼈음");
+             currentHand = hand;
+             handCheck = true;
+             currentHand.Enter();
+         }
+     }
+
+     public void FootCheck(InGameItemEquipment foot)
+     {
+         if (_board._class != foot.EquipmentClass || _board._playerStat.Level < foot.Level)
+         {
+             Debug.Log("이 장비는 낄수 없습니다.");
+             return;
+         }
+
+
+         if (footCheck)
+         {
+             print("갈아낌");
+             currentFoot.Exit();
+
+             currentFoot = foot;
+
+             currentFoot.Enter();
+         }
+         else
+         {
+             print("꼈음");
+             currentFoot = foot;
+             footCheck = true;
+             currentFoot.Enter();
+         }
+     }*/
 
 
     /// <summary>
@@ -210,7 +214,7 @@ public class CharacterEquipment : SubMono<PlayerController>
         for (int i = 0; i < equipments.Count; i++)
         {
             equipments[i].FixedStay();
-        }       
+        }
     }
 
     public void EquipmentStay()
@@ -218,24 +222,60 @@ public class CharacterEquipment : SubMono<PlayerController>
         for (int i = 0; i < equipments.Count; i++)
         {
             equipments[i].Stay();
-        }    
+        }
     }
 
+    public void TakeOff(int equipType)
+    {
+        switch (equipType)
+        {
+            case 0:
+                equipments.Remove(currentHead);
+                currentHead.Exit();
+                headCheck = false;
+                break;
+            case 1:
+                equipments.Remove(currentBody);
+                currentBody.Exit();
+                bodyCheck = false;
+                break;
+            case 2:
+                equipments.Remove(currentHand);
+                currentHand.Exit();
+                handCheck = false;
+                break;
+            case 3:
+                equipments.Remove(currentFoot);
+                currentFoot.Exit();
+                footCheck = false;
+                break;
+            case 4:
+                equipments.Remove(currentWeapon);
+                currentWeapon.Exit();
+                weaponCheck = false;
+                break;
+            default:
+                return;
+        }
+    }
 
 
     /// <summary>
     /// 장비들의 조건과 그리고 이미 껴져있으면 갈아끼는 메서드
     /// </summary>
     /// <param name="change"></param>
-    public void Change(InGameStateItem change)
+
+    public bool Change(StateItemData change,out int equipType)
+
     {
-        switch (change.StateItemData.detailType)
+        switch (change.detailType)
         {
             case Enum_DetailType.Weapon:
-                if (_board._class != change.StateItemData.itemClass /*|| _board._playerStat.Level < change.StateItemData.level*/)
+                if (_board._class != change.itemClass /*|| _board._playerStat.Level < change.StateItemData.level*/)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
-                    return;
+                    equipType = -1;
+                    return false;
                 }
 
 
@@ -244,26 +284,28 @@ public class CharacterEquipment : SubMono<PlayerController>
                     print("갈아낌");
                     equipments.Remove(currentWeapon);
                     currentWeapon.Exit();
-                    currentWeapon = change;
+                    currentWeapon.Setting(change);
                     currentWeapon.Enter();
                     equipments.Add(currentWeapon);
                 }
                 else
                 {
                     print("꼈음");
-                    currentWeapon = change;
+                    currentWeapon.Setting(change);
                     weaponCheck = true;
                     currentWeapon.Enter();
                     equipments.Add(currentWeapon);
                 }
+                equipType = 4;
                 break;
-            
-            
+
+
             case Enum_DetailType.Head:
-                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
+                if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
-                    return;
+                    equipType = -1;
+                    return false;
                 }
 
 
@@ -272,25 +314,27 @@ public class CharacterEquipment : SubMono<PlayerController>
                     print("갈아낌");
                     equipments.Remove(currentHead);
                     currentHead.Exit();
-                    currentHead = change;
+                    currentHead.Setting(change);
                     currentHead.Enter();
                     equipments.Add(currentHead);
                 }
                 else
                 {
                     print("꼈음");
-                    currentHead = change;
+                    currentHead.Setting(change);
                     headCheck = true;
                     currentHead.Enter();
                     equipments.Add(currentHead);
                 }
+                equipType = 0;
                 break;
 
             case Enum_DetailType.Body:
-                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
+                if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
-                    return;
+                    equipType = -1;
+                    return false;
                 }
 
 
@@ -300,25 +344,27 @@ public class CharacterEquipment : SubMono<PlayerController>
 
                     equipments.Remove(currentBody);
                     currentBody.Exit();
-                    currentBody = change;
+                    currentBody.Setting(change);
                     currentBody.Enter();
                     equipments.Add(currentBody);
                 }
                 else
                 {
                     print("꼈음");
-                    currentBody = change;
+                    currentBody.Setting(change);
                     bodyCheck = true;
                     currentBody.Enter();
                     equipments.Add(currentBody);
                 }
+                equipType = 1;
                 break;
-           
+
             case Enum_DetailType.Hand:
-                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
+                if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
-                    return;
+                    equipType = -1;
+                    return false;
                 }
 
 
@@ -328,7 +374,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                     equipments.Remove(currentHand);
                     currentHand.Exit();
 
-                    currentHand = change;
+                    currentHand.Setting(change);
 
                     currentHand.Enter();
                     equipments.Add(currentHand);
@@ -336,18 +382,20 @@ public class CharacterEquipment : SubMono<PlayerController>
                 else
                 {
                     print("꼈음");
-                    currentHand = change;
+                    currentHand.Setting(change);
                     handCheck = true;
                     currentHand.Enter();
                     equipments.Add(currentHand);
                 }
+                equipType = 2;
                 break;
 
             case Enum_DetailType.Foot:
-                if (_board._class != change.StateItemData.itemClass || _board._playerStat.Level < change.StateItemData.level)
+                if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
-                    return;
+                    equipType = -1;
+                    return false;
                 }
 
 
@@ -357,7 +405,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                     equipments.Remove(currentFoot);
                     currentFoot.Exit();
 
-                    currentFoot = change;
+                    currentFoot.Setting(change);
 
                     currentFoot.Enter();
                     equipments.Add(currentFoot);
@@ -365,16 +413,19 @@ public class CharacterEquipment : SubMono<PlayerController>
                 else
                 {
                     print("꼈음");
-                    currentFoot = change;
+                    currentFoot.Setting(change);
                     footCheck = true;
                     currentFoot.Enter();
                     equipments.Add(currentFoot);
                 }
+                equipType = 3;
                 break;
             default:
                 //print("이 아이템은 데이터상에 존재하지 않습니다.");
-                return;
+                equipType = -1;
+                return false;
         }
-    }
 
+        return true;
+    }
 }

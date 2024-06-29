@@ -6,10 +6,15 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
 
-// 확인 취소 버튼 있는 팝업
+/// <summary>
+/// 확인,취소 버튼이 있는 팝업
+/// </summary>
 public class UI_ConfirmYN : UI_Entity
 {
+    bool _init;
+    bool _useBlocker = true;
     TMP_Text _mainText;
+    Enum_ConfirmTypes confirmType = Enum_ConfirmTypes.AskDecidingNickName;
 
     enum Enum_UI_Confirm
     {
@@ -20,10 +25,29 @@ public class UI_ConfirmYN : UI_Entity
         Cancel
     }
 
+    public enum Enum_ConfirmTypes
+    {
+        AskDecidingNickName,
+        AskDeleteCharacter
+    }
+
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_Confirm);
     }
+
+    private void OnEnable()
+    {
+        if (!_init || !_useBlocker) return;
+
+        GameManager.UI.UseBlocker(true);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.UI.UseBlocker(false);
+    }
+
 
     protected override void Init()
     {
@@ -33,7 +57,24 @@ public class UI_ConfirmYN : UI_Entity
         _mainText.text = "Default";
 
         _entities[(int)Enum_UI_Confirm.Accept].ClickAction = (PointerEventData data) => {
-            _ExecuteAcceptAction();
+            switch (confirmType)
+            {
+                case Enum_ConfirmTypes.AskDecidingNickName:
+                    GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
+                    GameManager.UI.ClosePopupAndChildren(GameManager.UI.InputName);
+                    break;
+                case Enum_ConfirmTypes.AskDeleteCharacter:
+                    // 서버에 삭제할 캐릭터 id(번호) 전송
+                    C_DELETE_CHARACTER character_delete_pkt = new C_DELETE_CHARACTER();
+                    character_delete_pkt.CharacterId = GameManager.Data.CurrentCharacter.BaseInfo.CharacterId;
+                    character_delete_pkt.SlotNum = GameManager.Data.SelectedSlotNum;
+                    GameManager.Network.Send(PacketHandler.Instance.SerializePacket(character_delete_pkt));
+
+                    GameManager.UI.ClosePopup(GameManager.UI.ConfirmYN);
+                    break;
+                default:
+                    break;
+            }
         };
 
         _entities[(int)Enum_UI_Confirm.Cancel].ClickAction = (PointerEventData data) => {
@@ -41,16 +82,23 @@ public class UI_ConfirmYN : UI_Entity
         };
 
         gameObject.SetActive(false);
+        _init = true;
     }
 
-    void _ExecuteAcceptAction()
-    {        
-        GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
-        GameManager.UI.CloseLinkedPopup();  
-    }
-
-    public void ChangeText(string contents)
+    public void ChangeText(Enum_ConfirmTypes type)
     {
-        _mainText.text = contents;
+        confirmType = type;
+
+        switch (confirmType)
+        {
+            case Enum_ConfirmTypes.AskDecidingNickName:
+                _mainText.text = $"해당 이름으로 결정하시겠습니까?\n 캐릭터명 : {GameManager.Data.CurrentCharacter.BaseInfo.Nickname.ToString(System.Text.Encoding.Unicode)}";
+                break;
+            case Enum_ConfirmTypes.AskDeleteCharacter:
+                _mainText.text = $"{GameManager.Data.CurrentCharacter.BaseInfo.Nickname.ToString(System.Text.Encoding.Unicode)} 캐릭터를 정말 삭제하시겠습니까?";
+                break;
+            default:
+                break;
+        }
     }
 }

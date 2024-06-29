@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static ResourceManager Resources { get { return Instance._resources; } }
 
-   /* ItemManager _item = new ItemManager();
+/*    ItemManager _item = new ItemManager();
     public static ItemManager Item { get { return Instance._item; } }*/
     /*==================
      *  ThreadManager
@@ -56,6 +57,9 @@ public class GameManager : MonoBehaviour
     ThreadManager _threadPool = new ThreadManager();
     public static ThreadManager ThreadPool { get {  return Instance._threadPool; } }
 
+
+    SoundManager _sound = new SoundManager();
+    public static SoundManager Sound { get { return Instance._sound; } }
 
     /*==================
      *     Network
@@ -94,13 +98,22 @@ public class GameManager : MonoBehaviour
     public static SceneManager2 Scene { get { return Instance._sceneManager; } }
 
     /*==================
-    *    DataManager
+    *    InventoryManager
     =================*/
     InventoryManager _invenManager = new InventoryManager();
     /// <summary>
-    /// Load and Save Data
+    /// Player Inventory Items + Equipments
     /// </summary>
     public static InventoryManager Inven { get { return Instance._invenManager; } }
+
+    /*==================
+    *    QuestManager
+    =================*/
+    QuestManager _questManager = new QuestManager();
+    /// <summary>
+    /// Player Inventory Items + Equipments
+    /// </summary>
+    public static QuestManager Quest { get { return Instance._questManager; } }
 
     LockQueue<Action> _tasks = new LockQueue<Action>();
     Action _onUpdate;
@@ -116,11 +129,13 @@ public class GameManager : MonoBehaviour
             _pool,
             _resources,
             _threadPool,
+            _sound,
             _networkManager,
             _uiManager,
             _dataManager,
             _sceneManager,
-            _invenManager
+            _invenManager,
+            _questManager
         };
 
         for(int i = 0; i < _managers.Count; i++)

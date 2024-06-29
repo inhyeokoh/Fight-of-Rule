@@ -9,7 +9,7 @@ public class MonsterStatus : SubMono<MonsterController>
 
     public int hp;
     private int mp;
-    private int exp;
+    public int exp;
 
     private int attack;
     private float attackSpeed;
@@ -195,7 +195,8 @@ public class MonsterStatus : SubMono<MonsterController>
 
     private void MonsterStatusApply()
     {
-        maxHP = _board.monsterDB.monster_maxhp;
+        maxHP = 1;
+        // maxHP = _board.monsterDB.monster_maxhp;
         maxMP = _board.monsterDB.monster_maxmp;
         hp = maxHP;
         mp = maxMP;
@@ -217,6 +218,7 @@ public class MonsterStatus : SubMono<MonsterController>
     {
        
         hp -= damage;
+        _board._monsterState.expCharacter = expCharacter;
 
       //  print(hp);
 

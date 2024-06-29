@@ -78,12 +78,12 @@ public class UI_SkillUISlot : UI_Entity
 
         _entities[(int)Enum_UI_SkillUISolt.SkillIcon].BeginDragAction = (PointerEventData data) =>
         {
-            if (skill.Level == 0)
+            if (skill.Level == 0 || skill.SkillType == Enum_SkillType.PassiveSkill)
             {
                 data.pointerEnter = null;
                 return;
             }
-
+        
             MoveSkillObject.gameObject.transform.SetParent(canvas);
             MoveSkillObject.transform.SetAsLastSibling();
             MoveSkillObject.gameObject.SetActive(true);
@@ -93,18 +93,17 @@ public class UI_SkillUISlot : UI_Entity
         };
         _entities[(int)Enum_UI_SkillUISolt.SkillIcon].DragAction = (PointerEventData data) =>
         {            
-            if (skill.Level == 0)
+            if (skill.Level == 0 || skill.SkillType == Enum_SkillType.PassiveSkill)
             {
                 data.pointerDrag = null;
                 return;
             }
-
             MoveSkillObject.gameObject.transform.position = data.position;        
 
         };
         _entities[(int)Enum_UI_SkillUISolt.SkillIcon].EndDragAction = (PointerEventData data) =>
         {
-            if (skill.Level == 0)
+            if (skill.Level == 0 || skill.SkillType == Enum_SkillType.PassiveSkill)
             {
                 data.pointerDrag = null;
                 return;

@@ -8,6 +8,7 @@ TagManager:
   - PassiveSkill
   - Monster
   - KeySlotSkill
+  - Npc
   layers:
   - Default
   - TransparentFX
@@ -20,11 +21,11 @@ TagManager:
   - CharacterEffect
   - EnemyEffect
   - Wall
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Obstacle
+  - MiniMapIcon
+  - MiniMap
+  - MiniMapPlayerEnemy
+  - Npc
   - 
   - 
   - 

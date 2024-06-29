@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Data/GoogleSheetsToCsv/TableFiles/ItemsEquipmentTable.csv.meta
+<<<<<<<< HEAD:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/ItemsEquipmentTable.csv.meta
+guid: 9596e88110041bd479687679bd2d8c27
+========
+guid: 26c12449dbc1b704788316cb4c0a2ed8
+>>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/Google.Apis.xml.meta
+=======
+guid: 8ad99e1d1c3e7d14dbaaa249e702ef47
+>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/ItemsEquipmentTable.csv.meta
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

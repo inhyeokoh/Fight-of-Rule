@@ -29,7 +29,7 @@ public class UI_InputName : UI_Entity
     {
         base.Init();
         _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
-        _instruction.text = "Up to 12 characters can be entered in Korean, English, and numbers.";
+        _instruction.text = "한글, 영문, 숫자 포함 12자까지 가능합니다.";
 
         foreach (var _subUI in _subUIs)
         {
@@ -58,9 +58,9 @@ public class UI_InputName : UI_Entity
             {*/
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
-            GameManager.Network.mainSession.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
-            /*            };*/            
-        };
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+/*        };*/
+    };
 
         _entities[(int)Enum_UI_InputName.Cancel].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.InputName);

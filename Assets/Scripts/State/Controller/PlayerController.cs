@@ -7,10 +7,10 @@ using UnityEngine.UI;
 
 public enum Enum_Class
 {
-    Default,
     Warrior,
+    Wizard,
     Archer,
-    Wizard
+    Default
 }
 
 //현재 플레이어의 메인보드 역할을 하는 클래스
@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public CharacterMovement _playerMovement;
     public CharacterEquipment _playerEquipment;
     public CharacterExternalStatus _playerExternalStat;
+    public CharacterCapability _playerCapability;
     public CharacterEventHandler _eventHandler;
     public CharacterAnimationController _animationController;
     public CharacterEffector _effector;
@@ -56,6 +57,8 @@ public class PlayerController : MonoBehaviour
 
     public Enum_Class _class;
 
+    float dialogDist = 5f;
+    Coroutine _moveTowardsNpcCoroutine;
 
     private void Awake()
     {
@@ -81,6 +84,7 @@ public class PlayerController : MonoBehaviour
                     _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
+                    _playerCapability = clone.GetComponent<CharacterCapability>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
@@ -96,6 +100,7 @@ public class PlayerController : MonoBehaviour
                     _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
+                    _playerCapability = clone.GetComponent<CharacterCapability>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
@@ -111,6 +116,7 @@ public class PlayerController : MonoBehaviour
                     _playerExternalStat = clone.GetComponent<CharacterExternalStatus>();
                     _playerEquipment = clone.GetComponent<CharacterEquipment>();
                     _playerMovement = clone.GetComponent<CharacterMovement>();
+                    _playerCapability = clone.GetComponent<CharacterCapability>();
                     _eventHandler = clone.GetComponent<CharacterEventHandler>();
                     _animationController = clone.GetComponent<CharacterAnimationController>();
                     _effector = clone.GetComponent<CharacterEffector>();
@@ -129,12 +135,15 @@ public class PlayerController : MonoBehaviour
             _playerExternalStat,
             _playerEquipment,
             _playerMovement,
+            _playerCapability,
             _eventHandler,
             _animationController,
             _effector,
             _interaction,
             _levelSystem
         };
+
+        SkillManager.Skill.PlayerData();
 
         for (int i = 0; i < _controller.Count; i++)
         {
@@ -143,7 +152,6 @@ public class PlayerController : MonoBehaviour
         }
 
         _playerState.StateAdd();
-        SkillManager.Skill.PlayerData();
     }
 
     private void Start()
@@ -201,33 +209,86 @@ public class PlayerController : MonoBehaviour
     {
         if (context.action.phase == InputActionPhase.Started)
         {
-
-            if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
-                _playerState.CharacterStates == Enum_CharacterState.Hit ||
-                _playerState.CharacterStates == Enum_CharacterState.Fall ||
-                _playerState.CharacterStates == Enum_CharacterState.Dead ||
-                _playerState.CharacterStates == Enum_CharacterState.Attack ||
-                _playerState.SkillUseCheck)
+            // 기존 코루틴이 실행 중이면 중지
+            if (_moveTowardsNpcCoroutine != null)
             {
-                if (Physics.Raycast(ray, out RaycastHit hi, 100, 1 << 6))
-                {                  
-                    test.position = hi.point;
-                    _playerMovement.TargetPosition = new Vector3(hi.point.x, _playerMovement.playerTransform.position.y,
-                    hi.point.z);
-                    return;
+                StopCoroutine(_moveTowardsNpcCoroutine);
+                _moveTowardsNpcCoroutine = null;
+            }
+
+            Ray rayR = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+            RaycastHit hit;
+
+            if (Physics.Raycast(rayR, out hit, 100, 1 << 15))
+            {
+                GameObject hitObject = hit.collider.gameObject;
+                if (hitObject.CompareTag("Npc"))
+                {
+                    float distanceToNpc = Vector3.Distance(hitObject.transform.position, _playerMovement.transform.position);
+                    // NPC와의 거리가 일정거리 이내일 때 대화 상자
+                    if (distanceToNpc < dialogDist)
+                    {
+                        GameManager.UI.Dialog.HandOverNpcID(hitObject.GetComponent<Npc>().NpcID);
+                        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
+                    }
+                    else
+                    {
+                        // NPC 방향으로 이동 후, 일정거리 도달 시 대화장자
+                        _moveTowardsNpcCoroutine = StartCoroutine(MoveTowardsNpc(hitObject, dialogDist));
+                    }
                 }
             }
-            if (Physics.Raycast(ray, out RaycastHit hit, 100, 1 << 6))
+            else
             {
-                test.position = hit.point;
-                _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
-                hit.point.z);
+                if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
+                    _playerState.CharacterStates == Enum_CharacterState.Hit ||
+                    _playerState.CharacterStates == Enum_CharacterState.Fall ||
+                    _playerState.CharacterStates == Enum_CharacterState.Dead ||
+                    _playerState.CharacterStates == Enum_CharacterState.Attack ||
+                    _playerState.SkillUseCheck)
+                {
+                    if (Physics.Raycast(ray, out hit, 100, 1 << 6))
+                    {                  
+                        test.position = hit.point;
+                        _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
+                        hit.point.z);
+                        return;
+                    }
+                }
+                if (Physics.Raycast(ray, out hit, 100, 1 << 6))
+                {
+                    test.position = hit.point;
+                    _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
+                    hit.point.z);
 
-                _playerState.ChangeState((int)Enum_CharacterState.Move);
+                    _playerState.ChangeState((int)Enum_CharacterState.Move);
 
+                }
             }
+
         }     
-    } 
+    }
+
+    IEnumerator MoveTowardsNpc(GameObject hitObject, float dialogDist)
+    {
+        Vector3 npcPosition = hitObject.transform.position;
+        // NPC와의 방향 벡터 계산
+        Vector3 direction = (npcPosition - _playerMovement.transform.position).normalized;
+        // NPC로부터 dialogDist만큼 떨어진 지점 계산
+        Vector3 targetPosition = npcPosition - direction * dialogDist;
+
+        while (Vector3.Distance(_playerMovement.transform.position, targetPosition) > 0.1f)
+        {
+            _playerMovement.TargetPosition = new Vector3(targetPosition.x, _playerMovement.playerTransform.position.y, targetPosition.z);
+            _playerState.ChangeState((int)Enum_CharacterState.Move);
+
+            // 플레이어가 목표 지점에 도달할 때까지 이동
+            yield return null;
+        }
+
+        GameManager.UI.Dialog.HandOverNpcID(hitObject.GetComponent<Npc>().NpcID);
+        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
+    }
 
     public void OnAvoid(InputAction.CallbackContext context)
     {
@@ -414,7 +475,6 @@ public class PlayerController : MonoBehaviour
     // 이벤트들에 정보들을 받기위한 메서드들
     public void DistributeState(int Event)
     {
-        print("작동됌");
         _playerState.ChangeState(Event);
     }
 

@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/ItemsETCTable.csv.meta
+guid: 33479e950978c224ab68c31dda98d499
+========
+guid: 387eb829b27860d42b89e0fa7e02a6aa
+>>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/Google.Apis.Sheets.v4.xml.meta
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -6,29 +6,29 @@ public class CharacterStatus : SubMono<PlayerController>
 {
 
     //데이터를 전달받는 캐릭터의 순수능력치
-    private int characterMaxHP;
-    private int characterMaxMP;
-    private int characterMaxEXP;
-    private int characterAttack;
-    private int characterAttackSpeed;
-    private int characterDefense;
-    private int characterSpeed;
+     int characterMaxHP;
+     int characterMaxMP;
+     int characterMaxEXP;
+     int characterAttack;
+     int characterAttackSpeed;
+     int characterDefense;
+     int characterSpeed;
 
-    private int hp;
-    private int mp;
-    private int exp;
-    private int level;
-    private int skillDamage;
+     int hp;
+     int mp;
+     int exp;
+     int level;
+     int skillDamage;
 
     //인게임상에 캐릭터 능력치
-    private int sumMaxHP;
-    private int sumMaxMP;
-    private int sumAttack;
-    private int sumAttackSpeed;
-    private int sumDefense;
-    private int sumSpeed;
+     int sumMaxHP;
+     int sumMaxMP;
+     int sumAttack;
+     int sumAttackSpeed;
+     int sumDefense;
+     int sumSpeed;
 
-    private int skillPoint;
+     int skillPoint;
 
     public int SkillPoint { get { return skillPoint; } set { skillPoint = value; } }
 
@@ -49,6 +49,8 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             level = value;
+            GameManager.UI.PlayerInfo.UpdateStatus();
+            GameManager.Quest.UpdateAvailableQuests();
         }
     }
     public int HP
@@ -70,7 +72,7 @@ public class CharacterStatus : SubMono<PlayerController>
             {
                 _board._playerState.Dead();
             }
-
+            GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
@@ -88,6 +90,7 @@ public class CharacterStatus : SubMono<PlayerController>
             {
                 mp = sumMaxMP; 
             }
+            GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
@@ -115,6 +118,7 @@ public class CharacterStatus : SubMono<PlayerController>
                     }
                 }
             }
+            GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
@@ -127,9 +131,9 @@ public class CharacterStatus : SubMono<PlayerController>
     public int MaxHP { get { return characterMaxHP; } set { characterMaxHP = value; } }
     public int MaxMP { get { return characterMaxMP; } set { characterMaxMP = value; } }
 
-    public int SumMaxHP { get { return sumMaxHP; } set { sumMaxHP = value; } }
+    public int SumMaxHP { get { return sumMaxHP; } set { sumMaxHP = value; GameManager.UI.PlayerInfo.UpdateStatus(); } }
 
-    public int SumMaxMP { get { return sumMaxMP; } set { sumMaxMP = value; } }
+    public int SumMaxMP { get { return sumMaxMP; } set { sumMaxMP = value; GameManager.UI.PlayerInfo.UpdateStatus(); } }
     public int SkillDamage
     {
         get
@@ -153,6 +157,7 @@ public class CharacterStatus : SubMono<PlayerController>
         {
             sumAttack = value;
             SkillManager.Skill.SkillDamageUpdate();
+            GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
@@ -165,6 +170,7 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             sumDefense = value;
+            GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
@@ -177,6 +183,7 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             sumSpeed = value;
+            GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
@@ -190,6 +197,7 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             sumAttackSpeed = value;
+            GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
@@ -234,38 +242,25 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        level = 1;
-        characterMaxHP = 50;
-        characterMaxMP = 50;
-        characterMaxEXP = 100;
+        Level = GameManager.Data.CurrentCharacter.Stat.Level;
+        characterMaxHP = GameManager.Data.CurrentCharacter.Stat.MaxHP;
+        characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;
+        characterMaxEXP = GameManager.Data.CurrentCharacter.Stat.MaxEXP;
 
-        hp = 20;
-        mp = 50;
-        exp = 0;
-        characterAttack = 5;
-        characterAttackSpeed = 1;
-        characterDefense = 3;
-        characterSpeed = 10;
-      
+        hp = GameManager.Data.CurrentCharacter.Stat.Hp;
+        mp = GameManager.Data.CurrentCharacter.Stat.Mp;
+        exp = GameManager.Data.CurrentCharacter.Stat.Exp;
+        characterAttack = GameManager.Data.CurrentCharacter.Stat.Attack;
+        characterAttackSpeed = GameManager.Data.CurrentCharacter.Stat.AttackSpeed;
+        characterDefense = GameManager.Data.CurrentCharacter.Stat.Defense;
+        characterSpeed = GameManager.Data.CurrentCharacter.Stat.Speed;
+
         sumMaxHP = characterMaxHP;
         sumMaxMP = characterMaxMP;
         sumAttack = characterAttack;
         sumAttackSpeed = characterAttackSpeed;
         sumDefense = characterDefense;
         sumSpeed = characterSpeed;
-
-
-/*        maxHP = GameManager.Data.character.maxHP;
-        maxMP = GameManager.Data.character.maxMP;
-        maxEXP = GameManager.Data.character.maxEXP;
-
-        hp = GameManager.Data.character.hp;
-        mp = GameManager.Data.character.mp;
-        exp = GameManager.Data.character.exp;
-        attack = GameManager.Data.character.attack;
-        defense = GameManager.Data.character.defense;
-        speed = GameManager.Data.character.speed;
-        level = GameManager.Data.character.level;*/
     }
 
     protected override void _Excute()

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Data/GoogleSheetsToCsv/TableFiles/MonsterItemTable.csv.meta
+<<<<<<<< HEAD:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/MonsterItemTable.csv.meta
+guid: d8bfa11b0d45d69429088f5f78b2916f
+========
+guid: 4dddc9e4a70ee3444bbaff214551aa00
+>>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/Google.Apis.Core.xml.meta
+=======
+guid: de4484d983a4edc41970e102823db082
+>>>>>>> 83cf19334e24d191eb2f0120063cb4ab7af156f0:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/MonsterItemTable.csv.meta
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

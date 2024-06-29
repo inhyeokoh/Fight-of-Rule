@@ -1,23 +1,55 @@
+//#define INGAMETEST
+//#define INVENTEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
+using Google.Protobuf;
 
 public class DataManager : SubClass<GameManager>
 {
-    // DataManager 안에 선언해야 접근하기 용이함
-    public LoginData login; // 로그인 정보
-    public CharData[] characters; // 캐릭터 생성 정보
-    public SettingsData setting; // 환경설정 정보
+    // 환경설정 정보
+    public VOL_OPTIONS volOptions;
 
+    // 캐릭터 정보
+    public CHARACTER_INFO[] characters;
+    int selectedSlotNum = 0;
+    public int SelectedSlotNum
+    {
+        get { return selectedSlotNum; }
+        set { selectedSlotNum = value; CurrentCharacter = characters[selectedSlotNum]; }
+    }
+
+    public CHARACTER_INFO CurrentCharacter { get; set; }
+
+    // 어딘가엔 들고 있어야함
+    /*    public long CharId { get; set; }
+        string charName;
+        public string CharName
+        {
+            get { return charName; }
+            set { charName = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+        }
+        int job;
+        public int Job
+        {
+            get { return job; }
+            set { job = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+        }
+        bool gender;
+        public bool Gender
+        {
+            get { return gender; }
+            set { gender = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+        }
+        Vector3 pos;*/
 
     /// <summary>
     /// 아이템 데이터
     /// </summary>
-    public  Dictionary<string, int> DropItems = new Dictionary<string, int>();
-    public  Dictionary<int, ItemData> itemDatas = new Dictionary<int, ItemData>();
+    public Dictionary<string, int> DropItems = new Dictionary<string, int>();
+    public Dictionary<int, ItemData> itemDatas = new Dictionary<int, ItemData>();
     /////////////////////////////////////////////////////////////////////////////////////
 
 
@@ -26,6 +58,7 @@ public class DataManager : SubClass<GameManager>
     /// </summary>
     List<MonsterData> monstersData = new List<MonsterData>();
     Dictionary<int, MonsterData> monsterDatas = new Dictionary<int, MonsterData>();
+    public Dictionary<string, int> monsterNameToID = new Dictionary<string, int>();
 
     Dictionary<int, MonsterItemDropData> monsterItemDrops = new Dictionary<int, MonsterItemDropData>();
     /////////////////////////////////////////////////////////////////////////////////////
@@ -45,10 +78,19 @@ public class DataManager : SubClass<GameManager>
     public List<WarriorSkillData> warriorSkillData = new List<WarriorSkillData>();
     /////////////////////////////////////////////////////////////////////////////////////
 
-    public int selectedSlotNum;
+    /// <summary>
+    /// 퀘스트 데이터
+    /// </summary>
+    public Dictionary<int, QuestData> questDict = new Dictionary<int, QuestData>();
+    /////////////////////////////////////////////////////////////////////////////////////
 
-    string path;
-    public string fileName;
+    /// <summary>
+    /// NPC 데이터
+    /// </summary>
+    public Dictionary<int, Npc> npcDict = new Dictionary<int, Npc>();
+    /////////////////////////////////////////////////////////////////////////////////////
+
+    string tableFolderPath;
 
     protected override void _Clear()
     {
@@ -62,68 +104,59 @@ public class DataManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-        login = new LoginData();
-        setting = new SettingsData();
-        characters = new CharData[4];
-        selectedSlotNum = 0;
+        volOptions = new VOL_OPTIONS();
+        characters = new CHARACTER_INFO[4];
+#if INVENTEST || INGAMETEST
+        CurrentCharacter = new CHARACTER_INFO();
+        CurrentCharacter.BaseInfo = new CHARACTER_BASE();
+        CurrentCharacter.BaseInfo.CharacterId = 0;
+        CurrentCharacter.BaseInfo.Nickname = ByteString.CopyFrom("HelloWorld", System.Text.Encoding.Unicode);
+        CurrentCharacter.BaseInfo.Job = 0;
+        CurrentCharacter.BaseInfo.Gender = true;
 
-        // 유니티 기본 설정 경로. PC나 모바일 등등 어디든 프로젝트 이름으로 된 폴더 생김
-        path = Application.persistentDataPath + "/";
+        CurrentCharacter.Stat = new CHARACTER_STATUS();
+        CurrentCharacter.Stat.Level = 1;
+        CurrentCharacter.Stat.MaxHP = 100;
+        CurrentCharacter.Stat.Hp = 100;
+        CurrentCharacter.Stat.MaxMP = 100;
+        CurrentCharacter.Stat.Mp = 100;
+        CurrentCharacter.Stat.MaxEXP = 100;
+        CurrentCharacter.Stat.Exp = 0;
+        CurrentCharacter.Stat.Attack = 5;
+        CurrentCharacter.Stat.AttackSpeed = 1;
+        CurrentCharacter.Stat.Defense = 3;
+        CurrentCharacter.Stat.Speed = 10;
 
+        CurrentCharacter.Xyz = new CHARACTER_POS();
+        CurrentCharacter.Xyz.X = 0;
+        CurrentCharacter.Xyz.Y = 0;
+        CurrentCharacter.Xyz.Z = 0;
+
+        volOptions.MasterVol = 0.7f;
+        volOptions.BgmVol = 0.6f;
+        volOptions.EffectVol = 0.5f;
+        volOptions.VoiceVol = 0.5f;
+#endif
+
+        tableFolderPath = "Data/SheetsToCsv/bin/Debug/TableFiles/";
         DBDataLoad();
-        LoadAllSavedData();
     }
-
-    // 저장할 파일 이름과 저장할 클래스를 입력 받아 JSON 형식의 문자열로 바꾼 후, 로컬에 저장
-    public void SaveData(string fileName, Data info)
-    {
-        string data = JsonUtility.ToJson(info);
-        File.WriteAllText(path + fileName, data);
-    }
-
-    public void SaveData(string fileName, Data[] info)
-    {
-        string data = JsonUtility.ToJson(info);
-        File.WriteAllText(path + fileName, data); // 이건 로컬에 저장. 추후 서버로
-    }
-
-    public string LoadData(string fileName)
-    {
-        string data = File.ReadAllText(path + fileName);      
-        return data;
-    }
-
-    public bool CheckData(string fileName)
-    {
-        if (File.Exists(path + fileName))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    void LoadAllSavedData()
-    {
-        if (GameManager.Data.CheckData("LoginData")) // 로그인 기록이 있으면 만들어둔 슬롯 갯수가 있을것이므로 불러옴
-        {
-            login = JsonUtility.FromJson<LoginData>(GameManager.Data.LoadData("LoginData"));
-        }
-    }
-
 
     void DBDataLoad()
     {
-        ItemDataParsing();
-        MonstersDBReader();
-        LevelReaderData("Data/WarriorLevelDB");
-        SkillDBParsing("Data/SkillWarriorDB");
+        ItemTableParsing();
+        SkillTableParsing("WarriorSkillTable");
+        MonstersTableParsing();
+        LevelTableParsing("WarriorLevelTable");
+        QuestTableParsing("QuestTable");
+        NpcTableParsing("NpcTable");
     }
 
-    private void ItemDataParsing()
+    private void ItemTableParsing()
     {
-        List<Dictionary<string, string>> consumptionData = CSVReader.Read("Data/ItemsConsumptionItemDB");
-        List<Dictionary<string, string>> equipmentData = CSVReader.Read("Data/ItemsEquipmentDB");
-        List<Dictionary<string, string>> etcData = CSVReader.Read("Data/ItemsETCDB");
+        List<Dictionary<string, string>> consumptionData = CSVReader.Read($"{tableFolderPath}ItemsConsumptionItemTable");
+        List<Dictionary<string, string>> equipmentData = CSVReader.Read($"{tableFolderPath}ItemsEquipmentTable");
+        List<Dictionary<string, string>> etcData = CSVReader.Read($"{ tableFolderPath}ItemsETCTable");
 
 
         for (int i = 0; i < consumptionData.Count; i++)
@@ -133,7 +166,7 @@ public class DataManager : SubClass<GameManager>
             int item_id = int.Parse(consumptionData[i]["item_id"]);
             string item_name = consumptionData[i]["item_name"];
             string item_desc = consumptionData[i]["item_desc"];
-            Sprite item_icon = null;
+            Sprite item_icon = GameManager.Resources.Load<Sprite>(consumptionData[i]["item_icon"]);
 
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), consumptionData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), consumptionData[i]["item_grade"]);
@@ -152,11 +185,13 @@ public class DataManager : SubClass<GameManager>
             int item_maxhp = int.Parse(consumptionData[i]["item_maxhp"]);
             int item_maxmp = int.Parse(consumptionData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(consumptionData[i]["item_maxcount"]);
+            bool item_durationbool = bool.Parse(consumptionData[i]["item_durationbool"]);
+            float item_duration = float.Parse(consumptionData[i]["item_duration"]);
 
 
 
             ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_detailtype, item_purchaseprice, item_sellingprice, item_level,
-                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount);
+                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_durationbool, item_duration);
 
             DropItems.Add(item_name, item_id);
             itemDatas.Add(item_id, ItemData);
@@ -169,7 +204,7 @@ public class DataManager : SubClass<GameManager>
             int item_id = int.Parse(equipmentData[i]["item_id"]);
             string item_name = equipmentData[i]["item_name"];
             string item_desc = equipmentData[i]["item_desc"];
-            Sprite item_icon = null;
+            Sprite item_icon = GameManager.Resources.Load<Sprite>(equipmentData[i]["item_icon"]);
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), equipmentData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), equipmentData[i]["item_grade"]);
             Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), equipmentData[i]["item_type"]);
@@ -188,9 +223,11 @@ public class DataManager : SubClass<GameManager>
             int item_maxmp = int.Parse(equipmentData[i]["item_maxmp"]);
             int item_maxcount = int.Parse(equipmentData[i]["item_maxcount"]);
             int item_maxreinforcement = int.Parse(equipmentData[i]["item_maxreinforcement"]);
+            bool item_durationbool = bool.Parse(equipmentData[i]["item_durationbool"]);
+            float item_duration = float.Parse(equipmentData[i]["item_duration"]);
 
             ItemData = new EquipmentItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_equipmenttype, item_purchaseprice, item_sellingprice, item_level,
-             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_maxreinforcement);
+             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_maxreinforcement, item_durationbool, item_duration);
 
             DropItems.Add(item_name, item_id);
             itemDatas.Add(item_id, ItemData);
@@ -204,7 +241,7 @@ public class DataManager : SubClass<GameManager>
             int etcItem_id = int.Parse(etcData[i]["item_id"]);
             string etcItem_name = etcData[i]["item_name"];
             string etcItem_desc = etcData[i]["item_desc"];
-            Sprite etcItem_icon = null;
+            Sprite etcItem_icon = GameManager.Resources.Load<Sprite>(etcData[i]["item_icon"]);
             Enum_Grade etcItem_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), etcData[i]["item_grade"]);
             Enum_ItemType etcItem_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), etcData[i]["item_type"]);
             long etcItem_purchaseprice = long.Parse(etcData[i]["item_purchaseprice"]);
@@ -230,7 +267,7 @@ public class DataManager : SubClass<GameManager>
 
             itemDataPasing = new EquipmentItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
                 itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
-                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement);
+                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement, itemData.durationBool, itemData.duration);
 
             return itemDataPasing;
         }
@@ -243,7 +280,7 @@ public class DataManager : SubClass<GameManager>
 
             itemDataPasing = new StateItemData(secondItemData.id, secondItemData.name, secondItemData.desc, secondItemData.icon, secondItemData.itemClass, secondItemData.itemGrade, secondItemData.itemType,
                 secondItemData.detailType, secondItemData.purchaseprice, secondItemData.sellingprice, secondItemData.level, secondItemData.attack, secondItemData.defense, secondItemData.speed, secondItemData.attackSpeed
-                , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.maxCount);
+                , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.maxCount, secondItemData.durationBool, secondItemData.duration);
 
             return itemDataPasing;
         }
@@ -277,10 +314,10 @@ public class DataManager : SubClass<GameManager>
         return null;
     }
 
-    private void MonstersDBReader()
+    private void MonstersTableParsing()
     {
-        List<Dictionary<string, string>> data = CSVReader.Read("Data/MonstersDB");
-        List<Dictionary<string, string>> dropData = CSVReader.Read("Data/MonsterItemDropDB");
+        List<Dictionary<string, string>> data = CSVReader.Read($"{tableFolderPath}MonsterTable");
+        List<Dictionary<string, string>> dropData = CSVReader.Read($"{tableFolderPath}MonsterItemTable");
 
         for (int i = 0; i < data.Count; i++)
         {
@@ -312,6 +349,7 @@ public class DataManager : SubClass<GameManager>
 
             monstersData.Add(monsterData);
             monsterDatas.Add(monster_id, monsterData);
+            monsterNameToID.Add(monster_name, monster_id); // 이름-아이디 사전 추가
         }
 
         for (int i = 0; i < dropData.Count; i++)
@@ -343,9 +381,9 @@ public class DataManager : SubClass<GameManager>
         return monster;
     }
 
-    private void LevelReaderData(string characterClass)
+    private void LevelTableParsing(string characterClass)
     {
-        List<Dictionary<string, string>> levelDatas = CSVReader.Read(characterClass);
+        List<Dictionary<string, string>> levelDatas = CSVReader.Read(tableFolderPath + characterClass);
 
         for (int i = 0; i < levelDatas.Count; i++)
         {
@@ -391,36 +429,108 @@ public class DataManager : SubClass<GameManager>
         return currentLevelData;
     }
 
-    public void SkillDBParsing(string skillDB)
+    public void SkillTableParsing(string fileName)
     {
-        List<Dictionary<string, string>> skill = CSVReader.Read(skillDB);
+        List<Dictionary<string, string>> skill = CSVReader.Read(tableFolderPath + fileName);
 
         for (int i = 0; i < skill.Count; i++)
         {
             WarriorSkillData warrirSkill;
 
             int id = int.Parse(skill[i]["skill_id"]);
+            string skillType = skill[i]["skill_type"];
             string name = skill[i]["skill_name"];
             string desc = skill[i]["skill_desc"];
             string iconString = skill[i]["skill_icon"];
+            float[] duration = Check<float>("skill_duration", i, skill);
 
             //print(Resources.Load(iconString).name);
             Sprite icon = Resources.Load<Sprite>(iconString);
 
-            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]); ;
+            WarriorSkill skillNumber = (WarriorSkill)Enum.Parse(typeof(WarriorSkill), skill[i]["skill_number"]);
             int skillMaxLevel = int.Parse(skill[i]["skill_maxlevel"]);
 
-            int[] skillLevelCondition = Array.ConvertAll(skill[i]["skill_levelcondition"].Split(","), int.Parse);
-            int[] skillPoint = Array.ConvertAll(skill[i]["skill_point"].Split(","), int.Parse);
-            int[] skillMP = Array.ConvertAll(skill[i]["skill_mp"].Split(","), int.Parse);
-            float[] skillCool = Array.ConvertAll(skill[i]["skill_cool"].Split(","), float.Parse);
-            int[] skillDamage = Array.ConvertAll(skill[i]["skill_damage"].Split(","), int.Parse);
+            int[] skillLevelCondition = Check<int>("skill_levelcondition", i, skill);
+            int[] skillPoint = Check<int>("skill_point", i, skill);
+            int[] skillMaxHP = Check<int>("skill_maxhp", i, skill);
+            int[] skillMaxMP = Check<int>("skill_maxmp", i, skill);
+            int[] skillAttack = Check<int>("skill_attack", i, skill);
+            int[] skillDefnse = Check<int>("skill_defense", i, skill);
+            int[] skillSpeed = Check<int>("skill_speed", i, skill);
+            int[] skillAttackSpeed = Check<int>("skill_attackspeed", i, skill);
+            int[] skillMP = Check<int>("skill_mp", i, skill);
+            float[] skillCool = Check<float>("skill_cool", i, skill);
+            int[] skillDamage = Check<int>("skill_damage", i, skill);
 
-            warrirSkill = new WarriorSkillData(id, name, desc, icon, skillNumber, skillMaxLevel, skillLevelCondition, skillPoint, skillMP, skillCool, skillDamage);
+
+            warrirSkill = new WarriorSkillData(id, skillType, name, desc, icon, skillNumber, duration, skillMaxLevel, skillLevelCondition, skillPoint, skillMaxHP, skillMaxMP, skillAttack, skillDefnse, skillSpeed, skillAttackSpeed, skillMP, skillCool, skillDamage);
 
 
             warriorSkillData.Add(warrirSkill);
         }
     }
 
+    public void QuestTableParsing(string fileName)
+    {
+        List<Dictionary<string, string>> quest = CSVReader.Read(tableFolderPath + fileName);
+
+        for (int i = 0; i < quest.Count; i++)
+        {
+            QuestData questData;
+
+            int questID = int.Parse(quest[i]["questID"]);
+            string name = quest[i]["title"];
+            int[] npcID = Array.ConvertAll(quest[i]["npcID"].Split(","), int.Parse);
+            Enum_QuestType questType = (Enum_QuestType)Enum.Parse(typeof(Enum_QuestType), quest[i]["questType"]);
+            string[] desc = quest[i]["desc"].Split("/");
+            string summary = quest[i]["summary"];
+            string[] congratulation = quest[i]["congratulation"].Split("/");
+            int requiredLevel = int.Parse(quest[i]["requiredLevel"]);
+            int? previousQuestID = int.TryParse(quest[i]["previousQuestID"], out int tempPreviousQuestID) ? tempPreviousQuestID : null;
+            string questObj = quest[i]["questObj"];
+            int questObjRequiredCount = int.Parse(quest[i]["questObjRequiredCount"]);
+            string questMonster = quest[i]["questMonster"];
+            int questMonsterRequiredCount = int.Parse(quest[i]["questMonsterRequiredCount"]);
+            int expReward = int.Parse(quest[i]["expReward"]);
+            long goldReward = int.Parse(quest[i]["goldReward"]);
+            string itemReward = quest[i]["itemReward"];
+
+            questData = new QuestData(questID, name, npcID, questType, desc, summary, congratulation, requiredLevel, previousQuestID, questObj, questObjRequiredCount, questMonster, questMonsterRequiredCount,
+                expReward, goldReward, itemReward);
+
+            questDict.Add(questID, questData);
+        }
+    }
+
+    public void NpcTableParsing(string fileName)
+    {
+        GameObject[] npcArray = GameObject.FindGameObjectsWithTag("Npc");
+        foreach (GameObject npcObj in npcArray)
+        {
+            Npc npc = npcObj.GetComponent<Npc>();
+            if (npc != null)
+            {
+                npcDict.Add(npc.NpcID, npc);
+            }
+        }
+    }
+
+    public T[] Check<T>(string dataName, int index, List<Dictionary<string, string>> skill)
+    {
+        if (skill[index][dataName] == "null")
+        {
+            return null;
+        }
+
+        string[] data = skill[index][dataName].Split(",");
+        T[] array = new T[data.Length];
+
+        for (int i = 0; i < array.Length; i++)
+        {
+            array[i] = (T)Convert.ChangeType(data[i], typeof(T));
+        }
+
+        return array;
+
+    }
 }
