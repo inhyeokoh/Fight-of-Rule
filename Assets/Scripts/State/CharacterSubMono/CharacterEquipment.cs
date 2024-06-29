@@ -55,7 +55,7 @@ public class CharacterEquipment : SubMono<PlayerController>
     /// 장비를 끼면 껴져있는지 체크하는 메서드
     /// </summary>
     /// <param name="equipment"></param>
-    public bool EquipmentCheck(StateItemData equipment, out int equipType)
+    public bool EquipmentCheck(EquipmentItemData equipment, out int equipType)
     {
         bool pass = false;
 
@@ -265,12 +265,12 @@ public class CharacterEquipment : SubMono<PlayerController>
     /// </summary>
     /// <param name="change"></param>
 
-    public bool Change(StateItemData change,out int equipType)
+    public bool Change(EquipmentItemData change,out int equipType)
 
     {
         switch (change.detailType)
         {
-            case Enum_DetailType.Weapon:
+            case Enum_EquipmentDetailType.Weapon:
                 if (_board._class != change.itemClass /*|| _board._playerStat.Level < change.StateItemData.level*/)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
@@ -300,7 +300,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 break;
 
 
-            case Enum_DetailType.Head:
+            case Enum_EquipmentDetailType.Head:
                 if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
@@ -329,7 +329,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 equipType = 0;
                 break;
 
-            case Enum_DetailType.Body:
+            case Enum_EquipmentDetailType.Body:
                 if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
@@ -359,7 +359,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 equipType = 1;
                 break;
 
-            case Enum_DetailType.Hand:
+            case Enum_EquipmentDetailType.Hand:
                 if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");
@@ -390,7 +390,7 @@ public class CharacterEquipment : SubMono<PlayerController>
                 equipType = 2;
                 break;
 
-            case Enum_DetailType.Foot:
+            case Enum_EquipmentDetailType.Foot:
                 if (_board._class != change.itemClass || _board._playerStat.Level < change.level)
                 {
                     Debug.Log("이 장비는 낄수 없습니다.");

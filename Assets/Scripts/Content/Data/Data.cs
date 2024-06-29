@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
 
 public class Data
 {
@@ -13,13 +9,40 @@ public class EquipmentItemData : StateItemData
 {
     public int maxReinforcement;
     public int currentReinforcement;
+    public Enum_EquipmentDetailType detailType;
+    public Enum_Class itemClass;
 
-    public EquipmentItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
-        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, int maxReinforcement, bool durationBool, float duration, int count = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemClass,  itemGrade,  itemType,  detailType,  purchaseprice,  sellingprice,  level,  attack,  defense
+    public EquipmentItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_EquipmentDetailType detailType,long sellingprice, int level, int attack, int defense
+        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxReinforcement, bool durationBool, float duration, int count = 1, int maxCount = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemGrade,  itemType,  sellingprice,  level,  attack,  defense
         ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, durationBool,duration, count )
     {
+        this.itemClass = itemClass;
         this.maxReinforcement = maxReinforcement;
         this.currentReinforcement = currentReinforcement;
+        this.detailType = detailType;
+    }
+
+    public override int GetIntType()
+    {
+        return (int)detailType;
+    }
+
+}
+
+public class ConsumptionItemData : StateItemData
+{
+    public Enum_ConsumptionDetailType detailType;
+
+    public ConsumptionItemData(int id, string name, string desc, Sprite icon, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_ConsumptionDetailType detailType, long sellingprice, int level, int attack, int defense
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, bool durationBool, float duration, int maxCount, int count = 1) : base(id, name, desc, icon,itemGrade, itemType, sellingprice, level, attack, defense
+        , speed, attackSpeed, hp, mp, exp, maxHp, maxMp, maxCount, durationBool, duration, count)
+    {
+        this.detailType = detailType;
+    }
+
+    public override int GetIntType()
+    {
+        return (int)detailType;
     }
 }
 
@@ -27,8 +50,6 @@ public class EquipmentItemData : StateItemData
 [System.Serializable]
 public class StateItemData : ItemData
 {
-    public Enum_Class itemClass;
-    public Enum_DetailType detailType;
     public int level;
     public int attack;
     public int defense;
@@ -42,11 +63,9 @@ public class StateItemData : ItemData
     public bool durationBool;
     public float duration;
 
-    public StateItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_DetailType detailType, long purchaseprice, long sellingprice, int level, int attack, int defense
-        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, bool durationBool,float duration, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, purchaseprice, sellingprice, maxCount, count)
-    {
-        this.itemClass = itemClass;   
-        this.detailType = detailType;      
+    public StateItemData(int id, string name, string desc, Sprite icon,  Enum_Grade itemGrade, Enum_ItemType itemType, long sellingprice, int level, int attack, int defense
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, bool durationBool,float duration, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, sellingprice, maxCount, count)
+    {           
         this.level = level;
         this.attack = attack;
         this.defense = defense;
@@ -73,13 +92,12 @@ public class ItemData : Data
     public string desc;
     public Sprite icon;
     public Enum_ItemType itemType;
-    public Enum_Grade itemGrade;
-    public long purchaseprice;
+    public Enum_Grade itemGrade; 
     public long sellingprice;
     public int maxCount;
     public int count;
     public int slotNum;
-    public ItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_Grade itemGrade, long purchaseprice, long sellingprice, int maxCount, int count = 1, int slotNum = -1)
+    public ItemData(int id, string name, string desc, Sprite icon, Enum_ItemType itemType, Enum_Grade itemGrade, long sellingprice, int maxCount, int count = 1, int slotNum = -1)
     {
         this.id = id;
         this.name = name;
@@ -87,7 +105,6 @@ public class ItemData : Data
         this.icon = icon;
         this.itemType = itemType;
         this.itemGrade = itemGrade;
-        this.purchaseprice = purchaseprice;
         this.sellingprice = sellingprice;
         this.maxCount = maxCount;
         this.count = count;
@@ -101,12 +118,16 @@ public class ItemData : Data
         this.desc = item.desc;
         this.icon = item.icon;
         this.itemType = item.itemType;
-        this.itemGrade = item.itemGrade;
-        this.purchaseprice = item.purchaseprice;
+        this.itemGrade = item.itemGrade;   
         this.sellingprice = item.sellingprice;
         this.maxCount = item.maxCount;
         this.count = count;
         this.slotNum = item.slotNum;
+    }
+
+    public virtual int GetIntType()
+    {
+        return -1;
     }
 }
 
@@ -200,15 +221,13 @@ public class MonsterData : Data
     public int monster_speed;
     public float monster_detectdistance;
     public float monster_attackdistance;
-    public int[] monster_stateitem;
-    public int[] moinster_etcitem;
-    public int monster_mingold;
-    public int monster_maxgold;
-
+   /* public int[] monster_stateitem;
+    public int[] moinster_etcitem;*/
+ 
     public MonsterData(int monster_id, string monster_object, string monster_name, Enum_MonsterType monster_type, int monster_level,
         int monster_exp, int monster_maxhp, int monster_maxmp, int monster_attack, float monster_attackspeed, float monster_delay, 
-        float monster_abliltydelay, int monster_defense, int monster_speed, float monster_detectdistance, float monster_attackdistance, 
-        int[] monster_stateitem, int[] moinster_etcitem, int monster_mingold, int monster_maxgold)
+        float monster_abliltydelay, int monster_defense, int monster_speed, float monster_detectdistance, float monster_attackdistance/*, 
+        int[] monster_stateitem, int[] moinster_etcitem*/)
     {
         this.monster_id = monster_id;
         this.monster_object = monster_object;
@@ -226,10 +245,8 @@ public class MonsterData : Data
         this.monster_speed = monster_speed;
         this.monster_detectdistance = monster_detectdistance;
         this.monster_attackdistance = monster_attackdistance;
-        this.monster_stateitem = monster_stateitem;
-        this.moinster_etcitem = moinster_etcitem;
-        this.monster_mingold = monster_mingold;
-        this.monster_maxgold = monster_maxgold;
+        /*this.monster_stateitem = monster_stateitem;
+        this.moinster_etcitem = moinster_etcitem;*/
     }
 }
 

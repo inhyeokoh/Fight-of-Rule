@@ -26,6 +26,10 @@ public class CameraMovement : MonoBehaviour
 
     private void Update()
     {
+        if (target == null)
+        {
+            return;
+        }
         if (zoomLvl == 1)
         {
             Vector3 desiredPosition =

@@ -3,18 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum Enum_DetailType
+//아이템 상세 타입
+public enum Enum_EquipmentDetailType
 {
-    Default,
     Weapon,
     Head,
     Body,
     Hand,
     Foot,
-    Potion,
+}
+public enum Enum_ConsumptionDetailType
+{ 
+    Potion = 5,
     Box
 }
 
+// 아이템 등급 
 public enum Enum_Grade
 {
     Normal,
@@ -24,6 +28,7 @@ public enum Enum_Grade
     Legendary,
 }
   
+// 아이템 타입
 public enum Enum_ItemType  
 {    
     Equipment, 

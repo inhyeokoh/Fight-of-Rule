@@ -1,4 +1,4 @@
-#define SERVER
+//#define SERVER
 //#define INVENTEST
 using System.Collections;
 using System.Collections.Generic;
@@ -31,10 +31,6 @@ public class UI_Manage : MonoBehaviour
         GameManager.UI.ConnectPlayerInput();
         GameManager.Inven.ConnectInvenUI();
 #elif SERVER
-        if (scene.name == "Create")
-        {
-            GameManager.Sound.SoundChanage("추억의 길");
-        }
         if (scene.name == "StatePattern")
         {
             GameManager.UI.ManageOutGamePopups(false);

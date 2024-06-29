@@ -49,7 +49,7 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             level = value;
-            GameManager.UI.PlayerInfo.UpdateStatus();
+            //GameManager.UI.PlayerInfo.UpdateStatus();
             GameManager.Quest.UpdateAvailableQuests();
         }
     }
@@ -197,7 +197,7 @@ public class CharacterStatus : SubMono<PlayerController>
         set
         {
             sumAttackSpeed = value;
-            GameManager.UI.PlayerInfo.UpdateStatus();
+          //  GameManager.UI.PlayerInfo.UpdateStatus();
         }
     }
 
