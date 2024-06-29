@@ -1,4 +1,4 @@
-//#define INGAMETEST
+#define INGAMETEST
 //#define INVENTEST
 using System;
 using System.Collections;
@@ -161,18 +161,15 @@ public class DataManager : SubClass<GameManager>
 
         for (int i = 0; i < consumptionData.Count; i++)
         {
-            StateItemData ItemData;
+            ConsumptionItemData ItemData;
 
             int item_id = int.Parse(consumptionData[i]["item_id"]);
             string item_name = consumptionData[i]["item_name"];
             string item_desc = consumptionData[i]["item_desc"];
             Sprite item_icon = GameManager.Resources.Load<Sprite>(consumptionData[i]["item_icon"]);
 
-            Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), consumptionData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), consumptionData[i]["item_grade"]);
-            Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), consumptionData[i]["item_type"]);
-            Enum_DetailType item_detailtype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), consumptionData[i]["item_detailtype"]);
-            long item_purchaseprice = long.Parse(consumptionData[i]["item_purchaseprice"]);
+            Enum_ConsumptionDetailType item_detailtype = (Enum_ConsumptionDetailType)Enum.Parse(typeof(Enum_ConsumptionDetailType), consumptionData[i]["item_detailtype"]);           
             long item_sellingprice = long.Parse(consumptionData[i]["item_sellingprice"]);
             int item_level = int.Parse(consumptionData[i]["item_level"]);
             int item_attack = int.Parse(consumptionData[i]["item_attack"]);
@@ -190,8 +187,8 @@ public class DataManager : SubClass<GameManager>
 
 
 
-            ItemData = new StateItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_detailtype, item_purchaseprice, item_sellingprice, item_level,
-                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_durationbool, item_duration);
+            ItemData = new ConsumptionItemData(item_id, item_name, item_desc, item_icon, item_grade, Enum_ItemType.Consumption, item_detailtype, item_sellingprice, item_level,
+                item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_durationbool, item_duration, item_maxcount);
 
             DropItems.Add(item_name, item_id);
             itemDatas.Add(item_id, ItemData);
@@ -207,9 +204,7 @@ public class DataManager : SubClass<GameManager>
             Sprite item_icon = GameManager.Resources.Load<Sprite>(equipmentData[i]["item_icon"]);
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), equipmentData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), equipmentData[i]["item_grade"]);
-            Enum_ItemType item_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), equipmentData[i]["item_type"]);
-            Enum_DetailType item_equipmenttype = (Enum_DetailType)Enum.Parse(typeof(Enum_DetailType), equipmentData[i]["item_detailtype"]);
-            long item_purchaseprice = long.Parse(equipmentData[i]["item_purchaseprice"]);
+            Enum_EquipmentDetailType item_equipmenttype = (Enum_EquipmentDetailType)Enum.Parse(typeof(Enum_EquipmentDetailType), equipmentData[i]["item_detailtype"]);   
             long item_sellingprice = long.Parse(equipmentData[i]["item_sellingprice"]);
             int item_level = int.Parse(equipmentData[i]["item_level"]);
             int item_attack = int.Parse(equipmentData[i]["item_attack"]);
@@ -221,13 +216,12 @@ public class DataManager : SubClass<GameManager>
             int item_exp = int.Parse(equipmentData[i]["item_exp"]);
             int item_maxhp = int.Parse(equipmentData[i]["item_maxhp"]);
             int item_maxmp = int.Parse(equipmentData[i]["item_maxmp"]);
-            int item_maxcount = int.Parse(equipmentData[i]["item_maxcount"]);
             int item_maxreinforcement = int.Parse(equipmentData[i]["item_maxreinforcement"]);
             bool item_durationbool = bool.Parse(equipmentData[i]["item_durationbool"]);
             float item_duration = float.Parse(equipmentData[i]["item_duration"]);
 
-            ItemData = new EquipmentItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, item_type, item_equipmenttype, item_purchaseprice, item_sellingprice, item_level,
-             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxcount, item_maxreinforcement, item_durationbool, item_duration);
+            ItemData = new EquipmentItemData(item_id, item_name, item_desc, item_icon, item_class, item_grade, Enum_ItemType.Equipment, item_equipmenttype, item_sellingprice, item_level,
+             item_attack, item_defense, item_speed, item_attackspeed, item_hp, item_mp, item_exp, item_maxhp, item_maxmp, item_maxreinforcement, item_durationbool, item_duration);
 
             DropItems.Add(item_name, item_id);
             itemDatas.Add(item_id, ItemData);
@@ -242,13 +236,11 @@ public class DataManager : SubClass<GameManager>
             string etcItem_name = etcData[i]["item_name"];
             string etcItem_desc = etcData[i]["item_desc"];
             Sprite etcItem_icon = GameManager.Resources.Load<Sprite>(etcData[i]["item_icon"]);
-            Enum_Grade etcItem_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), etcData[i]["item_grade"]);
-            Enum_ItemType etcItem_type = (Enum_ItemType)Enum.Parse(typeof(Enum_ItemType), etcData[i]["item_type"]);
-            long etcItem_purchaseprice = long.Parse(etcData[i]["item_purchaseprice"]);
+            Enum_Grade etcItem_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), etcData[i]["item_grade"]);     
             long etcItem_sellingprice = long.Parse(etcData[i]["item_sellingprice"]);
             int etcItem_maxcount = int.Parse(etcData[i]["item_maxcount"]);
 
-            ItemData = new ItemData(etcItem_id, etcItem_name, etcItem_desc, etcItem_icon, etcItem_type, etcItem_grade, etcItem_purchaseprice, etcItem_sellingprice,
+            ItemData = new ItemData(etcItem_id, etcItem_name, etcItem_desc, etcItem_icon, Enum_ItemType.ETC, etcItem_grade, etcItem_sellingprice,
                 etcItem_maxcount);
 
 
@@ -266,21 +258,21 @@ public class DataManager : SubClass<GameManager>
             EquipmentItemData itemDataPasing;
 
             itemDataPasing = new EquipmentItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
-                itemData.detailType, itemData.purchaseprice, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
-                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxCount, itemData.maxReinforcement, itemData.durationBool, itemData.duration);
+                itemData.detailType,  itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
+                , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxReinforcement, itemData.durationBool, itemData.duration);
 
             return itemDataPasing;
         }
 
-        StateItemData secondItemData = itemDatas[item_id] as StateItemData;
+        ConsumptionItemData secondItemData = itemDatas[item_id] as ConsumptionItemData;
 
         if (secondItemData != null)
         {
-            StateItemData itemDataPasing;
+            ConsumptionItemData itemDataPasing;
 
-            itemDataPasing = new StateItemData(secondItemData.id, secondItemData.name, secondItemData.desc, secondItemData.icon, secondItemData.itemClass, secondItemData.itemGrade, secondItemData.itemType,
-                secondItemData.detailType, secondItemData.purchaseprice, secondItemData.sellingprice, secondItemData.level, secondItemData.attack, secondItemData.defense, secondItemData.speed, secondItemData.attackSpeed
-                , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.maxCount, secondItemData.durationBool, secondItemData.duration);
+            itemDataPasing = new ConsumptionItemData(secondItemData.id, secondItemData.name, secondItemData.desc, secondItemData.icon, secondItemData.itemGrade, secondItemData.itemType,secondItemData.detailType,
+              secondItemData.sellingprice, secondItemData.level, secondItemData.attack, secondItemData.defense, secondItemData.speed, secondItemData.attackSpeed
+                , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.durationBool, secondItemData.duration, secondItemData.maxCount);
 
             return itemDataPasing;
         }
@@ -288,7 +280,7 @@ public class DataManager : SubClass<GameManager>
         {
             ItemData itemDataPasing;
             itemDataPasing = new ItemData(itemDatas[item_id].id, itemDatas[item_id].name, itemDatas[item_id].desc, itemDatas[item_id].icon, itemDatas[item_id].itemType,
-                itemDatas[item_id].itemGrade, itemDatas[item_id].purchaseprice, itemDatas[item_id].sellingprice, itemDatas[item_id].maxCount);
+                itemDatas[item_id].itemGrade, itemDatas[item_id].sellingprice, itemDatas[item_id].maxCount);
 
             return itemDataPasing;
         }
@@ -339,13 +331,11 @@ public class DataManager : SubClass<GameManager>
             int monster_speed = int.Parse(data[i]["monster_speed"]);
             float monster_detectdistance = float.Parse(data[i]["monster_detectdistance"]);
             float monster_attackdistance = float.Parse(data[i]["monster_attackdistance"]);
-            int[] monster_stateitem = Array.ConvertAll(data[i]["monster_stateitem"].Split(","), int.Parse);
-            int[] moinster_etcitem = Array.ConvertAll(data[i]["moinster_etcitem"].Split(","), int.Parse);
-            int monster_mingold = int.Parse(data[i]["monster_mingold"]);
-            int monster_maxgold = int.Parse(data[i]["monster_maxgold"]);
+           /* int[] monster_stateitem = Array.ConvertAll(data[i]["monster_stateitem"].Split(","), int.Parse);
+            int[] moinster_etcitem = Array.ConvertAll(data[i]["moinster_etcitem"].Split(","), int.Parse);*/
 
             monsterData = new MonsterData(monster_id, monster_object, monster_name, monster_type, monster_level, monster_exp, monster_maxhp, monster_maxmp, monster_attack, monster_attackspeed, monster_delay,
-                monster_abliltydelay, monster_defense, monster_speed, monster_detectdistance, monster_attackdistance, monster_stateitem, moinster_etcitem, monster_mingold, monster_maxgold);
+                monster_abliltydelay, monster_defense, monster_speed, monster_detectdistance, monster_attackdistance/*, monster_stateitem, moinster_etcitem*/);
 
             monstersData.Add(monsterData);
             monsterDatas.Add(monster_id, monsterData);

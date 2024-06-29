@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PoolManager : SubClass<GameManager>
 {
+
     protected override void _Clear()
     {
         if (_root == null)

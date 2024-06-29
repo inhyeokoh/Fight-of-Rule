@@ -156,7 +156,32 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        
+       /* camera = Camera.main;
+
+        _controller = new List<SubMono<PlayerController>>
+        {
+            _playerStat,
+            _playerState,
+            _playerExternalStat,
+            _playerEquipment,
+            _playerMovement,
+            _playerCapability,
+            _eventHandler,
+            _animationController,
+            _effector,
+            _interaction,
+            _levelSystem
+        };
+
+        SkillManager.Skill.PlayerData();
+
+        for (int i = 0; i < _controller.Count; i++)
+        {
+            _controller[i].Mount(this);
+            _controller[i].Init();
+        }
+
+        _playerState.StateAdd();*/
     }
 
     // 현재 상태패턴 그리고 장비 상태패턴 호출
