@@ -1,5 +1,5 @@
-//#define SERVER
-#define CLIENT_TEST
+#define SERVER
+//#define CLIENT_TEST
 using System;
 using TMPro;
 using UnityEngine;

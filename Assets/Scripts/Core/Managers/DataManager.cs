@@ -1,6 +1,6 @@
-//#define SERVER
-#define CLIENT_TEST_PROPIM
-#define CLIENT_TEST_HYEOK
+#define SERVER
+//#define CLIENT_TEST_PROPIM
+//#define CLIENT_TEST_HYEOK
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -119,6 +119,7 @@ public class DataManager : SubClass<GameManager>
         DBDataLoad();
 #if SERVER
 #elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
+        NpcTableParsing("NpcTable");
         CurrentCharacter = new CHARACTER_INFO();
         CurrentCharacter.BaseInfo = new CHARACTER_BASE();
         CurrentCharacter.BaseInfo.CharacterId = 0;
@@ -158,7 +159,6 @@ public class DataManager : SubClass<GameManager>
         MonstersTableParsing();
         LevelTableParsing("WarriorLevelTable");
         QuestTableParsing("QuestTable");
-        NpcTableParsing("NpcTable");
         ShopTableParsing("ShopTable");
     }
 
