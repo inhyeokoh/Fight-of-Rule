@@ -35,7 +35,7 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     public virtual void EscAction() { GameManager.UI.ClosePopup(this); }
 
     int curInputFieldIndex;
-    protected List<TMP_InputField> inputFields = new List<TMP_InputField>();
+    protected List<TMP_InputField> inputFields;
     public void TabAction()
     {
         if (inputFields.Count == 0) return;
@@ -133,10 +133,6 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
                     if (!_entities.ContainsKey(str))  // 키가 이미 존재하는지 확인
                     {                        
                         _entities.Add(str, uientity);
-                        if (uientity.UIType == typeof(TMP_InputField))
-                        {
-                            inputFields.Add(uientity.gameObject.GetComponent<TMP_InputField>());
-                        }
                     }
                     break;
                 }

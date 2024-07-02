@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Google.Protobuf;
+using System.Collections.Generic;
 
 public class UI_InputName : UI_Entity
 {
@@ -27,6 +28,11 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
+
+        inputFields = new List<TMP_InputField>();
+        TMP_InputField inputField = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>();
+        inputFields.Add(inputField);
+
         TMP_Text _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
         _instruction.text = "한글, 영문, 숫자 포함 2 ~ 12자로 입력하세요.";
 

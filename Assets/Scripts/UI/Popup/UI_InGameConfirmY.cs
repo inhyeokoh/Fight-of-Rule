@@ -38,7 +38,7 @@ public class UI_InGameConfirmY : UI_Entity
     private void OnDisable()
     {
         GameManager.UI.UseBlocker(false);
-        GameManager.UI.PointerOnUI(false);
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
     }
 
     protected override Type GetUINamesAsType()
@@ -57,12 +57,12 @@ public class UI_InGameConfirmY : UI_Entity
             // UI위에 커서가 있을 시 캐릭터 행동 제약
             _subUI.PointerEnterAction = (PointerEventData data) =>
             {
-                GameManager.UI.PointerOnUI(true);
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, true);
             };
 
             _subUI.PointerExitAction = (PointerEventData data) =>
             {
-                GameManager.UI.PointerOnUI(false);
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
             };
         }
 

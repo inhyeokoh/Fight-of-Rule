@@ -29,10 +29,10 @@ public class UI_ShopRepurchase : UI_Entity
         _UpdateSlotUIs();        
     }
 
-    private void OnDisable()
+/*    private void OnDisable()
     {
         GameManager.UI.PointerOnUI(false);
-    }
+    }*/
 
     protected override void Init()
     {

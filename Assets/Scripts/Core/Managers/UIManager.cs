@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : SubClass<GameManager>
 {
     PlayerInput pi;
+    InputActionMap playerActionMap;
     InputAction moveAction;
     InputAction fireAction;
 
@@ -33,8 +34,16 @@ public class UIManager : SubClass<GameManager>
     int blockerCount = 0;
     public bool init;
 
-    // 실시간 팝업 관리
     public LinkedList<UI_Entity> _activePopupList;
+    public enum Enum_ControlInputAction
+    {
+        None, // 제어 X
+        BlockMouseClick, // 좌클릭, 우클릭 제어
+        BlockPlayerInput // ActionMap 중 "Player" 하위 Actions 전체 제어
+    }
+    Enum_ControlInputAction _currentInputActionControl = Enum_ControlInputAction.None;
+
+    // 활성화된 팝업 관리
 
     protected override void _Clear()
     {
@@ -111,6 +120,7 @@ public class UIManager : SubClass<GameManager>
     public void ConnectPlayerInput()
     {
         pi = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
+        playerActionMap = pi.actions.FindActionMap("Player");
         moveAction = pi.currentActionMap.FindAction("Move");
         fireAction = pi.currentActionMap.FindAction("Fire");
     }
@@ -224,6 +234,57 @@ public class UIManager : SubClass<GameManager>
         {
             moveAction.Enable();
             fireAction.Enable();
+        }
+    }
+
+    /// <summary>
+    /// InputAction 제어 메서드
+    /// </summary>
+    /// <param name="blockType"> 일부 행동 제어, ActionMap 전체 제어 구분 </param>
+    /// <param name="block"> true = block </param>
+    public void BlockPlayerActions(Enum_ControlInputAction blockType, bool block)
+    {
+        switch (blockType)
+        {
+            case Enum_ControlInputAction.BlockMouseClick:
+                _SetActionState(moveAction, block);
+                _SetActionState(fireAction, block);
+                break;
+            case Enum_ControlInputAction.BlockPlayerInput:
+                _SetActionMap(playerActionMap, block);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void _SetActionState(InputAction action, bool state)
+    {
+        if (_currentInputActionControl == Enum_ControlInputAction.BlockPlayerInput) return; // 전체 제어중이면 return
+
+        if (state)
+        {
+            action.Disable();
+            _currentInputActionControl = Enum_ControlInputAction.BlockMouseClick;
+        }
+        else
+        {
+            action.Enable();
+            _currentInputActionControl = Enum_ControlInputAction.None;
+        }
+    }
+
+    void _SetActionMap(InputActionMap actionMap, bool state)
+    {
+        if (state)
+        {
+            actionMap.Disable();
+            _currentInputActionControl = Enum_ControlInputAction.BlockPlayerInput;
+        }
+        else
+        {
+            actionMap.Enable();
+            _currentInputActionControl = Enum_ControlInputAction.None;
         }
     }
 }

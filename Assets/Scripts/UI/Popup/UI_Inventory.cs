@@ -65,7 +65,7 @@ public class UI_Inventory : UI_Entity
 
     private void OnDisable()
     {
-        GameManager.UI.PointerOnUI(false); // 포인터가 UI위에 있던 채로 UI가 닫히면 걸었던 행동 제어가 안 꺼지므로 OnDisable에서 꺼줘야함
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false); // 포인터가 UI위에 있던 채로 UI가 닫히면 걸었던 행동 제어가 안 꺼지므로 OnDisable에서 꺼줘야함
         RemoveCursorOnEffectAtItemSlot();
     }
 
@@ -104,12 +104,12 @@ public class UI_Inventory : UI_Entity
             // UI위에 커서 있을 시 캐릭터 행동 제약
             _subUI.PointerEnterAction = (PointerEventData data) =>
             {
-                GameManager.UI.PointerOnUI(true);
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, true);
             };
 
             _subUI.PointerExitAction = (PointerEventData data) =>
             {
-                GameManager.UI.PointerOnUI(false);
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
             };
         }
 

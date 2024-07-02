@@ -75,10 +75,9 @@ public class UI_Shop : UI_Entity
             };
 
             // UI위에 커서 있을 시 캐릭터 행동 제약
-            _subUI.PointerEnterAction = (PointerEventData data) =>
+/*            _subUI.PointerEnterAction = (PointerEventData data) =>
             {
-                GameManager.UI.PointerOnUI(true);
-            };
+            };*/
 
 /*            _subUI.PointerExitAction = (PointerEventData data) =>
             {

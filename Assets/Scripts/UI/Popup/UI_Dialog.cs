@@ -51,7 +51,7 @@ public class UI_Dialog : UI_Entity
     {
         if (!GameManager.UI.init) return;
 
-        GameManager.UI.PointerOnUI(true);
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, true);
         nextButton.SetActive(false);
         acceptButton.SetActive(false);
         cameraFollow = GameObject.FindWithTag("vCam").GetComponent<CameraFollow>();
@@ -86,10 +86,8 @@ public class UI_Dialog : UI_Entity
                 canComplete.gameObject.SetActive(false);
                 available.gameObject.SetActive(false);
                 ongoing.gameObject.SetActive(false);
-                GameManager.UI.PointerOnUI(false);
                 break;
             case Enum_NpcType.Shop:
-                GameManager.UI.PointerOnUI(false);
                 break;
             default:
 #if UNITY_EDITOR
@@ -98,6 +96,7 @@ public class UI_Dialog : UI_Entity
                 break;
         }
 
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
         if (cameraFollow != null)
         {
             cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.Default;

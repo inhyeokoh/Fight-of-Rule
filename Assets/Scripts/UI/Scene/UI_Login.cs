@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -16,9 +17,6 @@ public class UI_Login : UI_Entity
         Quit
     }
 
-    TMP_InputField idField;
-    TMP_InputField pwField;
-
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_Logins);
@@ -28,7 +26,11 @@ public class UI_Login : UI_Entity
     {
         base.Init();
 
-        //idField = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>();
+        inputFields = new List<TMP_InputField>();
+        TMP_InputField IDField = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>();
+        TMP_InputField PWField = _entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>();
+        inputFields.Add(IDField);
+        inputFields.Add(PWField);
 
         _entities[(int)Enum_UI_Logins.SignUp].ClickAction = (PointerEventData data) => {
             GameManager.UI.OpenOrClose(GameManager.UI.SignUp);
@@ -40,8 +42,7 @@ public class UI_Login : UI_Entity
             login_ask_pkt.LoginId = _entities[(int)Enum_UI_Logins.IDField].GetComponent<TMP_InputField>().text;
             login_ask_pkt.LoginPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256(_entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text), encoding:"ascii");
 
-            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt)); 
-
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
 #elif CLIENT_TEST_TITLE
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
