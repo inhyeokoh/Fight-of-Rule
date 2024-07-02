@@ -396,11 +396,10 @@ public class InventoryManager : SubClass<GameManager>
             int rightItem = right.GetIntType();
 
             if (leftItem < rightItem) return true;
-            if (leftItem > rightItem) return true;
+            if (leftItem > rightItem) return false;
         }
-        if (left.id < right.id) return true;
-        if (left.id > right.id) return false;
-        return true;
+        if (left.id <= right.id) return true;
+        else return false;
     }
 
     void _CombineQuantities(List<ItemData> itemList)

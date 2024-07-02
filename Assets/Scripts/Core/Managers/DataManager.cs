@@ -400,7 +400,7 @@ public class DataManager : SubClass<GameManager>
 
             switch (characterClass)
             {
-                case "Data/WarriorLevelDB":
+                case "WarriorLevelTable":
                     warriorLevelDatas.Add(level, levelData);
                     break;
             }

@@ -1,5 +1,5 @@
-#define SERVER
-//#define CLIENT_TEST
+//#define SERVER
+#define CLIENT_TEST_FROM_TITLE
 using System;
 using TMPro;
 using UnityEngine;
@@ -44,7 +44,7 @@ public class UI_Login : UI_Entity
 
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt)); 
 
-#elif CLIENT_TEST
+#elif CLIENT_TEST_FROM_TITLE
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
                 var loadAsync = SceneManager.LoadSceneAsync("Create");

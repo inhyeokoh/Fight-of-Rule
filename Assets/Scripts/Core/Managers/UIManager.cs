@@ -1,6 +1,6 @@
 //#define SERVER
 #define CLIENT_TEST_FROM_TITLE
-#define CLIENT_TEST
+//#define CLIENT_TEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;

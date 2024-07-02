@@ -129,6 +129,7 @@ public class PacketHandlerImpl : MonoBehaviour
 
     internal static bool Handle_S_INGAME(Session session, S_INGAME message)
     {
+        Debug.Log($"인게임 데이터 수신 성공 여부 {message.Success}");
         if (message.Success == false)
         {
             return false;
@@ -136,7 +137,15 @@ public class PacketHandlerImpl : MonoBehaviour
 
         Debug.Log(message.Inventory.InvenSize);
         Debug.Log(message.Inventory.EquipItems.Count);
+        for (int i = 0; i < message.Inventory.EquipItems.Count; i++)
+        {
+            Debug.Log($"{message.Inventory.EquipItems[i].UniqueId} {message.Inventory.EquipItems[i].EquipItemData.StateitemData.ItemData.Id}");
+        }
         Debug.Log(message.Inventory.ConsumItems.Count);
+        for (int i = 0; i < message.Inventory.ConsumItems.Count; i++)
+        {
+            Debug.Log($"{message.Inventory.ConsumItems[i].UniqueId} {message.Inventory.ConsumItems[i].ConsumeItemData.StateitemData.ItemData.Id}");
+        }
         Debug.Log(message.Inventory.EtcItems.Count);
 
         return true;
