@@ -127,30 +127,6 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_INGAME(Session session, S_INGAME message)
-    {
-        Debug.Log($"인게임 데이터 수신 성공 여부 {message.Success}");
-        if (message.Success == false)
-        {
-            return false;
-        }
-
-        Debug.Log(message.Inventory.InvenSize);
-        Debug.Log(message.Inventory.EquipItems.Count);
-        for (int i = 0; i < message.Inventory.EquipItems.Count; i++)
-        {
-            Debug.Log($"{message.Inventory.EquipItems[i].UniqueId} {message.Inventory.EquipItems[i].EquipItemData.StateitemData.ItemData.Id}");
-        }
-        Debug.Log(message.Inventory.ConsumItems.Count);
-        for (int i = 0; i < message.Inventory.ConsumItems.Count; i++)
-        {
-            Debug.Log($"{message.Inventory.ConsumItems[i].UniqueId} {message.Inventory.ConsumItems[i].ConsumeItemData.StateitemData.ItemData.Id}");
-        }
-        Debug.Log(message.Inventory.EtcItems.Count);
-
-        return true;
-    }
-
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
         // 생성 불가
@@ -194,7 +170,6 @@ public class PacketHandlerImpl : MonoBehaviour
         }
 
         // 캐릭터 생성 가능 시
-        Debug.Log(message.Character.BaseInfo.CharacterClass);
         GameManager.Data.characters[GameManager.Data.SelectedSlotNum] = message.Character;
         GameManager.ThreadPool.UniAsyncJob(() =>
         {
@@ -244,6 +219,30 @@ public class PacketHandlerImpl : MonoBehaviour
         GameManager.Data.volOptions.BgmVolOn = message.SettingsOptions.VolOptions.BgmVolOn;
         GameManager.Data.volOptions.EffectVolOn = message.SettingsOptions.VolOptions.EffectVolOn;
         GameManager.Data.volOptions.VoiceVolOn = message.SettingsOptions.VolOptions.VoiceVolOn;
+
+        return true;
+    }
+
+    internal static bool Handle_S_INGAME(Session session, S_INGAME message)
+    {
+        Debug.Log($"인게임 데이터 수신 성공 여부 {message.Success}");
+        if (message.Success == false)
+        {
+            return false;
+        }
+
+        Debug.Log(message.Inventory.InvenSize);
+        Debug.Log(message.Inventory.EquipItems.Count);
+        for (int i = 0; i < message.Inventory.EquipItems.Count; i++)
+        {
+            Debug.Log($"{message.Inventory.EquipItems[i].UniqueId} {message.Inventory.EquipItems[i].EquipItemData.StateitemData.ItemData.Id}");
+        }
+        Debug.Log(message.Inventory.ConsumItems.Count);
+        for (int i = 0; i < message.Inventory.ConsumItems.Count; i++)
+        {
+            Debug.Log($"{message.Inventory.ConsumItems[i].UniqueId} {message.Inventory.ConsumItems[i].ConsumeItemData.StateitemData.ItemData.Id}");
+        }
+        Debug.Log(message.Inventory.EtcItems.Count);
 
         return true;
     }

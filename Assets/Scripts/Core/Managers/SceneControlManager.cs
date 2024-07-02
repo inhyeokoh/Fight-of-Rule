@@ -1,6 +1,3 @@
-//#define SERVER
-#define CLIENT_TEST_FROM_TITLE
-//#define CLIENT_TEST
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,7 +30,7 @@ public class SceneControlManager : SubClass<GameManager>
     protected override void _Init()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-#if SERVER || CLIENT_TEST_FROM_TITLE
+#if SERVER || CLIENT_TEST_TITLE
         GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.Title);
 #endif
     }
@@ -47,20 +44,19 @@ public class SceneControlManager : SubClass<GameManager>
         {
             GameManager.UI.OpenPopup(GameManager.UI.Login);
         }
-#if CLIENT_TEST_FROM_TITLE // 서버 연결된 상태에서 로그인 성공 시, 씬 이동전에 팝업 닫는 기능을 대체
+#if CLIENT_TEST_TITLE // 서버 연결된 상태에서 로그인 성공 시, 씬 이동전에 팝업 닫는 기능을 대체
         else if (scene.name == Enum.GetName(typeof(Enum_Scenes), 1) || scene.name == Enum.GetName(typeof(Enum_Scenes), 2))
         {
             GameManager.UI.ClosePopup(GameManager.UI.Login);
         }
 #endif
-#if SERVER || CLIENT_TEST_FROM_TITLE
+#if SERVER || CLIENT_TEST_TITLE
         else if (scene.name == Enum.GetName(typeof(Enum_Scenes), 3))
         {
             GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.StatePattern);
             GameManager.UI.ConnectPlayerInput();
             GameManager.Inven.ConnectInven();
         }
-#elif CLIENT_TEST
 #endif
     }
 

@@ -1,5 +1,3 @@
-#define SERVER
-//#define CLIENT_TEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,8 +62,8 @@ public class InventoryManager : SubClass<GameManager>
     {
         items = new List<ItemData>(new ItemData[TotalSlotCount]);
         equips = new List<ItemData>(new ItemData[EquipSlotCount]);
-#if SERVER
-#elif CLIENT_TEST
+#if SERVER || CLIENT_TEST_TITLE
+#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         ConnectInven();
 #endif
     }

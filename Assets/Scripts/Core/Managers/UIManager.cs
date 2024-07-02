@@ -1,6 +1,3 @@
-//#define SERVER
-#define CLIENT_TEST_FROM_TITLE
-//#define CLIENT_TEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -53,11 +50,9 @@ public class UIManager : SubClass<GameManager>
         // Cursor.lockState = CursorLockMode.Confined;
         _activePopupList = new LinkedList<UI_Entity>();
         popupCanvas = GameObject.Find("PopupCanvas");
-#if SERVER
+#if SERVER || CLIENT_TEST_TITLE
         Object.DontDestroyOnLoad(popupCanvas);
-#elif CLIENT_TEST_FROM_TITLE
-        Object.DontDestroyOnLoad(popupCanvas);
-#elif CLIENT_TEST
+#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         ConnectPlayerInput();
         GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력 기능들을 수행할 수 있는 프리팹 생성
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
@@ -93,11 +88,11 @@ public class UIManager : SubClass<GameManager>
                 BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).GetComponent<UI_BlockAll>();
                 break;
             case Enum_PopupSetJunction.StatePattern:
-                popupCanvas = GameObject.Find("PopupCanvas");
                 // 기존 OutGamePopup 전부 삭제
                 for (int i = 0; i < popupCanvas.transform.childCount; i++)
                 {
-                    if (Settings) continue; // 환경설정 팝업 제외
+                    if (popupCanvas.transform.GetChild(i).gameObject.name == "Settings") continue; // 환경설정 팝업 제외
+
                     GameManager.Resources.Destroy(popupCanvas.transform.GetChild(i).gameObject);
                 }
                 Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();

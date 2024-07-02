@@ -1,5 +1,3 @@
-//#define SERVER
-#define CLIENT_TEST_FROM_TITLE
 using System;
 using TMPro;
 using UnityEngine;
@@ -44,10 +42,10 @@ public class UI_Login : UI_Entity
 
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt)); 
 
-#elif CLIENT_TEST_FROM_TITLE
+#elif CLIENT_TEST_TITLE
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
-                var loadAsync = SceneManager.LoadSceneAsync("Create");
+                var loadAsync = SceneManager.LoadSceneAsync("Select");
                 GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
             });
 #endif

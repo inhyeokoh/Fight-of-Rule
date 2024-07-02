@@ -1,6 +1,3 @@
-#define SERVER
-//#define CLIENT_TEST_PROPIM
-//#define CLIENT_TEST_HYEOK
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -117,7 +114,7 @@ public class DataManager : SubClass<GameManager>
 
         tableFolderPath = "Data/SheetsToCSV/bin/Debug/TableFiles/";
         DBDataLoad();
-#if SERVER
+#if SERVER || CLIENT_TEST_TITLE
 #elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         NpcTableParsing("NpcTable");
         CurrentCharacter = new CHARACTER_INFO();

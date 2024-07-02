@@ -28,7 +28,7 @@ public class UI_InputName : UI_Entity
     {
         base.Init();
         TMP_Text _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
-        _instruction.text = "한글, 영문, 숫자 포함 12자까지 가능합니다.";
+        _instruction.text = "한글, 영문, 숫자 포함 2 ~ 12자로 입력하세요.";
 
 /*        _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { ClickAccept(); });*/
 
@@ -58,9 +58,16 @@ public class UI_InputName : UI_Entity
             }
             else
             {
+#if SERVER
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
                 GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+#elif CLIENT_TEST_TITLE
+                GameManager.Data.CurrentCharacter.BaseInfo.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
+                childPopups.Add(GameManager.UI.ConfirmYN);
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
+                GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDecidingNickName);      
+#endif
             };
         };
 

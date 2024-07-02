@@ -36,14 +36,19 @@ public class UI_CharacterSelect : UI_Entity
         };
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
+#if SERVER
             if (GameManager.Data.CurrentCharacter == null) return;
 
             C_INGAME load_ingame_pkt = new C_INGAME();
             load_ingame_pkt.CharacterId = GameManager.Data.CurrentCharacter.BaseInfo.CharacterId;
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(load_ingame_pkt));
-            Debug.Log(load_ingame_pkt.CharacterId);
 
             UI_Loading.LoadScene("StatePattern");
+#elif CLIENT_TEST_TITLE
+            if (GameManager.Data.CurrentCharacter == null) return;
+
+            UI_Loading.LoadScene("StatePattern");
+#endif
         };
 
         // 캐릭터 삭제
