@@ -55,8 +55,7 @@ public class DataManager : SubClass<GameManager>
     /// 몬스터 데이터
     /// </summary>
     List<MonsterData> monstersData = new List<MonsterData>();
-    Dictionary<int, MonsterData> monsterDatas = new Dictionary<int, MonsterData>();
-    public Dictionary<string, int> monsterNameToID = new Dictionary<string, int>();
+    public Dictionary<int, MonsterData> monsterDatas = new Dictionary<int, MonsterData>();
 
     Dictionary<int, MonsterItemDropData> monsterItemDrops = new Dictionary<int, MonsterItemDropData>();
     /////////////////////////////////////////////////////////////////////////////////////
@@ -346,7 +345,6 @@ public class DataManager : SubClass<GameManager>
 
             monstersData.Add(monsterData);
             monsterDatas.Add(monster_id, monsterData);
-            monsterNameToID.Add(monster_name, monster_id); // 이름-아이디 사전 추가
         }
 
         for (int i = 0; i < dropData.Count; i++)
@@ -485,16 +483,16 @@ public class DataManager : SubClass<GameManager>
             string[] completeText = quest[i]["complete_text"].Split("/");
             int requiredLevel = int.Parse(quest[i]["required_level"]);
             int? nextQuestID = int.TryParse(quest[i]["next_quest_id"], out int tempNextQuestID) ? tempNextQuestID : null;
-            string[] questObj = String.IsNullOrEmpty(quest[i]["quest_obj"]) ? null : quest[i]["quest_obj"].Split(",");
+            int[] questObj = String.IsNullOrEmpty(quest[i]["quest_obj"]) ? null : Array.ConvertAll(quest[i]["quest_obj"].Split(","), int.Parse);
             int[] questObjRequiredCount = String.IsNullOrEmpty(quest[i]["quest_obj_required_count"]) ? null : Array.ConvertAll(quest[i]["quest_obj_required_count"].Split(","), int.Parse);
-            string[] questMonster = String.IsNullOrEmpty(quest[i]["quest_monster"]) ? null : quest[i]["quest_monster"].Split(",");
+            int[] questMonster = String.IsNullOrEmpty(quest[i]["quest_monster"]) ? null : Array.ConvertAll(quest[i]["quest_monster"].Split(","), int.Parse);
             int[] questMonsterRequiredCount = String.IsNullOrEmpty(quest[i]["quest_monster_required_count"]) ? null : Array.ConvertAll(quest[i]["quest_monster_required_count"].Split(","), int.Parse);
-            int expReward = int.Parse(quest[i]["exp_reward"]);
-            long goldReward = int.Parse(quest[i]["gold_reward"]);
-            string itemReward = quest[i]["item_reward"];
+            int expReward = String.IsNullOrEmpty(quest[i]["exp_reward"]) ? -1 : int.Parse(quest[i]["exp_reward"]);
+            long goldReward = String.IsNullOrEmpty(quest[i]["gold_reward"]) ? -1L : int.Parse(quest[i]["gold_reward"]);
+            int[] itemRewardIDs = String.IsNullOrEmpty(quest[i]["item_reward_id"]) ? null : Array.ConvertAll(quest[i]["item_reward_id"].Split(","), int.Parse);
+            int[] itemRewardCounts = String.IsNullOrEmpty(quest[i]["item_reward_count"]) ? null : Array.ConvertAll(quest[i]["item_reward_count"].Split(","), int.Parse);
 
             List<QuestGoal> goals = new List<QuestGoal>();
-
             if (questObj != null)
             {
                 for (int j = 0; j < questObj.Length; j++)
@@ -514,8 +512,19 @@ public class DataManager : SubClass<GameManager>
                 }
             }
 
+            List<ItemData> itemRewards = new List<ItemData>();
+            if (itemRewardIDs != null)
+            {
+                for (int j = 0; j < itemRewardIDs.Length; j++)
+                {
+                    ItemData item = GameManager.Data.StateItemDataReader(itemRewardIDs[j]);
+                    item.count = itemRewardCounts[j];
+                    itemRewards.Add(item);
+                }
+            }
+
             questData = new QuestData(questID, title, npcID, questType, conversationText, summaryText, ongoingText, completeText, requiredLevel, nextQuestID, goals,
-                expReward, goldReward, itemReward);
+                expReward, goldReward, itemRewards);
 
             questDict.Add(questID, questData);
         }

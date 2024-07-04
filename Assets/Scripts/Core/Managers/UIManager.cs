@@ -25,6 +25,7 @@ public class UIManager : SubClass<GameManager>
     public UI_InGameConfirmYN InGameConfirmYN;
     public UI_InGameConfirmY InGameConfirmY;
     public UI_Dialog Dialog;
+    public UI_QuestComplete QuestComplete;
     public UI_StatusWindow StatusWindow;
     //public GameObject SkillWindow;
     public UI_InGameMain InGameMain;
@@ -71,6 +72,7 @@ public class UIManager : SubClass<GameManager>
         InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
         InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
         Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
+        QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
 #endif
         init = true;
     }
@@ -110,6 +112,8 @@ public class UIManager : SubClass<GameManager>
                 Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
                 InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
                 InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
+                Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
+                QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
                 // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
                 break;
             default:

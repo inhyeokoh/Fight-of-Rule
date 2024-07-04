@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
+using System.Collections;
 
 public class UI_Dialog : UI_Entity
 {
@@ -34,8 +35,8 @@ public class UI_Dialog : UI_Entity
 
     enum Enum_UI_Dialog
     {
-        Panel,
         QuestPanel,
+        DialogPanel,
         MainText,
         Next,
         Accept,
@@ -62,7 +63,6 @@ public class UI_Dialog : UI_Entity
         {
             case Enum_NpcType.Quest:
                 _ShowQuests();
-                dialogCount = 0;
                 break;
             case Enum_NpcType.Shop:
                 GameManager.UI.Shop.shopPurchase.DrawSellingItems(_npcID);
@@ -142,10 +142,11 @@ public class UI_Dialog : UI_Entity
         };
 
         _entities[(int)Enum_UI_Dialog.Cancel].ClickAction = (PointerEventData data) => {
-            GameManager.UI.ClosePopup(GameManager.UI.Dialog);
             switch (_npcType)
             {
                 case Enum_NpcType.Quest:
+                    // 퀘스트나 보상 팝업 닫아줘야함
+                    GameManager.UI.ClosePopup(GameManager.UI.QuestComplete);
                     break;
                 case Enum_NpcType.Shop:
                     GameManager.UI.ClosePopup(GameManager.UI.Shop);
@@ -156,6 +157,7 @@ public class UI_Dialog : UI_Entity
 #endif
                     break;
             }
+            GameManager.UI.ClosePopup(GameManager.UI.Dialog);
         };
 
         gameObject.SetActive(false);
@@ -169,6 +171,7 @@ public class UI_Dialog : UI_Entity
 
     void _ShowQuests()
     {
+        dialogCount = 0;
         accessibleQuests = new List<Quest>();
         foreach (var quest in GameManager.Quest.questsByNpcID[_npcID])
         {
@@ -210,7 +213,7 @@ public class UI_Dialog : UI_Entity
                     toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", canComplete.transform.GetChild(1).transform);
                     toggle.GetComponent<Toggle>().group = toggleGroup;
                     toggle.transform.GetChild(0).GetComponent<TMP_Text>().text = quest.questData.title;
-                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => selectedQuest = quest);
+                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => { selectedQuest = quest; GameManager.Quest.CurrentSelectedQuest = quest; });
                     break;
                 default:
 #if UNITY_EDITOR
@@ -250,11 +253,12 @@ public class UI_Dialog : UI_Entity
                 nextButton.SetActive(false);
                 break;
             case Enum_QuestProgress.CanComplete:
+                // 나가기는 퀘스트 완료 X, 확인 버튼 -> 보상 받고, 퀘스트 완료
                 mainText.text = selectedQuest.questData.completeText[dialogCount++];
                 if (dialogCount == selectedQuest.questData.completeText.Length)
                 {
                     nextButton.SetActive(false);
-                    acceptButton.SetActive(true); // 이거 대신 퀘스트 보상 팝업
+                    _ShowRewardPanel();
                 }
                 break;
             default:
@@ -278,5 +282,11 @@ public class UI_Dialog : UI_Entity
                 }
             }
         }
+    }
+
+    void _ShowRewardPanel()
+    {
+        GameManager.UI.OpenPopup(GameManager.UI.QuestComplete);
+        GameManager.UI.QuestComplete.closeBtn.SetActive(false);
     }
 }

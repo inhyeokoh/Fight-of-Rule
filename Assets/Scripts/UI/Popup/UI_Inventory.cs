@@ -148,8 +148,6 @@ public class UI_Inventory : UI_Entity
         {
             GameManager.UI.ClosePopup(GameManager.UI.Inventory);
         };
-
-        gameObject.SetActive(false);
     }
 
     // 인벤토리 초기 슬롯 생성

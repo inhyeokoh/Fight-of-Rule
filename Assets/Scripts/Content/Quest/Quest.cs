@@ -128,7 +128,7 @@ public class Quest
         {
             if (goal is MonsterGoal monsterGoal)
             {
-                if (monsterID == GameManager.Data.monsterNameToID[monsterGoal.MonsterName])
+                if (monsterID == monsterGoal.MonsterID)
                 {
                     monsterGoal.IncrementCount(1);
                 }
@@ -143,7 +143,7 @@ public class Quest
         {
             if (goal is ObjectGoal objGoal)
             {
-                if (itemID == GameManager.Data.DropItems[objGoal.ObjectName])
+                if (itemID == objGoal.ObjectID)
                 {
                     objGoal.IncrementCount(1);
                 }

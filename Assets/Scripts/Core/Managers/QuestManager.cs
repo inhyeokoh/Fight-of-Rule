@@ -18,7 +18,10 @@ public class QuestManager : SubClass<GameManager>
     List<Quest> onGoingQuestList = new List<Quest>();
     // 완료 퀘스트 목록
     List<Quest> completedQuestList = new List<Quest>();
-        
+
+    // NPC와 대화시 선택한 퀘스트
+    public Quest CurrentSelectedQuest { get; set; }
+
     protected override void _Clear()
     {
     }
@@ -127,8 +130,16 @@ public class QuestManager : SubClass<GameManager>
     // 퀘스트 완료
     public void CompleteQuest(int questId)
     {
+        // TODO : 보상 지급
         Quest quest = totalQuestDict[questId];
         quest.SetProgress(Enum_QuestProgress.Completed);
+        if (quest.questData.itemRewards.Count != 0)
+        {
+            foreach (var itemReward in quest.questData.itemRewards)
+            {
+                GameManager.Inven.GetItem(itemReward);
+            }
+        }
         onGoingQuestList.Remove(quest);
         completedQuestList.Add(quest);
     }
