@@ -39,6 +39,34 @@ public class Npc : MonoBehaviour
     }
 
     /// <summary>
+    /// NPC와 상호작용 시작. 대화 팝업이 생성되고, NPC 타입에 따라 퀘스트 팝업이나 상점 팝업 열림.
+    /// </summary>
+    public void StartInteract()
+    {
+        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
+        switch (npcType)
+        {
+            case Enum_NpcType.Quest:
+                if (GameManager.UI.QuestAccessible.CheckAccessibleQuests(npcID))
+                {
+                    GameManager.UI.OpenPopup(GameManager.UI.QuestAccessible);
+                }
+                break;
+            case Enum_NpcType.Shop:
+                GameManager.UI.Shop.shopPurchase.DrawSellingItems(npcID);
+                GameManager.UI.OpenPopup(GameManager.UI.Shop);
+                break;
+            default:
+#if UNITY_EDITOR
+                Debug.Assert(false);
+#endif
+                break;
+        }
+    }
+
+
+
+    /// <summary>
     /// 퀘스트 상태에 따라 아이콘 업데이트
     /// </summary>
     public void UpdateQuestIcon()

@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 5182301282688206606}
   m_Layer: 0
   m_Name: CM vcam1
-  m_TagString: vCam
+  m_TagString: CharFollowCam
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,7 +121,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5182301282688206602}
-  m_LocalRotation: {x: -0.26114878, y: -0.27824137, z: 0.07889895, w: -0.920955}
+  m_LocalRotation: {x: 0.26115036, y: 0.27824512, z: -0.07890066, w: 0.9209532}
   m_LocalPosition: {x: -4.662525, y: 7.2861133, z: -7.0119524}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -129,7 +129,7 @@ Transform:
   - {fileID: 5182301281945768674}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 31.663, y: 33.622, z: 0}
 --- !u!114 &5182301282688206604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,6 +183,8 @@ MonoBehaviour:
   _zoomLevel: 0
   mouseScrollAction: {fileID: -5405753908392302871, guid: e92b2a2d80d9a78488f88a89b208317f,
     type: 3}
+  normalCamera: {fileID: 0}
+  dialogueCamera: {fileID: 0}
 --- !u!114 &5182301282688206606
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,7 +9,8 @@ TagManager:
   - Monster
   - KeySlotSkill
   - Npc
-  - vCam
+  - vCamSwitcher
+  - CharFollowCam
   layers:
   - Default
   - TransparentFX
@@ -27,7 +28,7 @@ TagManager:
   - MiniMap
   - MiniMapPlayerEnemy
   - Npc
-  - 
+  - VirtualCharacter
   - 
   - 
   - 

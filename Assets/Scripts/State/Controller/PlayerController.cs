@@ -57,7 +57,7 @@ public class PlayerController : MonoBehaviour
 
     public Enum_Class _class;
 
-    float dialogDist = 5f;
+    float dialogDist = 3f;
     Coroutine _moveTowardsNpcCoroutine;
 
     private void Awake()
@@ -248,15 +248,16 @@ public class PlayerController : MonoBehaviour
                 if (hitObject.CompareTag("Npc"))
                 {
                     float distanceToNpc = Vector3.Distance(hitObject.transform.position, _playerMovement.transform.position);
-                    // NPC와의 거리가 일정거리 이내일 때 대화 상자
+                    // NPC와의 거리가 일정거리 이내일 때 NPC와 상호작용
                     if (distanceToNpc < dialogDist)
                     {
-                        GameManager.UI.Dialog.HandOverNpcID(hitObject.GetComponent<Npc>().NpcID);
-                        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
+                        Npc npc = hitObject.GetComponent<Npc>();
+                        npc.StartInteract();
+                        _interaction.InteractingNpcID = npc.NpcID;
                     }
                     else
                     {
-                        // NPC 방향으로 이동 후, 일정거리 도달 시 대화 팝업
+                        // NPC 방향으로 이동 후, 일정거리 도달 시 NPC와 상호작용
                         _moveTowardsNpcCoroutine = StartCoroutine(MoveTowardsNpc(hitObject, dialogDist));
                     }
                 }
@@ -309,8 +310,9 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        GameManager.UI.Dialog.HandOverNpcID(hitObject.GetComponent<Npc>().NpcID);
-        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
+        Npc npc = hitObject.GetComponent<Npc>();
+        npc.StartInteract();
+        _interaction.InteractingNpcID = npc.NpcID;
     }
 
     public void OnAvoid(InputAction.CallbackContext context)
