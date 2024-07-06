@@ -4,6 +4,7 @@ import "OptionMessage.proto";
 import "ItemMessage.proto";
 import "InventoryMessage.proto";
 import "QuestMessage.proto";
+import "UnitMessage.proto";
 
 message C_SIGNUP {
     string signup_id = 1;
@@ -105,6 +106,7 @@ message C_INGAME {
 message S_INGAME {
     bool success = 1;
     INVENTORY inventory = 2;
+
     // TODO : Quest, Equipment
 }
 
@@ -113,4 +115,17 @@ message C_ITEMINFO {
 
 message S_ITEMINFO {
     ITEM_DATA item_data = 1;
+}
+
+message C_ITEM_PICKUP {
+}
+
+message S_ITEM_PICKUP {    
+}
+
+message S_ITEM_DROP {
+    int64 unique_id = 1;
+    int32 item_id = 2;
+    int32 count = 3;
+    VECTOR3 pos = 4;
 }

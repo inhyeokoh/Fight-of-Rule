@@ -45,7 +45,7 @@ public class UI_CharacterOptions : UI_Entity
         character.BaseInfo.Gender = true;
 
         character.Stat = new CHARACTER_STATUS();
-        character.Xyz = new CHARACTER_POS();
+        character.Vector3 = new VECTOR3();
 
         SwitchImageAndDescription(Enum_Class.Warrior);
     }

@@ -256,4 +256,17 @@ public class PacketHandlerImpl : MonoBehaviour
     {
         return true;
     }
+
+    internal static bool Handle_S_ITEM_DROP(Session session, S_ITEM_DROP message)
+    {
+        Debug.Log(message.ItemId);
+        ItemManager._item.ItemInstance(GameManager.Data.itemDatas[message.ItemId], PlayerController.instance._playerMovement.transform.position, Quaternion.identity);
+
+        return true;
+    }
+
+    internal static bool Handle_S_ITEM_PICKUP(Session session, S_ITEM_PICKUP message)
+    {
+        return true;
+    }
 }

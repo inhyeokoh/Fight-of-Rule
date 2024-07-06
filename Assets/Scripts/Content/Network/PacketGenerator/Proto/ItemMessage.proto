@@ -84,19 +84,19 @@ message REINFORCEMENT_ITEM_DATA{
     int32 current_reinforcement = 7;
 }
 
-message ETC_ITEM{
+message ETC_ITEM {
     int64 unique_id = 1;
     ITEM_DATA item_data = 2;
     DYNAMIC_ITEM_DATA dyn_item_data = 3;
 }
 
-message CONSUMPTION_ITEM{
+message CONSUMPTION_ITEM {
     int64 unique_id = 1;
     CONSUMPTION_ITEM_DATA consume_item_data = 2;
     DYNAMIC_ITEM_DATA dyn_item_data = 3;
 }
 
-message EQUIPMENT_ITEM{
+message EQUIPMENT_ITEM {
     int64 unique_id = 1;
     EQUIPMENT_ITEM_DATA equip_item_data = 2;
     DYNAMIC_ITEM_DATA dyn_item_data = 3;

@@ -36,6 +36,9 @@ class PacketHandler
         PKT_S_INGAME = 21,
         PKT_C_ITEMINFO = 22,
         PKT_S_ITEMINFO = 23,
+        PKT_C_ITEM_PICKUP = 24,
+        PKT_S_ITEM_PICKUP = 25,
+        PKT_S_ITEM_DROP = 26,
     };
     Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>> _handler = new Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>>();
     public void Init()
@@ -52,6 +55,8 @@ class PacketHandler
         _handler.Add((ushort)PacketType.PKT_S_DELETE_CHARACTER, (session, buffer) => PacketHandlerImpl.Handle_S_DELETE_CHARACTER(session, _HandlePacket<S_DELETE_CHARACTER>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_INGAME, (session, buffer) => PacketHandlerImpl.Handle_S_INGAME(session, _HandlePacket<S_INGAME>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_ITEMINFO, (session, buffer) => PacketHandlerImpl.Handle_S_ITEMINFO(session, _HandlePacket<S_ITEMINFO>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_ITEM_PICKUP, (session, buffer) => PacketHandlerImpl.Handle_S_ITEM_PICKUP(session, _HandlePacket<S_ITEM_PICKUP>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_ITEM_DROP, (session, buffer) => PacketHandlerImpl.Handle_S_ITEM_DROP(session, _HandlePacket<S_ITEM_DROP>(buffer)));
     }
     public ArraySegment<byte> SerializePacket(C_SIGNUP pkt) { return _serializePacket(pkt, PacketType.PKT_C_SIGNUP); }
     public ArraySegment<byte> SerializePacket(C_LOGIN pkt) { return _serializePacket(pkt, PacketType.PKT_C_LOGIN); }
@@ -64,6 +69,7 @@ class PacketHandler
     public ArraySegment<byte> SerializePacket(C_DELETE_CHARACTER pkt) { return _serializePacket(pkt, PacketType.PKT_C_DELETE_CHARACTER); }
     public ArraySegment<byte> SerializePacket(C_INGAME pkt) { return _serializePacket(pkt, PacketType.PKT_C_INGAME); }
     public ArraySegment<byte> SerializePacket(C_ITEMINFO pkt) { return _serializePacket(pkt, PacketType.PKT_C_ITEMINFO); }
+    public ArraySegment<byte> SerializePacket(C_ITEM_PICKUP pkt) { return _serializePacket(pkt, PacketType.PKT_C_ITEM_PICKUP); }
     static ArraySegment<byte> _serializePacket<T>(T pkt, PacketType protocol) where T : IMessage
     {
         //TODO send buffer & obj pool

@@ -22,25 +22,23 @@ public static partial class CharacterMessageReflection {
   static CharacterMessageReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChZDaGFyYWN0ZXJNZXNzYWdlLnByb3RvInIKDkNIQVJBQ1RFUl9JTkZPEiIK",
-          "CWJhc2VfaW5mbxgBIAEoCzIPLkNIQVJBQ1RFUl9CQVNFEh8KBHN0YXQYAiAB",
-          "KAsyES5DSEFSQUNURVJfU1RBVFVTEhsKA3h5ehgDIAEoCzIOLkNIQVJBQ1RF",
-          "Ul9QT1MidQoOQ0hBUkFDVEVSX0JBU0USFAoMY2hhcmFjdGVyX2lkGAEgASgD",
-          "EhIKCnNsb3RfaW5kZXgYAiABKAUSEAoIbmlja25hbWUYAyABKAwSFwoPY2hh",
-          "cmFjdGVyX2NsYXNzGAQgASgFEg4KBmdlbmRlchgFIAEoCCK5AQoQQ0hBUkFD",
-          "VEVSX1NUQVRVUxINCgVsZXZlbBgBIAEoBRINCgVtYXhIUBgCIAEoBRIKCgJo",
-          "cBgDIAEoBRINCgVtYXhNUBgEIAEoBRIKCgJtcBgFIAEoBRIOCgZtYXhFWFAY",
-          "BiABKAUSCwoDZXhwGAcgASgFEg4KBmF0dGFjaxgIIAEoBRITCgthdHRhY2tT",
-          "cGVlZBgJIAEoBRIPCgdkZWZlbnNlGAogASgFEg0KBXNwZWVkGAsgASgFIjAK",
-          "DUNIQVJBQ1RFUl9QT1MSCQoBeBgBIAEoAhIJCgF5GAIgASgCEgkKAXoYAyAB",
-          "KAJiBnByb3RvMw=="));
+          "ChZDaGFyYWN0ZXJNZXNzYWdlLnByb3RvGhFVbml0TWVzc2FnZS5wcm90byJw",
+          "Cg5DSEFSQUNURVJfSU5GTxIiCgliYXNlX2luZm8YASABKAsyDy5DSEFSQUNU",
+          "RVJfQkFTRRIfCgRzdGF0GAIgASgLMhEuQ0hBUkFDVEVSX1NUQVRVUxIZCgd2",
+          "ZWN0b3IzGAMgASgLMgguVkVDVE9SMyJ1Cg5DSEFSQUNURVJfQkFTRRIUCgxj",
+          "aGFyYWN0ZXJfaWQYASABKAMSEgoKc2xvdF9pbmRleBgCIAEoBRIQCghuaWNr",
+          "bmFtZRgDIAEoDBIXCg9jaGFyYWN0ZXJfY2xhc3MYBCABKAUSDgoGZ2VuZGVy",
+          "GAUgASgIIrkBChBDSEFSQUNURVJfU1RBVFVTEg0KBWxldmVsGAEgASgFEg0K",
+          "BW1heEhQGAIgASgFEgoKAmhwGAMgASgFEg0KBW1heE1QGAQgASgFEgoKAm1w",
+          "GAUgASgFEg4KBm1heEVYUBgGIAEoBRILCgNleHAYByABKAUSDgoGYXR0YWNr",
+          "GAggASgFEhMKC2F0dGFja1NwZWVkGAkgASgFEg8KB2RlZmVuc2UYCiABKAUS",
+          "DQoFc3BlZWQYCyABKAViBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
+        new pbr::FileDescriptor[] { global::UnitMessageReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_INFO), global::CHARACTER_INFO.Parser, new[]{ "BaseInfo", "Stat", "Xyz" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_INFO), global::CHARACTER_INFO.Parser, new[]{ "BaseInfo", "Stat", "Vector3" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_BASE), global::CHARACTER_BASE.Parser, new[]{ "CharacterId", "SlotIndex", "Nickname", "CharacterClass", "Gender" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_STATUS), global::CHARACTER_STATUS.Parser, new[]{ "Level", "MaxHP", "Hp", "MaxMP", "Mp", "MaxEXP", "Exp", "Attack", "AttackSpeed", "Defense", "Speed" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_POS), global::CHARACTER_POS.Parser, new[]{ "X", "Y", "Z" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::CHARACTER_STATUS), global::CHARACTER_STATUS.Parser, new[]{ "Level", "MaxHP", "Hp", "MaxMP", "Mp", "MaxEXP", "Exp", "Attack", "AttackSpeed", "Defense", "Speed" }, null, null, null, null)
         }));
   }
   #endregion
@@ -83,7 +81,7 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
   public CHARACTER_INFO(CHARACTER_INFO other) : this() {
     baseInfo_ = other.baseInfo_ != null ? other.baseInfo_.Clone() : null;
     stat_ = other.stat_ != null ? other.stat_.Clone() : null;
-    xyz_ = other.xyz_ != null ? other.xyz_.Clone() : null;
+    vector3_ = other.vector3_ != null ? other.vector3_.Clone() : null;
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -117,15 +115,15 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     }
   }
 
-  /// <summary>Field number for the "xyz" field.</summary>
-  public const int XyzFieldNumber = 3;
-  private global::CHARACTER_POS xyz_;
+  /// <summary>Field number for the "vector3" field.</summary>
+  public const int Vector3FieldNumber = 3;
+  private global::VECTOR3 vector3_;
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public global::CHARACTER_POS Xyz {
-    get { return xyz_; }
+  public global::VECTOR3 Vector3 {
+    get { return vector3_; }
     set {
-      xyz_ = value;
+      vector3_ = value;
     }
   }
 
@@ -146,7 +144,7 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     }
     if (!object.Equals(BaseInfo, other.BaseInfo)) return false;
     if (!object.Equals(Stat, other.Stat)) return false;
-    if (!object.Equals(Xyz, other.Xyz)) return false;
+    if (!object.Equals(Vector3, other.Vector3)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -156,7 +154,7 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     int hash = 1;
     if (baseInfo_ != null) hash ^= BaseInfo.GetHashCode();
     if (stat_ != null) hash ^= Stat.GetHashCode();
-    if (xyz_ != null) hash ^= Xyz.GetHashCode();
+    if (vector3_ != null) hash ^= Vector3.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -183,9 +181,9 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
       output.WriteRawTag(18);
       output.WriteMessage(Stat);
     }
-    if (xyz_ != null) {
+    if (vector3_ != null) {
       output.WriteRawTag(26);
-      output.WriteMessage(Xyz);
+      output.WriteMessage(Vector3);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
@@ -205,9 +203,9 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
       output.WriteRawTag(18);
       output.WriteMessage(Stat);
     }
-    if (xyz_ != null) {
+    if (vector3_ != null) {
       output.WriteRawTag(26);
-      output.WriteMessage(Xyz);
+      output.WriteMessage(Vector3);
     }
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
@@ -225,8 +223,8 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
     if (stat_ != null) {
       size += 1 + pb::CodedOutputStream.ComputeMessageSize(Stat);
     }
-    if (xyz_ != null) {
-      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Xyz);
+    if (vector3_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Vector3);
     }
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
@@ -252,11 +250,11 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
       }
       Stat.MergeFrom(other.Stat);
     }
-    if (other.xyz_ != null) {
-      if (xyz_ == null) {
-        Xyz = new global::CHARACTER_POS();
+    if (other.vector3_ != null) {
+      if (vector3_ == null) {
+        Vector3 = new global::VECTOR3();
       }
-      Xyz.MergeFrom(other.Xyz);
+      Vector3.MergeFrom(other.Vector3);
     }
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
@@ -288,10 +286,10 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
           break;
         }
         case 26: {
-          if (xyz_ == null) {
-            Xyz = new global::CHARACTER_POS();
+          if (vector3_ == null) {
+            Vector3 = new global::VECTOR3();
           }
-          input.ReadMessage(Xyz);
+          input.ReadMessage(Vector3);
           break;
         }
       }
@@ -324,10 +322,10 @@ public sealed partial class CHARACTER_INFO : pb::IMessage<CHARACTER_INFO>
           break;
         }
         case 26: {
-          if (xyz_ == null) {
-            Xyz = new global::CHARACTER_POS();
+          if (vector3_ == null) {
+            Vector3 = new global::VECTOR3();
           }
-          input.ReadMessage(Xyz);
+          input.ReadMessage(Vector3);
           break;
         }
       }
@@ -1224,269 +1222,6 @@ public sealed partial class CHARACTER_STATUS : pb::IMessage<CHARACTER_STATUS>
         }
         case 88: {
           Speed = input.ReadInt32();
-          break;
-        }
-      }
-    }
-  }
-  #endif
-
-}
-
-public sealed partial class CHARACTER_POS : pb::IMessage<CHARACTER_POS>
-#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    , pb::IBufferMessage
-#endif
-{
-  private static readonly pb::MessageParser<CHARACTER_POS> _parser = new pb::MessageParser<CHARACTER_POS>(() => new CHARACTER_POS());
-  private pb::UnknownFieldSet _unknownFields;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public static pb::MessageParser<CHARACTER_POS> Parser { get { return _parser; } }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public static pbr::MessageDescriptor Descriptor {
-    get { return global::CharacterMessageReflection.Descriptor.MessageTypes[3]; }
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  pbr::MessageDescriptor pb::IMessage.Descriptor {
-    get { return Descriptor; }
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public CHARACTER_POS() {
-    OnConstruction();
-  }
-
-  partial void OnConstruction();
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public CHARACTER_POS(CHARACTER_POS other) : this() {
-    x_ = other.x_;
-    y_ = other.y_;
-    z_ = other.z_;
-    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public CHARACTER_POS Clone() {
-    return new CHARACTER_POS(this);
-  }
-
-  /// <summary>Field number for the "x" field.</summary>
-  public const int XFieldNumber = 1;
-  private float x_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public float X {
-    get { return x_; }
-    set {
-      x_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "y" field.</summary>
-  public const int YFieldNumber = 2;
-  private float y_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public float Y {
-    get { return y_; }
-    set {
-      y_ = value;
-    }
-  }
-
-  /// <summary>Field number for the "z" field.</summary>
-  public const int ZFieldNumber = 3;
-  private float z_;
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public float Z {
-    get { return z_; }
-    set {
-      z_ = value;
-    }
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public override bool Equals(object other) {
-    return Equals(other as CHARACTER_POS);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public bool Equals(CHARACTER_POS other) {
-    if (ReferenceEquals(other, null)) {
-      return false;
-    }
-    if (ReferenceEquals(other, this)) {
-      return true;
-    }
-    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(X, other.X)) return false;
-    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Y, other.Y)) return false;
-    if (!pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.Equals(Z, other.Z)) return false;
-    return Equals(_unknownFields, other._unknownFields);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public override int GetHashCode() {
-    int hash = 1;
-    if (X != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(X);
-    if (Y != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Y);
-    if (Z != 0F) hash ^= pbc::ProtobufEqualityComparers.BitwiseSingleEqualityComparer.GetHashCode(Z);
-    if (_unknownFields != null) {
-      hash ^= _unknownFields.GetHashCode();
-    }
-    return hash;
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public override string ToString() {
-    return pb::JsonFormatter.ToDiagnosticString(this);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void WriteTo(pb::CodedOutputStream output) {
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    output.WriteRawMessage(this);
-  #else
-    if (X != 0F) {
-      output.WriteRawTag(13);
-      output.WriteFloat(X);
-    }
-    if (Y != 0F) {
-      output.WriteRawTag(21);
-      output.WriteFloat(Y);
-    }
-    if (Z != 0F) {
-      output.WriteRawTag(29);
-      output.WriteFloat(Z);
-    }
-    if (_unknownFields != null) {
-      _unknownFields.WriteTo(output);
-    }
-  #endif
-  }
-
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
-    if (X != 0F) {
-      output.WriteRawTag(13);
-      output.WriteFloat(X);
-    }
-    if (Y != 0F) {
-      output.WriteRawTag(21);
-      output.WriteFloat(Y);
-    }
-    if (Z != 0F) {
-      output.WriteRawTag(29);
-      output.WriteFloat(Z);
-    }
-    if (_unknownFields != null) {
-      _unknownFields.WriteTo(ref output);
-    }
-  }
-  #endif
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public int CalculateSize() {
-    int size = 0;
-    if (X != 0F) {
-      size += 1 + 4;
-    }
-    if (Y != 0F) {
-      size += 1 + 4;
-    }
-    if (Z != 0F) {
-      size += 1 + 4;
-    }
-    if (_unknownFields != null) {
-      size += _unknownFields.CalculateSize();
-    }
-    return size;
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void MergeFrom(CHARACTER_POS other) {
-    if (other == null) {
-      return;
-    }
-    if (other.X != 0F) {
-      X = other.X;
-    }
-    if (other.Y != 0F) {
-      Y = other.Y;
-    }
-    if (other.Z != 0F) {
-      Z = other.Z;
-    }
-    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
-  }
-
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public void MergeFrom(pb::CodedInputStream input) {
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-    input.ReadRawMessage(this);
-  #else
-    uint tag;
-    while ((tag = input.ReadTag()) != 0) {
-      switch(tag) {
-        default:
-          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
-          break;
-        case 13: {
-          X = input.ReadFloat();
-          break;
-        }
-        case 21: {
-          Y = input.ReadFloat();
-          break;
-        }
-        case 29: {
-          Z = input.ReadFloat();
-          break;
-        }
-      }
-    }
-  #endif
-  }
-
-  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
-    uint tag;
-    while ((tag = input.ReadTag()) != 0) {
-      switch(tag) {
-        default:
-          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
-          break;
-        case 13: {
-          X = input.ReadFloat();
-          break;
-        }
-        case 21: {
-          Y = input.ReadFloat();
-          break;
-        }
-        case 29: {
-          Z = input.ReadFloat();
           break;
         }
       }

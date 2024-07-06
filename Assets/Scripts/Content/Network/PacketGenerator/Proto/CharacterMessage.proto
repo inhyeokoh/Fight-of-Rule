@@ -1,9 +1,10 @@
 syntax = "proto3";
+import "UnitMessage.proto";
 
 message CHARACTER_INFO {
     CHARACTER_BASE base_info = 1;
     CHARACTER_STATUS stat = 2;
-    CHARACTER_POS xyz = 3;
+    VECTOR3 vector3 = 3;
 }
 
 message CHARACTER_BASE {
@@ -26,10 +27,4 @@ message CHARACTER_STATUS {
     int32 attackSpeed = 9;
     int32 defense = 10;
     int32 speed = 11;
-}
-
-message CHARACTER_POS {
-    float x = 1;
-    float y = 2;
-    float z = 3;
 }
