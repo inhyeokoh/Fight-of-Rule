@@ -61,6 +61,18 @@ public class UI_ConfirmY : UI_Entity
         _mainText = _entities[(int)Enum_UI_Confirm.MainText].GetComponent<TMP_Text>();
 
         _entities[(int)Enum_UI_Confirm.Accept].ClickAction = (PointerEventData data) => {
+            if (confirmType == Enum_ConfirmTypes.SignUpSuccess)
+            {
+                GameManager.UI.ClosePopup(GameManager.UI.SignUp);
+            }
+            else if (confirmType == Enum_ConfirmTypes.CharacterDeleteFail)
+            {
+                
+            }
+            else if (confirmType == Enum_ConfirmTypes.CharacterDeleteSuccess)
+            {
+
+            }
             GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
         };
 

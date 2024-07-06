@@ -1,0 +1,20 @@
+item_id,item_name,item_desc,item_icon
+500,빨간물약,HP 50을 회복합니다.,Materials/ItemIcons/Hp
+501,사과,HP 150을 회복합니다.,Materials/ItemIcons/Apple
+502,하양물약,HP 300을 회복합니다.,path
+503,장어구이,HP 1000을 회복합니다.,path
+504,파란물약,MP 100을 회복합니다.,Materials/ItemIcons/Mp
+505,마나엘릭서,MP 300을 회복합니다.,path
+506,맑은물,MP 1000을 회복합니다.,path
+507,하급기사물약,HP 100을 회복합니다.,path
+508,중급기사물약,HP 300을 회복합니다.,path
+509,상급기사물약,HP 500을 회복합니다.,path
+510,최상급기사물약,HP 1000을 회복합니다.,path
+511,하급경험치물약,EXP 100을 올려줍니다.,path
+512,중급경험치물약,EXP 1000을 올려줍니다.,path
+513,상급경험치물약,EXP 10000을 올려줍니다.,path
+514,이상한 약,"Attack, Defense, MaxHP, MaxMP 능력을 10 올려줍니다.",path
+515,전사의 물약,5분간 Attack 10을 올려줍니다.,Materials/ItemIcons/WarriorsPotion
+516,이동속도의 물약,5분간 Speed 5를 올려줍니다.,path
+517,공격속도의 물약,5분간 AttackSpeed 5를 올려줍니다.,path
+518,방어력의 물약,5분간 Defense 10을 올려줍니다.,Materials/ItemIcons/DefensePotion

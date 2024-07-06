@@ -2,10 +2,6 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.UI;
-using System.Collections;
 
 public class UI_Dialog : UI_Entity
 {
@@ -90,8 +86,15 @@ public class UI_Dialog : UI_Entity
             switch (GameManager.Data.npcDict[PlayerController.instance._interaction.InteractingNpcID].npcType)
             {
                 case Enum_NpcType.Quest:
-                    // 나가기는 퀘스트 완료 X
-                    GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
+                    if (selectedQuest == null || selectedQuest.progress == Enum_QuestProgress.Available)
+                    {
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
+                    }
+                    else if (selectedQuest.progress == Enum_QuestProgress.CanComplete)
+                    {
+                        // 나가기는 퀘스트 완료 X
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestComplete);
+                    }
                     break;
                 case Enum_NpcType.Shop:
                     GameManager.UI.ClosePopup(GameManager.UI.Shop);

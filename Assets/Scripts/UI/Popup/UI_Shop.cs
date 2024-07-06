@@ -47,7 +47,6 @@ public class UI_Shop : UI_Entity
 
     private void OnDisable()
     {
-        //GameManager.UI.PointerOnUI(false);
         GameManager.UI.Inventory.closeBtn.SetActive(true);
         shopSell.ReturnSellListToInven();
         shopRepurchase.EmptyTempForSold();

@@ -108,6 +108,7 @@ public class UI_QuestAccessible : UI_Entity
 
     void CreateAndSetupToggle(GameObject parent, Quest quest, ref bool isFirstToggle)
     {
+        // TODO quest AddListener Clear
         parent.gameObject.SetActive(true);
         GameObject toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", parent.transform.GetChild(1).transform);
         Toggle toggleComponent = toggle.GetComponent<Toggle>();
@@ -135,11 +136,12 @@ public class UI_QuestAccessible : UI_Entity
 
     void _DestroyQuestNameToggles()
     {
-        foreach (Transform quest in questList.transform)
+        foreach (Transform questProgressType in questList.transform)
         {
-            if (quest.gameObject.activeSelf)
+            if (questProgressType.gameObject.activeSelf)
             {
-                Transform childTransform = quest.GetChild(1);
+                questProgressType.gameObject.SetActive(false);
+                Transform childTransform = questProgressType.GetChild(1);
                 foreach (Transform questNameToggle in childTransform)
                 {
                     GameManager.Resources.Destroy(questNameToggle.gameObject);

@@ -112,6 +112,7 @@ public class UI_QuestComplete : UI_Entity
             goldReward.GetComponentInChildren<TMP_Text>().text = currentQuestData.goldReward.ToString();
         }
 
+        // itemRewards 없는경우 추가
         for (int i = 0; i < currentQuestData.itemRewards.Count; i++)
         {
             GameObject itemReward = GameManager.Resources.Instantiate("Prefabs/UI/Scene/Reward", _rewards.transform);

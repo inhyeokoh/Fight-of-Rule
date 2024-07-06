@@ -364,7 +364,7 @@ public class MonsterGoal : QuestGoal
     public void IncrementCount(int amount)
     {
         currentCount += amount;
-        Debug.LogError($"{MonsterName} {currentCount}/{RequiredCount}");
+        //Debug.LogError($"{MonsterName} {currentCount}/{RequiredCount}");
     }
 
     public override bool IsCompleted()

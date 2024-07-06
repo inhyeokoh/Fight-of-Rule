@@ -33,6 +33,9 @@ public class Npc : MonoBehaviour
     [SerializeField]
     QuestMarkers questMarker;
 
+    /// <summary>
+    /// NPC가 퀘스트 진행 상황 변화에 맞게 퀘스트 아이콘 업데이트할 수 있도록 함
+    /// </summary>
     public void DetectQuestProgress(Quest quest)
     {
         quest.OnQuestProgressChanged += UpdateQuestIcon;
@@ -53,7 +56,7 @@ public class Npc : MonoBehaviour
                 }
                 break;
             case Enum_NpcType.Shop:
-                GameManager.UI.Shop.shopPurchase.DrawSellingItems(npcID);
+                GameManager.UI.Shop.shopPurchase.DrawSellingItems(npcID); // 수정 필요
                 GameManager.UI.OpenPopup(GameManager.UI.Shop);
                 break;
             default:
@@ -63,8 +66,6 @@ public class Npc : MonoBehaviour
                 break;
         }
     }
-
-
 
     /// <summary>
     /// 퀘스트 상태에 따라 아이콘 업데이트

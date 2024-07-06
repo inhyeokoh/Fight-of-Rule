@@ -18,7 +18,7 @@ public enum Enum_QuestProgress
     Available,
     Ongoing,
     CanComplete,
-    Completed,
+    Completed
 }
 
 public class Quest
@@ -94,7 +94,6 @@ public class Quest
     {
         SetProgress(Enum_QuestProgress.UnAvailable);
         questData = GameManager.Data.questDict[questID];
-        // NPC에 퀘스트 분배
 
         if (GameManager.Data.npcDict.ContainsKey(questData.npcID))
         {
@@ -134,7 +133,7 @@ public class Quest
                 }
             }
         }
-        _CheckGoals(); // 수정 필요
+        _CheckGoals();
     }
 
     public void OnItemGet(int itemID, int itemCount)
@@ -151,6 +150,4 @@ public class Quest
         }
         _CheckGoals();
     }
-
-    // TODO 보상 지급
 }
