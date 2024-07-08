@@ -36,8 +36,6 @@ public class UI_InputName : UI_Entity
         TMP_Text _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
         _instruction.text = "한글, 영문, 숫자 포함 2 ~ 12자로 입력하세요.";
 
-/*        _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { ClickAccept(); });*/
-
         foreach (var _subUI in _subUIs)
         {
             _subUI.ClickAction = (PointerEventData data) =>
@@ -50,7 +48,6 @@ public class UI_InputName : UI_Entity
             nickname = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().text;
 
             string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-힣]", "", RegexOptions.Singleline);
-            //string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-R]{1,12}", "", RegexOptions.Singleline);
 
             if (nickname.Equals(nickChecker) == false)
             {

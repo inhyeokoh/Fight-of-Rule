@@ -39,8 +39,6 @@ public class UI_CharacterOptions : UI_Entity
     void _SetDefaultInfo()
     {
         character.BaseInfo = new CHARACTER_BASE();
-        character.BaseInfo.CharacterId = 0;
-        character.BaseInfo.Nickname = ByteString.CopyFrom("기본 이름", System.Text.Encoding.Unicode);
         character.BaseInfo.CharacterClass = 0;
         character.BaseInfo.Gender = true;
 

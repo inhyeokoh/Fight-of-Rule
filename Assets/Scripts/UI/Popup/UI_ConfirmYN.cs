@@ -1,4 +1,3 @@
-#define CLIENTONLY
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -67,7 +66,7 @@ public class UI_ConfirmYN : UI_Entity
                     CHARACTER_INFO newChar = new CHARACTER_INFO();
                     newChar.BaseInfo = new CHARACTER_BASE();
                     newChar.Stat = new CHARACTER_STATUS();
-                    newChar.Xyz = new CHARACTER_POS();
+                    newChar.Vector3 = new VECTOR3();
                     GameManager.Data.characters[GameManager.Data.SelectedSlotNum] = newChar;
                     SceneManager.LoadSceneAsync("Select");
 #endif
@@ -110,5 +109,11 @@ public class UI_ConfirmYN : UI_Entity
             default:
                 break;
         }
+    }
+
+    public override void EnterAction()
+    {
+        base.EnterAction();
+        _entities[(int)Enum_UI_Confirm.Accept].ClickAction?.Invoke(null);
     }
 }
