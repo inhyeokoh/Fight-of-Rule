@@ -1,0 +1,131 @@
+syntax = "proto3";
+import "CharacterMessage.proto";
+import "OptionMessage.proto";
+import "ItemMessage.proto";
+import "InventoryMessage.proto";
+import "QuestMessage.proto";
+import "UnitMessage.proto";
+
+message C_SIGNUP {
+    string signup_id = 1;
+    string signup_pw = 2;
+}
+
+message S_SIGNUP {
+    enum SIGNUP_FLAGS
+    {
+        SIGNUP_NOERROR = 0;     // signup sucess
+        SIGNUP_ERROR_DUP = 1;   // signup failed (duplicate)
+        SIGNUP_ERROR_EXIST = 2; // signup failed (exists account)
+        //etc
+    }
+    SIGNUP_FLAGS signup_result = 1;
+}
+
+message C_LOGIN {
+    string login_id = 1;
+    string login_pw = 2;
+}
+
+message S_LOGIN {
+    bool login_success = 1;
+    string ip = 2;
+    int32 port = 3;
+    int64 uid = 4;
+    string token = 5;
+}
+
+message C_REQUEST_SETTINGS_OPTIONS {
+}
+
+message S_REQUEST_SETTINGS_OPTIONS {
+    SETTINGS_OPTIONS settings_options = 1;
+}
+
+message C_SAVE_VOL_OPTIONS {
+    VOL_OPTIONS vol_options = 1;
+}
+
+message S_SAVE_VOL_OPTIONS {
+    bool success = 1;
+}
+
+message S_ASK_VERF {
+}
+
+message C_VERIFYING
+{
+    string token = 1;
+    int64 uid = 2;
+}
+
+message S_VERIFYING
+{
+    bool sucess = 1;
+    repeated CHARACTER_INFO character = 2;
+}
+
+message C_NICKNAME {
+    bytes nickname = 1;
+}
+
+message S_NICKNAME {
+    bool success = 1;
+}
+
+message C_CHARACTERS {
+}
+
+message S_CHARACTERS {
+    repeated CHARACTER_INFO character = 1;
+}
+
+message C_NEW_CHARACTER {
+    CHARACTER_BASE character = 1;
+}
+
+message S_NEW_CHARACTER {
+    bool success = 1;
+    CHARACTER_INFO character = 2;
+}
+
+message C_DELETE_CHARACTER {
+    int64 character_id = 1;
+    int64 slot_num = 2;
+}
+
+message S_DELETE_CHARACTER {
+    bool success = 1;
+    int64 slot_num = 2;
+}
+
+message C_INGAME {
+    int64 character_id = 1;
+}
+
+message S_INGAME {
+    bool success = 1;
+    INVENTORY inventory = 2;
+
+    // TODO : Quest, Equipment
+}
+
+message C_ITEMINFO {
+}
+
+message S_ITEMINFO {
+    ITEM_DATA item_data = 1;
+}
+
+message C_ITEM_PICKUP {
+}
+
+message S_ITEM_PICKUP {    
+}
+
+message S_ITEM_DROP {
+    int64 unique_id = 1;
+    int32 item_id = 2;
+    int32 count = 3;
+    VECTOR3 pos = 4;
+}

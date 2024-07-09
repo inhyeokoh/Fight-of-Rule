@@ -22,8 +22,12 @@ public class DialogCamera : MonoBehaviour
         Transform npcTr = GameManager.Data.npcDict[npcID].transform;
 
         // 가상의 플레이어 생성
-        virtualPlayer = GameManager.Resources.Instantiate("Prefabs/VirtualCharacter/Warrior Variant");
-        virtualPlayer.name = "VirtualPlayer";
+        if (virtualPlayer == null)
+        {
+            virtualPlayer = GameManager.Resources.Instantiate("Prefabs/VirtualCharacter/Warrior Variant");
+            virtualPlayer.name = "VirtualPlayer";
+        }
+        virtualPlayer.SetActive(true);
         virtualPlayer.transform.position = npcTr.position + npcTr.forward * 5f;
 
         // 가상 카메라 설정
@@ -42,7 +46,7 @@ public class DialogCamera : MonoBehaviour
 
     public void OutDialogCamera()
     {
-        GameManager.Resources.Destroy(virtualPlayer);
+        virtualPlayer.SetActive(false);
 
         // 레이어 마스크 동적 변경
         _mainCamera.cullingMask &= ~(1 << 16); // 16번 가상 캐릭터 레이어 제외

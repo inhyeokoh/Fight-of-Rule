@@ -53,8 +53,8 @@ public class SceneControlManager : SubClass<GameManager>
 #if SERVER || CLIENT_TEST_TITLE
         else if (scene.name == Enum.GetName(typeof(Enum_Scenes), 3))
         {
-            GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.StatePattern);
             GameManager.UI.ConnectPlayerInput();
+            GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.StatePattern);
             GameManager.Inven.ConnectInven();
         }
 #endif

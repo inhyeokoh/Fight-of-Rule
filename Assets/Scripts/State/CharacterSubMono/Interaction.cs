@@ -5,7 +5,7 @@ using UnityEngine;
 public class Interaction : SubMono<PlayerController>
 {
     public List<GameObject> InGameItems;
-    public int InteractingNpcID { get; set; }
+    public int InteractingNpcID { get; set; } = -1;
 
     protected override void _Clear()
     {

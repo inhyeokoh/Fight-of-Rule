@@ -252,8 +252,8 @@ public class PlayerController : MonoBehaviour
                     if (distanceToNpc < dialogDist)
                     {
                         Npc npc = hitObject.GetComponent<Npc>();
-                        npc.StartInteract();
                         _interaction.InteractingNpcID = npc.NpcID;
+                        npc.StartInteract();
                     }
                     else
                     {
@@ -311,8 +311,8 @@ public class PlayerController : MonoBehaviour
         }
 
         Npc npc = hitObject.GetComponent<Npc>();
-        npc.StartInteract();
         _interaction.InteractingNpcID = npc.NpcID;
+        npc.StartInteract();
     }
 
     public void OnAvoid(InputAction.CallbackContext context)

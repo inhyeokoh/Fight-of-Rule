@@ -15,9 +15,9 @@ public class UIManager : SubClass<GameManager>
     public UI_InputName InputName;
     public UI_Setting Settings;
     GameObject Blocker;
+    public GameObject BlockAll;
     public UI_ConfirmYN ConfirmYN;
     public UI_ConfirmY ConfirmY;
-    public UI_BlockAll BlockAll;
 
     public UI_Inventory Inventory;
     public UI_PlayerInfo PlayerInfo;
@@ -69,7 +69,7 @@ public class UIManager : SubClass<GameManager>
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
         PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();
         Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform).GetComponent<UI_Shop>();
-        Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
+        Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform);
         InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
         InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
         Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
@@ -98,7 +98,8 @@ public class UIManager : SubClass<GameManager>
                 ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform).GetComponent<UI_ConfirmYN>();
                 ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform).GetComponent<UI_ConfirmY>();
                 Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).gameObject;
-                BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).GetComponent<UI_BlockAll>();
+                BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).gameObject;
+                BlockAll.transform.SetAsLastSibling();
                 break;
             case Enum_PopupSetJunction.StatePattern:
                 // 기존 OutGamePopup 전부 삭제
@@ -128,7 +129,6 @@ public class UIManager : SubClass<GameManager>
     {
         pi = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
         playerActionMap = pi.actions.FindActionMap("Player");
-        Debug.Log(playerActionMap.actions);
         moveAction = pi.currentActionMap.FindAction("Move");
         fireAction = pi.currentActionMap.FindAction("Fire");
     }

@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class UI_Dialog : UI_Entity
 {
+    bool _init;
     VCamSwitcher vCamSwitcher;
 
     #region 대화창
@@ -32,7 +33,7 @@ public class UI_Dialog : UI_Entity
 
     void OnEnable()
     {
-        if (!GameManager.UI.init) return;
+        if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, true);
         nextButton.SetActive(false);
@@ -44,7 +45,7 @@ public class UI_Dialog : UI_Entity
 
     void OnDisable()
     {
-        if (!GameManager.UI.init) return;
+        if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
         vCamSwitcher?.SwitchToVCam1();

@@ -1,0 +1,337 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3674588700893847441
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3674588700893847446}
+  m_Layer: 0
+  m_Name: Npcs
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3674588700893847446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3674588700893847441}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7491213715156575433}
+  - {fileID: 1282509111701521605}
+  - {fileID: 8159622593732111106}
+  - {fileID: 2071258071603859602}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &6317161592672864675
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3674588700893847446}
+    m_Modifications:
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4257840620090996688, guid: a5e50dd408d92054895372dcbe9b0d3c,
+        type: 3}
+      propertyPath: m_Name
+      value: Peasant Nolant Blue(Free Version)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a5e50dd408d92054895372dcbe9b0d3c, type: 3}
+--- !u!4 &7491213715156575433 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3484998658262363498, guid: a5e50dd408d92054895372dcbe9b0d3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6317161592672864675}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6962311812027495387
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3674588700893847446}
+    m_Modifications:
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 24.96
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8797968951750176164, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+        type: 3}
+      propertyPath: m_Name
+      value: Peasant Nolant Brown(Free Version)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1a0bd51cb2d45d747a78e90d1b8535bf, type: 3}
+--- !u!4 &1282509111701521605 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8166005280250558238, guid: 1a0bd51cb2d45d747a78e90d1b8535bf,
+    type: 3}
+  m_PrefabInstance: {fileID: 6962311812027495387}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8831010525258314142
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3674588700893847446}
+    m_Modifications:
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 52.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7888982571196513206, guid: 970322465d299da45b98b06033dc8136,
+        type: 3}
+      propertyPath: m_Name
+      value: Peasant Nolant Yellow(Free Version)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 970322465d299da45b98b06033dc8136, type: 3}
+--- !u!4 &2071258071603859602 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7363556318803271948, guid: 970322465d299da45b98b06033dc8136,
+    type: 3}
+  m_PrefabInstance: {fileID: 8831010525258314142}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &9157323065708800604
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3674588700893847446}
+    m_Modifications:
+    - target: {fileID: 387949378142690276, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_Name
+      value: Peasant Nolant Green(Free Version)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 36.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f94032a7ed333ec40ab237172246efae, type: 3}
+--- !u!4 &8159622593732111106 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1020510943986516318, guid: f94032a7ed333ec40ab237172246efae,
+    type: 3}
+  m_PrefabInstance: {fileID: 9157323065708800604}
+  m_PrefabAsset: {fileID: 0}

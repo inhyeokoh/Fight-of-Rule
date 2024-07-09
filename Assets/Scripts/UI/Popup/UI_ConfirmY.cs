@@ -65,15 +65,11 @@ public class UI_ConfirmY : UI_Entity
             {
                 GameManager.UI.ClosePopup(GameManager.UI.SignUp);
             }
-            else if (confirmType == Enum_ConfirmTypes.CharacterDeleteFail)
+            else if (confirmType == Enum_ConfirmTypes.CharacterDeleteFail || confirmType == Enum_ConfirmTypes.CharacterDeleteSuccess)
             {
-                
+                GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
+                // TODO UI 즉시 갱신
             }
-            else if (confirmType == Enum_ConfirmTypes.CharacterDeleteSuccess)
-            {
-
-            }
-            GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
         };
 
         gameObject.SetActive(false);

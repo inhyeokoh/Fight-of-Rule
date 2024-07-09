@@ -136,10 +136,10 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Stat.Defense = 3;
         CurrentCharacter.Stat.Speed = 10;
 
-        CurrentCharacter.Xyz = new CHARACTER_POS();
-        CurrentCharacter.Xyz.X = 0;
-        CurrentCharacter.Xyz.Y = 0;
-        CurrentCharacter.Xyz.Z = 0;
+        CurrentCharacter.Vector3 = new VECTOR3();
+        CurrentCharacter.Vector3.X = 0;
+        CurrentCharacter.Vector3.Y = 0;
+        CurrentCharacter.Vector3.Z = 0;
 
         volOptions.MasterVol = 0.7f;
         volOptions.BgmVol = 0.6f;

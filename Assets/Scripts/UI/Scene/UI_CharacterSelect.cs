@@ -37,7 +37,7 @@ public class UI_CharacterSelect : UI_Entity
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
 #if SERVER
-            if (GameManager.Data.CurrentCharacter == null) return;
+            if (GameManager.Data.CurrentCharacter.BaseInfo == null) return;
 
             C_INGAME load_ingame_pkt = new C_INGAME();
             load_ingame_pkt.CharacterId = GameManager.Data.CurrentCharacter.BaseInfo.CharacterId;

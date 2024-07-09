@@ -32,14 +32,14 @@ public class UI_QuestAccessible : UI_Entity
 
     void OnEnable()
     {
-        if (!GameManager.UI.init) return;
+        if (!GameManager.UI.init || accessibleQuests == null) return;
 
         _ShowQuests();
     }
 
     void OnDisable()
     {
-        if (!GameManager.UI.init) return;
+        if (!GameManager.UI.init || accessibleQuests == null) return;
 
         _DestroyQuestNameToggles();
     }

@@ -199,8 +199,7 @@ public class PacketHandlerImpl : MonoBehaviour
         {
             GameManager.UI.OpenPopup(GameManager.UI.ConfirmY);
             GameManager.UI.ConfirmY.ChangeText(UI_ConfirmY.Enum_ConfirmTypes.CharacterDeleteSuccess);
-        });
-        // TODO UI 즉시 갱신
+        });       
 
         return true;
     }
