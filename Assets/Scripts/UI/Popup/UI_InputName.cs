@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Google.Protobuf;
+using System.Collections.Generic;
 
 public class UI_InputName : UI_Entity
 {
@@ -27,10 +28,13 @@ public class UI_InputName : UI_Entity
     protected override void Init()
     {
         base.Init();
-        TMP_Text _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
-        _instruction.text = "한글, 영문, 숫자 포함 12자까지 가능합니다.";
 
-/*        _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().onSubmit.AddListener(delegate { ClickAccept(); });*/
+        inputFields = new List<TMP_InputField>();
+        TMP_InputField inputField = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>();
+        inputFields.Add(inputField);
+
+        TMP_Text _instruction = _entities[(int)Enum_UI_InputName.Instruction].GetComponentInChildren<TMP_Text>();
+        _instruction.text = "한글, 영문, 숫자 포함 2 ~ 12자로 입력하세요.";
 
         foreach (var _subUI in _subUIs)
         {
@@ -44,7 +48,6 @@ public class UI_InputName : UI_Entity
             nickname = _entities[(int)Enum_UI_InputName.InputField].GetComponent<TMP_InputField>().text;
 
             string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-힣]", "", RegexOptions.Singleline);
-            //string nickChecker = Regex.Replace(nickname, @"[^0-9a-zA-Z가-R]{1,12}", "", RegexOptions.Singleline);
 
             if (nickname.Equals(nickChecker) == false)
             {
@@ -58,9 +61,16 @@ public class UI_InputName : UI_Entity
             }
             else
             {
+#if SERVER
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
                 GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));
+#elif CLIENT_TEST_TITLE
+                GameManager.Data.CurrentCharacter.BaseInfo.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
+                childPopups.Add(GameManager.UI.ConfirmYN);
+                GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
+                GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDecidingNickName);      
+#endif
             };
         };
 

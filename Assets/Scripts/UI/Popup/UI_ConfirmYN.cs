@@ -1,10 +1,10 @@
-#define CLIENTONLY
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// 확인,취소 버튼이 있는 팝업
@@ -60,7 +60,16 @@ public class UI_ConfirmYN : UI_Entity
             switch (confirmType)
             {
                 case Enum_ConfirmTypes.AskDecidingNickName:
+#if SERVER
                     GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
+#elif CLIENT_TEST_TITLE
+                    CHARACTER_INFO newChar = new CHARACTER_INFO();
+                    newChar.BaseInfo = new CHARACTER_BASE();
+                    newChar.Stat = new CHARACTER_STATUS();
+                    newChar.Vector3 = new VECTOR3();
+                    GameManager.Data.characters[GameManager.Data.SelectedSlotNum] = newChar;
+                    SceneManager.LoadSceneAsync("Select");
+#endif
                     GameManager.UI.ClosePopupAndChildren(GameManager.UI.InputName);
                     break;
                 case Enum_ConfirmTypes.AskDeleteCharacter:
@@ -100,5 +109,11 @@ public class UI_ConfirmYN : UI_Entity
             default:
                 break;
         }
+    }
+
+    public override void EnterAction()
+    {
+        base.EnterAction();
+        _entities[(int)Enum_UI_Confirm.Accept].ClickAction?.Invoke(null);
     }
 }

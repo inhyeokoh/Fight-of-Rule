@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            //필요시 부활시켜서 다시 사용.
-            /*if(_Intance == null)
+/*            //필요시 부활시켜서 다시 사용.
+            if (_Instance == null)
             {
                 GameObject go = new GameObject("@@Manager");
                 go.AddComponent<GameManager>();
@@ -126,15 +126,9 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        if (_Instance != null)
-        {
-            _Instance = GetComponent<GameManager>();
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        _Instance = GetComponent<GameManager>();
+        DontDestroyOnLoad(gameObject);
+
         //등록하는 순서가 중요할 수 있음
         _managers = new List<SubClass<GameManager>>()
         {

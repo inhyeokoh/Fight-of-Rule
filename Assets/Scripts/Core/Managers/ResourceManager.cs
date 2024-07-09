@@ -66,21 +66,21 @@ public class ResourceManager : SubClass<GameManager>
     }
     public GameObject Instantiate(GameObject preLoadedobj, Transform parent = null, bool objectPool = false)
     {
-        /*  if (preLoadedobj.GetComponent<Poolable>() != null)
-          {
-              return GameManager.Pool.Pop(preLoadedobj, parent).gameObject; //팝할게 없어도 자동으로 주가됨.
-          }*/
+        /*        if (preLoadedobj.GetComponent<Poolable>() != null)
+                {
+                    return GameManager.Pool.Pop(preLoadedobj, parent).gameObject; //팝할게 없어도 자동으로 주가됨.
+                }
 
-        GameObject go =  GameManager.PoolBeta.Instantiate(preLoadedobj, Vector3.one, Quaternion.identity, parent);
-        go.name = preLoadedobj.name;
-        return go;
+                GameObject go = GameManager.PoolBeta.Instantiate(preLoadedobj, Vector3.one, Quaternion.identity, parent);
+                go.name = preLoadedobj.name;
+                return go;*/
 
 
         //풀링 대상이 아닌 녀석들
-      /*  GameObject go = Object.Instantiate(preLoadedobj, parent);
+        GameObject go = Object.Instantiate(preLoadedobj, parent);
         go.name = preLoadedobj.name;
 
-        return go;*/
+        return go;
     }
     public void Destroy(GameObject go, float DestoryOffset = 0)
     {

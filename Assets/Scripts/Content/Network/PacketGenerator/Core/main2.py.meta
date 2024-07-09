@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 9abcdd106b60c5140b261502cbdca59f
+=======
+guid: 166ea3d247ee5cc428d66e59a340c5fb
+>>>>>>> feature/quest
 DefaultImporter:
   externalObjects: {}
   userData: 

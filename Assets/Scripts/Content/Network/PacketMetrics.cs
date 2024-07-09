@@ -275,6 +275,7 @@ class PacketMetrics
             { PacketHandler.PacketType.PKT_C_VERIFYING, PacketHandler.PacketType.PKT_S_VERIFYING },
             { PacketHandler.PacketType.PKT_C_NICKNAME, PacketHandler.PacketType.PKT_S_NICKNAME },
             { PacketHandler.PacketType.PKT_C_NEW_CHARACTER, PacketHandler.PacketType.PKT_S_NEW_CHARACTER },
+            { PacketHandler.PacketType.PKT_C_DELETE_CHARACTER, PacketHandler.PacketType.PKT_S_DELETE_CHARACTER },
         };
 
 

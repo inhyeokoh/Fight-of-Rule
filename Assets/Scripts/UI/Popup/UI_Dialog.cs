@@ -2,26 +2,11 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.UI;
 
 public class UI_Dialog : UI_Entity
 {
-    int _npcID;
-
-    CameraFollow cameraFollow;
-
-    #region 퀘스트 목록
-    List<Quest> accessibleQuests;
-    GameObject questPanel;
-    GameObject questList;
-    ToggleGroup toggleGroup;
-    GameObject canComplete;
-    GameObject available;
-    GameObject ongoing;
-    Quest selectedQuest;
-    #endregion
+    bool _init;
+    VCamSwitcher vCamSwitcher;
 
     #region 대화창
     TMP_Text mainText;
@@ -30,12 +15,11 @@ public class UI_Dialog : UI_Entity
     int dialogCount;
     #endregion
 
-    Enum_NpcType _npcType;
+    Quest selectedQuest;
 
     enum Enum_UI_Dialog
     {
-        Panel,
-        QuestPanel,
+        DialogPanel,
         MainText,
         Next,
         Accept,
@@ -49,74 +33,33 @@ public class UI_Dialog : UI_Entity
 
     void OnEnable()
     {
-        if (!GameManager.UI.init) return;
+        if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
-        GameManager.UI.PointerOnUI(true);
+        // GameManager.UI.CloseAllPopups();
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, true);
         nextButton.SetActive(false);
         acceptButton.SetActive(false);
-        cameraFollow = GameObject.FindWithTag("vCam").GetComponent<CameraFollow>();
-        cameraFollow.NpcPos = GameManager.Data.npcDict[_npcID].transform.position;
-        cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.DialogZoom;
-        mainText.text = GameManager.Data.npcDict[_npcID].DefaultText;
-        switch (_npcType)
-        {
-            case Enum_NpcType.Quest:
-                _ShowQuests();
-                dialogCount = 0;
-                break;
-            case Enum_NpcType.Shop:
-                GameManager.UI.Shop.shopPurchase.DrawSellingItems(_npcID);
-                GameManager.UI.OpenPopup(GameManager.UI.Shop);
-                questPanel.SetActive(false);
-                break;
-            default:
-#if UNITY_EDITOR
-                Debug.Assert(false);
-#endif
-                break;
-        }
+        vCamSwitcher?.SwitchToVCam2();
+
+        mainText.text = GameManager.Data.npcDict[PlayerController.instance._interaction.InteractingNpcID].DefaultText;
     }
 
     void OnDisable()
     {
-        switch (_npcType)
-        {
-            case Enum_NpcType.Quest:
-                _DestroyQuestNameToggles();
-                canComplete.gameObject.SetActive(false);
-                available.gameObject.SetActive(false);
-                ongoing.gameObject.SetActive(false);
-                GameManager.UI.PointerOnUI(false);
-                break;
-            case Enum_NpcType.Shop:
-                GameManager.UI.PointerOnUI(false);
-                break;
-            default:
-#if UNITY_EDITOR
-                Debug.Assert(false);
-#endif
-                break;
-        }
+        if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
-        if (cameraFollow != null)
-        {
-            cameraFollow.ZoomState = CameraFollow.Enum_ZoomTypes.Default;
-        }
+        // GameManager.UI.ReOpen();
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
+        vCamSwitcher?.SwitchToVCam1();
     }
 
     protected override void Init()
     {
         base.Init();
 
-        questPanel = _entities[(int)Enum_UI_Dialog.QuestPanel].gameObject;
+        vCamSwitcher = GameObject.FindWithTag("vCamSwitcher").GetComponent<VCamSwitcher>();
         nextButton = _entities[(int)Enum_UI_Dialog.Next].gameObject;
         acceptButton = _entities[(int)Enum_UI_Dialog.Accept].gameObject;
-        questList = _entities[(int)Enum_UI_Dialog.QuestPanel].transform.GetChild(0).gameObject;
-        toggleGroup = questList.GetComponent<ToggleGroup>();
-        canComplete = questList.transform.GetChild(0).gameObject;
-        available = questList.transform.GetChild(1).gameObject;
-        ongoing = questList.transform.GetChild(2).gameObject;
-
         mainText = _entities[(int)Enum_UI_Dialog.MainText].GetComponent<TMP_Text>();
 
         _entities[(int)Enum_UI_Dialog.Next].ClickAction = (PointerEventData data) => {
@@ -125,7 +68,7 @@ public class UI_Dialog : UI_Entity
 
         _entities[(int)Enum_UI_Dialog.Accept].ClickAction = (PointerEventData data) => {
             switch (selectedQuest.progress)
-            {                
+            {
                 case Enum_QuestProgress.Available:
                     GameManager.Quest.ReceiveQuest(selectedQuest.questData.questID);
                     GameManager.UI.ClosePopup(GameManager.UI.Dialog);
@@ -143,10 +86,18 @@ public class UI_Dialog : UI_Entity
         };
 
         _entities[(int)Enum_UI_Dialog.Cancel].ClickAction = (PointerEventData data) => {
-            GameManager.UI.ClosePopup(GameManager.UI.Dialog);
-            switch (_npcType)
+            switch (GameManager.Data.npcDict[PlayerController.instance._interaction.InteractingNpcID].npcType)
             {
                 case Enum_NpcType.Quest:
+                    if (selectedQuest == null || selectedQuest.progress == Enum_QuestProgress.Available)
+                    {
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
+                    }
+                    else if (selectedQuest.progress == Enum_QuestProgress.CanComplete)
+                    {
+                        // 나가기는 퀘스트 완료 X
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestComplete);
+                    }
                     break;
                 case Enum_NpcType.Shop:
                     GameManager.UI.ClosePopup(GameManager.UI.Shop);
@@ -157,80 +108,18 @@ public class UI_Dialog : UI_Entity
 #endif
                     break;
             }
+            GameManager.UI.ClosePopup(GameManager.UI.Dialog);
         };
 
         gameObject.SetActive(false);
     }
 
-    public void HandOverNpcID(int npcID)
+    public void StartDialog()
     {
-        _npcID = npcID;
-        _npcType = GameManager.Data.npcDict[_npcID].npcType;
-    }
-
-    void _ShowQuests()
-    {
-        accessibleQuests = new List<Quest>();
-        foreach (var quest in GameManager.Quest.questsByNpcID[_npcID])
-        {
-            // 시작 불가능, 완료된 퀘스트 제외 하고 보여주기
-            if (quest.progress != Enum_QuestProgress.UnAvailable && quest.progress != Enum_QuestProgress.Completed)
-            {
-                accessibleQuests.Add(quest);
-            }
-        }
-
-        if (accessibleQuests.Count == 0)
-        {
-            questPanel.SetActive(false);
-            return;
-        }
-
-        questPanel.SetActive(true);
-        foreach (var quest in accessibleQuests)
-        {
-            GameObject toggle;
-            switch (quest.progress)
-            {
-                case Enum_QuestProgress.Available:
-                    available.gameObject.SetActive(true);
-                    toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", available.transform.GetChild(1).transform);
-                    toggle.GetComponent<Toggle>().group = toggleGroup;
-                    toggle.transform.GetChild(0).GetComponent<TMP_Text>().text = quest.questData.title;
-                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => selectedQuest = quest);
-                    break;
-                case Enum_QuestProgress.Ongoing:
-                    ongoing.gameObject.SetActive(true);
-                    toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", ongoing.transform.GetChild(1).transform);
-                    toggle.GetComponent<Toggle>().group = toggleGroup;
-                    toggle.transform.GetChild(0).GetComponent<TMP_Text>().text = quest.questData.title;
-                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => selectedQuest = quest);
-                    break;
-                case Enum_QuestProgress.CanComplete:
-                    canComplete.gameObject.SetActive(true);
-                    toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", canComplete.transform.GetChild(1).transform);
-                    toggle.GetComponent<Toggle>().group = toggleGroup;
-                    toggle.transform.GetChild(0).GetComponent<TMP_Text>().text = quest.questData.title;
-                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => selectedQuest = quest);
-                    break;
-                default:
-#if UNITY_EDITOR
-                    Debug.Assert(false);
-#endif
-                    break;
-            }
-        }
-        toggleGroup.ActiveToggles().FirstOrDefault();
-    }
-    
-    // 퀘스트 패널 하위 버튼에 OnClick 연결 
-    public void ContinueWithSelectedQuest()
-    {
-        if (selectedQuest == null) return;
-
-        questPanel.SetActive(false);
+        GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
         nextButton.SetActive(true);
-
+        selectedQuest = GameManager.Quest.CurrentSelectedQuest;
+        dialogCount = 0;
         _ContinueDialog();
     }
 
@@ -255,7 +144,7 @@ public class UI_Dialog : UI_Entity
                 if (dialogCount == selectedQuest.questData.completeText.Length)
                 {
                     nextButton.SetActive(false);
-                    acceptButton.SetActive(true); // 이거 대신 퀘스트 보상 팝업
+                    GameManager.UI.OpenPopup(GameManager.UI.QuestComplete);
                 }
                 break;
             default:
@@ -263,21 +152,6 @@ public class UI_Dialog : UI_Entity
                 Debug.Assert(false);
 #endif
                 break;
-        }
-    }
-
-    void _DestroyQuestNameToggles()
-    {
-        foreach (Transform quest in questList.transform)
-        {
-            if (quest.gameObject.activeSelf)
-            {
-                Transform childTransform = quest.GetChild(1);
-                foreach (Transform questNameToggle in childTransform)
-                {
-                    GameManager.Resources.Destroy(questNameToggle.gameObject);
-                }
-            }
         }
     }
 }

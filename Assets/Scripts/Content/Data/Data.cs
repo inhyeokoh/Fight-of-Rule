@@ -293,10 +293,10 @@ public class QuestData : Data
     // 보상
     public int expReward;
     public long goldReward;
-    public string itemReward;
+    public List<ItemData> itemRewards;
 
     public QuestData(int questID, string title, int npcID, Enum_QuestType questType, string[] conversationText, string summaryText, string ongoingText, string[] completeText, int requiredLevel, int? nextQuestID,
-        List<QuestGoal> goals, int expReward, long goldReward, string itemReward)
+        List<QuestGoal> goals, int expReward, long goldReward, List<ItemData> itemReward)
     {
         this.questID = questID;
         this.title = title;
@@ -311,7 +311,7 @@ public class QuestData : Data
         this.goals = goals;
         this.expReward = expReward;
         this.goldReward = goldReward;
-        this.itemReward = itemReward;
+        this.itemRewards = itemReward;
     }
 }
 
@@ -322,13 +322,15 @@ public abstract class QuestGoal
 
 public class ObjectGoal : QuestGoal
 {
+    public int ObjectID { get; set; }
     public string ObjectName { get; set; }
     public int RequiredCount { get; set; }
-    private int currentCount;
+    int currentCount;
 
-    public ObjectGoal(string objectName, int requiredCount)
+    public ObjectGoal(int objectID, int requiredCount)
     {
-        ObjectName = objectName;
+        ObjectID = objectID;
+        ObjectName = GameManager.Data.itemDatas[objectID].name;
         RequiredCount = requiredCount;
         currentCount = 0; // 초기화
     }
@@ -346,13 +348,15 @@ public class ObjectGoal : QuestGoal
 
 public class MonsterGoal : QuestGoal
 {
+    public int MonsterID { get; set; }
     public string MonsterName { get; set; }
     public int RequiredCount { get; set; }
-    private int currentCount;
+    int currentCount;
 
-    public MonsterGoal(string monsterName, int requiredCount)
+    public MonsterGoal(int monsterID, int requiredCount)
     {
-        MonsterName = monsterName;
+        MonsterID = monsterID;
+        MonsterName = GameManager.Data.monsterDatas[monsterID].monster_name;
         RequiredCount = requiredCount;
         currentCount = 0;
     }
@@ -360,7 +364,7 @@ public class MonsterGoal : QuestGoal
     public void IncrementCount(int amount)
     {
         currentCount += amount;
-        Debug.LogError($"{MonsterName} {currentCount}/{RequiredCount}");
+        //Debug.LogError($"{MonsterName} {currentCount}/{RequiredCount}");
     }
 
     public override bool IsCompleted()

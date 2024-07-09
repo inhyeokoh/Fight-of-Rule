@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Scripts/Content/Network/PacketGenerator/__build_result__/ProtoBuild/PacketHandler.cs.meta
+guid: 19385ca6aad42f245815d89218ec34fc
+========
+guid: a4210e490ba9bb34e9ebb0ce51eb73ee
+>>>>>>>> feature/quest:Assets/Scripts/Content/Network/PacketGenerator/__build_result__/ProtoBuild/charactermessage.cs.meta
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

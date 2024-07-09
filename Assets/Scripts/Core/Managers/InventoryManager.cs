@@ -1,5 +1,3 @@
-//#define SERVER
-#define CLIENT_TEST
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -64,8 +62,8 @@ public class InventoryManager : SubClass<GameManager>
     {
         items = new List<ItemData>(new ItemData[TotalSlotCount]);
         equips = new List<ItemData>(new ItemData[EquipSlotCount]);
-#if SERVER
-#elif CLIENT_TEST
+#if SERVER || CLIENT_TEST_TITLE
+#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         ConnectInven();
 #endif
     }
@@ -396,11 +394,10 @@ public class InventoryManager : SubClass<GameManager>
             int rightItem = right.GetIntType();
 
             if (leftItem < rightItem) return true;
-            if (leftItem > rightItem) return true;
+            if (leftItem > rightItem) return false;
         }
-        if (left.id < right.id) return true;
-        if (left.id > right.id) return false;
-        return true;
+        if (left.id <= right.id) return true;
+        else return false;
     }
 
     void _CombineQuantities(List<ItemData> itemList)

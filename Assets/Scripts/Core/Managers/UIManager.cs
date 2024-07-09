@@ -1,6 +1,3 @@
-//#define SERVER
-//#define CLIENT_TEST_FROM_TITLE
-#define CLIENT_TEST
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -9,6 +6,7 @@ using UnityEngine.UI;
 public class UIManager : SubClass<GameManager>
 {
     PlayerInput pi;
+    InputActionMap playerActionMap;
     InputAction moveAction;
     InputAction fireAction;
 
@@ -16,10 +14,10 @@ public class UIManager : SubClass<GameManager>
     public UI_SignUp SignUp;
     public UI_InputName InputName;
     public UI_Setting Settings;
-    public UI_Blocker Blocker;
+    GameObject Blocker;
+    public GameObject BlockAll;
     public UI_ConfirmYN ConfirmYN;
     public UI_ConfirmY ConfirmY;
-    public UI_BlockAll BlockAll;
 
     public UI_Inventory Inventory;
     public UI_PlayerInfo PlayerInfo;
@@ -27,6 +25,8 @@ public class UIManager : SubClass<GameManager>
     public UI_InGameConfirmYN InGameConfirmYN;
     public UI_InGameConfirmY InGameConfirmY;
     public UI_Dialog Dialog;
+    public UI_QuestAccessible QuestAccessible;
+    public UI_QuestComplete QuestComplete;
     public UI_StatusWindow StatusWindow;
     //public GameObject SkillWindow;
     public UI_InGameMain InGameMain;
@@ -36,8 +36,18 @@ public class UIManager : SubClass<GameManager>
     int blockerCount = 0;
     public bool init;
 
-    // 실시간 팝업 관리
     public LinkedList<UI_Entity> _activePopupList;
+    public List<UI_Entity> _tempClosed;
+
+    public enum Enum_ControlInputAction
+    {
+        None, // 제어 X
+        BlockMouseClick, // 좌클릭, 우클릭 제어
+        BlockPlayerInput // ActionMap 중 "Player" 하위 Actions 전체 제어
+    }
+    Enum_ControlInputAction _currentInputActionControl = Enum_ControlInputAction.None;
+
+    // 활성화된 팝업 관리
 
     protected override void _Clear()
     {
@@ -52,21 +62,22 @@ public class UIManager : SubClass<GameManager>
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
         _activePopupList = new LinkedList<UI_Entity>();
+        _tempClosed = new List<UI_Entity>();
         popupCanvas = GameObject.Find("PopupCanvas");
-#if SERVER
+#if SERVER || CLIENT_TEST_TITLE
         Object.DontDestroyOnLoad(popupCanvas);
-#elif CLIENT_TEST_FROM_TITLE
-        Object.DontDestroyOnLoad(popupCanvas);
-#elif CLIENT_TEST
+#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         ConnectPlayerInput();
         GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력 기능들을 수행할 수 있는 프리팹 생성
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
         PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();
         Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform).GetComponent<UI_Shop>();
-        Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
+        Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform);
         InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
         InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
         Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
+        QuestAccessible = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestAccessible", popupCanvas.transform).GetComponent<UI_QuestAccessible>();
+        QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
 #endif
         init = true;
     }
@@ -89,23 +100,27 @@ public class UIManager : SubClass<GameManager>
                 InputName = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InputName", popupCanvas.transform).GetComponent<UI_InputName>();
                 ConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmYN", popupCanvas.transform).GetComponent<UI_ConfirmYN>();
                 ConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ConfirmY", popupCanvas.transform).GetComponent<UI_ConfirmY>();
-                Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
-                BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).GetComponent<UI_BlockAll>();
+                Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).gameObject;
+                BlockAll = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/BlockAll", popupCanvas.transform).gameObject;
+                BlockAll.transform.SetAsLastSibling();
                 break;
             case Enum_PopupSetJunction.StatePattern:
-                popupCanvas = GameObject.Find("PopupCanvas");
                 // 기존 OutGamePopup 전부 삭제
                 for (int i = 0; i < popupCanvas.transform.childCount; i++)
                 {
-                    if (Settings) continue; // 환경설정 팝업 제외
+                    if (popupCanvas.transform.GetChild(i).gameObject.name == "Settings") continue; // 환경설정 팝업 제외
+
                     GameManager.Resources.Destroy(popupCanvas.transform.GetChild(i).gameObject);
                 }
                 Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
                 PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();
                 Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform).GetComponent<UI_Shop>();
-                Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).GetComponent<UI_Blocker>();
+                Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform).gameObject;
                 InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
                 InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
+                Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
+                QuestAccessible = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestAccessible", popupCanvas.transform).GetComponent<UI_QuestAccessible>();
+                QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
                 // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
                 break;
             default:
@@ -116,6 +131,7 @@ public class UIManager : SubClass<GameManager>
     public void ConnectPlayerInput()
     {
         pi = GameObject.Find("PlayerController").GetComponent<PlayerInput>();
+        playerActionMap = pi.actions.FindActionMap("Player");
         moveAction = pi.currentActionMap.FindAction("Move");
         fireAction = pi.currentActionMap.FindAction("Fire");
     }
@@ -155,6 +171,36 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
+    /// <summary>
+    /// 팝업 모두 닫기
+    /// </summary>
+    public void CloseAllPopups(UI_Entity except = null)
+    {
+        _tempClosed.Clear();
+        for (int i = 0; i < popupCanvas.transform.childCount; i++)
+        {
+            GameObject child = popupCanvas.transform.GetChild(i).gameObject;
+            if (child.activeSelf)
+            {
+                UI_Entity childEntity = child.GetComponent<UI_Entity>();
+                ClosePopup(childEntity);
+                _tempClosed.Add(childEntity);
+            }
+        }
+    }
+
+    public void ReOpen()
+    {
+        for (int i = 0; i < popupCanvas.transform.childCount; i++)
+        {
+            UI_Entity childEntity = popupCanvas.transform.GetChild(i).GetComponent<UI_Entity>();
+            if (_tempClosed.Contains(childEntity))
+            {
+                OpenPopup(childEntity);
+            }
+        }
+    }
+
     // 가장 마지막에 연 팝업이 화면상 가장 위에 오도록
     public void SortPopupView()
     {
@@ -178,7 +224,7 @@ public class UIManager : SubClass<GameManager>
         {
             if (blockerCount == 0)
             {
-                OpenPopup(Blocker);
+                Blocker.SetActive(true);
             }
             blockerCount++;
         }
@@ -187,7 +233,7 @@ public class UIManager : SubClass<GameManager>
             blockerCount--;
             if (blockerCount <= 0)
             {
-                ClosePopup(Blocker);
+                Blocker.SetActive(false);
                 blockerCount = 0; // 음수 방지
             }
         }
@@ -202,7 +248,7 @@ public class UIManager : SubClass<GameManager>
             }
         }
         int beforeLast = activatePopupIndex - 1;
-        // Blocker.transform.SetSiblingIndex(beforeLast);
+        Blocker.transform.SetSiblingIndex(beforeLast);
     }
 
 
@@ -229,6 +275,57 @@ public class UIManager : SubClass<GameManager>
         {
             moveAction.Enable();
             fireAction.Enable();
+        }
+    }
+
+    /// <summary>
+    /// InputAction 제어 메서드
+    /// </summary>
+    /// <param name="blockType"> 일부 행동 제어, ActionMap 전체 제어 구분 </param>
+    /// <param name="block"> true = block </param>
+    public void BlockPlayerActions(Enum_ControlInputAction blockType, bool block)
+    {
+        switch (blockType)
+        {
+            case Enum_ControlInputAction.BlockMouseClick:
+                _SetActionState(moveAction, block);
+                _SetActionState(fireAction, block);
+                break;
+            case Enum_ControlInputAction.BlockPlayerInput:
+                _SetActionMap(playerActionMap, block);
+                break;
+            default:
+                break;
+        }
+    }
+
+    void _SetActionState(InputAction action, bool state)
+    {
+        if (_currentInputActionControl == Enum_ControlInputAction.BlockPlayerInput) return; // 전체 제어중이면 return
+
+        if (state)
+        {
+            action.Disable();
+            _currentInputActionControl = Enum_ControlInputAction.BlockMouseClick;
+        }
+        else
+        {
+            action.Enable();
+            _currentInputActionControl = Enum_ControlInputAction.None;
+        }
+    }
+
+    void _SetActionMap(InputActionMap actionMap, bool state)
+    {
+        if (state)
+        {
+            actionMap.Disable();
+            _currentInputActionControl = Enum_ControlInputAction.BlockPlayerInput;
+        }
+        else
+        {
+            actionMap.Enable();
+            _currentInputActionControl = Enum_ControlInputAction.None;
         }
     }
 }

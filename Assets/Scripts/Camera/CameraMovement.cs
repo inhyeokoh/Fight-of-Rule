@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    public GameObject target;
+/*    public GameObject target;
 
     public float offsetX;
     public float offsetY;
@@ -168,5 +168,5 @@ public class CameraMovement : MonoBehaviour
         transform.position = targetPosition;
         Quaternion.LookRotation(midPos - transform.position);
         //transform.LookAt(midPos);
-    }
+    }*/
 }

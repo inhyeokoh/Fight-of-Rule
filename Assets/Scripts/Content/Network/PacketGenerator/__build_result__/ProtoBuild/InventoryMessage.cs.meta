@@ -1,5 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
 guid: 4301353b0441503418c29bfcb495a3f1
+=======
+<<<<<<<< HEAD:Assets/Scripts/Content/Network/PacketGenerator/__build_result__/ProtoBuild/CharacterMessage.cs.meta
+guid: 6b037cd9b94398e4bbe101d600f7b9b4
+========
+guid: 449e7bd68c9dc754aaac0aea4ab72ec6
+>>>>>>>> feature/quest:Assets/Scripts/Content/Network/PacketGenerator/__build_result__/ProtoBuild/InventoryMessage.cs.meta
+>>>>>>> feature/quest
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
