@@ -37,6 +37,8 @@ public class UIManager : SubClass<GameManager>
     public bool init;
 
     public LinkedList<UI_Entity> _activePopupList;
+    public List<UI_Entity> _tempClosed;
+
     public enum Enum_ControlInputAction
     {
         None, // 제어 X
@@ -60,6 +62,7 @@ public class UIManager : SubClass<GameManager>
         // 커서 화면 밖으로 안 나가도록. 게임 제작중에는 불편해서 주석처리
         // Cursor.lockState = CursorLockMode.Confined;
         _activePopupList = new LinkedList<UI_Entity>();
+        _tempClosed = new List<UI_Entity>();
         popupCanvas = GameObject.Find("PopupCanvas");
 #if SERVER || CLIENT_TEST_TITLE
         Object.DontDestroyOnLoad(popupCanvas);
@@ -165,6 +168,36 @@ public class UIManager : SubClass<GameManager>
         foreach (var child in targetPopup.childPopups)
         {
             _ClosePopupRecursively(child);
+        }
+    }
+
+    /// <summary>
+    /// 팝업 모두 닫기
+    /// </summary>
+    public void CloseAllPopups(UI_Entity except = null)
+    {
+        _tempClosed.Clear();
+        for (int i = 0; i < popupCanvas.transform.childCount; i++)
+        {
+            GameObject child = popupCanvas.transform.GetChild(i).gameObject;
+            if (child.activeSelf)
+            {
+                UI_Entity childEntity = child.GetComponent<UI_Entity>();
+                ClosePopup(childEntity);
+                _tempClosed.Add(childEntity);
+            }
+        }
+    }
+
+    public void ReOpen()
+    {
+        for (int i = 0; i < popupCanvas.transform.childCount; i++)
+        {
+            UI_Entity childEntity = popupCanvas.transform.GetChild(i).GetComponent<UI_Entity>();
+            if (_tempClosed.Contains(childEntity))
+            {
+                OpenPopup(childEntity);
+            }
         }
     }
 

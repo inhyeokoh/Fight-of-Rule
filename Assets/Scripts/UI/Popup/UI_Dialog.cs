@@ -35,6 +35,7 @@ public class UI_Dialog : UI_Entity
     {
         if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
+        // GameManager.UI.CloseAllPopups();
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, true);
         nextButton.SetActive(false);
         acceptButton.SetActive(false);
@@ -47,6 +48,7 @@ public class UI_Dialog : UI_Entity
     {
         if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
+        // GameManager.UI.ReOpen();
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
         vCamSwitcher?.SwitchToVCam1();
     }

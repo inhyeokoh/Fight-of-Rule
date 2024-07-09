@@ -18,6 +18,7 @@ public class DialogCamera : MonoBehaviour
 
     public void SetDialogCamera()
     {
+        Debug.Log("SetDialogCamera");
         int npcID = PlayerController.instance._interaction.InteractingNpcID;
         Transform npcTr = GameManager.Data.npcDict[npcID].transform;
 
@@ -46,6 +47,7 @@ public class DialogCamera : MonoBehaviour
 
     public void OutDialogCamera()
     {
+        Debug.Log("OutDialogCamera");
         virtualPlayer.SetActive(false);
 
         // 레이어 마스크 동적 변경
