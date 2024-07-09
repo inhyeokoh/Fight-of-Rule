@@ -2,6 +2,9 @@ syntax = "proto3";
 import "CharacterMessage.proto";
 import "OptionMessage.proto";
 import "ItemMessage.proto";
+import "InventoryMessage.proto";
+import "QuestMessage.proto";
+import "UnitMessage.proto";
 
 message C_SIGNUP {
     string signup_id = 1;
@@ -103,7 +106,8 @@ message C_INGAME {
 message S_INGAME {
     bool success = 1;
     INVENTORY inventory = 2;
-    // TODO : Äù½ºÆ®, Àåºñ
+    VECTOR3 character_position = 3;
+    // TODO : Quest, Equipment
 }
 
 message C_ITEMINFO {
@@ -111,4 +115,28 @@ message C_ITEMINFO {
 
 message S_ITEMINFO {
     ITEM_DATA item_data = 1;
+}
+
+message C_ITEM_PICKUP {
+}
+
+message S_ITEM_PICKUP {    
+}
+
+message S_ITEM_DROP {
+    int64 unique_id = 1;
+    int32 item_id = 2;
+    int32 count = 3;
+    VECTOR3 pos = 4;
+}
+
+message C_CHARACTER_MOVE
+{
+    VECTOR3 current_pos = 1;
+    VECTOR3 target_pos = 2;
+}
+
+message S_CHARACTER_MOVE
+{
+   VECTOR3 current_pos = 1;
 }

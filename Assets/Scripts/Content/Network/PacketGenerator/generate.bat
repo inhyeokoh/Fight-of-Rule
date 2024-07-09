@@ -1,3 +1,6 @@
+echo %~dp0
+cd %~dp0
+
 python ./Core/main.py
 
-IF ERRORLEVEL 1 Pause
+exit 0

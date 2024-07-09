@@ -70,6 +70,7 @@ public class MonsterController : MonoBehaviour
         DBRederOn = true;
 
         _monsterState.StateAdd();
+        _monsterState.ChangeState((int)Enum_MonsterState.Idle);
     }
     private void FixedUpdate()
     {     

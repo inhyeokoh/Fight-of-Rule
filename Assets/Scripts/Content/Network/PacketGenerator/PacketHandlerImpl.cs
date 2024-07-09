@@ -22,7 +22,7 @@ public class PacketHandlerImpl : MonoBehaviour
             return false;
 #endif
         }
-
+        
         if (message.SignupResult == S_SIGNUP.Types.SIGNUP_FLAGS.SignupErrorExist)
         {
             GameManager.ThreadPool.UniAsyncJob(() =>
@@ -127,9 +127,46 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
-    internal static bool Handle_S_INGAME(Session session, S_INGAME s_INGAME)
+    internal static bool Handle_S_CHARACTER_MOVE(Session session, S_CHARACTER_MOVE message)
     {
-        throw new NotImplementedException();
+        float x = message.CurrentPos.X / 1000000.0f;
+        float y = message.CurrentPos.Y / 1000000.0f;
+        float z = message.CurrentPos.Z / 1000000.0f;
+
+        Vector3 correctionPos = new Vector3(x, y, z);
+
+        PlayerController.instance._playerMovement.playerTransform.position = correctionPos;
+
+        return true;
+    }
+
+    internal static bool Handle_S_ITEM_DROP(Session session, S_ITEM_DROP message)
+    {
+        return true;
+    }
+
+    internal static bool Handle_S_ITEM_PICKUP(Session session, S_ITEM_PICKUP message)
+    {
+        return true;
+    }
+
+    internal static bool Handle_S_INGAME(Session session, S_INGAME message)
+    {
+
+
+
+        ///////////////// 캐릭터 위치 정보 //////////////////
+        float x = message.CharacterPosition.X / 1000000.0f;
+        float y = message.CharacterPosition.Y / 1000000.0f;
+        float z = message.CharacterPosition.Z / 1000000.0f;
+
+        Vector3 currentPos = new Vector3(x, y, z);
+
+
+        print($"서버에서 보내는 currentPos : {currentPos}");
+        PlayerController.instance._playerMovement.playerTransform.position = currentPos;
+
+        return true;
     }
 
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
@@ -238,4 +275,5 @@ public class PacketHandlerImpl : MonoBehaviour
     {
         return true;
     }
+
 }

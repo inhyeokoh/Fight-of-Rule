@@ -255,12 +255,12 @@ public class MonsterData : Data
 public class MonsterItemDropData
 {
     public int monster_id;
-    public string[] monster_itemdrop;
+    public int[] monster_itemdrop;
     public float[] monster_itempercent;
     public int monster_mingold;
     public int monster_maxgold;
 
-    public MonsterItemDropData(int monster_id, string[] monster_itemdrop,float[] monster_itempercent,int monster_mingold, int monster_maxgold)
+    public MonsterItemDropData(int monster_id, int[] monster_itemdrop,float[] monster_itempercent,int monster_mingold, int monster_maxgold)
     {
         this.monster_id = monster_id;
         this.monster_itemdrop = monster_itemdrop;

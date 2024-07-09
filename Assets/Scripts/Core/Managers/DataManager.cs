@@ -139,10 +139,10 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Stat.Defense = 3;
         CurrentCharacter.Stat.Speed = 10;
 
-        CurrentCharacter.Xyz = new CHARACTER_POS();
-        CurrentCharacter.Xyz.X = 0;
-        CurrentCharacter.Xyz.Y = 0;
-        CurrentCharacter.Xyz.Z = 0;
+        CurrentCharacter.Vector3 = new VECTOR3();
+        CurrentCharacter.Vector3.X = 0;
+        CurrentCharacter.Vector3.Y = 0;
+        CurrentCharacter.Vector3.Z = 0;
 
         volOptions.MasterVol = 0.7f;
         volOptions.BgmVol = 0.6f;
@@ -158,7 +158,7 @@ public class DataManager : SubClass<GameManager>
         MonstersTableParsing();
         LevelTableParsing("WarriorLevelTable");
         QuestTableParsing("QuestTable");
-        NpcTableParsing("NpcTable");
+      //  NpcTableParsing("NpcTable");
         ShopTableParsing("ShopTable");
     }
 
@@ -315,7 +315,24 @@ public class DataManager : SubClass<GameManager>
 
         return null;
     }
+    public ItemData MonsterDropItem(int itemID)
+    {
+        ItemData item;
 
+        try
+        {
+            item = StateItemDataReader(itemID);
+
+            return item;
+        }
+        catch
+        {
+            Debug.Log("아이템 정보가 없습니다.");
+
+        }
+
+        return null;
+    }
     private void MonstersTableParsing()
     {
         List<Dictionary<string, string>> data = CSVReader.Read($"{tableFolderPath}MonsterTable");
@@ -357,7 +374,7 @@ public class DataManager : SubClass<GameManager>
             MonsterItemDropData monsterItemDropData;
 
             int monster_id = int.Parse(dropData[i]["monster_id"]);
-            string[] monster_itemdrop = dropData[i]["monster_itemdrop"].Split(",");
+            int[] monster_itemdrop = Array.ConvertAll(dropData[i]["monster_itemdrop"].Split(","), int.Parse);
             float[] monster_itempercent = Array.ConvertAll(dropData[i]["monster_itempercent"].Split(","), float.Parse);
             int monster_mingold = int.Parse(dropData[i]["monster_mingold"]);
             int monster_maxgold = int.Parse(dropData[i]["monster_maxgold"]);
@@ -413,8 +430,6 @@ public class DataManager : SubClass<GameManager>
 
         switch (characterClass)
         {
-            case Enum_Class.Default:
-                break;
             case Enum_Class.Warrior:
                 currentLevelData = warriorLevelDatas[level];
                 break;
@@ -524,7 +539,7 @@ public class DataManager : SubClass<GameManager>
         }
     }
 
-    public void NpcTableParsing(string fileName)
+   /* public void NpcTableParsing(string fileName)
     {
         List<Dictionary<string, string>> npcTable = CSVReader.Read(tableFolderPath + fileName);
 
@@ -549,7 +564,7 @@ public class DataManager : SubClass<GameManager>
             npcDict[npcID].npcType = (Enum_NpcType)Enum.Parse(typeof(Enum_NpcType), type);
             npcDict[npcID].DefaultText = defaultText;
         }
-    }
+    }*/
 
     public void ShopTableParsing(string fileName)
     {

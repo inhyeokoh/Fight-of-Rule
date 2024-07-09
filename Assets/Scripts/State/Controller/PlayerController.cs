@@ -10,15 +10,12 @@ public enum Enum_Class
     Warrior,
     Wizard,
     Archer,
-    Default
 }
 
 //현재 플레이어의 메인보드 역할을 하는 클래스
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance = null;
-
-    public ItemData item;
 
     public List<SubMono<PlayerController>> _controller;
 
@@ -59,6 +56,10 @@ public class PlayerController : MonoBehaviour
 
     float dialogDist = 5f;
     Coroutine _moveTowardsNpcCoroutine;
+
+    C_CHARACTER_MOVE character_move = new C_CHARACTER_MOVE();
+    VECTOR3 character_current_pos = new VECTOR3();
+    VECTOR3 character_target_pos = new VECTOR3();
 
     private void Awake()
     {
@@ -228,7 +229,7 @@ public class PlayerController : MonoBehaviour
 
     //플레이어의 입출력부분을 담당하는 메서드들인데 이걸 입출력 클래스를 하나 만들어서 옮겨야 될거같음
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void Move(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
@@ -281,8 +282,21 @@ public class PlayerController : MonoBehaviour
                 if (Physics.Raycast(ray, out hit, 100, 1 << 6))
                 {
                     test.position = hit.point;
-                    _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
+                    _playerMovement.TargetPosition = new Vector3(hit.point.x,/* _playerMovement.playerTransform.position.y,*/hit.point.y,
                     hit.point.z);
+
+                    character_current_pos.X = Utils.Scaling(_playerMovement.playerTransform.position.x);
+                    character_current_pos.Y = Utils.Scaling(_playerMovement.playerTransform.position.y);
+                    character_current_pos.Z = Utils.Scaling(_playerMovement.playerTransform.position.z);
+
+                    character_target_pos.X = Utils.Scaling(hit.point.x);
+                    character_target_pos.Y = Utils.Scaling(hit.point.y);
+                    character_target_pos.Z = Utils.Scaling(hit.point.z);
+
+                    character_move.CurrentPos = character_current_pos;
+                    character_move.TargetPos = character_target_pos;
+
+                    GameManager.Network.Send(PacketHandler.Instance.SerializePacket(character_move));
 
                     _playerState.ChangeState((int)Enum_CharacterState.Move);
 
@@ -313,10 +327,10 @@ public class PlayerController : MonoBehaviour
         GameManager.UI.OpenPopup(GameManager.UI.Dialog);
     }
 
-    public void OnAvoid(InputAction.CallbackContext context)
+    public void Avoid(InputAction.CallbackContext context)
     {
 
-        if (context.action.phase == InputActionPhase.Started)
+        if (context.action.phase == InputActionPhase.Performed)
         {
             if (_playerState.CharacterStates == Enum_CharacterState.Fall ||
           _playerState.CharacterStates == Enum_CharacterState.Dead)
@@ -351,7 +365,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnClick(InputAction.CallbackContext context)
+    public void Click(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
@@ -376,7 +390,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnSkillQ(InputAction.CallbackContext context)
+    public void Skill1(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -401,7 +415,7 @@ public class PlayerController : MonoBehaviour
         }           
     }
 
-    public void OnSkillW(InputAction.CallbackContext context)
+    public void Skill2(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -425,7 +439,7 @@ public class PlayerController : MonoBehaviour
             }          
         }
     }
-    public void OnSkillE(InputAction.CallbackContext context)
+    public void Skill3(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -449,7 +463,7 @@ public class PlayerController : MonoBehaviour
             }    
         }
     }
-    public void OnSkillR(InputAction.CallbackContext context)
+    public void Skill4(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -474,7 +488,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnDeadCheck(InputAction.CallbackContext context)
+   /* public void DeadCheck(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
@@ -482,30 +496,14 @@ public class PlayerController : MonoBehaviour
         }       
     }
 
-    public void OnAliveCheck(InputAction.CallbackContext context)
+    public void AliveCheck(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
             print("눌렀음");
             _playerState.ChangeState((int)Enum_CharacterState.Idle);
         }
-    }
-
-    public void Inven(InputAction.CallbackContext context)
-    {
-        if (context.action.phase == InputActionPhase.Performed)
-        {
-            GameManager.UI.OpenOrClose(GameManager.UI.Inventory);
-        }
-    }
-
-    public void PlayerInfo(InputAction.CallbackContext context)
-    {
-        if (context.action.phase == InputActionPhase.Performed)
-        {
-            GameManager.UI.OpenOrClose(GameManager.UI.PlayerInfo);
-        }
-    }
+    }*/
 
     // 이벤트들에 정보들을 받기위한 메서드들
     public void DistributeState(int Event)
@@ -539,5 +537,6 @@ public class PlayerController : MonoBehaviour
     {
         _effector.EffectBurstStop();
     }
+
 
 }

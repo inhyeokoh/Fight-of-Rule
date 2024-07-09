@@ -38,7 +38,7 @@ public class ObjectMove : MonoBehaviour
         if (Time.time > m_time + time)
         {
            // print(m_time + time + " dz");
-            print(Time.time);
+           // print(Time.time);
             gameObject.SetActive(false);
         }
         /*    gameObject.SetActive(false);

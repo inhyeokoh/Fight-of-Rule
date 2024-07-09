@@ -101,7 +101,7 @@ public abstract class MonsterState : SubMono<MonsterController>
     protected override void _Init()
     {
         state = new Dictionary<int, State>();
-        stateMachine = new StateMachine(); 
+        stateMachine = new StateMachine();
     }
 
     protected override void _Clear()
@@ -128,7 +128,6 @@ public abstract class MonsterState : SubMono<MonsterController>
         {
             if (isDeadCheck)
             {
-                print("Idle Enter");
                 _board._animationController.ChangeTrrigerAnimation(Enum_MonsterState.Dead.ToString());
                 return;
             }
@@ -143,7 +142,7 @@ public abstract class MonsterState : SubMono<MonsterController>
         {
             if (isDeadCheck)
             {
-                print("Idle Update");
+                //print("Idle Update");
                 return;
             }
 
@@ -326,7 +325,7 @@ public abstract class MonsterState : SubMono<MonsterController>
 
     public void SetActive()
     {
-        gameObject.SetActive(false);
+        GameManager.Resources.Destroy(gameObject);
     }
 
     public abstract void AttackNumber();
