@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -10,10 +9,10 @@ public class Grid : MonoBehaviour
     public PathFinding pathFinding;
 
     public int index;
-
+    Vector3[] pathVector;
     private List<Node> path = new List<Node>();
     private List<(Node nodeA, Node nodeB)> redLine = new List<(Node nodeA, Node nodeB)>();
-
+    public bool funnel;
     Transform[] nodes;
    
     private NavMeshData navMeshData;
@@ -35,21 +34,32 @@ public class Grid : MonoBehaviour
 
     public void Update()
     {
-        pathFinding.FindPath(path, redLine);
-       /* if (Input.GetKeyDown(KeyCode.M))
+        pathVector = pathFinding.FindPath(path, redLine);
+
+        if (funnel)
         {
-            if (path != null)
-            {
-                path.Clear();
+            if (pathVector != null && pathVector.Length > 0)
+            {           
+                for (int i = 0; i < pathVector.Length - 1; i++)
+                {
+                    Debug.DrawLine(pathVector[i], pathVector[i + 1], Color.red);
+                }
             }
-            if(redLine != null)
-            {
-                redLine.Clear();
-            }
-            nodes = pathFinding.FindPath(path, redLine);
-            print(path.Count);
-            print(redLine.Count);
-        }*/
+        }
+        /* if (Input.GetKeyDown(KeyCode.M))
+         {
+             if (path != null)
+             {
+                 path.Clear();
+             }
+             if(redLine != null)
+             {
+                 redLine.Clear();
+             }
+             nodes = pathFinding.FindPath(path, redLine);
+             print(path.Count);
+             print(redLine.Count);
+         }*/
 
         /*if (path != null && path.Count > 0)
         {

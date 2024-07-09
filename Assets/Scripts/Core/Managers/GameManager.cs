@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
     ThreadManager _threadPool = new ThreadManager();
     public static ThreadManager ThreadPool { get {  return Instance._threadPool; } }
 
+    /// <summary>
+    /// Test
+    /// </summary>
+    PoolManagerBeta _poolBeta = new PoolManagerBeta();
+    public static PoolManagerBeta PoolBeta { get { return Instance._poolBeta; } }
 
     SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
@@ -121,9 +126,15 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
-        _Instance = GetComponent<GameManager>();
-        DontDestroyOnLoad(gameObject);
-
+        if (_Instance != null)
+        {
+            _Instance = GetComponent<GameManager>();
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
         //등록하는 순서가 중요할 수 있음
         _managers = new List<SubClass<GameManager>>()
         {

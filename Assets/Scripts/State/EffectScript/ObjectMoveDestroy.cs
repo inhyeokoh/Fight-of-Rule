@@ -67,7 +67,7 @@ public class ObjectMoveDestroy : MonoBehaviour
             if (Time.time > time + ObjectDestroyTime)
             {
                 MakeHitObject(transform);
-                Destroy(gameObject);
+                GameManager.Resources.Destroy(gameObject);
             }
         }
     }
@@ -90,7 +90,7 @@ public class ObjectMoveDestroy : MonoBehaviour
 
             DamageFactory.instance.CharacterDamage(characterState, skillDamage, monsterState, addforce);
         }
-        Destroy(gameObject);
+        GameManager.Resources.Destroy(gameObject);
     }
 
     void MakeHitObject(RaycastHit hit)
@@ -128,7 +128,7 @@ public class ObjectMoveDestroy : MonoBehaviour
                 m_sc.AddHitObject(hit.point);
         }
 
-        Destroy(this.gameObject);
+        GameManager.Resources.Destroy(gameObject);
         Destroy(m_gameObjectTail, TailDestroyTime);
         Destroy(m_makedObject, HitObjectDestroyTime);
     }

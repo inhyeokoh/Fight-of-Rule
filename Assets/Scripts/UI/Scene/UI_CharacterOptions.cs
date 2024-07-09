@@ -45,7 +45,7 @@ public class UI_CharacterOptions : UI_Entity
         character.BaseInfo.Gender = true;
 
         character.Stat = new CHARACTER_STATUS();
-        character.Xyz = new CHARACTER_POS();
+        character.Vector3 = new VECTOR3();
 
         SwitchImageAndDescription(Enum_Class.Warrior);
     }
@@ -64,9 +64,9 @@ public class UI_CharacterOptions : UI_Entity
             case Enum_Class.Archer:
                 classDesc.text = $"궁수는 장거리에서도 치명적인 데미지를 줄 수 있습니다.";
                 break;
-            case Enum_Class.Default:
+            /*case Enum_Class.Default:
                 classDesc.text = $"디폴트";
-                break;
+                break;*/
             default:
                 break;
         }

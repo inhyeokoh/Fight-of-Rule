@@ -6,7 +6,7 @@ public class MonsterItemDrop : SubMono<MonsterController>
 {
     public int minGold;
     public int maxGold;
-    public string[] ItemName;
+    public int[] ItemID;
     private bool[] ItemProduce;
     float[] ItemPercent;
     public ItemData[] items;
@@ -37,12 +37,12 @@ public class MonsterItemDrop : SubMono<MonsterController>
             minGold = _board.monsterItemDropDB.monster_mingold;
             maxGold = _board.monsterItemDropDB.monster_maxgold;
             ItemPercent = _board.monsterItemDropDB.monster_itempercent;
-            ItemName = _board.monsterItemDropDB.monster_itemdrop;
-            items = new ItemData[ItemName.Length];
+            ItemID = _board.monsterItemDropDB.monster_itemdrop;
+            items = new ItemData[ItemID.Length];
 
-            for (int i = 0; i < ItemName.Length; i++)
+            for (int i = 0; i < ItemID.Length; i++)
             {
-                items[i] = GameManager.Data.MonsterDropItem(ItemName[i]);
+                items[i] = GameManager.Data.MonsterDropItem(ItemID[i]);
             }
         }
 
@@ -81,7 +81,7 @@ public class MonsterItemDrop : SubMono<MonsterController>
         {
             itemObject[i].SetActive(true);
             itemObject[i].transform.position = gameObject.transform.position;
-            print(itemObject[i].GetComponent<ItemObject>().item.name);
+          //  print(itemObject[i].GetComponent<ItemObject>().item.name);
         }
     }
 }

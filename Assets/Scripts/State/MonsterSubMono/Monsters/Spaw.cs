@@ -50,6 +50,6 @@ public class Spaw : MonoBehaviour
 
         GameObject monster = GameManager.Data.MonsterInstance(monsterID);
 
-        Instantiate(monster, new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z), Quaternion.Euler(1, rotation, 1)); 
+        GameManager.Resources.Instantiate(monster, new Vector3(transform.position.x + x, transform.position.y, transform.position.z + z), Quaternion.Euler(1, rotation, 1)); 
     }
 }
