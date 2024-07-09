@@ -127,6 +127,11 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
+    internal static bool Handle_S_CHARACTER_MOVE(Session session, S_CHARACTER_MOVE s_CHARACTER_MOVE)
+    {
+        throw new NotImplementedException();
+    }
+
     internal static bool Handle_S_NICKNAME(Session session, S_NICKNAME message)
     {
         // 생성 불가
