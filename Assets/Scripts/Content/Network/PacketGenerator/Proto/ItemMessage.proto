@@ -40,7 +40,7 @@ message STATE_ITEM_DATA {
 
 message CONSUMPTION_ITEM_DATA {
   
-    STATE_ITEM_DATA stateitem_data = 1;
+STATE_ITEM_DATA stateitem_data = 1;
 
     enum CONSUMPTION_DETAIL_TYPE
     {
@@ -101,4 +101,10 @@ message EQUIPMENT_ITEM {
     EQUIPMENT_ITEM_DATA equip_item_data = 2;
     DYNAMIC_ITEM_DATA dyn_item_data = 3;
     REINFORCEMENT_ITEM_DATA reinforce_item_data = 4;
+}
+
+message ITEM_DATA_INFO
+{
+    ITEM_DATA common_data = 1;
+    bytes variable_data = 2;
 }
