@@ -32,14 +32,14 @@ public class UI_QuestAccessible : UI_Entity
         return typeof(Enum_UI_QuestAccessible);
     }
 
-    void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!GameManager.UI.init || accessibleQuests == null) return;
 
         _ShowQuests();
     }
 
-    void OnDisable()
+    public override void PopupOnDisable()
     {
         if (!GameManager.UI.init || accessibleQuests == null) return;
 

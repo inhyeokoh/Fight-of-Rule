@@ -56,7 +56,7 @@ public class UI_PlayerInfo : UI_Entity
         return typeof(Enum_UI_PlayerInfo);
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!_init) return;
 
@@ -66,7 +66,7 @@ public class UI_PlayerInfo : UI_Entity
         }
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
     }
@@ -173,7 +173,7 @@ public class UI_PlayerInfo : UI_Entity
         _levelText = _infoBoard.transform.GetChild(3).GetChild(1).GetComponent<TMP_Text>();
         _levelText.text = $"{character.Stat.Level}";
 
-        _infoBoard.transform.GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = "경험치/최대 경험치";
+        _infoBoard.transform.GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = "경험치";
         _expText = _infoBoard.transform.GetChild(4).GetChild(1).GetComponent<TMP_Text>();
         _expText.text = $"{character.Stat.Exp}/{character.Stat.MaxEXP}";
 

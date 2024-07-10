@@ -1,4 +1,3 @@
-#define CLIENT_TEST
 using System;
 using System.Collections;
 using System.Collections.Generic;

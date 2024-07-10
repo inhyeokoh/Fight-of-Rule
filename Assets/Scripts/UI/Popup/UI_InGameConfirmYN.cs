@@ -14,14 +14,14 @@ public class UI_InGameConfirmYN : UI_Entity
     GameObject _inputField;
     int _slotIndex;
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!_init || !_useBlocker) return;
 
         GameManager.UI.UseBlocker(true);
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
         GameManager.UI.UseBlocker(false);
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);

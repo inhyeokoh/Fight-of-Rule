@@ -62,8 +62,7 @@ public class InventoryManager : SubClass<GameManager>
     {
         items = new List<ItemData>(new ItemData[TotalSlotCount]);
         equips = new List<ItemData>(new ItemData[EquipSlotCount]);
-#if SERVER || CLIENT_TEST_TITLE
-#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
+#if CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         ConnectInven();
 #endif
     }

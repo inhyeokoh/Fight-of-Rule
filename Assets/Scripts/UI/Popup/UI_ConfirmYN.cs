@@ -36,7 +36,19 @@ public class UI_ConfirmYN : UI_Entity
         return typeof(Enum_UI_Confirm);
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
+    {
+        if (!_init || !_useBlocker) return;
+
+        GameManager.UI.UseBlocker(true);
+    }
+
+    public override void PopupOnDisable()
+    {
+        GameManager.UI.UseBlocker(false);
+    }
+
+/*    private void OnEnable()
     {
         if (!_init || !_useBlocker) return;
 
@@ -46,8 +58,7 @@ public class UI_ConfirmYN : UI_Entity
     private void OnDisable()
     {
         GameManager.UI.UseBlocker(false);
-    }
-
+    }*/
 
     protected override void Init()
     {
@@ -60,7 +71,7 @@ public class UI_ConfirmYN : UI_Entity
             switch (confirmType)
             {
                 case Enum_ConfirmTypes.AskDecidingNickName:
-#if SERVER
+#if SERVER || DEBUG_MODE
                     GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
 #elif CLIENT_TEST_TITLE
                     CHARACTER_INFO newChar = new CHARACTER_INFO();
