@@ -37,7 +37,19 @@ public class UI_ConfirmY : UI_Entity
         CharacterDeleteSuccess
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
+    {
+        if (!_init || !_useBlocker) return;
+
+        GameManager.UI.UseBlocker(true);
+    }
+
+    public override void PopupOnDisable()
+    {
+        GameManager.UI.UseBlocker(false);
+    }
+
+/*    private void OnEnable()
     {
         if (!_init || !_useBlocker) return;
 
@@ -48,7 +60,7 @@ public class UI_ConfirmY : UI_Entity
     {
         GameManager.UI.UseBlocker(false);
     }
-
+*/
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_Confirm);

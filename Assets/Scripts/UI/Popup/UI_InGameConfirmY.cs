@@ -28,14 +28,14 @@ public class UI_InGameConfirmY : UI_Entity
         NotEnoughMoney,
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!_init || !_useBlocker) return;
 
         GameManager.UI.UseBlocker(true);
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
         GameManager.UI.UseBlocker(false);
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);

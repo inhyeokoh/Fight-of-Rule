@@ -78,6 +78,7 @@ public class UIManager : SubClass<GameManager>
         Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
         QuestAccessible = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestAccessible", popupCanvas.transform).GetComponent<UI_QuestAccessible>();
         QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
+
 #endif
         init = true;
     }
@@ -120,8 +121,8 @@ public class UIManager : SubClass<GameManager>
                 InGameConfirmY = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmY", popupCanvas.transform).GetComponent<UI_InGameConfirmY>();
                 Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
                 QuestAccessible = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestAccessible", popupCanvas.transform).GetComponent<UI_QuestAccessible>();
-                QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
                 // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
+                QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
                 break;
             default:
                 break;
@@ -141,12 +142,14 @@ public class UIManager : SubClass<GameManager>
         _activePopupList.AddLast(targetPopup);
         SortPopupView();
         targetPopup.gameObject.SetActive(true);
+        targetPopup.PopupOnEnable();
     }
 
     public void ClosePopup(UI_Entity targetPopup)
     {
         _activePopupList.Remove(targetPopup);
         targetPopup.gameObject.SetActive(false);
+        targetPopup.PopupOnDisable();
     }
 
 
@@ -183,21 +186,29 @@ public class UIManager : SubClass<GameManager>
             if (child.activeSelf)
             {
                 UI_Entity childEntity = child.GetComponent<UI_Entity>();
+                if (childEntity == except) continue;
+
                 ClosePopup(childEntity);
                 _tempClosed.Add(childEntity);
             }
         }
     }
 
-    public void ReOpen()
+    public void ReOpenPopups()
     {
+        List<UI_Entity> reOpenList = new List<UI_Entity>();
         for (int i = 0; i < popupCanvas.transform.childCount; i++)
         {
-            UI_Entity childEntity = popupCanvas.transform.GetChild(i).GetComponent<UI_Entity>();
-            if (_tempClosed.Contains(childEntity))
+            UI_Entity popup = popupCanvas.transform.GetChild(i).GetComponent<UI_Entity>();
+            if (_tempClosed.Contains(popup))
             {
-                OpenPopup(childEntity);
+                reOpenList.Add(popup);
             }
+        }
+
+        for (int i = 0; i < reOpenList.Count; i++)
+        {
+            OpenPopup(reOpenList[i]);
         }
     }
 

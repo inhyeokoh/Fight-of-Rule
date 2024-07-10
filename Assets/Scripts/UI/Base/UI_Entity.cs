@@ -158,6 +158,8 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
             GameManager.Resources.Destroy(gameObject);
     }
 
+    public virtual void PopupOnEnable() { }
+    public virtual void PopupOnDisable() { }
 
     protected abstract Type GetUINamesAsType();
 

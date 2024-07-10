@@ -78,8 +78,15 @@ public class MonsterMovement : SubMono<MonsterController>
         Vector3 direction = ai.desiredVelocity;
         direction.Set(direction.x, 0f, direction.z);
 
-        Quaternion targetAngle = Quaternion.LookRotation(direction);
-        monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, targetAngle, 3f * Time.deltaTime);
+        if (direction != Vector3.zero)
+        {
+            Quaternion targetAngle = Quaternion.LookRotation(direction);
+            monsterTransform.rotation = Quaternion.Slerp(monsterTransform.rotation, targetAngle, 3f * Time.deltaTime);
+        }
+        else
+        {
+            return;
+        }
     }
 
 

@@ -54,6 +54,7 @@ public class SceneControlManager : SubClass<GameManager>
         else if (curSceneIdx == (int)Enum_Scenes.StatePattern)
         {
             GameManager.UI.ConnectPlayerInput();
+            GameManager.Data.NpcTableParsing("NpcTable");
             GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.StatePattern);
             GameManager.Inven.ConnectInven();
         }
