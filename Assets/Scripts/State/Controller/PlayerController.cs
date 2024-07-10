@@ -153,6 +153,8 @@ public class PlayerController : MonoBehaviour
         }
 
         _playerState.StateAdd();*/
+
+        SkillManager.Skill.PlayerData();
     }
 
     private void Start()
@@ -171,8 +173,6 @@ public class PlayerController : MonoBehaviour
             _interaction,
             _levelSystem
         };
-
-        SkillManager.Skill.PlayerData();
 
         for (int i = 0; i < _controller.Count; i++)
         {

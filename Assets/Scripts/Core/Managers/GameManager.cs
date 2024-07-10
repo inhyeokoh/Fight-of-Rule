@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour
         _managers = new List<SubClass<GameManager>>()
         {
             _pool,
+            _poolBeta,
             _resources,
             _threadPool,
             _sound,

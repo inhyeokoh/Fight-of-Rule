@@ -19,26 +19,34 @@ public enum Enum_KeyAction
     //UI
     UIInven,
     UIPlayerInfo,
-    UISkill,
+    UISkillWindow,
 }
 
 public class KeyInteraction : MonoBehaviour
 {
     [SerializeField]
     private PlayerInput playerInput;
-    public PlayerInput PlayerInput => playerInput;
     public PlayerController player;
 
-    public InputAction action;
-    public InputAction changeAction;
+    [SerializeField]
+    private InputActionReference[] inputActions;
+    public InputActionReference[] InputActions { get { return inputActions; } }
 
-    //InputActionReference InputAction;
-    //TMP_Text bindingDisplayNameText;
-    //GameObject startRebindObject;
+
+    public InputActionReference currentAction;
+    public InputAction changeAction;
 
     InputActionRebindingExtensions.RebindingOperation rebindingOperation;
     public string path;
 
+
+    private void Awake()
+    {
+        for (int i = 0; i < inputActions.Length; i++)
+        {
+            ActionCallbackSetting((Enum_KeyAction)i, inputActions[i]);
+        }
+    }
 
     void Start()
     {
@@ -104,10 +112,27 @@ public class KeyInteraction : MonoBehaviour
         }
     }
 
+    public void OnSkillWindow(InputAction.CallbackContext context)
+    {
+        if (context.action.phase == InputActionPhase.Performed)
+        {
+            GameManager.UI.OpenOrClose(GameManager.UI.SkillWindow);
+        }
+    }
 
-    public void StartRebinding(InputActionReference currentAction, TMP_Text bindingDisplayNameText, Dictionary<InputAction, TMP_Text> keyTexts)
-    {  
+
+    public void StartRebinding(Enum_KeyAction getAction, TMP_Text bindingDisplayNameText, Dictionary<InputAction, TMP_Text> keyTexts)
+    {
+        currentAction = GetAction(getAction);
+
+        if (currentAction == null)
+        {
+            print("해당키가 없습니다");
+            return;
+        }
+
         currentAction.action.Disable();    
+       
         if (currentAction.action.bindings[0].hasOverrides)
         {           
             path = currentAction.action.bindings[0].overridePath;
@@ -117,11 +142,12 @@ public class KeyInteraction : MonoBehaviour
             path = currentAction.action.bindings[0].path;
 
         }
+      
         bindingDisplayNameText.text = "Waiting For Input...";
-        
-         rebindingOperation = currentAction.action.PerformInteractiveRebinding().WithControlsExcluding("<Mouse>/rightButton")
-        .WithCancelingThrough("<Mouse>/leftButton")
-        .OnCancel(operation => RebindCancel(currentAction))
+
+        rebindingOperation = currentAction.action.PerformInteractiveRebinding().WithControlsExcluding("<Mouse>/leftButton")
+        .WithControlsExcluding("<Keyboard>/enter").WithCancelingThrough("<Keyboard>/escape").WithCancelingThrough("<Mouse>/rightButton")
+        .OnCancel(operation => RebindCancel(currentAction, bindingDisplayNameText))
         .OnComplete(operation => RebindComplete(currentAction,bindingDisplayNameText, keyTexts))
         .Start();
     }
@@ -132,9 +158,7 @@ public class KeyInteraction : MonoBehaviour
         rebindingOperation.Dispose();
         currentAction.action.Enable();
 
-        CheckDuplicateBindings(currentAction.action, keyTexts);
-
-        action = currentAction.action;
+        CheckDuplicateBindings(currentAction.action, keyTexts);      
         ShowBindText(currentAction.action, bindingDisplayNameText);
 
         currentAction.Set(currentAction.action);
@@ -148,10 +172,12 @@ public class KeyInteraction : MonoBehaviour
             .effectivePath, InputControlPath.HumanReadableStringOptions.OmitDevice);
     }
 
-    private void RebindCancel(InputAction currentAction)
+    private void RebindCancel(InputAction currentAction, TMP_Text bindingDisplayNameText)
     {
         rebindingOperation.Dispose();
         currentAction.Enable();
+
+        ShowBindText(currentAction, bindingDisplayNameText);
     }
 
     private void ChanageRebindComplete(InputAction changeAction, TMP_Text bindingDisplayNameText)
@@ -181,8 +207,48 @@ public class KeyInteraction : MonoBehaviour
         }
     }
 
+    public void GetServerKey()
+    {
 
-    public void ActionCallback(Enum_KeyAction key, InputActionReference currentAction)
+    }
+
+    public void KeyUISetting(Dictionary<InputAction, TMP_Text> keyTexts)
+    {
+        for (int i = 0; i < inputActions.Length; i++)
+        {
+            InputAction action = GetAction((Enum_KeyAction)i).action;
+            ShowBindText(action, keyTexts[action]);
+        }
+    }
+
+
+    public InputActionReference GetAction(Enum_KeyAction key)
+    {
+        switch (key)
+        {
+            case Enum_KeyAction.SKill1:
+                return inputActions[(int)Enum_KeyAction.SKill1];
+            case Enum_KeyAction.Skill2:
+                return inputActions[(int)Enum_KeyAction.Skill2];
+            case Enum_KeyAction.Skill3:
+                return inputActions[(int)Enum_KeyAction.Skill3];
+            case Enum_KeyAction.Skill4:
+                return inputActions[(int)Enum_KeyAction.Skill4];
+            case Enum_KeyAction.Avoid:
+                return inputActions[(int)Enum_KeyAction.Avoid];
+            case Enum_KeyAction.UIInven:
+                return inputActions[(int)Enum_KeyAction.UIInven];
+            case Enum_KeyAction.UIPlayerInfo:
+                return inputActions[(int)Enum_KeyAction.UIPlayerInfo];
+            case Enum_KeyAction.UISkillWindow:
+                return inputActions[(int)Enum_KeyAction.UISkillWindow];
+        }
+
+        return null;
+    }
+
+
+    public void ActionCallbackSetting(Enum_KeyAction key, InputActionReference currentAction)
     {
         switch (key)
         {
@@ -221,7 +287,21 @@ public class KeyInteraction : MonoBehaviour
                 currentAction.action.performed += OnPlayerInfo;
                 currentAction.action.canceled += OnPlayerInfo;
                 break;
+            case Enum_KeyAction.UISkillWindow:
+                currentAction.action.started += OnSkillWindow;
+                currentAction.action.performed += OnSkillWindow;
+                currentAction.action.canceled += OnSkillWindow;
+                break;
 
+        }
+    }
+
+    public void KeyReset(Dictionary<InputAction, TMP_Text> keyTexts)
+    {
+        for (int i = 0; i < inputActions.Length; i++)
+        {
+            inputActions[i].action.RemoveAllBindingOverrides();
+            ShowBindText(inputActions[i].action, keyTexts[inputActions[i].action]);
         }
     }
 }

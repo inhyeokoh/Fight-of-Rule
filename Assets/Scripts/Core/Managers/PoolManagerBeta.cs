@@ -8,7 +8,7 @@ public class PoolManagerBeta : SubClass<GameManager>
     // 그리고 프리팹을 생성할수도있고 리소스로 생성할수도 있음
     // 똑같이 Instantiate를해서 GameObject를 반환시켜 줘여함
 
-    Dictionary<string, Stack<GameObject>> multipleObjectPools = new Dictionary<string, Stack<GameObject>>();
+    Dictionary<string, Stack<GameObject>> multipleObjectPools;
 
 
     /*  private void Awake()
@@ -29,7 +29,7 @@ public class PoolManagerBeta : SubClass<GameManager>
 
     protected override void _Init()
     {
-
+        multipleObjectPools = new Dictionary<string, Stack<GameObject>>();
     }
 
     public GameObject Instantiate(GameObject go, Vector3 position, Quaternion rotation, Transform parant = null)
@@ -120,23 +120,6 @@ public class PoolManagerBeta : SubClass<GameManager>
             Object.Destroy(go);
         }
     }*/
-
-
-    private bool DestroyObject(List<GameObject> objects, GameObject go)
-    {
-        for (int i = 0; i < objects.Count; i++)
-        {
-            if (objects[i] == go)
-            {
-                objects.Remove(objects[i]);
-                Object.Destroy(go);
-                return true;
-            }
-        }
-        return false;
-    }
-
-
     public void PoolDestroy(string objectString)
     {
         GameObject go = GameManager.Resources.Load<GameObject>(objectString);

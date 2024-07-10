@@ -27,8 +27,7 @@ public class UIManager : SubClass<GameManager>
     public UI_Dialog Dialog;
     public UI_QuestAccessible QuestAccessible;
     public UI_QuestComplete QuestComplete;
-    public UI_StatusWindow StatusWindow;
-    //public GameObject SkillWindow;
+    public UI_SkillWindow SkillWindow;
     public UI_InGameMain InGameMain;
 
     public GameObject popupCanvas;
@@ -71,6 +70,7 @@ public class UIManager : SubClass<GameManager>
         GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력 기능들을 수행할 수 있는 프리팹 생성
         Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
         PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();
+        SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform).GetComponent<UI_SkillWindow>();
         Shop = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/ShopUI", popupCanvas.transform).GetComponent<UI_Shop>();
         Blocker = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Blocker", popupCanvas.transform);
         InGameConfirmYN = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/InGameConfirmYN", popupCanvas.transform).GetComponent<UI_InGameConfirmYN>();
@@ -93,7 +93,7 @@ public class UIManager : SubClass<GameManager>
         switch (sceneName)
         {
             case Enum_PopupSetJunction.Title:
-                GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력을 수행할 수 있는 프리팹 생성
+                 GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력을 수행할 수 있는 프리팹 생성
                 Login = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Login", popupCanvas.transform).GetComponent<UI_Login>();
                 SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
                 Settings = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Settings", popupCanvas.transform).GetComponent<UI_Setting>();
@@ -121,7 +121,7 @@ public class UIManager : SubClass<GameManager>
                 Dialog = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Dialog", popupCanvas.transform).GetComponent<UI_Dialog>();
                 QuestAccessible = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestAccessible", popupCanvas.transform).GetComponent<UI_QuestAccessible>();
                 QuestComplete = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/QuestComplete", popupCanvas.transform).GetComponent<UI_QuestComplete>();
-                // SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform);
+                SkillWindow = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SkillWindow", popupCanvas.transform).GetComponent<UI_SkillWindow>();
                 break;
             default:
                 break;
