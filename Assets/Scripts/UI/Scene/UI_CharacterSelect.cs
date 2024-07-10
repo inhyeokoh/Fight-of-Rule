@@ -44,6 +44,14 @@ public class UI_CharacterSelect : UI_Entity
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(load_ingame_pkt));
 
             UI_Loading.LoadScene("StatePattern");
+#elif DEBUG_MODE
+            GameManager.Data.SelectedSlotNum = 0;
+
+            C_INGAME load_ingame_pkt = new C_INGAME();
+            load_ingame_pkt.CharacterId = GameManager.Data.CurrentCharacter.BaseInfo.CharacterId;
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(load_ingame_pkt));
+
+            UI_Loading.LoadScene("StatePattern");
 #elif CLIENT_TEST_TITLE
             if (GameManager.Data.CurrentCharacter == null) return;
 
@@ -60,6 +68,10 @@ public class UI_CharacterSelect : UI_Entity
         _entities[(int)Enum_UI_CharSelect.GoBack].ClickAction = (PointerEventData data) => {
             GameManager.Scene.LoadPreviousScene();
         };
+
+#if DEBUG
+        _entities[(int)Enum_UI_CharSelect.Start]?.ClickAction(null);
+#endif
     }
 
     void _DrawCharacterSlot()

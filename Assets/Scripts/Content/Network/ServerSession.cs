@@ -47,7 +47,7 @@ public class ServerSession : PacketSession
                 break;
             case NetState.PRE_LOGIN:
                 GameManager.Network.mainSession = this;
-#if SERVER
+#if SERVER || DEBUG_MODE
                 GameManager.ThreadPool.UniAsyncJob(() => { GameManager.UI.OpenPopup(GameManager.UI.Login); });
 #endif
                 break;

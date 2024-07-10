@@ -64,7 +64,7 @@ public class UIManager : SubClass<GameManager>
         _activePopupList = new LinkedList<UI_Entity>();
         _tempClosed = new List<UI_Entity>();
         popupCanvas = GameObject.Find("PopupCanvas");
-#if SERVER || CLIENT_TEST_TITLE
+#if SERVER || DEBUG_MODE || CLIENT_TEST_TITLE
         Object.DontDestroyOnLoad(popupCanvas);
 #elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         ConnectPlayerInput();

@@ -61,7 +61,7 @@ public class UI_InputName : UI_Entity
             }
             else
             {
-#if SERVER
+#if SERVER || DEBUG_MODE
                 C_NICKNAME nick_DupAsk_pkt = new C_NICKNAME();
                 nick_DupAsk_pkt.Nickname = ByteString.CopyFrom(nickname, System.Text.Encoding.Unicode);
                 GameManager.Network.Send(PacketHandler.Instance.SerializePacket(nick_DupAsk_pkt));

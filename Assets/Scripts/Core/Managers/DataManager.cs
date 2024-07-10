@@ -113,8 +113,7 @@ public class DataManager : SubClass<GameManager>
 
         tableFolderPath = "Data/SheetsToCSV/bin/Debug/TableFiles/";
         DBDataLoad();
-#if SERVER || CLIENT_TEST_TITLE
-#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
+#if CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         CurrentCharacter = new CHARACTER_INFO();
         CurrentCharacter.BaseInfo = new CHARACTER_BASE();
         CurrentCharacter.BaseInfo.CharacterId = 0;
@@ -154,7 +153,7 @@ public class DataManager : SubClass<GameManager>
         MonstersTableParsing();
         LevelTableParsing("WarriorLevelTable");
         QuestTableParsing("QuestTable");
-        //NpcTableParsing("NpcTable");
+        NpcTableParsing("NpcTable");
         ShopTableParsing("ShopTable");
     }
 

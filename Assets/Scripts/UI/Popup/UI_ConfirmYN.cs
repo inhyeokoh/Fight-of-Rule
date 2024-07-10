@@ -60,7 +60,7 @@ public class UI_ConfirmYN : UI_Entity
             switch (confirmType)
             {
                 case Enum_ConfirmTypes.AskDecidingNickName:
-#if SERVER
+#if SERVER || DEBUG_MODE
                     GameObject.Find("CharacterCreate").GetComponent<UI_CharacterCreate>().SendCharacterPacket();
 #elif CLIENT_TEST_TITLE
                     CHARACTER_INFO newChar = new CHARACTER_INFO();
