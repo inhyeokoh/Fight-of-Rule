@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 
 public class UI_SignUp : UI_Entity
 {
-    // TODO : 생성가능,중복닉네임,생성불가한 케이스로 나뉘어야함
-    bool canCreate = true;
     public TMP_Text msg;
 
     enum Enum_UI_SignUp

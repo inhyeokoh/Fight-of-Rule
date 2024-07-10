@@ -30,7 +30,7 @@ public class SceneControlManager : SubClass<GameManager>
     protected override void _Init()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
-#if SERVER || CLIENT_TEST_TITLE
+#if SERVER || DEBUG_MODE || CLIENT_TEST_TITLE
         GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.Title);
 #endif
     }
@@ -40,20 +40,21 @@ public class SceneControlManager : SubClass<GameManager>
         curSceneIdx = SceneManager.GetActiveScene().buildIndex;
         Enum_Scenes curScene = (Enum_Scenes)curSceneIdx;
 
-        if (scene.name == Enum.GetName(typeof(Enum_Scenes), 0))
+        if (curSceneIdx == (int)Enum_Scenes.Title)
         {
             GameManager.UI.OpenPopup(GameManager.UI.Login);
         }
-#if CLIENT_TEST_TITLE // 서버 연결된 상태에서 로그인 성공 시, 씬 이동전에 팝업 닫는 기능을 대체
-        else if (scene.name == Enum.GetName(typeof(Enum_Scenes), 1) || scene.name == Enum.GetName(typeof(Enum_Scenes), 2))
+#if CLIENT_TEST_TITLE // 서버 미연결 상태에서 로그인 성공 시, 씬 이동전에 팝업 닫는 기능을 대체
+        else if (curSceneIdx == (int)Enum_Scenes.Select || curSceneIdx == (int)Enum_Scenes.Create)
         {
             GameManager.UI.ClosePopup(GameManager.UI.Login);
         }
 #endif
-#if SERVER || CLIENT_TEST_TITLE
-        else if (scene.name == Enum.GetName(typeof(Enum_Scenes), 3))
+#if SERVER || DEBUG_MODE || CLIENT_TEST_TITLE
+        else if (curSceneIdx == (int)Enum_Scenes.StatePattern)
         {
             GameManager.UI.ConnectPlayerInput();
+            GameManager.Data.NpcTableParsing("NpcTable");
             GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.StatePattern);
             GameManager.Inven.ConnectInven();
         }

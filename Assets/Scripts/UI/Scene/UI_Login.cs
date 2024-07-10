@@ -43,6 +43,11 @@ public class UI_Login : UI_Entity
             login_ask_pkt.LoginPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256(_entities[(int)Enum_UI_Logins.PWField].GetComponent<TMP_InputField>().text), encoding:"ascii");
 
             GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
+#elif DEBUG_MODE
+            C_LOGIN login_ask_pkt = new C_LOGIN();
+            login_ask_pkt.LoginId = "asdf3";
+            login_ask_pkt.LoginPw = CryptoLib.BytesToString(CryptoLib.EncryptSHA256("1234"), encoding: "ascii");
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(login_ask_pkt));
 #elif CLIENT_TEST_TITLE
             GameManager.ThreadPool.UniAsyncJob(() =>
             {
@@ -55,6 +60,10 @@ public class UI_Login : UI_Entity
         _entities[(int)Enum_UI_Logins.Quit].ClickAction = (PointerEventData data) => {
             GameManager.Scene.ExitGame();
         };
+
+#if DEBUG_MODE
+        _entities[(int)Enum_UI_Logins.Login].ClickAction?.Invoke(null);
+#endif
     }
 
     public override void EnterAction()

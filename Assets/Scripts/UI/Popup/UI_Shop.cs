@@ -38,14 +38,14 @@ public class UI_Shop : UI_Entity
         return typeof(Enum_UI_Shop);
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
         // 인벤토리도 같이 열려야함
         GameManager.UI.Inventory.gameObject.SetActive(true);
         StartCoroutine(DeactivateCloseButtonWithDelay());
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
         GameManager.UI.Inventory.closeBtn.SetActive(true);
         shopSell.ReturnSellListToInven();

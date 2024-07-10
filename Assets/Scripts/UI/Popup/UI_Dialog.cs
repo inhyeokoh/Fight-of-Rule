@@ -31,11 +31,11 @@ public class UI_Dialog : UI_Entity
         return typeof(Enum_UI_Dialog);
     }
 
-    void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
-        // GameManager.UI.CloseAllPopups();
+        GameManager.UI.CloseAllPopups(this);
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, true);
         nextButton.SetActive(false);
         acceptButton.SetActive(false);
@@ -44,11 +44,11 @@ public class UI_Dialog : UI_Entity
         mainText.text = GameManager.Data.npcDict[PlayerController.instance._interaction.InteractingNpcID].DefaultText;
     }
 
-    void OnDisable()
+    public override void PopupOnDisable()
     {
         if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
-        // GameManager.UI.ReOpen();
+        GameManager.UI.ReOpenPopups();
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
         vCamSwitcher?.SwitchToVCam1();
     }

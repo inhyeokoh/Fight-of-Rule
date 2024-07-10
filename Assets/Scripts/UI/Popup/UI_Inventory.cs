@@ -63,11 +63,17 @@ public class UI_Inventory : UI_Entity
         return typeof(Enum_UI_Inventory);
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false); // 포인터가 UI위에 있던 채로 UI가 닫히면 걸었던 행동 제어가 안 꺼지므로 OnDisable에서 꺼줘야함
         RemoveCursorOnEffectAtItemSlot();
     }
+
+/*    private void OnDisable()
+    {
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false); // 포인터가 UI위에 있던 채로 UI가 닫히면 걸었던 행동 제어가 안 꺼지므로 OnDisable에서 꺼줘야함
+        RemoveCursorOnEffectAtItemSlot();
+    }*/
 
     protected override void Init()
     {

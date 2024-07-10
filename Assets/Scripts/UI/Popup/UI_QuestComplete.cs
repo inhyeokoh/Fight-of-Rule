@@ -33,7 +33,7 @@ public class UI_QuestComplete : UI_Entity
         return typeof(Enum_UI_QuestReward);
     }
 
-    void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!GameManager.UI.init || GameManager.Quest.CurrentSelectedQuest == null) return;
 
@@ -43,7 +43,7 @@ public class UI_QuestComplete : UI_Entity
         closeBtn.SetActive(false);
     }
 
-    void OnDisable()
+    public override void PopupOnDisable()
     {
         if (!GameManager.UI.init || GameManager.Quest.CurrentSelectedQuest == null) return;
 
