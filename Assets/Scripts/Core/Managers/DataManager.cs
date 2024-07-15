@@ -21,6 +21,8 @@ public class DataManager : SubClass<GameManager>
 
     public CHARACTER_INFO CurrentCharacter { get; set; }
 
+    public List<ItemData> dropTestItems;
+    public List<Vector3> dropTestItemsPos;
     // 어딘가엔 들고 있어야함
     /*    public long CharId { get; set; }
         string charName;
@@ -110,6 +112,8 @@ public class DataManager : SubClass<GameManager>
         volOptions = new VOL_OPTIONS();
         characters = new CHARACTER_INFO[4];
         CurrentCharacter = new CHARACTER_INFO();
+        dropTestItems = new List<ItemData>();
+        dropTestItemsPos = new List<Vector3>();
 
         tableFolderPath = "Data/SheetsToCSV/bin/Debug/TableFiles/";
         DBDataLoad();
@@ -135,10 +139,10 @@ public class DataManager : SubClass<GameManager>
         CurrentCharacter.Stat.Defense = 3;
         CurrentCharacter.Stat.Speed = 10;
 
-        CurrentCharacter.Vector3 = new VECTOR3();
-        CurrentCharacter.Vector3.X = 0;
-        CurrentCharacter.Vector3.Y = 0;
-        CurrentCharacter.Vector3.Z = 0;
+        CurrentCharacter.Pos = new VECTOR3();
+        CurrentCharacter.Pos.X = 0;
+        CurrentCharacter.Pos.Y = 0;
+        CurrentCharacter.Pos.Z = 0;
 
         volOptions.MasterVol = 0.7f;
         volOptions.BgmVol = 0.6f;
@@ -174,7 +178,7 @@ public class DataManager : SubClass<GameManager>
             Sprite item_icon = GameManager.Resources.Load<Sprite>(consumptionData[i]["item_icon"]);
 
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), consumptionData[i]["item_grade"]);
-            Enum_ConsumptionDetailType item_detailtype = (Enum_ConsumptionDetailType)Enum.Parse(typeof(Enum_ConsumptionDetailType), consumptionData[i]["item_detailtype"]);           
+            Enum_ConsumptionDetailType item_detailtype = (Enum_ConsumptionDetailType)Enum.Parse(typeof(Enum_ConsumptionDetailType), consumptionData[i]["item_detailtype"]);
             long item_sellingprice = long.Parse(consumptionData[i]["item_sellingprice"]);
             int item_level = int.Parse(consumptionData[i]["item_level"]);
             int item_attack = int.Parse(consumptionData[i]["item_attack"]);
@@ -209,7 +213,7 @@ public class DataManager : SubClass<GameManager>
             Sprite item_icon = GameManager.Resources.Load<Sprite>(equipmentData[i]["item_icon"]);
             Enum_Class item_class = (Enum_Class)Enum.Parse(typeof(Enum_Class), equipmentData[i]["item_class"]);
             Enum_Grade item_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), equipmentData[i]["item_grade"]);
-            Enum_EquipmentDetailType item_equipmenttype = (Enum_EquipmentDetailType)Enum.Parse(typeof(Enum_EquipmentDetailType), equipmentData[i]["item_detailtype"]);   
+            Enum_EquipmentDetailType item_equipmenttype = (Enum_EquipmentDetailType)Enum.Parse(typeof(Enum_EquipmentDetailType), equipmentData[i]["item_detailtype"]);
             long item_sellingprice = long.Parse(equipmentData[i]["item_sellingprice"]);
             int item_level = int.Parse(equipmentData[i]["item_level"]);
             int item_attack = int.Parse(equipmentData[i]["item_attack"]);
@@ -241,7 +245,7 @@ public class DataManager : SubClass<GameManager>
             string etcItem_name = etcData[i]["item_name"];
             string etcItem_desc = etcData[i]["item_desc"];
             Sprite etcItem_icon = GameManager.Resources.Load<Sprite>(etcData[i]["item_icon"]);
-            Enum_Grade etcItem_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), etcData[i]["item_grade"]);     
+            Enum_Grade etcItem_grade = (Enum_Grade)Enum.Parse(typeof(Enum_Grade), etcData[i]["item_grade"]);
             long etcItem_sellingprice = long.Parse(etcData[i]["item_sellingprice"]);
             int etcItem_maxcount = int.Parse(etcData[i]["item_maxcount"]);
 
@@ -263,7 +267,7 @@ public class DataManager : SubClass<GameManager>
             EquipmentItemData itemDataPasing;
 
             itemDataPasing = new EquipmentItemData(itemData.id, itemData.name, itemData.desc, itemData.icon, itemData.itemClass, itemData.itemGrade, itemData.itemType,
-                itemData.detailType,  itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
+                itemData.detailType, itemData.sellingprice, itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed
                 , itemData.hp, itemData.mp, itemData.exp, itemData.maxHp, itemData.maxMp, itemData.maxReinforcement, itemData.durationBool, itemData.duration);
 
             return itemDataPasing;
@@ -275,7 +279,7 @@ public class DataManager : SubClass<GameManager>
         {
             ConsumptionItemData itemDataPasing;
 
-            itemDataPasing = new ConsumptionItemData(secondItemData.id, secondItemData.name, secondItemData.desc, secondItemData.icon, secondItemData.itemGrade, secondItemData.itemType,secondItemData.detailType,
+            itemDataPasing = new ConsumptionItemData(secondItemData.id, secondItemData.name, secondItemData.desc, secondItemData.icon, secondItemData.itemGrade, secondItemData.itemType, secondItemData.detailType,
               secondItemData.sellingprice, secondItemData.level, secondItemData.attack, secondItemData.defense, secondItemData.speed, secondItemData.attackSpeed
                 , secondItemData.hp, secondItemData.mp, secondItemData.exp, secondItemData.maxHp, secondItemData.maxMp, secondItemData.durationBool, secondItemData.duration, secondItemData.maxCount);
 
@@ -353,8 +357,8 @@ public class DataManager : SubClass<GameManager>
             int monster_speed = int.Parse(data[i]["monster_speed"]);
             float monster_detectdistance = float.Parse(data[i]["monster_detectdistance"]);
             float monster_attackdistance = float.Parse(data[i]["monster_attackdistance"]);
-           /* int[] monster_stateitem = Array.ConvertAll(data[i]["monster_stateitem"].Split(","), int.Parse);
-            int[] moinster_etcitem = Array.ConvertAll(data[i]["moinster_etcitem"].Split(","), int.Parse);*/
+            /* int[] monster_stateitem = Array.ConvertAll(data[i]["monster_stateitem"].Split(","), int.Parse);
+             int[] moinster_etcitem = Array.ConvertAll(data[i]["moinster_etcitem"].Split(","), int.Parse);*/
 
             monsterData = new MonsterData(monster_id, monster_object, monster_name, monster_type, monster_level, monster_exp, monster_maxhp, monster_maxmp, monster_attack, monster_attackspeed, monster_delay,
                 monster_abliltydelay, monster_defense, monster_speed, monster_detectdistance, monster_attackdistance/*, monster_stateitem, moinster_etcitem*/);
@@ -594,6 +598,122 @@ public class DataManager : SubClass<GameManager>
             }
 
             shopDict.Add(npcID, shopItems);
+        }
+    }
+
+    public int SetItemType(int attributes, ITEM_DATA.Types.ITEM_TYPES type)
+    {
+        return attributes | (1 << (int)type);
+    }
+
+    public int SetItemGrade(int attributes, ITEM_DATA.Types.ITEM_GRADES grade)
+    {
+        return attributes | (1 << ((int)grade + 3)); // Assuming 3 bits for ITEM_TYPES
+    }
+
+    public ITEM_DATA.Types.ITEM_TYPES GetItemType(int attributes)
+    {
+        return (ITEM_DATA.Types.ITEM_TYPES)(attributes & 0b111); // 0-2비트 (3비트)
+    }
+
+    public ITEM_DATA.Types.ITEM_GRADES GetItemGrade(int attributes)
+    {
+        return (ITEM_DATA.Types.ITEM_GRADES)((attributes >> 3) & 0b11111); // 3-7비트 (5비트)
+    }
+
+    public CONSUMPTION_ITEM_DATA.Types.CONSUMPTION_DETAIL_TYPE GetConsumptionDetailType(int attributes)
+    {
+        return (CONSUMPTION_ITEM_DATA.Types.CONSUMPTION_DETAIL_TYPE)((attributes >> 8) & 0b11); // 8-9비트 (2비트)
+    }
+
+    public EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE GetEquipmentDetailType(int attributes)
+    {
+        return (EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE)((attributes >> 10) & 0b11111); // 10-14비트 (5비트)
+    }
+
+    public EQUIPMENT_ITEM_DATA.Types.ITEM_CLASS GetItemClass(int attributes)
+    {
+        return (EQUIPMENT_ITEM_DATA.Types.ITEM_CLASS)((attributes >> 15) & 0b111); // 15-17비트 (3비트)
+    }
+
+    public Enum_ItemType ConvertItemType(ITEM_DATA.Types.ITEM_TYPES itemType)
+    {
+        switch (itemType)
+        {
+            case ITEM_DATA.Types.ITEM_TYPES.Equipment:
+                return Enum_ItemType.Equipment;
+            case ITEM_DATA.Types.ITEM_TYPES.Consumption:
+                return Enum_ItemType.Consumption;
+            case ITEM_DATA.Types.ITEM_TYPES.Etc:
+                return Enum_ItemType.ETC;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(itemType), itemType, null);
+        }
+    }
+
+    public Enum_Grade ConvertItemGrade(ITEM_DATA.Types.ITEM_GRADES itemGrade)
+    {
+        switch (itemGrade)
+        {
+            case ITEM_DATA.Types.ITEM_GRADES.Normal:
+                return Enum_Grade.Normal;
+            case ITEM_DATA.Types.ITEM_GRADES.Rare:
+                return Enum_Grade.Rare;
+            case ITEM_DATA.Types.ITEM_GRADES.Epic:
+                return Enum_Grade.Epic;
+            case ITEM_DATA.Types.ITEM_GRADES.Unique:
+                return Enum_Grade.Unique;
+            case ITEM_DATA.Types.ITEM_GRADES.Legendary:
+                return Enum_Grade.Legendary;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(itemGrade), itemGrade, null);
+        }
+    }
+
+    public Enum_ConsumptionDetailType ConvertConsumptionDetailType(CONSUMPTION_ITEM_DATA.Types.CONSUMPTION_DETAIL_TYPE consumptionDetailType)
+    {
+        switch (consumptionDetailType)
+        {
+            case CONSUMPTION_ITEM_DATA.Types.CONSUMPTION_DETAIL_TYPE.Potion:
+                return Enum_ConsumptionDetailType.Potion;
+            case CONSUMPTION_ITEM_DATA.Types.CONSUMPTION_DETAIL_TYPE.Box:
+                return Enum_ConsumptionDetailType.Box;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(consumptionDetailType), consumptionDetailType, null);
+        }
+    }
+
+    public Enum_EquipmentDetailType ConvertEquipmentDetailType(EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE equipmentDetailType)
+    {
+        switch (equipmentDetailType)
+        {
+            case EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE.Weapon:
+                return Enum_EquipmentDetailType.Weapon;
+            case EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE.Head:
+                return Enum_EquipmentDetailType.Head;
+            case EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE.Body:
+                return Enum_EquipmentDetailType.Body;
+            case EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE.Hand:
+                return Enum_EquipmentDetailType.Hand;
+            case EQUIPMENT_ITEM_DATA.Types.EQUIPMENT_DETAIL_TYPE.Foot:
+                return Enum_EquipmentDetailType.Foot;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(equipmentDetailType), equipmentDetailType, null);
+        }
+    }
+
+    public Enum_Class ConvertItemClass(EQUIPMENT_ITEM_DATA.Types.ITEM_CLASS itemClass)
+    {
+        switch (itemClass)
+        {
+            case EQUIPMENT_ITEM_DATA.Types.ITEM_CLASS.Warrior:
+                return Enum_Class.Warrior;
+            case EQUIPMENT_ITEM_DATA.Types.ITEM_CLASS.Wizard:
+                return Enum_Class.Wizard;
+            case EQUIPMENT_ITEM_DATA.Types.ITEM_CLASS.Archer:
+                return Enum_Class.Archer;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(itemClass), itemClass, null);
         }
     }
 

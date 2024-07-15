@@ -36,6 +36,16 @@ public class Quest
     // 퀘스트 상태 변화 이벤트
     public delegate void QuestProgressChanged();
     public event QuestProgressChanged OnQuestProgressChanged;
+    public Quest(int questID)
+    {
+        SetProgress(Enum_QuestProgress.UnAvailable);
+        questData = GameManager.Data.questDict[questID];
+
+        if (GameManager.Data.npcDict.ContainsKey(questData.npcID))
+        {
+            GameManager.Data.npcDict[questData.npcID].DetectQuestProgress(this);
+        }
+    }
 
     public void SetProgress(Enum_QuestProgress newProgress)
     {
@@ -90,16 +100,6 @@ public class Quest
         _canComplete = true;
     }
 
-    public Quest(int questID)
-    {
-        SetProgress(Enum_QuestProgress.UnAvailable);
-        questData = GameManager.Data.questDict[questID];
-
-        if (GameManager.Data.npcDict.ContainsKey(questData.npcID))
-        {
-            GameManager.Data.npcDict[questData.npcID].DetectQuestProgress(this);
-        }
-    }
 
     /// <summary>
     /// 퀘스트 시작 시에 이벤트 수신
@@ -121,13 +121,13 @@ public class Quest
         }
     }
 
-    void _OnMonsterKilled(int monsterID)
+    void _OnMonsterKilled(MonsterData monsterData)
     {
         foreach (var goal in questData.goals)
         {
             if (goal is MonsterGoal monsterGoal)
             {
-                if (monsterID == monsterGoal.MonsterID)
+                if (monsterData.monster_id == monsterGoal.MonsterID)
                 {
                     monsterGoal.IncrementCount(1);
                 }
@@ -136,15 +136,15 @@ public class Quest
         _CheckGoals();
     }
 
-    public void OnItemGet(int itemID, int itemCount)
+    public void OnItemGet(ItemData itemData)
     {
         foreach (var goal in questData.goals)
         {
             if (goal is ObjectGoal objGoal)
             {
-                if (itemID == objGoal.ObjectID)
+                if (itemData.id == objGoal.ObjectID)
                 {
-                    objGoal.IncrementCount(1);
+                    objGoal.IncrementCount(itemData.count);
                 }
             }
         }
