@@ -12,11 +12,11 @@ public class QuestManager : SubClass<GameManager>
     public Dictionary<int, List<Quest>> questsByNpcID = new Dictionary<int, List<Quest>>();
 
     // 시작 가능 퀘스트 목록
-    List<Quest> availableQuestList = new List<Quest>();
+    public List<Quest> availableQuestList = new List<Quest>();
     // 진행중인 퀘스트 목록
-    List<Quest> onGoingQuestList = new List<Quest>();
+    public List<Quest> onGoingQuestList = new List<Quest>();
     // 완료 퀘스트 목록
-    List<Quest> completedQuestList = new List<Quest>();
+    public List<Quest> completedQuestList = new List<Quest>();
 
     // NPC와 대화시 선택한 퀘스트
     public Quest CurrentSelectedQuest { get; set; }
@@ -107,7 +107,7 @@ public class QuestManager : SubClass<GameManager>
             if (goal is ObjectGoal objGoal)
             {
                 // 퀘스트 아이템이 이미 인벤에 있는지 체크
-                GameManager.Inven.SearchItem(GameManager.Data.DropItems[objGoal.ObjectName]);
+                GameManager.Inven.SearchQuestItem(objGoal.ObjectID);
             }
         }
     }

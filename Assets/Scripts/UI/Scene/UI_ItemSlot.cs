@@ -142,9 +142,9 @@ public class UI_ItemSlot : UI_Entity
             }
         };
 
-        if (Index == GameManager.Inven.TotalSlotCount -1)
+
+        if (Index == GameManager.Inven.TotalSlotCount - 1)
         {
-            _inven.gameObject.SetActive(false);
             _inven.AddListenerToItemTypeToggle();
         }
     }

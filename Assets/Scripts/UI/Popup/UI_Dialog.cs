@@ -33,7 +33,7 @@ public class UI_Dialog : UI_Entity
 
     public override void PopupOnEnable()
     {
-        if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
+        if (PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
         GameManager.UI.CloseAllPopups(this);
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, true);
@@ -46,7 +46,7 @@ public class UI_Dialog : UI_Entity
 
     public override void PopupOnDisable()
     {
-        if (!GameManager.UI.init || PlayerController.instance._interaction.InteractingNpcID == -1) return;
+        if (PlayerController.instance._interaction.InteractingNpcID == -1) return;
 
         GameManager.UI.ReOpenPopups();
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
@@ -95,7 +95,8 @@ public class UI_Dialog : UI_Entity
                     }
                     else if (selectedQuest.progress == Enum_QuestProgress.CanComplete)
                     {
-                        // 나가기는 퀘스트 완료 X
+                        // 나가기는 퀘스트 완료 보상 안 받음
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
                         GameManager.UI.ClosePopup(GameManager.UI.QuestComplete);
                     }
                     break;

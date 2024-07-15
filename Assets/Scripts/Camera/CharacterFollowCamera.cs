@@ -1,6 +1,7 @@
 using UnityEngine;
 using Cinemachine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class CharacterFollowCamera : MonoBehaviour
 {
@@ -9,20 +10,26 @@ public class CharacterFollowCamera : MonoBehaviour
 
     Transform player;
     public int _zoomLevel = 0; // 0: 기본줌, 1: 확대줌, 2: 최대확대줌
-    float[] _zoomFOV = { 40f, 25f, 68.5f }; // 각 줌 레벨에 따른 FOV
+    float[] _zoomFOV = { 40f, 15f, 8.5f }; // 각 줌 레벨에 따른 FOV
     Vector3[] _followOffsets = {
-        new Vector3(0, 30, -30),
+        new Vector3(0, 25f, -22f),
         new Vector3(0, 6.8f, -23),
-        new Vector3(0, 3.9f, -5.7f)
+        new Vector3(0, 7f, -25f)
     };
     [SerializeField]
     InputActionReference mouseScrollAction;
     CinemachineTransposer cmTransposer;
+    CinemachineComposer cmComposer;
 
+    float _targetFOV;
+    Vector3 targetFollowOffset;
+    float _zoomSpeed = 2f; // 줌 전환 속도
 
     void Start()
     {
         cmTransposer = vCam.GetCinemachineComponent<CinemachineTransposer>();
+        cmComposer = vCam.GetCinemachineComponent<CinemachineComposer>();
+        cmComposer.m_TrackedObjectOffset.y = 2.5f;
         player = GameObject.FindWithTag("Player").transform;
 
         if (vCam != null)
@@ -30,23 +37,27 @@ public class CharacterFollowCamera : MonoBehaviour
             vCam.Follow = player;
             vCam.LookAt = player;
         }
+
+        _targetFOV = _zoomFOV[_zoomLevel];
+        targetFollowOffset = _followOffsets[_zoomLevel];
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         mouseScrollAction.action.Enable();
         mouseScrollAction.action.performed += OnMouseScroll;
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         mouseScrollAction.action.performed -= OnMouseScroll;
         mouseScrollAction.action.Disable();
     }
 
-    private void OnMouseScroll(InputAction.CallbackContext context)
+    void OnMouseScroll(InputAction.CallbackContext context)
     {
-        if (vCamSwitcher.ZoomState != VCamSwitcher.Enum_ZoomTypes.Default)
+        // UI 위에 있으면 확대줌 적용 X
+        if (vCamSwitcher.ZoomState != VCamSwitcher.Enum_ZoomTypes.Default || GameManager.UI.PointerOnUI())
             return;
 
         float scrollValue = context.ReadValue<float>();
@@ -61,12 +72,28 @@ public class CharacterFollowCamera : MonoBehaviour
             _zoomLevel = Mathf.Max(_zoomLevel - 1, 0);
         }
 
-        UpdateCameraZoom();
+        StopAllCoroutines();
+        StartCoroutine(SmoothZoomTransition());
     }
 
-    void UpdateCameraZoom()
+    IEnumerator SmoothZoomTransition()
     {
-        vCam.m_Lens.FieldOfView = _zoomFOV[_zoomLevel];
-        cmTransposer.m_FollowOffset = _followOffsets[_zoomLevel];
+        float initialFOV = vCam.m_Lens.FieldOfView;
+        Vector3 initialFollowOffset = cmTransposer.m_FollowOffset;
+        float elapsedTime = 0f;
+
+        _targetFOV = _zoomFOV[_zoomLevel];
+        targetFollowOffset = _followOffsets[_zoomLevel];
+
+        while (elapsedTime < 1f)
+        {
+            elapsedTime += Time.deltaTime * _zoomSpeed;
+            vCam.m_Lens.FieldOfView = Mathf.Lerp(initialFOV, _targetFOV, elapsedTime);
+            cmTransposer.m_FollowOffset = Vector3.Lerp(initialFollowOffset, targetFollowOffset, elapsedTime);
+            yield return null;
+        }
+
+        vCam.m_Lens.FieldOfView = _targetFOV;
+        cmTransposer.m_FollowOffset = targetFollowOffset;
     }
 }

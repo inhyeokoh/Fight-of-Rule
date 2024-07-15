@@ -254,6 +254,7 @@ public class PlayerController : MonoBehaviour
                     {
                         Npc npc = hitObject.GetComponent<Npc>();
                         _interaction.InteractingNpcID = npc.NpcID;
+                        _playerState.ChangeState((int)Enum_CharacterState.Idle);
                         npc.StartInteract();
                     }
                     else
@@ -326,6 +327,7 @@ public class PlayerController : MonoBehaviour
 
         Npc npc = hitObject.GetComponent<Npc>();
         _interaction.InteractingNpcID = npc.NpcID;
+        _playerState.ChangeState((int)Enum_CharacterState.Idle);
         npc.StartInteract();
     }
 

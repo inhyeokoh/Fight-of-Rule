@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -46,8 +47,6 @@ public class UIManager : SubClass<GameManager>
         BlockPlayerInput // ActionMap 중 "Player" 하위 Actions 전체 제어
     }
     Enum_ControlInputAction _currentInputActionControl = Enum_ControlInputAction.None;
-
-    // 활성화된 팝업 관리
 
     protected override void _Clear()
     {
@@ -177,7 +176,23 @@ public class UIManager : SubClass<GameManager>
     /// <summary>
     /// 팝업 모두 닫기
     /// </summary>
-    public void CloseAllPopups(UI_Entity except = null)
+    public void CloseAllPopups()
+    {
+        for (int i = 0; i < popupCanvas.transform.childCount; i++)
+        {
+            GameObject child = popupCanvas.transform.GetChild(i).gameObject;
+            if (child.activeSelf)
+            {
+                UI_Entity childEntity = child.GetComponent<UI_Entity>();
+                ClosePopup(childEntity);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 일부 팝업 제외하고 모두 닫기
+    /// </summary>
+    public void CloseAllPopups(UI_Entity except)
     {
         _tempClosed.Clear();
         for (int i = 0; i < popupCanvas.transform.childCount; i++)
@@ -196,20 +211,11 @@ public class UIManager : SubClass<GameManager>
 
     public void ReOpenPopups()
     {
-        List<UI_Entity> reOpenList = new List<UI_Entity>();
-        for (int i = 0; i < popupCanvas.transform.childCount; i++)
+        foreach (var popup in _tempClosed)
         {
-            UI_Entity popup = popupCanvas.transform.GetChild(i).GetComponent<UI_Entity>();
-            if (_tempClosed.Contains(popup))
-            {
-                reOpenList.Add(popup);
-            }
+            OpenPopup(popup);
         }
-
-        for (int i = 0; i < reOpenList.Count; i++)
-        {
-            OpenPopup(reOpenList[i]);
-        }
+        _tempClosed.Clear();
     }
 
     // 가장 마지막에 연 팝업이 화면상 가장 위에 오도록
@@ -275,18 +281,9 @@ public class UIManager : SubClass<GameManager>
         }
     }
 
-    public void PointerOnUI(bool block)
+    public bool PointerOnUI()
     {
-        if (block)
-        {           
-            moveAction.Disable();
-            fireAction.Disable();
-        }
-        else
-        {
-            moveAction.Enable();
-            fireAction.Enable();
-        }
+        return EventSystem.current.IsPointerOverGameObject();
     }
 
     /// <summary>

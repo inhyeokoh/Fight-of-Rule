@@ -57,6 +57,11 @@ public class SceneControlManager : SubClass<GameManager>
             GameManager.Data.NpcTableParsing("NpcTable");
             GameManager.UI.SetGamePopups(UIManager.Enum_PopupSetJunction.StatePattern);
             GameManager.Inven.ConnectInven();
+
+            for (int i = 0; i < GameManager.Data.dropTestItems.Count; i++)
+            {
+                ItemManager._item.ItemInstance(GameManager.Data.dropTestItems[i], GameManager.Data.dropTestItemsPos[i], Quaternion.identity);
+            }
         }
 #endif
     }

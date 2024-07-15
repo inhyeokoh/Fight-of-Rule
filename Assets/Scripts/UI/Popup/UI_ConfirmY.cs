@@ -49,18 +49,6 @@ public class UI_ConfirmY : UI_Entity
         GameManager.UI.UseBlocker(false);
     }
 
-/*    private void OnEnable()
-    {
-        if (!_init || !_useBlocker) return;
-
-        GameManager.UI.UseBlocker(true);
-    }
-
-    private void OnDisable()
-    {
-        GameManager.UI.UseBlocker(false);
-    }
-*/
     protected override Type GetUINamesAsType()
     {
         return typeof(Enum_UI_Confirm);
@@ -77,10 +65,9 @@ public class UI_ConfirmY : UI_Entity
             {
                 GameManager.UI.ClosePopup(GameManager.UI.SignUp);
             }
-            else if (confirmType == Enum_ConfirmTypes.CharacterDeleteFail || confirmType == Enum_ConfirmTypes.CharacterDeleteSuccess)
+            else
             {
                 GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
-                // TODO UI 즉시 갱신
             }
         };
 
@@ -127,5 +114,11 @@ public class UI_ConfirmY : UI_Entity
             default:
                 break;
         }
+    }
+
+    public override void EnterAction()
+    {
+        base.EnterAction();
+        _entities[(int)Enum_UI_Confirm.Accept].ClickAction?.Invoke(null);
     }
 }

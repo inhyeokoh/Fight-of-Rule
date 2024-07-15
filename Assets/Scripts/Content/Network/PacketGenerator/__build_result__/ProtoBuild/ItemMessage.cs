@@ -22,43 +22,51 @@ public static partial class ItemMessageReflection {
   static ItemMessageReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChFJdGVtTWVzc2FnZS5wcm90byLWAQoJSVRFTV9EQVRBEgoKAmlkGAEgASgF",
-          "EhIKCmF0dHJpYnV0ZXMYAiABKAUSFQoNc2VsbGluZ19wcmljZRgDIAEoAxIR",
-          "CgltYXhfY291bnQYBCABKAUiNQoKSVRFTV9UWVBFUxINCglFUVVJUE1FTlQQ",
-          "ABIPCgtDT05TVU1QVElPThABEgcKA0VUQxACIkgKC0lURU1fR1JBREVTEgoK",
-          "Bk5PUk1BTBAAEggKBFJBUkUQARIICgRFUElDEAISCgoGVU5JUVVFEAMSDQoJ",
-          "TEVHRU5EQVJZEAQirQIKD1NUQVRFX0lURU1fREFUQRIdCglpdGVtX2RhdGEY",
-          "ASABKAsyCi5JVEVNX0RBVEESDQoFbGV2ZWwYAiABKAUSFAoMYXR0YWNrX2Jv",
-          "b3N0GAMgASgFEhUKDWRlZmVuc2VfYm9vc3QYBCABKAUSEwoLc3BlZWRfYm9v",
-          "c3QYBSABKAUSGgoSYXR0YWNrX3NwZWVkX2Jvb3N0GAYgASgFEhEKCWV4cF9i",
-          "b29zdBgHIAEoBRITCgtocF9yZWNvdmVyeRgIIAEoBRITCgttcF9yZWNvdmVy",
-          "eRgJIAEoBRITCgttYXhIcF9ib29zdBgKIAEoBRITCgttYXhNcF9ib29zdBgL",
-          "IAEoBRIVCg1kdXJhdGlvbl9ib29sGAwgASgIEhAKCGR1cmF0aW9uGA0gASgC",
-          "InEKFUNPTlNVTVBUSU9OX0lURU1fREFUQRIoCg5zdGF0ZWl0ZW1fZGF0YRgB",
-          "IAEoCzIQLlNUQVRFX0lURU1fREFUQSIuChdDT05TVU1QVElPTl9ERVRBSUxf",
-          "VFlQRRIKCgZQT1RJT04QABIHCgNCT1gQASLaAQoTRVFVSVBNRU5UX0lURU1f",
-          "REFUQRIoCg5zdGF0ZWl0ZW1fZGF0YRgBIAEoCzIQLlNUQVRFX0lURU1fREFU",
-          "QRIZChFtYXhfcmVpbmZvcmNlbWVudBgCIAEoBSJLChVFUVVJUE1FTlRfREVU",
-          "QUlMX1RZUEUSCgoGV0VBUE9OEAASCAoESEVBRBABEggKBEJPRFkQAhIICgRI",
-          "QU5EEAMSCAoERk9PVBAEIjEKCklURU1fQ0xBU1MSCwoHV2FycmlvchAAEgoK",
-          "BldpemFyZBABEgoKBkFyY2hlchACIjQKEURZTkFNSUNfSVRFTV9EQVRBEg0K",
-          "BWNvdW50GAEgASgFEhAKCHNsb3RfbnVtGAIgASgFIsABChdSRUlORk9SQ0VN",
-          "RU5UX0lURU1fREFUQRIUCgxhdHRhY2tfYm9vc3QYASABKAUSFQoNZGVmZW5z",
-          "ZV9ib29zdBgCIAEoBRITCgtzcGVlZF9ib29zdBgDIAEoBRIaChJhdHRhY2tf",
-          "c3BlZWRfYm9vc3QYBCABKAUSEwoLbWF4SHBfYm9vc3QYBSABKAUSEwoLbWF4",
-          "TXBfYm9vc3QYBiABKAUSHQoVY3VycmVudF9yZWluZm9yY2VtZW50GAcgASgF",
-          "ImcKCEVUQ19JVEVNEhEKCXVuaXF1ZV9pZBgBIAEoAxIdCglpdGVtX2RhdGEY",
-          "AiABKAsyCi5JVEVNX0RBVEESKQoNZHluX2l0ZW1fZGF0YRgDIAEoCzISLkRZ",
-          "TkFNSUNfSVRFTV9EQVRBIoMBChBDT05TVU1QVElPTl9JVEVNEhEKCXVuaXF1",
-          "ZV9pZBgBIAEoAxIxChFjb25zdW1lX2l0ZW1fZGF0YRgCIAEoCzIWLkNPTlNV",
-          "TVBUSU9OX0lURU1fREFUQRIpCg1keW5faXRlbV9kYXRhGAMgASgLMhIuRFlO",
-          "QU1JQ19JVEVNX0RBVEEitAEKDkVRVUlQTUVOVF9JVEVNEhEKCXVuaXF1ZV9p",
-          "ZBgBIAEoAxItCg9lcXVpcF9pdGVtX2RhdGEYAiABKAsyFC5FUVVJUE1FTlRf",
-          "SVRFTV9EQVRBEikKDWR5bl9pdGVtX2RhdGEYAyABKAsyEi5EWU5BTUlDX0lU",
-          "RU1fREFUQRI1ChNyZWluZm9yY2VfaXRlbV9kYXRhGAQgASgLMhguUkVJTkZP",
-          "UkNFTUVOVF9JVEVNX0RBVEFiBnByb3RvMw=="));
+          "ChFJdGVtTWVzc2FnZS5wcm90bxoRVW5pdE1lc3NhZ2UucHJvdG8i1gEKCUlU",
+          "RU1fREFUQRIKCgJpZBgBIAEoBRISCgphdHRyaWJ1dGVzGAIgASgFEhUKDXNl",
+          "bGxpbmdfcHJpY2UYAyABKAMSEQoJbWF4X2NvdW50GAQgASgFIjUKCklURU1f",
+          "VFlQRVMSDQoJRVFVSVBNRU5UEAASDwoLQ09OU1VNUFRJT04QARIHCgNFVEMQ",
+          "AiJICgtJVEVNX0dSQURFUxIKCgZOT1JNQUwQABIICgRSQVJFEAESCAoERVBJ",
+          "QxACEgoKBlVOSVFVRRADEg0KCUxFR0VOREFSWRAEIq0CCg9TVEFURV9JVEVN",
+          "X0RBVEESHQoJaXRlbV9kYXRhGAEgASgLMgouSVRFTV9EQVRBEg0KBWxldmVs",
+          "GAIgASgFEhQKDGF0dGFja19ib29zdBgDIAEoBRIVCg1kZWZlbnNlX2Jvb3N0",
+          "GAQgASgFEhMKC3NwZWVkX2Jvb3N0GAUgASgFEhoKEmF0dGFja19zcGVlZF9i",
+          "b29zdBgGIAEoBRIRCglleHBfYm9vc3QYByABKAUSEwoLaHBfcmVjb3ZlcnkY",
+          "CCABKAUSEwoLbXBfcmVjb3ZlcnkYCSABKAUSEwoLbWF4SHBfYm9vc3QYCiAB",
+          "KAUSEwoLbWF4TXBfYm9vc3QYCyABKAUSFQoNZHVyYXRpb25fYm9vbBgMIAEo",
+          "CBIQCghkdXJhdGlvbhgNIAEoAiJxChVDT05TVU1QVElPTl9JVEVNX0RBVEES",
+          "KAoOc3RhdGVpdGVtX2RhdGEYASABKAsyEC5TVEFURV9JVEVNX0RBVEEiLgoX",
+          "Q09OU1VNUFRJT05fREVUQUlMX1RZUEUSCgoGUE9USU9OEAASBwoDQk9YEAEi",
+          "2gEKE0VRVUlQTUVOVF9JVEVNX0RBVEESKAoOc3RhdGVpdGVtX2RhdGEYASAB",
+          "KAsyEC5TVEFURV9JVEVNX0RBVEESGQoRbWF4X3JlaW5mb3JjZW1lbnQYAiAB",
+          "KAUiSwoVRVFVSVBNRU5UX0RFVEFJTF9UWVBFEgoKBldFQVBPThAAEggKBEhF",
+          "QUQQARIICgRCT0RZEAISCAoESEFORBADEggKBEZPT1QQBCIxCgpJVEVNX0NM",
+          "QVNTEgsKB1dhcnJpb3IQABIKCgZXaXphcmQQARIKCgZBcmNoZXIQAiI0ChFE",
+          "WU5BTUlDX0lURU1fREFUQRINCgVjb3VudBgBIAEoBRIQCghzbG90X251bRgC",
+          "IAEoBSLAAQoXUkVJTkZPUkNFTUVOVF9JVEVNX0RBVEESFAoMYXR0YWNrX2Jv",
+          "b3N0GAEgASgFEhUKDWRlZmVuc2VfYm9vc3QYAiABKAUSEwoLc3BlZWRfYm9v",
+          "c3QYAyABKAUSGgoSYXR0YWNrX3NwZWVkX2Jvb3N0GAQgASgFEhMKC21heEhw",
+          "X2Jvb3N0GAUgASgFEhMKC21heE1wX2Jvb3N0GAYgASgFEh0KFWN1cnJlbnRf",
+          "cmVpbmZvcmNlbWVudBgHIAEoBSJnCghFVENfSVRFTRIRCgl1bmlxdWVfaWQY",
+          "ASABKAMSHQoJaXRlbV9kYXRhGAIgASgLMgouSVRFTV9EQVRBEikKDWR5bl9p",
+          "dGVtX2RhdGEYAyABKAsyEi5EWU5BTUlDX0lURU1fREFUQSKDAQoQQ09OU1VN",
+          "UFRJT05fSVRFTRIRCgl1bmlxdWVfaWQYASABKAMSMQoRY29uc3VtZV9pdGVt",
+          "X2RhdGEYAiABKAsyFi5DT05TVU1QVElPTl9JVEVNX0RBVEESKQoNZHluX2l0",
+          "ZW1fZGF0YRgDIAEoCzISLkRZTkFNSUNfSVRFTV9EQVRBIrQBCg5FUVVJUE1F",
+          "TlRfSVRFTRIRCgl1bmlxdWVfaWQYASABKAMSLQoPZXF1aXBfaXRlbV9kYXRh",
+          "GAIgASgLMhQuRVFVSVBNRU5UX0lURU1fREFUQRIpCg1keW5faXRlbV9kYXRh",
+          "GAMgASgLMhIuRFlOQU1JQ19JVEVNX0RBVEESNQoTcmVpbmZvcmNlX2l0ZW1f",
+          "ZGF0YRgEIAEoCzIYLlJFSU5GT1JDRU1FTlRfSVRFTV9EQVRBIpMBCg5JVEVN",
+          "X0RBVEFfSU5GTxIdCghldGNfaXRlbRgCIAEoCzIJLkVUQ19JVEVNSAASKQoM",
+          "Y29uc3VtZV9pdGVtGAMgASgLMhEuQ09OU1VNUFRJT05fSVRFTUgAEiUKCmVx",
+          "dWlwX2l0ZW0YBCABKAsyDy5FUVVJUE1FTlRfSVRFTUgAQhAKDml0ZW1fZGF0",
+          "YV9pbmZvIrMBChdJVEVNX0RBVEFfSU5GT19XSVRIX1BPUxIdCghldGNfaXRl",
+          "bRgBIAEoCzIJLkVUQ19JVEVNSAASKQoMY29uc3VtZV9pdGVtGAIgASgLMhEu",
+          "Q09OU1VNUFRJT05fSVRFTUgAEiUKCmVxdWlwX2l0ZW0YAyABKAsyDy5FUVVJ",
+          "UE1FTlRfSVRFTUgAEhUKA3BvcxgEIAEoCzIILlZFQ1RPUjNCEAoOaXRlbV9k",
+          "YXRhX2luZm9iBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-        new pbr::FileDescriptor[] { },
+        new pbr::FileDescriptor[] { global::UnitMessageReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
           new pbr::GeneratedClrTypeInfo(typeof(global::ITEM_DATA), global::ITEM_DATA.Parser, new[]{ "Id", "Attributes", "SellingPrice", "MaxCount" }, null, new[]{ typeof(global::ITEM_DATA.Types.ITEM_TYPES), typeof(global::ITEM_DATA.Types.ITEM_GRADES) }, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::STATE_ITEM_DATA), global::STATE_ITEM_DATA.Parser, new[]{ "ItemData", "Level", "AttackBoost", "DefenseBoost", "SpeedBoost", "AttackSpeedBoost", "ExpBoost", "HpRecovery", "MpRecovery", "MaxHpBoost", "MaxMpBoost", "DurationBool", "Duration" }, null, null, null, null),
@@ -68,7 +76,9 @@ public static partial class ItemMessageReflection {
           new pbr::GeneratedClrTypeInfo(typeof(global::REINFORCEMENT_ITEM_DATA), global::REINFORCEMENT_ITEM_DATA.Parser, new[]{ "AttackBoost", "DefenseBoost", "SpeedBoost", "AttackSpeedBoost", "MaxHpBoost", "MaxMpBoost", "CurrentReinforcement" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::ETC_ITEM), global::ETC_ITEM.Parser, new[]{ "UniqueId", "ItemData", "DynItemData" }, null, null, null, null),
           new pbr::GeneratedClrTypeInfo(typeof(global::CONSUMPTION_ITEM), global::CONSUMPTION_ITEM.Parser, new[]{ "UniqueId", "ConsumeItemData", "DynItemData" }, null, null, null, null),
-          new pbr::GeneratedClrTypeInfo(typeof(global::EQUIPMENT_ITEM), global::EQUIPMENT_ITEM.Parser, new[]{ "UniqueId", "EquipItemData", "DynItemData", "ReinforceItemData" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::EQUIPMENT_ITEM), global::EQUIPMENT_ITEM.Parser, new[]{ "UniqueId", "EquipItemData", "DynItemData", "ReinforceItemData" }, null, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::ITEM_DATA_INFO), global::ITEM_DATA_INFO.Parser, new[]{ "EtcItem", "ConsumeItem", "EquipItem" }, new[]{ "ItemDataInfo" }, null, null, null),
+          new pbr::GeneratedClrTypeInfo(typeof(global::ITEM_DATA_INFO_WITH_POS), global::ITEM_DATA_INFO_WITH_POS.Parser, new[]{ "EtcItem", "ConsumeItem", "EquipItem", "Pos" }, new[]{ "ItemDataInfo" }, null, null, null)
         }));
   }
   #endregion
@@ -3024,6 +3034,728 @@ public sealed partial class EQUIPMENT_ITEM : pb::IMessage<EQUIPMENT_ITEM>
             ReinforceItemData = new global::REINFORCEMENT_ITEM_DATA();
           }
           input.ReadMessage(ReinforceItemData);
+          break;
+        }
+      }
+    }
+  }
+  #endif
+
+}
+
+public sealed partial class ITEM_DATA_INFO : pb::IMessage<ITEM_DATA_INFO>
+#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    , pb::IBufferMessage
+#endif
+{
+  private static readonly pb::MessageParser<ITEM_DATA_INFO> _parser = new pb::MessageParser<ITEM_DATA_INFO>(() => new ITEM_DATA_INFO());
+  private pb::UnknownFieldSet _unknownFields;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pb::MessageParser<ITEM_DATA_INFO> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::ItemMessageReflection.Descriptor.MessageTypes[9]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ITEM_DATA_INFO() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ITEM_DATA_INFO(ITEM_DATA_INFO other) : this() {
+    switch (other.ItemDataInfoCase) {
+      case ItemDataInfoOneofCase.EtcItem:
+        EtcItem = other.EtcItem.Clone();
+        break;
+      case ItemDataInfoOneofCase.ConsumeItem:
+        ConsumeItem = other.ConsumeItem.Clone();
+        break;
+      case ItemDataInfoOneofCase.EquipItem:
+        EquipItem = other.EquipItem.Clone();
+        break;
+    }
+
+    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ITEM_DATA_INFO Clone() {
+    return new ITEM_DATA_INFO(this);
+  }
+
+  /// <summary>Field number for the "etc_item" field.</summary>
+  public const int EtcItemFieldNumber = 2;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::ETC_ITEM EtcItem {
+    get { return itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem ? (global::ETC_ITEM) itemDataInfo_ : null; }
+    set {
+      itemDataInfo_ = value;
+      itemDataInfoCase_ = value == null ? ItemDataInfoOneofCase.None : ItemDataInfoOneofCase.EtcItem;
+    }
+  }
+
+  /// <summary>Field number for the "consume_item" field.</summary>
+  public const int ConsumeItemFieldNumber = 3;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::CONSUMPTION_ITEM ConsumeItem {
+    get { return itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem ? (global::CONSUMPTION_ITEM) itemDataInfo_ : null; }
+    set {
+      itemDataInfo_ = value;
+      itemDataInfoCase_ = value == null ? ItemDataInfoOneofCase.None : ItemDataInfoOneofCase.ConsumeItem;
+    }
+  }
+
+  /// <summary>Field number for the "equip_item" field.</summary>
+  public const int EquipItemFieldNumber = 4;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::EQUIPMENT_ITEM EquipItem {
+    get { return itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem ? (global::EQUIPMENT_ITEM) itemDataInfo_ : null; }
+    set {
+      itemDataInfo_ = value;
+      itemDataInfoCase_ = value == null ? ItemDataInfoOneofCase.None : ItemDataInfoOneofCase.EquipItem;
+    }
+  }
+
+  private object itemDataInfo_;
+  /// <summary>Enum of possible cases for the "item_data_info" oneof.</summary>
+  public enum ItemDataInfoOneofCase {
+    None = 0,
+    EtcItem = 2,
+    ConsumeItem = 3,
+    EquipItem = 4,
+  }
+  private ItemDataInfoOneofCase itemDataInfoCase_ = ItemDataInfoOneofCase.None;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ItemDataInfoOneofCase ItemDataInfoCase {
+    get { return itemDataInfoCase_; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void ClearItemDataInfo() {
+    itemDataInfoCase_ = ItemDataInfoOneofCase.None;
+    itemDataInfo_ = null;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override bool Equals(object other) {
+    return Equals(other as ITEM_DATA_INFO);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public bool Equals(ITEM_DATA_INFO other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (!object.Equals(EtcItem, other.EtcItem)) return false;
+    if (!object.Equals(ConsumeItem, other.ConsumeItem)) return false;
+    if (!object.Equals(EquipItem, other.EquipItem)) return false;
+    if (ItemDataInfoCase != other.ItemDataInfoCase) return false;
+    return Equals(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) hash ^= EtcItem.GetHashCode();
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) hash ^= ConsumeItem.GetHashCode();
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) hash ^= EquipItem.GetHashCode();
+    hash ^= (int) itemDataInfoCase_;
+    if (_unknownFields != null) {
+      hash ^= _unknownFields.GetHashCode();
+    }
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void WriteTo(pb::CodedOutputStream output) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    output.WriteRawMessage(this);
+  #else
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+      output.WriteRawTag(18);
+      output.WriteMessage(EtcItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+      output.WriteRawTag(26);
+      output.WriteMessage(ConsumeItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+      output.WriteRawTag(34);
+      output.WriteMessage(EquipItem);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(output);
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+      output.WriteRawTag(18);
+      output.WriteMessage(EtcItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+      output.WriteRawTag(26);
+      output.WriteMessage(ConsumeItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+      output.WriteRawTag(34);
+      output.WriteMessage(EquipItem);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(ref output);
+    }
+  }
+  #endif
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int CalculateSize() {
+    int size = 0;
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(EtcItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConsumeItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(EquipItem);
+    }
+    if (_unknownFields != null) {
+      size += _unknownFields.CalculateSize();
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(ITEM_DATA_INFO other) {
+    if (other == null) {
+      return;
+    }
+    switch (other.ItemDataInfoCase) {
+      case ItemDataInfoOneofCase.EtcItem:
+        if (EtcItem == null) {
+          EtcItem = new global::ETC_ITEM();
+        }
+        EtcItem.MergeFrom(other.EtcItem);
+        break;
+      case ItemDataInfoOneofCase.ConsumeItem:
+        if (ConsumeItem == null) {
+          ConsumeItem = new global::CONSUMPTION_ITEM();
+        }
+        ConsumeItem.MergeFrom(other.ConsumeItem);
+        break;
+      case ItemDataInfoOneofCase.EquipItem:
+        if (EquipItem == null) {
+          EquipItem = new global::EQUIPMENT_ITEM();
+        }
+        EquipItem.MergeFrom(other.EquipItem);
+        break;
+    }
+
+    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(pb::CodedInputStream input) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    input.ReadRawMessage(this);
+  #else
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+          break;
+        case 18: {
+          global::ETC_ITEM subBuilder = new global::ETC_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+            subBuilder.MergeFrom(EtcItem);
+          }
+          input.ReadMessage(subBuilder);
+          EtcItem = subBuilder;
+          break;
+        }
+        case 26: {
+          global::CONSUMPTION_ITEM subBuilder = new global::CONSUMPTION_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+            subBuilder.MergeFrom(ConsumeItem);
+          }
+          input.ReadMessage(subBuilder);
+          ConsumeItem = subBuilder;
+          break;
+        }
+        case 34: {
+          global::EQUIPMENT_ITEM subBuilder = new global::EQUIPMENT_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+            subBuilder.MergeFrom(EquipItem);
+          }
+          input.ReadMessage(subBuilder);
+          EquipItem = subBuilder;
+          break;
+        }
+      }
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+          break;
+        case 18: {
+          global::ETC_ITEM subBuilder = new global::ETC_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+            subBuilder.MergeFrom(EtcItem);
+          }
+          input.ReadMessage(subBuilder);
+          EtcItem = subBuilder;
+          break;
+        }
+        case 26: {
+          global::CONSUMPTION_ITEM subBuilder = new global::CONSUMPTION_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+            subBuilder.MergeFrom(ConsumeItem);
+          }
+          input.ReadMessage(subBuilder);
+          ConsumeItem = subBuilder;
+          break;
+        }
+        case 34: {
+          global::EQUIPMENT_ITEM subBuilder = new global::EQUIPMENT_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+            subBuilder.MergeFrom(EquipItem);
+          }
+          input.ReadMessage(subBuilder);
+          EquipItem = subBuilder;
+          break;
+        }
+      }
+    }
+  }
+  #endif
+
+}
+
+public sealed partial class ITEM_DATA_INFO_WITH_POS : pb::IMessage<ITEM_DATA_INFO_WITH_POS>
+#if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    , pb::IBufferMessage
+#endif
+{
+  private static readonly pb::MessageParser<ITEM_DATA_INFO_WITH_POS> _parser = new pb::MessageParser<ITEM_DATA_INFO_WITH_POS>(() => new ITEM_DATA_INFO_WITH_POS());
+  private pb::UnknownFieldSet _unknownFields;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pb::MessageParser<ITEM_DATA_INFO_WITH_POS> Parser { get { return _parser; } }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public static pbr::MessageDescriptor Descriptor {
+    get { return global::ItemMessageReflection.Descriptor.MessageTypes[10]; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  pbr::MessageDescriptor pb::IMessage.Descriptor {
+    get { return Descriptor; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ITEM_DATA_INFO_WITH_POS() {
+    OnConstruction();
+  }
+
+  partial void OnConstruction();
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ITEM_DATA_INFO_WITH_POS(ITEM_DATA_INFO_WITH_POS other) : this() {
+    pos_ = other.pos_ != null ? other.pos_.Clone() : null;
+    switch (other.ItemDataInfoCase) {
+      case ItemDataInfoOneofCase.EtcItem:
+        EtcItem = other.EtcItem.Clone();
+        break;
+      case ItemDataInfoOneofCase.ConsumeItem:
+        ConsumeItem = other.ConsumeItem.Clone();
+        break;
+      case ItemDataInfoOneofCase.EquipItem:
+        EquipItem = other.EquipItem.Clone();
+        break;
+    }
+
+    _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ITEM_DATA_INFO_WITH_POS Clone() {
+    return new ITEM_DATA_INFO_WITH_POS(this);
+  }
+
+  /// <summary>Field number for the "etc_item" field.</summary>
+  public const int EtcItemFieldNumber = 1;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::ETC_ITEM EtcItem {
+    get { return itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem ? (global::ETC_ITEM) itemDataInfo_ : null; }
+    set {
+      itemDataInfo_ = value;
+      itemDataInfoCase_ = value == null ? ItemDataInfoOneofCase.None : ItemDataInfoOneofCase.EtcItem;
+    }
+  }
+
+  /// <summary>Field number for the "consume_item" field.</summary>
+  public const int ConsumeItemFieldNumber = 2;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::CONSUMPTION_ITEM ConsumeItem {
+    get { return itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem ? (global::CONSUMPTION_ITEM) itemDataInfo_ : null; }
+    set {
+      itemDataInfo_ = value;
+      itemDataInfoCase_ = value == null ? ItemDataInfoOneofCase.None : ItemDataInfoOneofCase.ConsumeItem;
+    }
+  }
+
+  /// <summary>Field number for the "equip_item" field.</summary>
+  public const int EquipItemFieldNumber = 3;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::EQUIPMENT_ITEM EquipItem {
+    get { return itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem ? (global::EQUIPMENT_ITEM) itemDataInfo_ : null; }
+    set {
+      itemDataInfo_ = value;
+      itemDataInfoCase_ = value == null ? ItemDataInfoOneofCase.None : ItemDataInfoOneofCase.EquipItem;
+    }
+  }
+
+  /// <summary>Field number for the "pos" field.</summary>
+  public const int PosFieldNumber = 4;
+  private global::VECTOR3 pos_;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public global::VECTOR3 Pos {
+    get { return pos_; }
+    set {
+      pos_ = value;
+    }
+  }
+
+  private object itemDataInfo_;
+  /// <summary>Enum of possible cases for the "item_data_info" oneof.</summary>
+  public enum ItemDataInfoOneofCase {
+    None = 0,
+    EtcItem = 1,
+    ConsumeItem = 2,
+    EquipItem = 3,
+  }
+  private ItemDataInfoOneofCase itemDataInfoCase_ = ItemDataInfoOneofCase.None;
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public ItemDataInfoOneofCase ItemDataInfoCase {
+    get { return itemDataInfoCase_; }
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void ClearItemDataInfo() {
+    itemDataInfoCase_ = ItemDataInfoOneofCase.None;
+    itemDataInfo_ = null;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override bool Equals(object other) {
+    return Equals(other as ITEM_DATA_INFO_WITH_POS);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public bool Equals(ITEM_DATA_INFO_WITH_POS other) {
+    if (ReferenceEquals(other, null)) {
+      return false;
+    }
+    if (ReferenceEquals(other, this)) {
+      return true;
+    }
+    if (!object.Equals(EtcItem, other.EtcItem)) return false;
+    if (!object.Equals(ConsumeItem, other.ConsumeItem)) return false;
+    if (!object.Equals(EquipItem, other.EquipItem)) return false;
+    if (!object.Equals(Pos, other.Pos)) return false;
+    if (ItemDataInfoCase != other.ItemDataInfoCase) return false;
+    return Equals(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override int GetHashCode() {
+    int hash = 1;
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) hash ^= EtcItem.GetHashCode();
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) hash ^= ConsumeItem.GetHashCode();
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) hash ^= EquipItem.GetHashCode();
+    if (pos_ != null) hash ^= Pos.GetHashCode();
+    hash ^= (int) itemDataInfoCase_;
+    if (_unknownFields != null) {
+      hash ^= _unknownFields.GetHashCode();
+    }
+    return hash;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public override string ToString() {
+    return pb::JsonFormatter.ToDiagnosticString(this);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void WriteTo(pb::CodedOutputStream output) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    output.WriteRawMessage(this);
+  #else
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+      output.WriteRawTag(10);
+      output.WriteMessage(EtcItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+      output.WriteRawTag(18);
+      output.WriteMessage(ConsumeItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+      output.WriteRawTag(26);
+      output.WriteMessage(EquipItem);
+    }
+    if (pos_ != null) {
+      output.WriteRawTag(34);
+      output.WriteMessage(Pos);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(output);
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+      output.WriteRawTag(10);
+      output.WriteMessage(EtcItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+      output.WriteRawTag(18);
+      output.WriteMessage(ConsumeItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+      output.WriteRawTag(26);
+      output.WriteMessage(EquipItem);
+    }
+    if (pos_ != null) {
+      output.WriteRawTag(34);
+      output.WriteMessage(Pos);
+    }
+    if (_unknownFields != null) {
+      _unknownFields.WriteTo(ref output);
+    }
+  }
+  #endif
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public int CalculateSize() {
+    int size = 0;
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(EtcItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(ConsumeItem);
+    }
+    if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(EquipItem);
+    }
+    if (pos_ != null) {
+      size += 1 + pb::CodedOutputStream.ComputeMessageSize(Pos);
+    }
+    if (_unknownFields != null) {
+      size += _unknownFields.CalculateSize();
+    }
+    return size;
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(ITEM_DATA_INFO_WITH_POS other) {
+    if (other == null) {
+      return;
+    }
+    if (other.pos_ != null) {
+      if (pos_ == null) {
+        Pos = new global::VECTOR3();
+      }
+      Pos.MergeFrom(other.Pos);
+    }
+    switch (other.ItemDataInfoCase) {
+      case ItemDataInfoOneofCase.EtcItem:
+        if (EtcItem == null) {
+          EtcItem = new global::ETC_ITEM();
+        }
+        EtcItem.MergeFrom(other.EtcItem);
+        break;
+      case ItemDataInfoOneofCase.ConsumeItem:
+        if (ConsumeItem == null) {
+          ConsumeItem = new global::CONSUMPTION_ITEM();
+        }
+        ConsumeItem.MergeFrom(other.ConsumeItem);
+        break;
+      case ItemDataInfoOneofCase.EquipItem:
+        if (EquipItem == null) {
+          EquipItem = new global::EQUIPMENT_ITEM();
+        }
+        EquipItem.MergeFrom(other.EquipItem);
+        break;
+    }
+
+    _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
+  }
+
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  public void MergeFrom(pb::CodedInputStream input) {
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+    input.ReadRawMessage(this);
+  #else
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
+          break;
+        case 10: {
+          global::ETC_ITEM subBuilder = new global::ETC_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+            subBuilder.MergeFrom(EtcItem);
+          }
+          input.ReadMessage(subBuilder);
+          EtcItem = subBuilder;
+          break;
+        }
+        case 18: {
+          global::CONSUMPTION_ITEM subBuilder = new global::CONSUMPTION_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+            subBuilder.MergeFrom(ConsumeItem);
+          }
+          input.ReadMessage(subBuilder);
+          ConsumeItem = subBuilder;
+          break;
+        }
+        case 26: {
+          global::EQUIPMENT_ITEM subBuilder = new global::EQUIPMENT_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+            subBuilder.MergeFrom(EquipItem);
+          }
+          input.ReadMessage(subBuilder);
+          EquipItem = subBuilder;
+          break;
+        }
+        case 34: {
+          if (pos_ == null) {
+            Pos = new global::VECTOR3();
+          }
+          input.ReadMessage(Pos);
+          break;
+        }
+      }
+    }
+  #endif
+  }
+
+  #if !GOOGLE_PROTOBUF_REFSTRUCT_COMPATIBILITY_MODE
+  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+  void pb::IBufferMessage.InternalMergeFrom(ref pb::ParseContext input) {
+    uint tag;
+    while ((tag = input.ReadTag()) != 0) {
+      switch(tag) {
+        default:
+          _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
+          break;
+        case 10: {
+          global::ETC_ITEM subBuilder = new global::ETC_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EtcItem) {
+            subBuilder.MergeFrom(EtcItem);
+          }
+          input.ReadMessage(subBuilder);
+          EtcItem = subBuilder;
+          break;
+        }
+        case 18: {
+          global::CONSUMPTION_ITEM subBuilder = new global::CONSUMPTION_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.ConsumeItem) {
+            subBuilder.MergeFrom(ConsumeItem);
+          }
+          input.ReadMessage(subBuilder);
+          ConsumeItem = subBuilder;
+          break;
+        }
+        case 26: {
+          global::EQUIPMENT_ITEM subBuilder = new global::EQUIPMENT_ITEM();
+          if (itemDataInfoCase_ == ItemDataInfoOneofCase.EquipItem) {
+            subBuilder.MergeFrom(EquipItem);
+          }
+          input.ReadMessage(subBuilder);
+          EquipItem = subBuilder;
+          break;
+        }
+        case 34: {
+          if (pos_ == null) {
+            Pos = new global::VECTOR3();
+          }
+          input.ReadMessage(Pos);
           break;
         }
       }

@@ -22,15 +22,13 @@ public static partial class InventoryMessageReflection {
   static InventoryMessageReflection() {
     byte[] descriptorData = global::System.Convert.FromBase64String(
         string.Concat(
-          "ChZJbnZlbnRvcnlNZXNzYWdlLnByb3RvGhFJdGVtTWVzc2FnZS5wcm90byKM",
-          "AQoJSU5WRU5UT1JZEhIKCmludmVuX3NpemUYASABKAUSHAoJZXRjX2l0ZW1z",
-          "GAIgAygLMgkuRVRDX0lURU0SJwoMY29uc3VtX2l0ZW1zGAMgAygLMhEuQ09O",
-          "U1VNUFRJT05fSVRFTRIkCgtlcXVpcF9pdGVtcxgEIAMoCzIPLkVRVUlQTUVO",
-          "VF9JVEVNYgZwcm90bzM="));
+          "ChZJbnZlbnRvcnlNZXNzYWdlLnByb3RvGhFJdGVtTWVzc2FnZS5wcm90byI+",
+          "CglJTlZFTlRPUlkSEgoKaW52ZW5fc2l6ZRgBIAEoBRIdCgRpdGVtGAIgAygL",
+          "Mg8uSVRFTV9EQVRBX0lORk9iBnByb3RvMw=="));
     descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
         new pbr::FileDescriptor[] { global::ItemMessageReflection.Descriptor, },
         new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-          new pbr::GeneratedClrTypeInfo(typeof(global::INVENTORY), global::INVENTORY.Parser, new[]{ "InvenSize", "EtcItems", "ConsumItems", "EquipItems" }, null, null, null, null)
+          new pbr::GeneratedClrTypeInfo(typeof(global::INVENTORY), global::INVENTORY.Parser, new[]{ "InvenSize", "Item" }, null, null, null, null)
         }));
   }
   #endregion
@@ -72,9 +70,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
   public INVENTORY(INVENTORY other) : this() {
     invenSize_ = other.invenSize_;
-    etcItems_ = other.etcItems_.Clone();
-    consumItems_ = other.consumItems_.Clone();
-    equipItems_ = other.equipItems_.Clone();
+    item_ = other.item_.Clone();
     _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
   }
 
@@ -96,37 +92,15 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
     }
   }
 
-  /// <summary>Field number for the "etc_items" field.</summary>
-  public const int EtcItemsFieldNumber = 2;
-  private static readonly pb::FieldCodec<global::ETC_ITEM> _repeated_etcItems_codec
-      = pb::FieldCodec.ForMessage(18, global::ETC_ITEM.Parser);
-  private readonly pbc::RepeatedField<global::ETC_ITEM> etcItems_ = new pbc::RepeatedField<global::ETC_ITEM>();
+  /// <summary>Field number for the "item" field.</summary>
+  public const int ItemFieldNumber = 2;
+  private static readonly pb::FieldCodec<global::ITEM_DATA_INFO> _repeated_item_codec
+      = pb::FieldCodec.ForMessage(18, global::ITEM_DATA_INFO.Parser);
+  private readonly pbc::RepeatedField<global::ITEM_DATA_INFO> item_ = new pbc::RepeatedField<global::ITEM_DATA_INFO>();
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
   [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public pbc::RepeatedField<global::ETC_ITEM> EtcItems {
-    get { return etcItems_; }
-  }
-
-  /// <summary>Field number for the "consum_items" field.</summary>
-  public const int ConsumItemsFieldNumber = 3;
-  private static readonly pb::FieldCodec<global::CONSUMPTION_ITEM> _repeated_consumItems_codec
-      = pb::FieldCodec.ForMessage(26, global::CONSUMPTION_ITEM.Parser);
-  private readonly pbc::RepeatedField<global::CONSUMPTION_ITEM> consumItems_ = new pbc::RepeatedField<global::CONSUMPTION_ITEM>();
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public pbc::RepeatedField<global::CONSUMPTION_ITEM> ConsumItems {
-    get { return consumItems_; }
-  }
-
-  /// <summary>Field number for the "equip_items" field.</summary>
-  public const int EquipItemsFieldNumber = 4;
-  private static readonly pb::FieldCodec<global::EQUIPMENT_ITEM> _repeated_equipItems_codec
-      = pb::FieldCodec.ForMessage(34, global::EQUIPMENT_ITEM.Parser);
-  private readonly pbc::RepeatedField<global::EQUIPMENT_ITEM> equipItems_ = new pbc::RepeatedField<global::EQUIPMENT_ITEM>();
-  [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-  [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-  public pbc::RepeatedField<global::EQUIPMENT_ITEM> EquipItems {
-    get { return equipItems_; }
+  public pbc::RepeatedField<global::ITEM_DATA_INFO> Item {
+    get { return item_; }
   }
 
   [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -145,9 +119,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
       return true;
     }
     if (InvenSize != other.InvenSize) return false;
-    if(!etcItems_.Equals(other.etcItems_)) return false;
-    if(!consumItems_.Equals(other.consumItems_)) return false;
-    if(!equipItems_.Equals(other.equipItems_)) return false;
+    if(!item_.Equals(other.item_)) return false;
     return Equals(_unknownFields, other._unknownFields);
   }
 
@@ -156,9 +128,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
   public override int GetHashCode() {
     int hash = 1;
     if (InvenSize != 0) hash ^= InvenSize.GetHashCode();
-    hash ^= etcItems_.GetHashCode();
-    hash ^= consumItems_.GetHashCode();
-    hash ^= equipItems_.GetHashCode();
+    hash ^= item_.GetHashCode();
     if (_unknownFields != null) {
       hash ^= _unknownFields.GetHashCode();
     }
@@ -181,9 +151,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
       output.WriteRawTag(8);
       output.WriteInt32(InvenSize);
     }
-    etcItems_.WriteTo(output, _repeated_etcItems_codec);
-    consumItems_.WriteTo(output, _repeated_consumItems_codec);
-    equipItems_.WriteTo(output, _repeated_equipItems_codec);
+    item_.WriteTo(output, _repeated_item_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(output);
     }
@@ -198,9 +166,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
       output.WriteRawTag(8);
       output.WriteInt32(InvenSize);
     }
-    etcItems_.WriteTo(ref output, _repeated_etcItems_codec);
-    consumItems_.WriteTo(ref output, _repeated_consumItems_codec);
-    equipItems_.WriteTo(ref output, _repeated_equipItems_codec);
+    item_.WriteTo(ref output, _repeated_item_codec);
     if (_unknownFields != null) {
       _unknownFields.WriteTo(ref output);
     }
@@ -214,9 +180,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
     if (InvenSize != 0) {
       size += 1 + pb::CodedOutputStream.ComputeInt32Size(InvenSize);
     }
-    size += etcItems_.CalculateSize(_repeated_etcItems_codec);
-    size += consumItems_.CalculateSize(_repeated_consumItems_codec);
-    size += equipItems_.CalculateSize(_repeated_equipItems_codec);
+    size += item_.CalculateSize(_repeated_item_codec);
     if (_unknownFields != null) {
       size += _unknownFields.CalculateSize();
     }
@@ -232,9 +196,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
     if (other.InvenSize != 0) {
       InvenSize = other.InvenSize;
     }
-    etcItems_.Add(other.etcItems_);
-    consumItems_.Add(other.consumItems_);
-    equipItems_.Add(other.equipItems_);
+    item_.Add(other.item_);
     _unknownFields = pb::UnknownFieldSet.MergeFrom(_unknownFields, other._unknownFields);
   }
 
@@ -255,15 +217,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
           break;
         }
         case 18: {
-          etcItems_.AddEntriesFrom(input, _repeated_etcItems_codec);
-          break;
-        }
-        case 26: {
-          consumItems_.AddEntriesFrom(input, _repeated_consumItems_codec);
-          break;
-        }
-        case 34: {
-          equipItems_.AddEntriesFrom(input, _repeated_equipItems_codec);
+          item_.AddEntriesFrom(input, _repeated_item_codec);
           break;
         }
       }
@@ -286,15 +240,7 @@ public sealed partial class INVENTORY : pb::IMessage<INVENTORY>
           break;
         }
         case 18: {
-          etcItems_.AddEntriesFrom(ref input, _repeated_etcItems_codec);
-          break;
-        }
-        case 26: {
-          consumItems_.AddEntriesFrom(ref input, _repeated_consumItems_codec);
-          break;
-        }
-        case 34: {
-          equipItems_.AddEntriesFrom(ref input, _repeated_equipItems_codec);
+          item_.AddEntriesFrom(ref input, _repeated_item_codec);
           break;
         }
       }
