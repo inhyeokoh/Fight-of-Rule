@@ -34,13 +34,16 @@ class PacketHandler
         PKT_S_DELETE_CHARACTER = 19,
         PKT_C_INGAME = 20,
         PKT_S_INGAME = 21,
-        PKT_C_ITEMINFO = 22,
-        PKT_S_ITEMINFO = 23,
-        PKT_C_ITEM_PICKUP = 24,
-        PKT_S_ITEM_PICKUP = 25,
-        PKT_S_ITEM_DROP = 26,
-        PKT_C_CHARACTER_MOVE = 27,
-        PKT_S_CHARACTER_MOVE = 28,
+        PKT_S_SYNC_PLAYER = 22,
+        PKT_S_DROP_ITEM = 23,
+        PKT_C_ITEMINFO = 24,
+        PKT_S_ITEMINFO = 25,
+        PKT_C_ITEM_PICKUP = 26,
+        PKT_S_ITEM_PICKUP = 27,
+        PKT_C_CHARACTER_MOVE = 28,
+        PKT_S_CHARACTER_MOVE = 29,
+        PKT_C_TEMP_MONSTER_KILL = 30,
+        PKT_S_TEMP_MONSTER_KILL = 31,
     };
     Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>> _handler = new Dictionary<ushort, Func<Session, ArraySegment<byte>, bool>>();
     public void Init()
@@ -56,10 +59,12 @@ class PacketHandler
         _handler.Add((ushort)PacketType.PKT_S_NEW_CHARACTER, (session, buffer) => PacketHandlerImpl.Handle_S_NEW_CHARACTER(session, _HandlePacket<S_NEW_CHARACTER>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_DELETE_CHARACTER, (session, buffer) => PacketHandlerImpl.Handle_S_DELETE_CHARACTER(session, _HandlePacket<S_DELETE_CHARACTER>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_INGAME, (session, buffer) => PacketHandlerImpl.Handle_S_INGAME(session, _HandlePacket<S_INGAME>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_SYNC_PLAYER, (session, buffer) => PacketHandlerImpl.Handle_S_SYNC_PLAYER(session, _HandlePacket<S_SYNC_PLAYER>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_DROP_ITEM, (session, buffer) => PacketHandlerImpl.Handle_S_DROP_ITEM(session, _HandlePacket<S_DROP_ITEM>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_ITEMINFO, (session, buffer) => PacketHandlerImpl.Handle_S_ITEMINFO(session, _HandlePacket<S_ITEMINFO>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_ITEM_PICKUP, (session, buffer) => PacketHandlerImpl.Handle_S_ITEM_PICKUP(session, _HandlePacket<S_ITEM_PICKUP>(buffer)));
-        _handler.Add((ushort)PacketType.PKT_S_ITEM_DROP, (session, buffer) => PacketHandlerImpl.Handle_S_ITEM_DROP(session, _HandlePacket<S_ITEM_DROP>(buffer)));
         _handler.Add((ushort)PacketType.PKT_S_CHARACTER_MOVE, (session, buffer) => PacketHandlerImpl.Handle_S_CHARACTER_MOVE(session, _HandlePacket<S_CHARACTER_MOVE>(buffer)));
+        _handler.Add((ushort)PacketType.PKT_S_TEMP_MONSTER_KILL, (session, buffer) => PacketHandlerImpl.Handle_S_TEMP_MONSTER_KILL(session, _HandlePacket<S_TEMP_MONSTER_KILL>(buffer)));
     }
     public ArraySegment<byte> SerializePacket(C_SIGNUP pkt) { return _serializePacket(pkt, PacketType.PKT_C_SIGNUP); }
     public ArraySegment<byte> SerializePacket(C_LOGIN pkt) { return _serializePacket(pkt, PacketType.PKT_C_LOGIN); }
@@ -74,6 +79,7 @@ class PacketHandler
     public ArraySegment<byte> SerializePacket(C_ITEMINFO pkt) { return _serializePacket(pkt, PacketType.PKT_C_ITEMINFO); }
     public ArraySegment<byte> SerializePacket(C_ITEM_PICKUP pkt) { return _serializePacket(pkt, PacketType.PKT_C_ITEM_PICKUP); }
     public ArraySegment<byte> SerializePacket(C_CHARACTER_MOVE pkt) { return _serializePacket(pkt, PacketType.PKT_C_CHARACTER_MOVE); }
+    public ArraySegment<byte> SerializePacket(C_TEMP_MONSTER_KILL pkt) { return _serializePacket(pkt, PacketType.PKT_C_TEMP_MONSTER_KILL); }
     static ArraySegment<byte> _serializePacket<T>(T pkt, PacketType protocol) where T : IMessage
     {
         //TODO send buffer & obj pool

@@ -35,7 +35,7 @@ public abstract class MonsterState : SubMono<MonsterController>
     [SerializeField]
     protected Enum_MonsterState monsterState;
     public Enum_MonsterState EnumMonsterState { get { return monsterState; } }
-    public static event Action<int> OnMonsterKilled;
+    public static event Action<MonsterData> OnMonsterKilled;
 
     public bool IsAttack
     {
@@ -102,6 +102,7 @@ public abstract class MonsterState : SubMono<MonsterController>
     {
         state = new Dictionary<int, State>();
         stateMachine = new StateMachine();
+        isDeadCheck = false;
     }
 
     protected override void _Clear()
@@ -306,7 +307,11 @@ public abstract class MonsterState : SubMono<MonsterController>
             gameObject.GetComponent<MonsterState>().enabled = false;
 
             _board._monsterItemDrop.ItemDrop();
-            OnMonsterKilled?.Invoke(_board.monsterDB.monster_id);
+            OnMonsterKilled?.Invoke(_board.monsterDB);
+            C_TEMP_MONSTER_KILL monster_kill_pkt = new C_TEMP_MONSTER_KILL();
+            monster_kill_pkt.MonsterId = _board.monsterDB.monster_id;
+
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(monster_kill_pkt));
         }, () => { }, () => {  }, 
         () => 
         {

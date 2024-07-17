@@ -1,7 +1,6 @@
 using Cinemachine;
 using UnityEngine;
 
-// NPC가 바라보는 방향 왼쪽과 하늘 방향 사이에서 가상의 플레이어와 NPC를 함께 촬영하도록
 public class DialogCamera : MonoBehaviour
 {    
     public CinemachineVirtualCamera vCam;

@@ -20,18 +20,11 @@ public class CharacterEffectBurst : MonoBehaviour
     [SerializeField]
     int skillDamage;
 
-    
-    private void Awake()
-    {     
-       /* characterState = gameObject.transform.root.GetComponent<CharacterState>();
-        characterTransform = gameObject.transform.root.GetComponent<Transform>();*/
-    }
-
+   
     private void OnEnable()
     {
         characterStat = PlayerController.instance._playerStat;
         skillDamage = characterStat.SkillDamage;
-        //print(skillDamage);
     }
 
 

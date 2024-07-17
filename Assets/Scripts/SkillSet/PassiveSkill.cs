@@ -5,32 +5,10 @@ using UnityEngine;
 
 public class PassiveSkill : Skill
 {
-    static Dictionary<int, PassiveSkillState> passiveSkills = new Dictionary<int, PassiveSkillState>();
-    static bool settingComplete;
-    State state;
-    StateMachine stateMachine;
-
-
     private bool passiveOn;
     public bool PassiveOn { get { return passiveOn; } }
 
-    public class PassiveSkillState
-    {
-        public Action<PassiveSkill> enterAction;
-        public Action<PassiveSkill> fixedStay;
-        public Action<PassiveSkill> stay;
-        public Action<PassiveSkill> exit;
-
-        public PassiveSkillState(Action<PassiveSkill> _enterAction, Action<PassiveSkill> _fixedStay, Action<PassiveSkill> _stay, Action<PassiveSkill> _exit )
-        {
-            enterAction = _enterAction;
-            fixedStay = _fixedStay;
-            stay = _stay;
-            exit = _exit;
-        }
-    }
-
-
+    static bool settingComplete;
 
     [SerializeField]
     private int[] statsUp;
@@ -56,7 +34,8 @@ public class PassiveSkill : Skill
             PassiveSkillSetting();
         }
         stateMachine = new StateMachine();
-        state = new State(() => { passiveSkills[skillID].enterAction?.Invoke(this); }, () => { passiveSkills[skillID].fixedStay?.Invoke(this); }, () => { passiveSkills[skillID].stay?.Invoke(this); }, () => { passiveSkills[skillID].exit?.Invoke(this); });
+        state = new State(() => { skills[skillID].enterAction?.Invoke(this); }, () => { skills[skillID].fixedStay?.Invoke(this); }, () => { skills[skillID].stay?.Invoke(this); }, () => { skills[skillID].exit?.Invoke(this); });
+        settingComplete = true;
     }
 
     public override void LevelUp()
@@ -121,9 +100,9 @@ public class PassiveSkill : Skill
         skillDamage = data.skillDamage;
     }
    
-    public void PassiveSkillSetting() 
+    private void PassiveSkillSetting() 
     {
-        passiveSkills.Add(5, new PassiveSkillState((skill) =>
+        skills.Add(5, new SkillState((skill) =>
         {
             playerStatus.SumAttack += skill.SkillAttack;
             print($"공격력{skill.SkillAttack}만큼 오름 ");

@@ -34,14 +34,14 @@ public class UI_QuestAccessible : UI_Entity
 
     public override void PopupOnEnable()
     {
-        if (!GameManager.UI.init || accessibleQuests == null) return;
+        if (accessibleQuests == null) return;
 
         _ShowQuests();
     }
 
     public override void PopupOnDisable()
     {
-        if (!GameManager.UI.init || accessibleQuests == null) return;
+        if (accessibleQuests == null) return;
 
         _DeactivateQuestToggles();
     }
@@ -139,6 +139,7 @@ public class UI_QuestAccessible : UI_Entity
 
     Toggle GetOrCreateToggle(GameObject parent)
     {
+        // Get
         foreach (var toggle in allQuestToggles)
         {
             if (!toggle.gameObject.activeSelf)
@@ -148,6 +149,7 @@ public class UI_QuestAccessible : UI_Entity
             }
         }
 
+        // Create
         GameObject toggleObject = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", parent.transform.GetChild(1).transform);
         Toggle newToggle = toggleObject.GetComponent<Toggle>();
         allQuestToggles.Add(newToggle);
@@ -156,6 +158,13 @@ public class UI_QuestAccessible : UI_Entity
 
     void _DeactivateQuestToggles()
     {
+        for (int i = 0; i < questList.transform.childCount; i++)
+        {
+            if (questList.transform.GetChild(i).gameObject.activeSelf)
+            {
+                questList.transform.GetChild(i).gameObject.SetActive(false);
+            }
+        }
         foreach (var toggle in allQuestToggles)
         {
             toggle.gameObject.SetActive(false);

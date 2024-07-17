@@ -5,6 +5,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Google.Protobuf;
+using Cysharp.Threading.Tasks;
 
 public class PacketHandlerImpl : MonoBehaviour
 {
@@ -124,41 +125,12 @@ public class PacketHandlerImpl : MonoBehaviour
             GameManager.ThreadPool.UniAsyncLoopJob(() => { return loadAsync.progress < 0.9f; });
         });
 
-        return true;
-    }
-
-
-    internal static bool Handle_S_CHARACTER_MOVE(Session session, S_CHARACTER_MOVE message)
-    {
-        float x = message.CurrentPos.X / 1000000.0f;
-        float y = message.CurrentPos.Y / 1000000.0f;
-        float z = message.CurrentPos.Z / 1000000.0f;
-
-        Vector3 correctionPos = new Vector3(x, y, z);
-
-        PlayerController.instance._playerMovement.playerTransform.position = correctionPos;
-
-        return true;
-    }
-
-    internal static bool Handle_S_INGAME(Session session, S_INGAME message)
-    {
-        Debug.Log($"인게임 데이터 수신 성공 여부 {message.Success}");
-        if (message.Success == false)
+/*        GameManager.ThreadPool.UniAsyncJob(async () =>
         {
-            return false;
-        }
-
-        ///////////////// 캐릭터 위치 정보 //////////////////
-        float x = message.CharacterPosition.X / 1000000.0f;
-        float y = message.CharacterPosition.Y / 1000000.0f;
-        float z = message.CharacterPosition.Z / 1000000.0f;
-
-        Vector3 currentPos = new Vector3(x, y, z);
-
-
-        print($"서버에서 보내는 currentPos : {currentPos}");
-        PlayerController.instance._playerMovement.playerTransform.position = currentPos;
+            var loadAsync = SceneManager.LoadSceneAsync("Select");
+            while (loadAsync.progress < 0.9f)
+                await UniTask.Yield(PlayerLoopTiming.Update);
+        });*/
 
         return true;
     }
@@ -263,21 +235,146 @@ public class PacketHandlerImpl : MonoBehaviour
         return true;
     }
 
+    internal static bool Handle_S_CHARACTER_MOVE(Session session, S_CHARACTER_MOVE message)
+    {
+        float x = message.CurrentPos.X / 1000000.0f;
+        float y = message.CurrentPos.Y / 1000000.0f;
+        float z = message.CurrentPos.Z / 1000000.0f;
+
+        Vector3 correctionPos = new Vector3(x, y, z);
+
+        PlayerController.instance._playerMovement.playerTransform.position = correctionPos;
+
+        return true;
+    }
+
+    internal static bool Handle_S_INGAME(Session session, S_INGAME message)
+    {
+        Debug.Log($"인게임 데이터 수신 성공 여부 {message.Success}");
+        if (message.Success == false)
+        {
+            return false;
+        }
+
+        ///////////////// 캐릭터 위치 정보 //////////////////
+        Debug.Log(message.CharacterPosition);
+        Debug.Log(message.CharacterPosition.X);
+        Debug.Log(message.CharacterPosition.Y);
+        Debug.Log(message.CharacterPosition.Z);
+/*        float x = message.CharacterPosition.X / 1000000.0f;
+        float y = message.CharacterPosition.Y / 1000000.0f;
+        float z = message.CharacterPosition.Z / 1000000.0f;
+
+        Vector3 currentPos = new Vector3(x, y, z);
+
+
+        print($"서버에서 보내는 currentPos : {currentPos}");
+        PlayerController.instance._playerMovement.playerTransform.position = currentPos;*/
+
+        ///////////////// 인벤토리 정보 //////////////////
+
+        return true;
+    }
+
     internal static bool Handle_S_ITEMINFO(Session session, S_ITEMINFO message)
     {
         return true;
     }
 
-    internal static bool Handle_S_ITEM_DROP(Session session, S_ITEM_DROP message)
+    internal static bool Handle_S_ITEM_PICKUP(Session session, S_ITEM_PICKUP message)
     {
-        Debug.Log(message.ItemId);
-        ItemManager._item.ItemInstance(GameManager.Data.itemDatas[message.ItemId], PlayerController.instance._playerMovement.transform.position, Quaternion.identity);
-
+        return true;
+    }
+    internal static bool Handle_S_TEMP_MONSTER_KILL(Session session, S_TEMP_MONSTER_KILL s_TEMP_MONSTER_KILL)
+    {
         return true;
     }
 
-    internal static bool Handle_S_ITEM_PICKUP(Session session, S_ITEM_PICKUP message)
+    internal static bool Handle_S_DROP_ITEM(Session session, S_DROP_ITEM message)
     {
+        Debug.Log("Handle_S_DROP_ITEM");
+        if (message.Add == true)
+        {
+            for (int i = 0; i < message.Item.Count; i++)
+            {
+                var oneOfItem = message.Item[i].ItemDataInfoCase;
+
+                if (oneOfItem == ITEM_DATA_INFO_WITH_POS.ItemDataInfoOneofCase.EtcItem)
+                {
+                    var s_itemData = message.Item[i].EtcItem.ItemData;
+
+                    var c_itemData = GameManager.Data.itemDatas[s_itemData.Id];
+                    var attributes = s_itemData.Attributes;
+                    var itemType = GameManager.Data.GetItemType(attributes);
+                    var convertedItemType = GameManager.Data.ConvertItemType(itemType);
+                    var itemGrade = GameManager.Data.GetItemGrade(attributes);
+                    var convertedItemGrade = GameManager.Data.ConvertItemGrade(itemGrade);
+                    var dynData = message.Item[i].EtcItem.DynItemData;
+
+                    ItemData item = new ItemData(s_itemData.Id, c_itemData.name, c_itemData.desc, c_itemData.icon, convertedItemType, convertedItemGrade, s_itemData.SellingPrice, s_itemData.MaxCount, dynData.Count, dynData.SlotNum);
+                    GameManager.Data.dropTestItems.Add(item);
+                    GameManager.Data.dropTestItemsPos.Add(new Vector3(message.Item[i].Pos.X, message.Item[i].Pos.Y, message.Item[i].Pos.Z));
+                }
+                else if (oneOfItem == ITEM_DATA_INFO_WITH_POS.ItemDataInfoOneofCase.ConsumeItem)
+                {
+                    var s_stateItemData = message.Item[i].ConsumeItem.ConsumeItemData.StateitemData;
+                    var s_itemData = s_stateItemData.ItemData;
+
+                    var c_itemData = GameManager.Data.itemDatas[s_itemData.Id];
+                    var attributes = s_itemData.Attributes;
+                    var itemType = GameManager.Data.GetItemType(attributes);
+                    var convertedItemType = GameManager.Data.ConvertItemType(itemType);
+                    var itemGrade = GameManager.Data.GetItemGrade(attributes);
+                    var convertedItemGrade = GameManager.Data.ConvertItemGrade(itemGrade);
+                    var dynData = message.Item[i].ConsumeItem.DynItemData;
+
+                    var detailType = GameManager.Data.GetConsumptionDetailType(attributes);
+                    var convertedDeatailType = GameManager.Data.ConvertConsumptionDetailType(detailType);
+                                        
+                    ConsumptionItemData item = new ConsumptionItemData(s_itemData.Id, c_itemData.name, c_itemData.desc, c_itemData.icon, convertedItemGrade, convertedItemType, convertedDeatailType, s_itemData.SellingPrice,
+                        s_stateItemData.Level, s_stateItemData.AttackBoost, s_stateItemData.DefenseBoost, s_stateItemData.SpeedBoost, s_stateItemData.AttackSpeedBoost, s_stateItemData.HpRecovery, s_stateItemData.ExpBoost,
+                        s_stateItemData.MaxHpBoost, s_stateItemData.MaxHpBoost, s_stateItemData.MpRecovery, s_stateItemData.DurationBool, s_stateItemData.Duration, s_itemData.MaxCount, dynData.Count, dynData.SlotNum);
+
+                    GameManager.Data.dropTestItems.Add(item);
+                    GameManager.Data.dropTestItemsPos.Add(new Vector3(message.Item[i].Pos.X, message.Item[i].Pos.Y, message.Item[i].Pos.Z));
+                }
+                else if (oneOfItem == ITEM_DATA_INFO_WITH_POS.ItemDataInfoOneofCase.EquipItem)
+                {
+                    var s_stateItemData = message.Item[i].EquipItem.EquipItemData.StateitemData;
+                    var s_itemData = s_stateItemData.ItemData;
+                    var c_itemData = GameManager.Data.itemDatas[s_itemData.Id];
+
+                    var attributes = s_itemData.Attributes;
+                    var itemType = GameManager.Data.GetItemType(attributes);
+                    var convertedItemType = GameManager.Data.ConvertItemType(itemType);
+                    var itemGrade = GameManager.Data.GetItemGrade(attributes);
+                    var convertedItemGrade = GameManager.Data.ConvertItemGrade(itemGrade);
+                    var detailType = GameManager.Data.GetEquipmentDetailType(attributes);
+                    var convertedDeatailType = GameManager.Data.ConvertEquipmentDetailType(detailType);
+                    var classType = GameManager.Data.GetItemClass(attributes);
+                    var convertedClassType = GameManager.Data.ConvertItemClass(classType);
+                    var dynData = message.Item[i].EquipItem.DynItemData;
+                    
+                    int maxReinforce = message.Item[i].EquipItem.EquipItemData.MaxReinforcement;
+                    int curReinforce = message.Item[i].EquipItem.ReinforceItemData.CurrentReinforcement;
+
+                    EquipmentItemData item = new EquipmentItemData(s_itemData.Id, c_itemData.name, c_itemData.desc, c_itemData.icon, convertedClassType, convertedItemGrade, convertedItemType, convertedDeatailType, s_itemData.SellingPrice,
+                        s_stateItemData.Level, s_stateItemData.AttackBoost, s_stateItemData.DefenseBoost, s_stateItemData.SpeedBoost, s_stateItemData.AttackSpeedBoost, s_stateItemData.HpRecovery, s_stateItemData.ExpBoost,
+                        s_stateItemData.MaxHpBoost, s_stateItemData.MaxHpBoost, s_stateItemData.MpRecovery, maxReinforce, s_stateItemData.DurationBool, s_stateItemData.Duration, s_itemData.MaxCount, dynData.Count, dynData.SlotNum, curReinforce);
+                    GameManager.Data.dropTestItems.Add(item);
+                    GameManager.Data.dropTestItemsPos.Add(new Vector3(message.Item[i].Pos.X, message.Item[i].Pos.Y, message.Item[i].Pos.Z));
+                }
+            }
+        }
+
+
+        // TODO 아이템 삭제
+        return true;
+    }
+
+    internal static bool Handle_S_SYNC_PLAYER(Session session, S_SYNC_PLAYER s_SYNC_PLAYER)
+    {
+        Debug.Log("Handle_S_SYNC_PLAYER");
         return true;
     }
 }

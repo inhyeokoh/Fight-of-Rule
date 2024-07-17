@@ -35,7 +35,7 @@ public class UI_QuestComplete : UI_Entity
 
     public override void PopupOnEnable()
     {
-        if (!GameManager.UI.init || GameManager.Quest.CurrentSelectedQuest == null) return;
+        if (GameManager.Quest.CurrentSelectedQuest == null) return;
 
         currentQuestData = GameManager.Quest.CurrentSelectedQuest.questData;
         _DrawRewards();
@@ -45,7 +45,7 @@ public class UI_QuestComplete : UI_Entity
 
     public override void PopupOnDisable()
     {
-        if (!GameManager.UI.init || GameManager.Quest.CurrentSelectedQuest == null) return;
+        if (GameManager.Quest.CurrentSelectedQuest == null) return;
 
         currentQuestData = null;
         _DeleteRewards();

@@ -87,15 +87,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "StatusWindow",
-                    "type": "Button",
-                    "id": "f44680a5-ad01-4153-a594-0436de491a36",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Inven",
                     "type": "Button",
                     "id": "97954831-d54f-4421-bf14-a63408e8cbde",
@@ -229,17 +220,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "AliveCheck",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2953e0d9-63cd-4782-a888-ac5d47193ca2",
-                    "path": "<Keyboard>/k",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "StatusWindow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

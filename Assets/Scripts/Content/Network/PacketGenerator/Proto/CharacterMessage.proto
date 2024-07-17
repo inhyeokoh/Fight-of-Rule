@@ -1,10 +1,12 @@
 syntax = "proto3";
+import "ItemMessage.proto";
 import "UnitMessage.proto";
 
 message CHARACTER_INFO {
     CHARACTER_BASE base_info = 1;
     CHARACTER_STATUS stat = 2;
-    VECTOR3 vector3 = 3;
+    CHARACTER_APPEARANCE appearance = 3;
+    VECTOR3 pos = 4;
 }
 
 message CHARACTER_BASE {
@@ -13,6 +15,10 @@ message CHARACTER_BASE {
     bytes nickname = 3;
     int32 character_class = 4;
     bool gender = 5;
+}
+
+message CHARACTER_APPEARANCE {
+    repeated EQUIPMENT_ITEM equip_items = 1;
 }
 
 message CHARACTER_STATUS {
@@ -27,4 +33,11 @@ message CHARACTER_STATUS {
     int32 attackSpeed = 9;
     int32 defense = 10;
     int32 speed = 11;
+}
+
+message OTHER_PLAYER_DATA {
+    int64 uid = 1;
+    int64 character_id = 2;
+    bytes nickname = 3;
+    CHARACTER_APPEARANCE appearance = 4;
 }

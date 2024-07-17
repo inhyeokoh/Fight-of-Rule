@@ -59,7 +59,7 @@ public class CharacterEffector : SubMono<PlayerController>
 
     public void EffectDurationInstance(int transformIndex)
     {            
-        Instantiate(effectDuration[transformIndex], effectTransform[transformIndex].position, effectTransform[transformIndex].rotation);
+        GameManager.Resources.Instantiate(effectDuration[transformIndex], effectTransform[transformIndex].position, effectTransform[transformIndex].rotation);
     }
 
 

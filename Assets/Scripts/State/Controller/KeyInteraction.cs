@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+
 using TMPro;
 
 public enum Enum_KeyAction
@@ -32,7 +34,7 @@ public class KeyInteraction : MonoBehaviour
     private InputActionReference[] inputActions;
     public InputActionReference[] InputActions { get { return inputActions; } }
 
-
+    public Dictionary<InputAction, Enum_KeyAction> saveLoadKey;
     public InputActionReference currentAction;
     public InputAction changeAction;
 
@@ -42,11 +44,23 @@ public class KeyInteraction : MonoBehaviour
 
     private void Awake()
     {
+        saveLoadKey = new Dictionary<InputAction, Enum_KeyAction>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    
+      /*  for (int i = 0; i < inputActions.Length; i++)
+        {
+            ActionCallbackSetting((Enum_KeyAction)i, inputActions[i]);
+        }*/
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
         for (int i = 0; i < inputActions.Length; i++)
         {
             ActionCallbackSetting((Enum_KeyAction)i, inputActions[i]);
+            //KeyRoad(inputActions[i], (Enum_KeyAction)i, path);
         }
     }
+
 
     void Start()
     {
@@ -59,7 +73,7 @@ public class KeyInteraction : MonoBehaviour
 
     public void OnAvoid(InputAction.CallbackContext context)
     {
-       
+        print("누름");
         player.Avoid(context);
 
     } 
@@ -256,44 +270,61 @@ public class KeyInteraction : MonoBehaviour
                 currentAction.action.started += OnSkillQ;
                 currentAction.action.performed += OnSkillQ;
                 currentAction.action.canceled += OnSkillQ;
+
+                saveLoadKey.Add(currentAction, Enum_KeyAction.SKill1);             
                 break;
             case Enum_KeyAction.Skill2:               
                 currentAction.action.started += OnSkillW;
                 currentAction.action.performed += OnSkillW;
                 currentAction.action.canceled += OnSkillW;
+
+                saveLoadKey.Add(currentAction, Enum_KeyAction.Skill2);
                 break;
             case Enum_KeyAction.Skill3:           
                 currentAction.action.started += OnSkillE;
                 currentAction.action.performed += OnSkillE;
                 currentAction.action.canceled += OnSkillE;
+
+                saveLoadKey.Add(currentAction, Enum_KeyAction.Skill3);
                 break;
             case Enum_KeyAction.Skill4:               
                 currentAction.action.started += OnSkillR;
                 currentAction.action.performed += OnSkillR;
                 currentAction.action.canceled += OnSkillR;
+
+                saveLoadKey.Add(currentAction, Enum_KeyAction.Skill4);
                 break;
             case Enum_KeyAction.Avoid:              
                 currentAction.action.started += OnAvoid;
                 currentAction.action.performed += OnAvoid;
                 currentAction.action.canceled += OnAvoid;
+
+                saveLoadKey.Add(currentAction, Enum_KeyAction.Avoid);           
                 break;
             case Enum_KeyAction.UIInven:             
                 currentAction.action.started += OnInven;
                 currentAction.action.performed += OnInven;
                 currentAction.action.canceled += OnInven;
+
+                saveLoadKey.Add(currentAction, Enum_KeyAction.UIInven);
                 break;
             case Enum_KeyAction.UIPlayerInfo:            
                 currentAction.action.started += OnPlayerInfo;
                 currentAction.action.performed += OnPlayerInfo;
                 currentAction.action.canceled += OnPlayerInfo;
+
+                saveLoadKey.Add(currentAction, Enum_KeyAction.UIPlayerInfo);
                 break;
             case Enum_KeyAction.UISkillWindow:
                 currentAction.action.started += OnSkillWindow;
                 currentAction.action.performed += OnSkillWindow;
                 currentAction.action.canceled += OnSkillWindow;
-                break;
 
+                saveLoadKey.Add(currentAction, Enum_KeyAction.UISkillWindow);
+                break;
         }
+
+        currentAction.action.Enable();
     }
 
     public void KeyReset(Dictionary<InputAction, TMP_Text> keyTexts)
@@ -302,6 +333,21 @@ public class KeyInteraction : MonoBehaviour
         {
             inputActions[i].action.RemoveAllBindingOverrides();
             ShowBindText(inputActions[i].action, keyTexts[inputActions[i].action]);
+        }
+    }
+
+    public void KeyRoad(InputAction action, Enum_KeyAction actionName, string path)
+    {
+        if (saveLoadKey[action] == actionName)
+        {
+            if (path == null && action.bindings[0].effectivePath == path)
+            {
+                return;
+            }
+            else
+            {
+                action.ApplyBindingOverride(path);
+            }
         }
     }
 }

@@ -74,6 +74,8 @@ public class PoolManagerBeta : SubClass<GameManager>
                     clone.transform.rotation = rotation;
                     clone.SetActive(true);
 
+                    Debug.Log($"{clone.name}오브젝트를 빼고 현재 오브젝트풀 : {objects.Count}");
+
                     return clone;
                 }
             }
@@ -100,7 +102,7 @@ public class PoolManagerBeta : SubClass<GameManager>
     private void Push(Stack<GameObject> objects, GameObject go)
     {
         objects.Push(go);
-        Debug.Log($"오브젝트를 넣고 현재 오브젝트풀 : {objects.Count}");
+        Debug.Log($"{go.name}오브젝트를 넣고 현재 오브젝트풀 : {objects.Count}");
     }
 
     /*public void Destroy(GameObject go)

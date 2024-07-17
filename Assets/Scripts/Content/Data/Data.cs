@@ -14,8 +14,8 @@ public class EquipmentItemData : StateItemData
     public Enum_Class itemClass;
 
     public EquipmentItemData(int id, string name, string desc, Sprite icon, Enum_Class itemClass, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_EquipmentDetailType detailType,long sellingprice, int level, int attack, int defense
-        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxReinforcement, bool durationBool, float duration, int count = 1, int maxCount = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemGrade,  itemType,  sellingprice,  level,  attack,  defense
-        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, durationBool,duration, count )
+        ,int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxReinforcement, bool durationBool, float duration, int count = 1, int slotNum = -1, int maxCount = 1, int currentReinforcement = 0) : base ( id,  name,  desc,  icon,  itemGrade,  itemType,  sellingprice,  level,  attack,  defense
+        ,speed,  attackSpeed,  hp,  mp,  exp,  maxHp,  maxMp,maxCount, durationBool,duration, count, slotNum )
     {
         this.itemClass = itemClass;
         this.maxReinforcement = maxReinforcement;
@@ -35,8 +35,8 @@ public class ConsumptionItemData : StateItemData
     public Enum_ConsumptionDetailType detailType;
 
     public ConsumptionItemData(int id, string name, string desc, Sprite icon, Enum_Grade itemGrade, Enum_ItemType itemType, Enum_ConsumptionDetailType detailType, long sellingprice, int level, int attack, int defense
-        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, bool durationBool, float duration, int maxCount, int count = 1) : base(id, name, desc, icon,itemGrade, itemType, sellingprice, level, attack, defense
-        , speed, attackSpeed, hp, mp, exp, maxHp, maxMp, maxCount, durationBool, duration, count)
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, bool durationBool, float duration, int maxCount, int count = 1, int slotNum = -1) : base(id, name, desc, icon,itemGrade, itemType, sellingprice, level, attack, defense
+        , speed, attackSpeed, hp, mp, exp, maxHp, maxMp, maxCount, durationBool, duration, count, slotNum)
     {
         this.detailType = detailType;
     }
@@ -65,7 +65,7 @@ public class StateItemData : ItemData
     public float duration;
 
     public StateItemData(int id, string name, string desc, Sprite icon,  Enum_Grade itemGrade, Enum_ItemType itemType, long sellingprice, int level, int attack, int defense
-        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, bool durationBool,float duration, int count = 1) : base(id, name, desc, icon, itemType, itemGrade, sellingprice, maxCount, count)
+        , int speed, int attackSpeed, int hp, int mp, int exp, int maxHp, int maxMp, int maxCount, bool durationBool,float duration, int count = 1, int slotNum = -1) : base(id, name, desc, icon, itemType, itemGrade, sellingprice, maxCount, count, slotNum)
     {           
         this.level = level;
         this.attack = attack;
