@@ -102,6 +102,7 @@ public abstract class MonsterState : SubMono<MonsterController>
     {
         state = new Dictionary<int, State>();
         stateMachine = new StateMachine();
+        isDeadCheck = false;
     }
 
     protected override void _Clear()

@@ -242,18 +242,42 @@ public class CharacterStatus : SubMono<PlayerController>
 
     protected override void _Init()
     {
-        level = GameManager.Data.CurrentCharacter.Stat.Level;
+        /*level = GameManager.Data.CurrentCharacter.Stat.Level;
         characterMaxHP = GameManager.Data.CurrentCharacter.Stat.MaxHP;
-        characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;
+        *//*characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;*//*
+        characterMaxMP = 5000000;
         characterMaxEXP = GameManager.Data.CurrentCharacter.Stat.MaxEXP;
 
         hp = GameManager.Data.CurrentCharacter.Stat.Hp;
-        mp = GameManager.Data.CurrentCharacter.Stat.Mp;
+        mp = 5000000;
+        *//*        mp = GameManager.Data.CurrentCharacter.Stat.Mp;*//*
         exp = GameManager.Data.CurrentCharacter.Stat.Exp;
         characterAttack = GameManager.Data.CurrentCharacter.Stat.Attack;
         characterAttackSpeed = GameManager.Data.CurrentCharacter.Stat.AttackSpeed;
         characterDefense = GameManager.Data.CurrentCharacter.Stat.Defense;
         characterSpeed = GameManager.Data.CurrentCharacter.Stat.Speed;
+
+        sumMaxHP = characterMaxHP;
+        sumMaxMP = characterMaxMP;
+        sumAttack = characterAttack;
+        sumAttackSpeed = characterAttackSpeed;
+        sumDefense = characterDefense;
+        sumSpeed = characterSpeed;*/
+        
+        level = 50;
+        characterMaxHP = 50000;
+        /*characterMaxMP = GameManager.Data.CurrentCharacter.Stat.MaxMP;*/
+        characterMaxMP = 5000000;
+        characterMaxEXP = 0;
+
+        hp = 50000;
+        mp = 5000000;
+        /*        mp = GameManager.Data.CurrentCharacter.Stat.Mp;*/
+        exp = 0;
+        characterAttack = 5000;
+        characterAttackSpeed = 1;
+        characterDefense = 500;
+        characterSpeed = 10;
 
         sumMaxHP = characterMaxHP;
         sumMaxMP = characterMaxMP;

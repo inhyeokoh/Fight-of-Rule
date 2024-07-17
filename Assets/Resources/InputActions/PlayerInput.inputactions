@@ -87,15 +87,6 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "StatusWindow",
-                    "type": "Button",
-                    "id": "f44680a5-ad01-4153-a594-0436de491a36",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Inven",
                     "type": "Button",
                     "id": "97954831-d54f-4421-bf14-a63408e8cbde",
@@ -121,6 +112,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SkillWindow",
+                    "type": "Button",
+                    "id": "f870ebbd-0a87-4e29-931e-258d1d0efb02",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -225,17 +225,6 @@
                 },
                 {
                     "name": "",
-                    "id": "2953e0d9-63cd-4782-a888-ac5d47193ca2",
-                    "path": "<Keyboard>/k",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "StatusWindow",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "85f0c55b-3225-4a45-a565-c3534287a7ef",
                     "path": "<Keyboard>/i",
                     "interactions": "",
@@ -264,6 +253,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "MouseScrollY",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a33cdd31-c14d-47a8-8e9f-fc20e29135e7",
+                    "path": "<Keyboard>/k",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SkillWindow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

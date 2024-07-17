@@ -15,3 +15,23 @@ message VOL_OPTIONS {
     bool effect_vol_on = 7;
     bool voice_vol_on = 8;
 }
+
+message KEY_SETTING {
+
+    string path = 1;
+    int32 attributes = 2;
+    
+    enum KEY_ACTIONS
+    {  
+        //PlayerAction
+        SKill1 = 0;
+        Skill2 = 1;
+        Skill3 = 2;
+        Skill4 = 3;
+        Avoid = 4;
+        //UI
+        UIInven = 5;
+        UIPlayerInfo = 6;
+        UISkillWindow = 7;
+    }
+}

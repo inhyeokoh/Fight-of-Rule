@@ -22,14 +22,19 @@ public class UI_InGameMain : UI_Entity
 
     enum Enum_UI_ingameMain
     {
-        SettingPanel = 0,
-        SkillPanel,
+        InGamePanel = 0,
+        HPSliderBar,
+        MPSliderBar,
+        ButtonQuest,
+        ButtonChest,
+        ButtonText,
+        ButtonMenu,
+        ButtonOptions,
+        ButtonMagic,
         SkillKeySlot,
         SkillKeySlot2,
         SkillKeySlot3,
         SkillKeySlot4,
-        HPSdr,
-        MPSdr,
     }
     protected override Type GetUINamesAsType()
     {
@@ -44,11 +49,11 @@ public class UI_InGameMain : UI_Entity
     {
         base.Init();
 
-        HPSbr = _entities[(int)Enum_UI_ingameMain.HPSdr].GetComponent<Slider>();
-        MPSbr = _entities[(int)Enum_UI_ingameMain.MPSdr].GetComponent<Slider>();
+        HPSbr = _entities[(int)Enum_UI_ingameMain.HPSliderBar].GetComponent<Slider>();
+        MPSbr = _entities[(int)Enum_UI_ingameMain.MPSliderBar].GetComponent<Slider>();
            
-        HPSbr = _entities[(int)Enum_UI_ingameMain.HPSdr].GetComponent<Slider>();
-        MPSbr = _entities[(int)Enum_UI_ingameMain.MPSdr].GetComponent<Slider>();
+        HPSbr = _entities[(int)Enum_UI_ingameMain.HPSliderBar].GetComponent<Slider>();
+        MPSbr = _entities[(int)Enum_UI_ingameMain.MPSliderBar].GetComponent<Slider>();
 
         HPText = HPSbr.GetComponentInChildren<TMP_Text>();
         MPText = MPSbr.GetComponentInChildren<TMP_Text>();      

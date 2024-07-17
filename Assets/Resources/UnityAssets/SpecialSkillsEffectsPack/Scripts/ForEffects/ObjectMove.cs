@@ -25,21 +25,13 @@ public class ObjectMove : MonoBehaviour
         m_time2 = Time.time;
     }
 
-    private void Start()
-    {
-        /*m_scalefactor = VariousEffectsScene.m_gaph_scenesizefactor;//transform.parent.localScale.x;
-        //m_time = Time.time;
-        print(m_time + " dz") ;
-      //  m_time2 = Time.time;*/
-    }
-
     void LateUpdate()
     {
         if (Time.time > m_time + time)
         {
-           // print(m_time + time + " dz");
-           // print(Time.time);
-            gameObject.SetActive(false);
+            // print(m_time + time + " dz");
+            // print(Time.time);
+            GameManager.Resources.Destroy(gameObject);
         }
         /*    gameObject.SetActive(false);
 

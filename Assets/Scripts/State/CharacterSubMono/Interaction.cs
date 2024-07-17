@@ -33,7 +33,7 @@ public class Interaction : SubMono<PlayerController>
                 GameManager.Inven.GetItem(clone.GetComponent<ItemObject>().item);
 
                 InGameItems.RemoveAt(0);
-                clone.SetActive(false);
+                GameManager.Resources.Destroy(clone);
             }
         }     
     }

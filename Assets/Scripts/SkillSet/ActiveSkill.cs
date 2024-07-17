@@ -7,9 +7,11 @@ public class ActiveSkill : Skill
 {
     /*[SerializeField]
     private int[] skillDamage; 
- 
     [SerializeField]
     WarriorSkill skillNumber;*/
+
+    static bool settingComplete;
+
     private void Start()
     {
         if (level == 0)
@@ -38,7 +40,14 @@ public class ActiveSkill : Skill
     }
     public override void Setting()
     {
-       
+        if (!settingComplete)
+        {
+            //    print("패시브 스킬 세팅 완료");
+            ActiveSkillSetting();
+        }
+        stateMachine = new StateMachine();
+        state = new State(() => { skills[skillID].enterAction?.Invoke(this); }, () => { skills[skillID].fixedStay?.Invoke(this); }, () => { skills[skillID].stay?.Invoke(this); }, () => { skills[skillID].exit?.Invoke(this); });
+        settingComplete = true;
     }
     public override void LevelUp()
     {
@@ -73,4 +82,123 @@ public class ActiveSkill : Skill
         skillDamage = data.skillDamage;
     }
 
+    public override void Use()
+    {
+        SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
+        //SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);
+        Enter();
+        base.Use();       
+    }
+
+    public void Enter()
+    {
+        stateMachine.EnterState(state);
+    }
+
+    public void FixedStay()
+    {
+        stateMachine.FixedStay();
+    }
+    public void Stay()
+    {
+        stateMachine.Stay();
+    }
+    public void Exit()
+    {
+        stateMachine.SkillExitState();
+    }
+
+    public void ActiveSkillSetting()
+    {
+        skills.Add(0, new SkillState((skill) => {
+            controller._animationController.ChangeMoveAnimation(0);
+            controller._playerMovement.Direction(controller._playerMovement.TargetPosition);
+            controller._playerMovement.IsKinematic(true);
+            controller._playerState.UseSkill(true);
+            controller._playerMovement.Stop();
+            controller._animationController.ChangeSkillAnimation(0);
+        }, (skill) => { }, (skill) => { },
+        (skill) =>
+        {
+            controller._playerState.UseSkill(false);
+            controller._playerMovement.IsKinematic(false);
+        }));
+
+        skills.Add(1, new SkillState((skill) => {
+            controller._animationController.ChangeMoveAnimation(0);
+            controller._playerMovement.Direction(controller._playerMovement.TargetPosition);
+            controller._playerState.UseSkill(true);
+            controller._playerMovement.IsKinematic(true);
+            controller._animationController.RootMotion(true);
+            controller._animationController.ChangeSkillAnimation(1);
+        }, (skill) => { }, (skill) => { },
+         (skill) =>
+         {
+             controller._animationController.RootMotion(false);
+             controller._playerMovement.IsKinematic(false);
+             controller._playerState.UseSkill(false);
+         }));
+
+        skills.Add(2, new SkillState((skill) => {
+            controller._animationController.ChangeMoveAnimation(0);
+            controller._playerMovement.Direction(PlayerController.instance._playerMovement.TargetPosition);
+            controller._playerMovement.IsKinematic(true);
+            controller._playerState.UseSkill(true);
+            controller._playerMovement.Stop();
+            controller._animationController.ChangeSkillAnimation(3);
+        }, (skill) => { }, (skill) => { },
+       (skill) =>
+       {
+           controller._playerMovement.IsKinematic(false);
+           controller._playerState.UseSkill(false);
+       }));
+
+        skills.Add(3, new SkillState((skill) => {
+            controller._animationController.ChangeMoveAnimation(0);
+            controller._playerMovement.Direction(controller._playerMovement.TargetPosition);
+            controller._playerState.UseSkill(true);
+            controller._playerMovement.IsKinematic(true);
+            controller._animationController.RootMotion(true);
+            controller._animationController.ChangeSkillAnimation(2);
+        }, (skill) => { }, (skill) => { },
+       (skill) =>
+       {
+           controller._animationController.RootMotion(false);
+           controller._playerMovement.IsKinematic(false);
+           controller._playerState.UseSkill(false);
+       }));
+
+        skills.Add(4, new SkillState((skill) => {
+            controller._animationController.ChangeMoveAnimation(0);
+            controller._playerMovement.Direction(controller._playerMovement.TargetPosition);
+            controller._playerState.UseSkill(true);
+            controller._playerMovement.IsKinematic(false);
+            controller._animationController.RootMotion(false);
+            controller._animationController.ChangeSkillAnimation(4);
+        }, (skill) => { },
+        (skill) =>
+        {
+            if (Vector3.Distance(controller._playerMovement.playerTransform.position, controller._playerMovement.TargetPosition) > 0.1f)
+            {
+                //print(Vector3.Distance(_board._playerMovement.playerTransform.position, _board._playerMovement.TargetPosition));
+                /*  _board._playerMovement.targetPosition.y += 0;
+                  Vector3 direction = _board._playerMovement.TargetPosition - gameObject.transform.position;
+                  _board._playerMovement.Rb.velocity = direction.normalized * Speed;*/
+
+                controller._playerMovement.Move(controller._playerStat.Speed);
+
+
+            }
+            else
+            {
+                controller._playerMovement.Stop();
+            }
+        },
+     (skill) =>
+     {
+         controller._playerMovement.TargetPosition = gameObject.transform.position;
+         controller._playerMovement.Stop();
+
+     }));
+    }
 }

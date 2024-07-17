@@ -62,7 +62,7 @@ public class MonsterAnimationController : SubMono<MonsterController>
     protected override void _Init()
     {
         _anim = gameObject.GetComponent<Animator>();
-       
+        _anim.Play("Idle", -1, 0f);
     }
 }
 

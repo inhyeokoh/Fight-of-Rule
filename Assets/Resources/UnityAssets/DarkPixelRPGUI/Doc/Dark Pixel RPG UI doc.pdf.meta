@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Resources/UnityAssets/DarkPixelRPGUI/Doc/Dark Pixel RPG UI doc.pdf.meta
 guid: ad5c4ddaf40c72d4dac9e99b3269ef57
+========
+guid: 3e12e77fa3215bb45bcbc0f8212b56bf
+>>>>>>>> b5b94a32252c64e74068b35f9270fd14ef53a0ab:Assets/Resources/Wizard/Wizard.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

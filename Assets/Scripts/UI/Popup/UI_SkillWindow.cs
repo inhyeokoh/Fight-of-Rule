@@ -131,6 +131,8 @@ public class UI_SkillWindow : UI_Entity
         skillName = _entities[(int)Enum_UI_SkillWindow.SkillNamePanel].GetComponentInChildren<TMP_Text>();
         skillLevel = _entities[(int)Enum_UI_SkillWindow.NecessaryLevelPanel].GetComponentInChildren<TMP_Text>();
         skillPoint = _entities[(int)Enum_UI_SkillWindow.NecessaryPointPanel].GetComponentInChildren<TMP_Text>();
+
+        gameObject.SetActive(false);
     }
 
     // 스킬 인포창을 갱신하기 위한 메서드

@@ -121,10 +121,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 4
-  m_FollowOffset: {x: 0, y: 30, z: -30}
-  m_XDamping: 1
-  m_YDamping: 1
-  m_ZDamping: 1
+  m_FollowOffset: {x: 0, y: 25, z: -22}
+  m_XDamping: 0
+  m_YDamping: 0
+  m_ZDamping: 0
   m_AngularDampingMode: 0
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -1068,10 +1068,6 @@ MonoBehaviour:
     m_ActionName: Player/AliveCheck[/Keyboard/2]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: f44680a5-ad01-4153-a594-0436de491a36
-    m_ActionName: Player/StatusWindow[/Keyboard/k]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 97954831-d54f-4421-bf14-a63408e8cbde
     m_ActionName: Player/Inven[/Keyboard/i]
   - m_PersistentCalls:
@@ -1106,6 +1102,10 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5dce4e51-8601-4dc7-9eb1-78cac12398ea
     m_ActionName: UI/Tab[/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: f870ebbd-0a87-4e29-931e-258d1d0efb02
+    m_ActionName: Player/SkillWindow[/Keyboard/k]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
