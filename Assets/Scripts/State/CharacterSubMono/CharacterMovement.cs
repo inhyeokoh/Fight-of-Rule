@@ -15,7 +15,9 @@ public class CharacterMovement : SubMono<PlayerController>
 
     public Transform playerTransform;
     public Vector3 targetPosition;
-   
+
+    public Coroutine _moveTowardsNpcCoroutine;
+    public Coroutine MoveTowardsNpcCoroutine { get { return _moveTowardsNpcCoroutine; } }
     Coroutine attackCoroutine;
     Rigidbody playerRigidbody;
     Vector3 direction;
@@ -27,7 +29,7 @@ public class CharacterMovement : SubMono<PlayerController>
         set { targetPosition = value; }
     }
 
-    private float rotationSpeed = 3f;
+    private float rotationSpeed = 6f;
 
     protected override void _Clear()
     {
@@ -115,6 +117,19 @@ public class CharacterMovement : SubMono<PlayerController>
         StartCoroutine("AttackComboTime", number);*/
     }
 
+    public void StopNpcMoveCoroutine()
+    {
+        if (_moveTowardsNpcCoroutine != null)
+        {
+            StopCoroutine(_moveTowardsNpcCoroutine);
+            _moveTowardsNpcCoroutine = null;
+        }
+    }
+
+    public void StartNpcMoveCoroutne(GameObject hitObject, float dialogDist)
+    {
+        _moveTowardsNpcCoroutine = StartCoroutine(MoveTowardsNpc(hitObject, dialogDist));
+    }
 
 
     public void Hit()
@@ -152,5 +167,26 @@ public class CharacterMovement : SubMono<PlayerController>
         }      
     }
 
+    public IEnumerator MoveTowardsNpc(GameObject hitObject, float dialogDist)
+    {
+        Vector3 npcPosition = hitObject.transform.position;
+        // NPC와의 방향 벡터 계산
+        Vector3 direction = (npcPosition - playerTransform.position).normalized;
+        // NPC로부터 dialogDist만큼 떨어진 지점 계산
+        Vector3 targetPosition = npcPosition - direction * dialogDist;
 
+        while (Vector3.Distance(playerTransform.position, targetPosition) > 1f)
+        {         
+            TargetPosition = new Vector3(targetPosition.x, playerTransform.position.y, targetPosition.z);
+           _board._playerState.ChangeState((int)Enum_CharacterState.Move);
+            // 플레이어가 목표 지점에 도달할 때까지 이동
+            yield return null;
+        }
+
+        Npc npc = hitObject.GetComponent<Npc>();
+        _board._interaction.InteractingNpcID = npc.NpcID;
+        TargetPosition = playerTransform.position;
+        //_playerState.ChangeState((int)Enum_CharacterState.Idle);
+        npc.StartInteract();
+    }
 }

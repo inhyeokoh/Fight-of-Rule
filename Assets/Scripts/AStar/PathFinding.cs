@@ -63,7 +63,7 @@ public class PathFinding : MonoBehaviour
     void Start()
     {
         path = new List<Node>();
-        rd1 = startNode.GetComponent<Renderer>();
+        //rd1 = startNode.GetComponent<Renderer>();
         /*lr1 = startNode.GetComponent<LineRenderer>();
 
         lr1.startWidth = lr1.endWidth = .1f;
@@ -72,7 +72,7 @@ public class PathFinding : MonoBehaviour
         lr1.positionCount = 3;
         lr1.loop = true;*/
 
-        rd2 = endNode.GetComponent<Renderer>();
+       // rd2 = endNode.GetComponent<Renderer>();
         /* lr2 = endNode.GetComponent<LineRenderer>();
 
          lr2.startWidth = lr2.endWidth = .1f;
@@ -84,7 +84,7 @@ public class PathFinding : MonoBehaviour
 
     public void Update()
     {
-        if (grid.ColorBox(this.startNode.position))
+      /*  if (grid.ColorBox(this.startNode.position))
         {
             rd1.material = blue;
         }
@@ -100,7 +100,7 @@ public class PathFinding : MonoBehaviour
         else
         {
             rd2.material = red;
-        }
+        }*/
     }
     public Vector3[] FindPath(List<Node> nodePath, List<(Node nodeA, Node nodeB)> redPath)
     {

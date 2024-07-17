@@ -55,15 +55,14 @@ public class PlayerController : MonoBehaviour
     public Enum_Class _class;
 
     float dialogDist = 3f;
-    Coroutine _moveTowardsNpcCoroutine;
-
+    
     C_CHARACTER_MOVE character_move = new C_CHARACTER_MOVE();
     VECTOR3 character_current_pos = new VECTOR3();
     VECTOR3 character_target_pos = new VECTOR3();
 
     private void Awake()
     {
-        _class = Enum_Class.Warrior;
+        _class = Enum_Class.Wizard;
 
         if (instance == null)
         {
@@ -153,6 +152,8 @@ public class PlayerController : MonoBehaviour
         }
 
         _playerState.StateAdd();*/
+
+        
     }
 
     private void Start()
@@ -172,14 +173,12 @@ public class PlayerController : MonoBehaviour
             _levelSystem
         };
 
-        SkillManager.Skill.PlayerData();
-
         for (int i = 0; i < _controller.Count; i++)
         {
             _controller[i].Mount(this);
             _controller[i].Init();
         }
-
+        SkillManager.Skill.PlayerData();
         _playerState.StateAdd();
     }
 
@@ -234,33 +233,33 @@ public class PlayerController : MonoBehaviour
         if (context.action.phase == InputActionPhase.Started)
         {
             // 기존 코루틴이 실행 중이면 중지
-            if (_moveTowardsNpcCoroutine != null)
+            if (_playerMovement._moveTowardsNpcCoroutine != null)
             {
-                StopCoroutine(_moveTowardsNpcCoroutine);
-                _moveTowardsNpcCoroutine = null;
+                _playerMovement.StopNpcMoveCoroutine();
+                _playerMovement._moveTowardsNpcCoroutine = null;
             }
 
             Ray rayR = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             RaycastHit hit;
 
-            if (Physics.Raycast(rayR, out hit, 100, 1 << 15))
+            if (Physics.Raycast(rayR, out hit, 200, 1 << 15))
             {
                 GameObject hitObject = hit.collider.gameObject;
                 if (hitObject.CompareTag("Npc"))
                 {
-                    float distanceToNpc = Vector3.Distance(hitObject.transform.position, _playerMovement.transform.position);
+                    float distanceToNpc = Vector3.Distance(hitObject.transform.position, _playerMovement.playerTransform.position);
                     // NPC와의 거리가 일정거리 이내일 때 NPC와 상호작용
                     if (distanceToNpc < dialogDist)
                     {
                         Npc npc = hitObject.GetComponent<Npc>();
                         _interaction.InteractingNpcID = npc.NpcID;
-                        _playerState.ChangeState((int)Enum_CharacterState.Idle);
+                        _playerMovement.TargetPosition = _playerMovement.playerTransform.position;
                         npc.StartInteract();
                     }
                     else
                     {
                         // NPC 방향으로 이동 후, 일정거리 도달 시 NPC와 상호작용
-                        _moveTowardsNpcCoroutine = StartCoroutine(MoveTowardsNpc(hitObject, dialogDist));
+                        _playerMovement.StartNpcMoveCoroutne(hitObject, dialogDist);
                     }
                 }
             }
@@ -275,7 +274,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (Physics.Raycast(ray, out hit, 100, 1 << 6))
                     {                  
-                        test.position = hit.point;
+                      //  test.position = hit.point;
                         _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                         hit.point.z);
                         return;
@@ -283,7 +282,7 @@ public class PlayerController : MonoBehaviour
                 }
                 if (Physics.Raycast(ray, out hit, 100, 1 << 6))
                 {
-                    test.position = hit.point;
+                  //  test.position = hit.point;
                     _playerMovement.TargetPosition = new Vector3(hit.point.x,/* _playerMovement.playerTransform.position.y,*/hit.point.y,
                     hit.point.z);
 
@@ -307,30 +306,6 @@ public class PlayerController : MonoBehaviour
 
         }     
     }
-
-    IEnumerator MoveTowardsNpc(GameObject hitObject, float dialogDist)
-    {
-        Vector3 npcPosition = hitObject.transform.position;
-        // NPC와의 방향 벡터 계산
-        Vector3 direction = (npcPosition - _playerMovement.transform.position).normalized;
-        // NPC로부터 dialogDist만큼 떨어진 지점 계산
-        Vector3 targetPosition = npcPosition - direction * dialogDist;
-
-        while (Vector3.Distance(_playerMovement.transform.position, targetPosition) > 0.5f)
-        {
-            _playerMovement.TargetPosition = new Vector3(targetPosition.x, _playerMovement.playerTransform.position.y, targetPosition.z);
-            _playerState.ChangeState((int)Enum_CharacterState.Move);
-
-            // 플레이어가 목표 지점에 도달할 때까지 이동
-            yield return null;
-        }
-
-        Npc npc = hitObject.GetComponent<Npc>();
-        _interaction.InteractingNpcID = npc.NpcID;
-        _playerState.ChangeState((int)Enum_CharacterState.Idle);
-        npc.StartInteract();
-    }
-
     public void Avoid(InputAction.CallbackContext context)
     {
 
@@ -353,7 +328,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {
-                test.position = hit.point;
+               // test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 _playerState.ChangeState((int)Enum_CharacterState.Avoid);
@@ -385,7 +360,7 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {               
-                test.position = hit.point;
+                //test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 _playerState.ChangeState((int)Enum_CharacterState.Attack);
@@ -411,7 +386,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {              
-                test.position = hit.point;
+                //test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);                              
                 ketSlots[0].Use(_playerState, _playerStat);
@@ -436,7 +411,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {
-                test.position = hit.point;
+              //  test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);              
                 ketSlots[1].Use(_playerState, _playerStat);
@@ -460,7 +435,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {              
-                test.position = hit.point;
+               // test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 ketSlots[2].Use(_playerState, _playerStat);
@@ -484,7 +459,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {               
-                test.position = hit.point;
+              //  test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 ketSlots[3].Use(_playerState, _playerStat);
