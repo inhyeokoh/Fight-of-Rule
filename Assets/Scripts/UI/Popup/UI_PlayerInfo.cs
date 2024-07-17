@@ -85,7 +85,6 @@ public class UI_PlayerInfo : UI_Entity
         _DrawCharacterInfo();
         status = PlayerController.instance._playerStat;
 
-
         foreach (var _subUI in _subUIs)
         {
             _subUI.ClickAction = (PointerEventData data) =>
