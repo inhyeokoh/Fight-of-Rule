@@ -22,10 +22,6 @@ public class UI_Inventory : UI_Entity
 
     #region 아이템 드래그 이미지, 설명 패널
     public Image dragImg;
-    public GameObject descrPanel;
-    public TMP_Text descrPanelItemNameText;
-    public Image descrPanelItemImage;
-    public TMP_Text descrPanelDescrText;
     public UI_InventoryItemSlot highlightedSlot;
     #endregion
 
@@ -46,8 +42,7 @@ public class UI_Inventory : UI_Entity
         TempAdd,
         Gold,
         Close,
-        DragImg,
-        DescrPanel,
+        DragImg
     }
 
     enum Enum_FilteringTypes
@@ -82,14 +77,10 @@ public class UI_Inventory : UI_Entity
         _items = GameManager.Inven.items;
         _content = _entities[(int)Enum_UI_Inventory.ScrollView].transform.GetChild(0).GetChild(0).gameObject;
         panelRect = _entities[(int)Enum_UI_Inventory.Panel].GetComponent<RectTransform>().rect;
-        descrPanel = _entities[(int)Enum_UI_Inventory.DescrPanel].gameObject;
 
         dragImg = _entities[(int)Enum_UI_Inventory.DragImg].GetComponent<Image>();
         closeBtn = _entities[(int)Enum_UI_Inventory.Close].gameObject;
         itemTypesCount = Enum.GetValues(typeof(Enum_FilteringTypes)).Length;
-        descrPanelItemNameText = descrPanel.transform.GetChild(0).GetComponentInChildren<TMP_Text>();
-        descrPanelItemImage = descrPanel.transform.GetChild(1).GetComponent<Image>();
-        descrPanelDescrText = descrPanel.transform.GetChild(2).GetComponentInChildren<TMP_Text>();
 
         _DrawSlots();
         _SetItemTypeToggle();

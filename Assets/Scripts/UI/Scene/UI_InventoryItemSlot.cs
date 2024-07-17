@@ -14,7 +14,6 @@ public class UI_InventoryItemSlot : UI_ItemSlot
     {
         base.Init();
         _inven = transform.GetComponentInParent<UI_Inventory>();
-        _invenItems = GameManager.Inven.items;
 
         //드래그 시작
         _entities[(int)Enum_UI_ItemSlot.IconImg].BeginDragAction = (PointerEventData data) =>
@@ -123,6 +122,7 @@ public class UI_InventoryItemSlot : UI_ItemSlot
 
     protected override ItemData GetItem()
     {
+        _invenItems = GameManager.Inven.items;
         return _invenItems[Index];
     }
 

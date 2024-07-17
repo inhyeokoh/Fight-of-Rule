@@ -633,7 +633,7 @@ PlayerSettings:
   webGLDecompressionFallback: 0
   webGLPowerPreference: 2
   scriptingDefineSymbols:
-    Standalone: SERVER
+    Standalone: CLIENT_TEST_HYEOK
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend: {}
