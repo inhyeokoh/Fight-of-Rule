@@ -1,10 +1,9 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class UI_ItemToolTip : UI_Entity
 {
@@ -43,7 +42,6 @@ public class UI_ItemToolTip : UI_Entity
 
     /// <summary>
     /// UI 사각형 좌표의 좌측하단과 우측상단 좌표를 전역 좌표로 바꿔서 UI 사이즈 계산.
-    /// 초기에 한번만 실행됨.
     /// </summary>
     Vector2 _GetUISize(GameObject UI)
     {
@@ -53,36 +51,17 @@ public class UI_ItemToolTip : UI_Entity
         return UISize;
     }
 
-    public void RestrictItemDescrPos()
-    {
-        Vector2 descrPosOption = new Vector2(170f, -135f);
-        StartCoroutine(RestrictUIPos(_descrPanel, _descrUISize, descrPosOption));
-    }
-
-    public void StopRestrictItemDescrPos()
-    {
-        StopCoroutine(RestrictUIPos(_descrPanel, _descrUISize));
-    }
-
-    /// <summary>
-    /// UI가 화면 밖으로 넘어가지 않도록 위치 제한
-    /// </summary>
-    IEnumerator RestrictUIPos(GameObject UI, Vector2 UISize, Vector2? descrPosOption = null)
-    {
-        while (true)
-        {
-            Vector3 mousePos = Input.mousePosition;
-            float x = Math.Clamp(mousePos.x + descrPosOption.Value.x, UISize.x / 2, Screen.width - (UISize.x / 2));
-            float y = Math.Clamp(mousePos.y + descrPosOption.Value.y, UISize.y / 2, Screen.height - (UISize.y / 2));
-            UI.transform.position = new Vector2(x, y);
-            yield return null;
-        }
-    }
-
     public void ShowItemInfo(ItemData item)
     {
-        gameObject.SetActive(true);
         if (item == null) return;
+        gameObject.SetActive(true);
+
+        // 위치 조정
+        Vector2 pointerPos = Pointer.current.position.ReadValue();
+        Vector2 descrPos = pointerPos + new Vector2(_descrUISize.x / 2, -_descrUISize.y / 2);
+        float x = Math.Clamp(descrPos.x, _descrUISize.x / 2, Screen.width - (_descrUISize.x / 2));
+        float y = Math.Clamp(descrPos.y, _descrUISize.y / 2, Screen.height - (_descrUISize.y / 2));
+        transform.position = new Vector2(x, y);
 
         _itemNameText.text = item.name; // 아이템 이름
         _itemImage.sprite = item.icon; // 아이템 이미지

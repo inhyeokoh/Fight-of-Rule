@@ -85,8 +85,8 @@ public class UI_InventoryItemSlot : UI_ItemSlot
 
             highlightImg.color = new Color(highlightImg.color.r, highlightImg.color.g, highlightImg.color.b, 0f);
             _inven.highlightedSlot = null;
+            GameManager.UI.itemToolTip.gameObject.SetActive(false);
         };
-
 
         // 아이템 우클릭 (장비 장착, 아이템 판매)
         _entities[(int)Enum_UI_ItemSlot.IconImg].ClickAction = (PointerEventData data) =>
