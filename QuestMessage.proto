@@ -1,6 +1,0 @@
-syntax = "proto3";
-
-message QUEST_INFO {
-    int32 quest_id = 1;
-
-}

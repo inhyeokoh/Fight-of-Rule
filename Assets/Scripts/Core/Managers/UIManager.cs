@@ -108,7 +108,7 @@ public class UIManager : SubClass<GameManager>
         switch (sceneName)
         {
             case Enum_PopupSetJunction.Title:
-                 GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력을 수행할 수 있는 프리팹 생성
+                GameManager.Resources.Instantiate($"Prefabs/UI/Base/UserInputOnUI"); // UI 키입력을 수행할 수 있는 프리팹 생성
                 Login = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Login", popupCanvas.transform).GetComponent<UI_Login>();
                 SignUp = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/SignUp", popupCanvas.transform).GetComponent<UI_SignUp>();
                 Settings = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Settings", popupCanvas.transform).GetComponent<UI_Setting>();
@@ -120,12 +120,16 @@ public class UIManager : SubClass<GameManager>
                 BlockAll.transform.SetAsLastSibling();
                 break;
             case Enum_PopupSetJunction.InGame:
-                // 기존 OutGamePopup 전부 삭제
                 for (int i = 0; i < popupCanvas.transform.childCount; i++)
                 {
-                    if (popupCanvas.transform.GetChild(i).gameObject.name == "Settings") continue; // 환경설정 팝업 제외
+                    if (popupCanvas.transform.GetChild(i).gameObject.name == "Settings") continue; // OutGamePopup들 중에 환경설정 팝업 제외하고 삭제
 
                     GameManager.Resources.Destroy(popupCanvas.transform.GetChild(i).gameObject);
+                }
+                toolTipCanvas = GameObject.Find("ToolTipCanvas");
+                if (toolTipCanvas != null)
+                {
+                    itemToolTip = GameManager.Resources.Instantiate($"Prefabs/UI/ToolTip/ItemToolTip", toolTipCanvas.transform).GetComponent<UI_ItemToolTip>();
                 }
                 Inventory = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/Inventory", popupCanvas.transform).GetComponent<UI_Inventory>();
                 PlayerInfo = GameManager.Resources.Instantiate($"Prefabs/UI/Popup/PlayerInfo", popupCanvas.transform).GetComponent<UI_PlayerInfo>();

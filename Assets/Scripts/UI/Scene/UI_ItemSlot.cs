@@ -36,8 +36,6 @@ public abstract class UI_ItemSlot : UI_Entity
         _iconImg = _entities[(int)Enum_UI_ItemSlot.IconImg].GetComponent<Image>();
         highlightImg = _entities[(int)Enum_UI_ItemSlot.HighlightImg].GetComponent<Image>();
         _amountText = _iconImg.transform.GetChild(0).gameObject;
-        item = GetItem();
-
         ItemRender();               
 
         // 아이템 우클릭 (장비 장착, 아이템 판매)
@@ -73,7 +71,8 @@ public abstract class UI_ItemSlot : UI_Entity
     /// 슬롯 Index에 맞게 아이템 아이콘, 수량 텍스트, 하이라이트 효과 그리기
     /// </summary>
     public void ItemRender()
-    {        
+    {
+        item = GetItem();
         if (item != null)
         {
             _iconImg.color = new Color32(255, 255, 255, 255);
@@ -108,10 +107,7 @@ public abstract class UI_ItemSlot : UI_Entity
         _iconImg.color = new Color32(50, 50, 50, 255);
     }
 
-    protected bool CheckItemNull()
-    {
-        return GameManager.Inven.items[Index] == null;
-    }
+    protected abstract bool CheckItemNull();
 
     /// <summary>
     /// 드래그 이후 드롭 시, 슬롯에 벗어나지 않았는지 확인

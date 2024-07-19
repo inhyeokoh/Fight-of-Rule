@@ -39,14 +39,14 @@ public class UI_InventoryItemSlot : UI_ItemSlot
 
             if (!_inven.CheckUIOutDrop() && CheckSlotDrop(data)) // 인벤토리 내 드롭 + 슬롯 안에 정확히 드롭한 경우
             {
-                _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_ItemSlot>().Index;
+                _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_InventoryItemSlot>().Index;
                 GameManager.Inven.DragAndDropItems(Index, _otherIndex);
             }
             else if (_inven.CheckUIOutDrop()) // 인벤토리 밖에 드롭한 경우
             {
                 if (CheckSlotDrop(data)) // 플레이어 정보창 장비 슬롯에 드롭한 경우
                 {
-                    _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_EquipSlot>().Index;
+                    _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_EquipItemSlot>().Index;
                     GameManager.Inven.InvenToEquipSlot(Index, _otherIndex);
                 }
                 else
@@ -126,4 +126,8 @@ public class UI_InventoryItemSlot : UI_ItemSlot
         return _invenItems[Index];
     }
 
+    protected override bool CheckItemNull()
+    {
+        return GameManager.Inven.items[Index] == null;
+    }
 }

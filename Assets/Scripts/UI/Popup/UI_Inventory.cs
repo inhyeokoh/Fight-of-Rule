@@ -9,14 +9,13 @@ using UnityEngine.UI;
 public class UI_Inventory : UI_Entity
 {
     List<ItemData> _items;
-    List<UI_ItemSlot> _cachedItemSlots;
+    List<UI_InventoryItemSlot> _cachedItemSlots;
 
     Toggle[] itemTypeToggles;
     int itemTypesCount;
 
     GameObject _content;  // 아이템 슬롯들 부모 오브젝트
     public GameObject closeBtn;
-    Vector2 _descrUISize;
     TMP_Text goldText;
     public Rect panelRect;
 
@@ -68,6 +67,7 @@ public class UI_Inventory : UI_Entity
             highlighted.a = 0f;
             highlightedSlot.highlightImg.color = highlighted;
         }
+        GameManager.UI.itemToolTip.gameObject.SetActive(false);
     }
 
     protected override void Init()
@@ -151,7 +151,7 @@ public class UI_Inventory : UI_Entity
     // 인벤토리 초기 슬롯 생성
     void _DrawSlots()
     {
-        _cachedItemSlots = new List<UI_ItemSlot>(GameManager.Inven.TotalSlotCount);
+        _cachedItemSlots = new List<UI_InventoryItemSlot>(GameManager.Inven.TotalSlotCount);
         for (int i = 0; i < GameManager.Inven.TotalSlotCount; i++)
         {
             _cachedItemSlots.Add(GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform).GetOrAddComponent<UI_InventoryItemSlot>());
@@ -245,7 +245,7 @@ public class UI_Inventory : UI_Entity
     {
         for (int i = GameManager.Inven.TotalSlotCount; i < GameManager.Inven.TotalSlotCount + newSlotCount; i++)
         {
-            _cachedItemSlots.Add(GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform).GetComponent<UI_ItemSlot>());
+            _cachedItemSlots.Add(GameManager.Resources.Instantiate("Prefabs/UI/Scene/ItemSlot", _content.transform).GetComponent<UI_InventoryItemSlot>());
             _cachedItemSlots[i].Index = i;
         }
         GameManager.Inven.ExtendItemListWithNull(newSlotCount);
