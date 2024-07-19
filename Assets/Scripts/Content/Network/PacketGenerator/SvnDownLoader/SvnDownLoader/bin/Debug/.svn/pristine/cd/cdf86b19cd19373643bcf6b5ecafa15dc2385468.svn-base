@@ -1,0 +1,5 @@
+item_id,item_grade,item_sellingprice,item_maxcount
+0,Normal,58,200
+1,Normal,42,200
+2,Normal,74,200
+3,Unique,10000,1

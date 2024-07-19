@@ -1,5 +1,5 @@
-item_id,item_name,item_desc,item_icon,item_grade,item_type,item_purchaseprice,item_sellingprice,item_maxcount
-0,오크의 이빨,오크의 이빨이다. 생각보다 단단해서 무기 제작으로도 사용된다.,path,Normal,ETC,100,58,200
-1,오크의 활,나무로 간단하게 만든 낡은 활,path,Normal,ETC,100,42,200
-2,오크의 도끼,철로 만든 도끼 가끔은 죽은 모험가들의 도끼를 사용하기도 한다.,path,Normal,ETC,100,74,200
-3,데스 나이트의 투구,데스 나이트의 투구 인간이 견딜수 있는 무게는 아니여서 끼지는 못한다. 하지만 투구로 만든 광석이 귀해서 비싸게 팔린다.,path,Unique,ETC,50000,10000,1
+item_id,item_name,item_desc,item_icon,item_grade,item_sellingprice,item_maxcount
+0,오크의 이빨,오크의 이빨이다. 생각보다 단단해서 무기 제작으로도 사용된다.,path,Normal,58,200
+1,오크의 활,나무로 간단하게 만든 낡은 활,path,Normal,42,200
+2,오크의 도끼,철로 만든 도끼 가끔은 죽은 모험가들의 도끼를 사용하기도 한다.,path,Normal,74,200
+3,데스 나이트의 투구,데스 나이트의 투구 인간이 견딜수 있는 무게는 아니여서 끼지는 못한다. 하지만 투구로 만든 광석이 귀해서 비싸게 팔린다.,path,Unique,10000,1

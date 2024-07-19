@@ -2,20 +2,21 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Linq;
 
 /// <summary>
 /// 플레이어의 인벤토리와 장비 + (인벤토리 - 상점 상호작용 일부)
 /// </summary>
 public class InventoryManager : SubClass<GameManager>
 {
-    public List<ItemData> items; // slot index에 따른 아이템 리스트
+    public List<ItemData> items; // 슬롯 Index에 따른 아이템 리스트
 
     public int TotalSlotCount { get; set; } = 30;
 
     public List<ItemData> equips;
     public int EquipSlotCount { get; private set; } = 9;
 
+    public UI_Inventory inven;
+    UI_PlayerInfo _playerInfo;
     long gold = 100000L;
     public long Gold
     {
@@ -47,10 +48,7 @@ public class InventoryManager : SubClass<GameManager>
         }        
     }
 
-    public UI_Inventory inven;
-    UI_PlayerInfo _playerInfo;
-
-    public event Action<int, int> OnItemGet;
+    public event Action<ItemData> OnItemGet;
 
     protected override void _Clear()
     {        
@@ -62,21 +60,27 @@ public class InventoryManager : SubClass<GameManager>
 
     protected override void _Init()
     {
-    }
-
-    public void ConnectInvenUI()
-    {
         items = new List<ItemData>(new ItemData[TotalSlotCount]);
         equips = new List<ItemData>(new ItemData[EquipSlotCount]);
-
-        inven = GameManager.UI.Inventory;
-        _playerInfo = GameManager.UI.PlayerInfo;
-        _GetInvenDataFromTable();
+#if CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
+        ConnectInven();
+#endif
     }
 
-    void _GetInvenDataFromTable()
+    /// <summary>
+    /// 게임 플레이씬 도달해서 필요한 팝업들 생성 이후에 호출이 필요한 것들.
+    /// </summary>
+    public void ConnectInven()
     {
-        var item = CSVReader.Read("Data/SheetsToCsv/bin/Debug/TableFiles/InvenDB");
+        inven = GameManager.UI.Inventory;
+        _playerInfo = GameManager.UI.PlayerInfo;
+        _GetInvenDataFromDB();
+    }
+
+    [Obsolete("For testing purposes when DB is not connected")]
+    void _GetInvenDataFromDB()
+    {
+        var item = CSVReader.Read("Data/SheetsToCSV/bin/Debug/TableFiles/InvenTable");
         for (int i = 0; i < item.Count; i++)
         {
             int id = int.Parse(item[i]["id"]);
@@ -86,35 +90,35 @@ public class InventoryManager : SubClass<GameManager>
             // id,count,slotNum받고 해당하는 id로 아이템 생성
             items[slotNum] = GameManager.Data.StateItemDataReader(id);
             items[slotNum].count = count;
-
-            // TODO 장비아이템은 고유번호
         }
     }
 
+    /// <summary>
+    /// 아이템 드래그 후 드롭 시 호출
+    /// </summary>
+    /// <param name="oldPos">드래그 시작한 슬롯 Index</param>
+    /// <param name="newPos">드래그 마친 슬롯 Index</param>
     public void DragAndDropItems(int oldPos, int newPos)
     {
         if (oldPos == newPos) return;
 
-        // newPos가 비어있는 슬롯이면 옮기기
+        // newPos가 비어있는 슬롯이면 아이템 옮기기
         if (items[newPos] == null)
         {
             _ChangeSlotNum(oldPos, newPos);
         }
-        // 아이템 id가 같은 아이템이고 장비 아이템이 아니면 수량 합치기
+        // 같은 아이템이고 장비 아이템이 아니면 수량 합치기
         else if (_CheckSameAndCountable(oldPos, newPos))
         {
             _AddUpItems(oldPos, newPos);
         }
-        // 다른 아이템이면 위치 교환
+        // 장비아이템이거나 서로 다른 아이템이면 위치 교환
         else
         {
             _ExchangeSlotNum(oldPos, newPos);
         }
-        // 이미지 갱신
         inven.UpdateInvenSlot(oldPos);
         inven.UpdateInvenSlot(newPos);
-
-        // TODO 바뀐 내용 서버로 전송
     }
 
     void _ChangeSlotNum(int oldPos, int newPos)
@@ -130,36 +134,47 @@ public class InventoryManager : SubClass<GameManager>
         items[newPos] = temp;
     }
 
-    bool _CheckSameAndCountable(int a, int b)
+    bool _CheckSameAndCountable(int oldPos, int newPos)
     {
-        return items[a].id == items[b].id && (items[a].itemType != Enum_ItemType.Equipment);
+        return items[oldPos].id == items[newPos].id && (items[oldPos].itemType != Enum_ItemType.Equipment);
     }
 
-    void _AddUpItems(int a, int b)
+    void _AddUpItems(int oldPos, int newPos)
     {
-        if (items[b].count == items[b].maxCount) // 바꿀 위치에 이미 꽉 차있는 경우, 수량만 교환
+        // 드롭한 위치에 아이템이 최대 수량인 경우, 서로 수량만 교환
+        if (items[newPos].count == items[newPos].maxCount)
         {
-            int temp = items[b].count;
-            items[b].count = items[a].count;
-            items[a].count = temp;
+            int temp = items[newPos].count;
+            items[newPos].count = items[oldPos].count;
+            items[oldPos].count = temp;
         }
         else
         {
-            items[b].count = items[a].count + items[b].count;
-            if (items[b].count > items[b].maxCount) // 합쳤을 때 수가 MaxCount보다 크면
+            items[newPos].count = items[oldPos].count + items[newPos].count;
+            // 드래그 앤 드롭으로 둘을 합쳤을 때 수량이 최대 수량보다 클 경우, 오버된 수량을 기존 슬롯 위치로
+            if (items[newPos].count > items[newPos].maxCount)
             {
-                items[a].count = items[b].count - items[b].maxCount;
-                items[b].count = items[b].maxCount;
+                items[oldPos].count = items[newPos].count - items[newPos].maxCount;
+                items[newPos].count = items[newPos].maxCount;
             }
             else
             {
-                items[a] = null;
+                items[oldPos] = null;
             }
         }
     }
 
-    public void ExtendItemList()
+    public void ExtendItemListWithNull()
     {
+        while (items.Count < TotalSlotCount)
+        {
+            items.Add(null);
+        }
+    }
+
+    public void ExtendItemListWithNull(int newSlotCount)
+    {
+        TotalSlotCount += newSlotCount;
         while (items.Count < TotalSlotCount)
         {
             items.Add(null);
@@ -173,7 +188,7 @@ public class InventoryManager : SubClass<GameManager>
             if (items[i] == null) return i;
         }
 
-        // 인벤토리가 가득 찬 경우 처리 (공간 부족 알림 팝업)
+        // 인벤토리가 가득 찬 경우 공간 부족 알림 팝업
         GameManager.UI.OpenPopup(GameManager.UI.InGameConfirmY);
         GameManager.UI.InGameConfirmY.ChangeText(UI_InGameConfirmY.Enum_ConfirmTypes.InvenFull);
         return -1;
@@ -181,106 +196,89 @@ public class InventoryManager : SubClass<GameManager>
 
     public void GetItem(ItemData acquired)
     {
-        // 획득한 아이템이 없는 경우
-        if (acquired == null) return;        
+        if (acquired == null) return;
+
+        int originalCount = acquired.count; // 원래 수량 저장
+        int totalAdded = 0; // 실제로 추가된 아이템 수량을 추적
 
         // 수량이 합산되지 않는 장비 아이템 처리
         if (acquired.itemType == Enum_ItemType.Equipment)
         {
             int emptySlotIndex = EmptySlot;
-            if (emptySlotIndex == -1)
-            {
-                return; // 인벤토리가 가득 찬 경우
-            }
+            if (emptySlotIndex == -1) return; // 인벤토리가 가득 찬 경우            
             else
             {
                 items[emptySlotIndex] = new ItemData(acquired, acquired.count);
-                OnItemGet?.Invoke(acquired.id, acquired.count);
+                totalAdded = acquired.count;
+                acquired.count = 0; // 아이템이 추가되었으므로 count를 0으로 설정
             }
         }
         else
         {
-            // 획득 수량 전부 처리할때까지 반복
-            while (acquired.count > 0) 
+            while (acquired.count > 0) // 획득 수량 전부 처리할때까지 반복
             {
+                bool itemAdded = false; // 아이템이 추가되었는지 확인하는 플래그
+
                 for (int i = 0; i < items.Count; i++)
-                {           
-                    // 동일 아이템 확인
-                    if (items[i] != null && items[i].id == acquired.id)
+                {
+                    if (items[i] != null && items[i].id == acquired.id) // 동일 아이템 확인
                     {
                         // 칸에 최대 수량이 아닌 경우
                         if (items[i].count < items[i].maxCount)
                         {
                             int remainSpace = items[i].maxCount - items[i].count; // 잔여공간 크기
-                            // 획득한 수량이 잔여 공간에 들어갈 수 있는 경우
-                            if (acquired.count <= remainSpace)
+                            if (acquired.count <= remainSpace) // 획득한 수량이 잔여 공간에 들어갈 수 있는 경우
                             {
                                 items[i].count += acquired.count;
-                                OnItemGet?.Invoke(acquired.id, acquired.count);
+                                totalAdded += acquired.count;
                                 acquired.count = 0;
+                                itemAdded = true; // 아이템이 추가되었음을 표시
                                 break;
                             }
-                            // 획득한 수량이 잔여 공간보다 큰 경우
-                            else
+                            else // 획득한 수량이 잔여 공간보다 큰 경우
                             {
                                 items[i].count = items[i].maxCount;
-                                OnItemGet?.Invoke(acquired.id, items[i].maxCount);
+                                totalAdded += remainSpace;
                                 acquired.count -= remainSpace;
+                                itemAdded = true; // 일부 아이템이 추가되었음을 표시
                             }
-                        }
-                        // 칸에 이미 꽉 찬 경우
-                        else
-                        {
-                            continue;
                         }
                     }
+                }
 
-                    // 마지막 칸까지 동일 아이템 안 보이면 새로운 슬롯에 추가
-                    if (i == items.Count - 1)
+                // 모든 칸을 검사했는데도 추가되지 않은 경우 빈 칸에 추가 시도
+                if (!itemAdded)
+                {
+                    int emptySlotIndex = EmptySlot;
+                    if (emptySlotIndex == -1) break; // 빈 칸이 없는 경우 종료
+                    else
                     {
-                        int emptySlotIndex = EmptySlot;
-                        if (emptySlotIndex == -1) return;
-                        else
+                        if (acquired.count <= acquired.maxCount) // 획득 수량이 최대 수량 이하인 경우
                         {
-                            // 획득 수량이 최대 수량 이하인 경우
-                            if (acquired.count <= acquired.maxCount)
-                            {
-                                items[emptySlotIndex] = new ItemData(acquired, acquired.count);
-                                OnItemGet?.Invoke(acquired.id, acquired.count);
-                                acquired.count = 0;
-                            }
-                            // 획득 수량이 최대 수량 보다 클 경우
-                            else
-                            {
-                                items[emptySlotIndex] = new ItemData(acquired, acquired.count);
-                                items[emptySlotIndex].count = acquired.maxCount;
-                                OnItemGet?.Invoke(acquired.id, acquired.maxCount);
-                                acquired.count -= acquired.maxCount;
-                            }
+                            items[emptySlotIndex] = new ItemData(acquired, acquired.count);
+                            totalAdded += acquired.count;
+                            acquired.count = 0;
+                        }
+                        else // 획득 수량이 최대 수량 보다 클 경우
+                        {
+                            items[emptySlotIndex] = new ItemData(acquired, acquired.maxCount);
+                            totalAdded += acquired.maxCount;
+                            acquired.count -= acquired.maxCount;
                         }
                     }
                 }
             }
         }
-
-        // UI 갱신
+        OnItemGet?.Invoke(new ItemData(acquired, totalAdded));
         for (int i = 0; i < items.Count; i++)
         {
             inven.UpdateInvenSlot(i);
         }
     }
 
-    public void SearchItem(int itemID)
-    {
-        foreach (var item in items)
-        {
-            if (item.id == itemID)
-            {
-                OnItemGet?.Invoke(itemID, item.count);
-            }
-        }
-    }
-
+    /// <summary>
+    /// 인벤토리 아이템을 필드로 드롭
+    /// </summary>
     public void DropInvenItem(int index, int dropCount = 1)
     {
         items[index].count -= dropCount;
@@ -297,6 +295,9 @@ public class InventoryManager : SubClass<GameManager>
         inven.UpdateInvenSlot(index);
     }
 
+    /// <summary>
+    /// 장착 아이템을 필드로 드롭
+    /// </summary>
     public void DropEquipItem(int index)
     {
         ItemData droppedItem = new ItemData(equips[index], 1);
@@ -319,19 +320,14 @@ public class InventoryManager : SubClass<GameManager>
         items.AddRange(result);
 
         _CombineQuantities(items);
-        ExtendItemList(); // 비어있는 칸 다시 null로 채우기
-        for (int i = 0; i < items.Count; i++) // 아이템의 슬롯 번호 변경
+        ExtendItemListWithNull(); // 원래의 인벤토리 크기만큼 null 채워주기
+        for (int i = 0; i < items.Count; i++)
         {
             if (items[i] != null)
             {
                 items[i].slotNum = i;
             }
-        }
-
-        // UI 갱신
-        for (int i = 0; i < items.Count; i++)
-        {
-            inven.UpdateInvenSlot(i);
+            inven.UpdateInvenSlot(i); // UI 갱신
         }
     }
 
@@ -385,11 +381,13 @@ public class InventoryManager : SubClass<GameManager>
                 right.RemoveAt(0);
             }
         }
-
         return result;
     }
 
-    // 왼쪽에 올 아이템에 대해 true 반환
+    /// <summary>
+    /// 아이템 타입, 등급, 상세타입, 아이템 ID 순으로 아이템 정렬 서열 체크
+    /// </summary>
+    /// <returns> true = 인벤토리 앞쪽에 올 아이템 </returns>
     bool CompareLeftIsSmall(ItemData left, ItemData right)
     {
         if (left.itemType < right.itemType) return true;
@@ -397,19 +395,17 @@ public class InventoryManager : SubClass<GameManager>
         if (left.itemGrade < right.itemGrade) return true;
         if (left.itemGrade > right.itemGrade) return false;
         // 기타아이템에는 상세타입 없으니 제외
+                
         if (left.itemType != Enum_ItemType.ETC)
         {
-            StateItemData leftItem = left as StateItemData;
-            StateItemData rightItem = right as StateItemData;
-            if (leftItem != null && rightItem != null)
-            {
-                if (leftItem != null && leftItem.detailType < rightItem.detailType) return true;
-                if (leftItem.detailType > rightItem.detailType) return false;
-            }
+            int leftItem = left.GetIntType();
+            int rightItem = right.GetIntType();
+
+            if (leftItem < rightItem) return true;
+            if (leftItem > rightItem) return false;
         }
-        if (left.id < right.id) return true;
-        if (left.id > right.id) return false;
-        return true;
+        if (left.id <= right.id) return true;
+        else return false;
     }
 
     void _CombineQuantities(List<ItemData> itemList)
@@ -473,38 +469,14 @@ public class InventoryManager : SubClass<GameManager>
 
     bool _CheckSameEquipType(int equipPos, int invenPos)
     {
-        int equipType = -1;
-
-        StateItemData sid = items[invenPos] as StateItemData;
-        switch (sid.detailType)
-        {
-            case Enum_DetailType.Head:
-                equipType = 0;
-                break;
-            case Enum_DetailType.Body:
-                equipType = 1;
-                break;
-            case Enum_DetailType.Hand:
-                equipType = 2;
-                break;
-            case Enum_DetailType.Foot:
-                equipType = 3;
-                break;
-            case Enum_DetailType.Weapon:
-                equipType = 4;
-                break;
-            default:
-                equipType = -1;
-                break;
-        }
-
-        return equipPos == equipType;
+        int equipItemNumber = items[invenPos].GetIntType();
+        return equipPos == equipItemNumber;
     }
 
     public void EquipItem(int index)
     {
         int equipType;
-        StateItemData sid = items[index] as StateItemData;
+        EquipmentItemData sid = items[index] as EquipmentItemData;
         // 장착 불가시 반환
         if (!PlayerController.instance._playerEquipment.EquipmentCheck(sid, out equipType)) return;
 
@@ -522,14 +494,23 @@ public class InventoryManager : SubClass<GameManager>
             items[index] = temp;
         }
 
-        // 플레이어정보창 UI 갱신
-        if (_playerInfo.gameObject.activeSelf)
-        {
-            _playerInfo.UpdateEquipUI(equipType);
-        }
-
-        // 인벤토리 UI 갱신
+        _playerInfo.UpdateEquipUI(equipType);
         inven.UpdateInvenSlot(index);
+    }
+
+    public void UnEquipItem(int index)
+    {
+        int invenEmptySlot = EmptySlot;
+        if (invenEmptySlot == -1) return; // 인벤토리 꽉 찬 경우 해제 불가
+
+        PlayerController.instance._playerEquipment.TakeOff(index);
+
+        // 인벤토리 비어 있는 칸 찾아서 넣기
+        items[invenEmptySlot] = equips[index];
+        equips[index] = null;
+
+        _playerInfo.UpdateEquipUI(index);
+        inven.UpdateInvenSlot(invenEmptySlot);      
     }
 
     public void ConsumeItem(int index)
@@ -550,21 +531,21 @@ public class InventoryManager : SubClass<GameManager>
         inven.UpdateInvenSlot(index);
     }
 
-    public void UnEquipItem(int index)
+
+    /// <summary>
+    /// 퀘스트 아이템이 존재하는지 확인
+    /// </summary>
+    /// <param name="itemID"></param>
+    public void SearchQuestItem(int itemID)
     {
-        int invenEmptySlot = EmptySlot;
-        if (invenEmptySlot == -1) return; // 인벤토리 꽉 찬 경우 해제 불가
-
-        PlayerController.instance._playerEquipment.TakeOff(index);
-
-        // 인벤토리 비어 있는 칸 찾아서 넣기
-        items[invenEmptySlot] = equips[index];
-        equips[index] = null;
-
-        _playerInfo.UpdateEquipUI(index);
-        inven.UpdateInvenSlot(invenEmptySlot);      
+        foreach (var item in items)
+        {
+            if (item.id == itemID)
+            {
+                OnItemGet?.Invoke(item);
+            }
+        }
     }
-
 
     // 인벤 우클릭으로 아이템을 상점 품목으로 이동
     public void InvenToShop(int index)

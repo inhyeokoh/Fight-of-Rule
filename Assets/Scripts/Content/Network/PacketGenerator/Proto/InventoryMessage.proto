@@ -1,0 +1,7 @@
+syntax = "proto3";
+import "ItemMessage.proto";
+
+message INVENTORY {
+    int32 inven_size = 1;
+    repeated ITEM_DATA_INFO item = 2;
+}

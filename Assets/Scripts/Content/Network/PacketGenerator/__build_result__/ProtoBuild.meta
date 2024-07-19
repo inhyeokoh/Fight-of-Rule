@@ -1,5 +1,9 @@
 fileFormatVersion: 2
-guid: 2d84ba7c3c43aae429d36ac41f067239
+<<<<<<< HEAD
+guid: 0ba7eb46208ddbd4b91b2e4ae668d3ee
+=======
+guid: 411292fb02621514ea0575184e7a27d4
+>>>>>>> feature/quest
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

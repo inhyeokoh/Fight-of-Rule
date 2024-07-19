@@ -1,0 +1,17 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/Scripts/Content/Network/PacketGenerator/Proto/QuestMessage.proto.meta
+guid: bd439a095b1bc454e890404bf2c2c717
+DefaultImporter:
+========
+guid: aa9e4f2106674924ab600a0ba88c7ac2
+TextScriptImporter:
+>>>>>>>> feature/quest:Assets/Resources/Data/SheetsToCSV/bin/Debug/TableFiles/Quest_ClientTable.csv.meta
+=======
+guid: 316760ca703faba47ba81f91f5fea30d
+DefaultImporter:
+>>>>>>> feature/quest
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

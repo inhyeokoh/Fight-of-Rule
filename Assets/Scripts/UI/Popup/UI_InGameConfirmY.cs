@@ -28,18 +28,18 @@ public class UI_InGameConfirmY : UI_Entity
         NotEnoughMoney,
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!_init || !_useBlocker) return;
 
         GameManager.UI.UseBlocker(true);
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
         GameManager.UI.UseBlocker(false);
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
     }
-
 
     protected override Type GetUINamesAsType()
     {
@@ -51,6 +51,20 @@ public class UI_InGameConfirmY : UI_Entity
         base.Init();
         confirmType = Enum_ConfirmTypes.NotEnoughMoney;
         _mainText = _entities[(int)Enum_UI_InGameConfirmY.MainText].transform.GetChild(0).GetComponent<TMP_Text>();
+
+        foreach (var _subUI in _subUIs)
+        {
+            // UI위에 커서가 있을 시 캐릭터 행동 제약
+            _subUI.PointerEnterAction = (PointerEventData data) =>
+            {
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, true);
+            };
+
+            _subUI.PointerExitAction = (PointerEventData data) =>
+            {
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
+            };
+        }
 
         _entities[(int)Enum_UI_InGameConfirmY.Accept].ClickAction = (PointerEventData data) => {
             GameManager.UI.ClosePopup(GameManager.UI.InGameConfirmY);

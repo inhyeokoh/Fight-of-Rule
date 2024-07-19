@@ -73,7 +73,7 @@ public class OrcWarriorState : OrcState
                     if (Vector3.Distance(_board._monsterMovement.characterPosition.position, gameObject.transform.position) < _board._monsterStatus.AttackDistance &&
                     isAttack)
                     {
-                        print("delay");
+                     //   print("delay");
                       
 
                         AttackNumber();

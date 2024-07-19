@@ -97,4 +97,11 @@ public class Utils
         return assertionCond;
 #endif
     }
+
+    public static int Scaling(float position)
+    {
+        int scaling = (int)(position * (Mathf.Pow(10, 6)));
+
+        return scaling;
+    }
 }

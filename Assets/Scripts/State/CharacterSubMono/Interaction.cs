@@ -5,6 +5,7 @@ using UnityEngine;
 public class Interaction : SubMono<PlayerController>
 {
     public List<GameObject> InGameItems;
+    public int InteractingNpcID { get; set; } = -1;
 
     protected override void _Clear()
     {
@@ -32,7 +33,7 @@ public class Interaction : SubMono<PlayerController>
                 GameManager.Inven.GetItem(clone.GetComponent<ItemObject>().item);
 
                 InGameItems.RemoveAt(0);
-                clone.SetActive(false);
+                GameManager.Resources.Destroy(clone);
             }
         }     
     }

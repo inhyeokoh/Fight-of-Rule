@@ -2,6 +2,9 @@ syntax = "proto3";
 import "CharacterMessage.proto";
 import "OptionMessage.proto";
 import "ItemMessage.proto";
+import "InventoryMessage.proto";
+import "QuestMessage.proto";
+import "UnitMessage.proto";
 
 message C_SIGNUP {
     string signup_id = 1;
@@ -96,8 +99,59 @@ message S_DELETE_CHARACTER {
     int64 slot_num = 2;
 }
 
+message C_INGAME {
+    int64 character_id = 1;
+}
+
+message S_INGAME {
+    bool success = 1;
+    INVENTORY inventory = 2;
+    VECTOR3 character_position = 3;
+    // TODO : Quest, Equipment
+}
+
+message S_SYNC_PLAYER {
+    bool add = 1; 
+    repeated OTHER_PLAYER_DATA other_player_data = 2;
+}
+
+message S_DROP_ITEM {
+    bool add = 1;
+    repeated ITEM_DATA_INFO_WITH_POS item = 2;
+}
+
+message C_ITEMINFO {
+}
+
 message S_ITEMINFO {
-    EQUIP_ITEM equip_item = 1;
-    CONSUME_ITEM consume_item = 2;
-    ETC_ITEM etc_item = 3;
+    ITEM_DATA item_data = 1;
+}
+
+message C_ITEM_PICKUP {
+    int64 unique_id = 1;
+}
+
+message S_ITEM_PICKUP {
+    bool success = 1;
+    optional ITEM_DATA_INFO item = 2;
+}
+
+message C_CHARACTER_MOVE
+{
+    VECTOR3 current_pos = 1;
+    VECTOR3 target_pos = 2;
+}
+
+message S_CHARACTER_MOVE
+{
+   VECTOR3 current_pos = 1;
+}
+
+message C_TEMP_MONSTER_KILL
+{
+   int64 monster_id = 1;
+}
+
+message S_TEMP_MONSTER_KILL
+{
 }

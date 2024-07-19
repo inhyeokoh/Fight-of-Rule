@@ -69,7 +69,11 @@ public class MonsterController : MonoBehaviour
 
         DBRederOn = true;
 
+        gameObject.GetComponent<Collider>().enabled = true;
+        gameObject.GetComponent<MonsterState>().enabled = true;
+
         _monsterState.StateAdd();
+        _monsterState.ChangeState((int)Enum_MonsterState.Idle);
     }
     private void FixedUpdate()
     {     

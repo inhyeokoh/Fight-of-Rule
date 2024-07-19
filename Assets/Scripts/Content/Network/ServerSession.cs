@@ -47,7 +47,9 @@ public class ServerSession : PacketSession
                 break;
             case NetState.PRE_LOGIN:
                 GameManager.Network.mainSession = this;
-                GameManager.ThreadPool.UniAsyncJob(() => { GameManager.Resources.Instantiate("Prefabs/UI/Popup/UI_Login", GameObject.Find("Canvas").transform); });
+#if SERVER || DEBUG_MODE
+                GameManager.ThreadPool.UniAsyncJob(() => { GameManager.UI.OpenPopup(GameManager.UI.Login); });
+#endif
                 break;
             case NetState.NEED_VRF:
                 GameManager.Network.mainSession = this;

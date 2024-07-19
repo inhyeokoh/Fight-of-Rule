@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,26 @@ public enum Enum_SkillType
 }
 public abstract class Skill : MonoBehaviour
 {
+    protected static Dictionary<int, SkillState> skills = new Dictionary<int, SkillState>();
+    protected State state;
+    protected StateMachine stateMachine;
+   
+    public class SkillState
+    {
+        public Action<Skill> enterAction;
+        public Action<Skill> fixedStay;
+        public Action<Skill> stay;
+        public Action<Skill> exit;
+
+        public SkillState(Action<Skill> _enterAction, Action<Skill> _fixedStay, Action<Skill> _stay, Action<Skill> _exit)
+        {
+            enterAction = _enterAction;
+            fixedStay = _fixedStay;
+            stay = _stay;
+            exit = _exit;
+        }
+    }
+
     public static bool playerInfo;
 
 
@@ -169,18 +190,12 @@ public abstract class Skill : MonoBehaviour
 
     }
     public abstract void LevelReset();
-    public void Use()
+    public virtual void Use() 
     {
-        SkillManager.Skill.PlayerStat.EffectDamage(SkillDamage);
-
-     
-        SkillManager.Skill.PlayerState.ChangeState((int)skillNumber);
-
         maxCoolTime = SkillCoolTime;
         coolTime = maxCoolTime;
         StartCoroutine(CoolTimeTimer());
     }
-
     // 스킬 쿨타임
     IEnumerator CoolTimeTimer()
     {

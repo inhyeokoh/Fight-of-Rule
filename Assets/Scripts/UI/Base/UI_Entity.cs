@@ -31,18 +31,44 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
     protected List<UI_Entity> _subUIs = new List<UI_Entity>();
     //현재 UI의 하위 UI요소들
     protected Dictionary<int, UI_Entity> _entities = new Dictionary<int, UI_Entity>();
+    public virtual void EnterAction() { EventSystem.current.SetSelectedGameObject(null); }
+    public virtual void EscAction() { GameManager.UI.ClosePopup(this); }
 
-    //UI컴포넌트들 모음
+    int curInputFieldIndex;
+    protected List<TMP_InputField> inputFields;
+    public void TabAction()
+    {
+        if (inputFields.Count == 0) return;
+
+        // 현재 focus된 inputField 찾기
+        for (int i = 0; i < inputFields.Count; i++)
+        {
+            if (inputFields[i].isFocused)
+            {
+                curInputFieldIndex = i;
+            }
+        }
+
+        curInputFieldIndex++;
+        // 마지막 inputField 이후엔 초기 inputField로
+        if (curInputFieldIndex > inputFields.Count - 1)
+        {
+            curInputFieldIndex = 0;
+        }
+        inputFields[curInputFieldIndex].Select();
+    }
+
+    //UI컴포넌트들 모음. 오브젝트에 UI컴포넌트가 여러개 있을 경우, 해당 순서가 유의미함.
     static List<Type> _components = new List<Type>()
     {
         typeof(Button),
         typeof(Slider),
-        typeof(Image),
-        typeof(RawImage),
         typeof(Toggle),
         typeof(TMP_InputField),
         typeof(TMP_Dropdown),
         typeof(TMP_Text),
+        typeof(Image),
+        typeof(RawImage),
     };
 
     protected void Start()
@@ -105,7 +131,7 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
                 if (component.gameObject.name == names[str])
                 {
                     if (!_entities.ContainsKey(str))  // 키가 이미 존재하는지 확인
-                    {
+                    {                        
                         _entities.Add(str, uientity);
                     }
                     break;
@@ -132,6 +158,8 @@ public abstract class UI_Entity : MonoBehaviour, IPointerEnterHandler, IPointerU
             GameManager.Resources.Destroy(gameObject);
     }
 
+    public virtual void PopupOnEnable() { }
+    public virtual void PopupOnDisable() { }
 
     protected abstract Type GetUINamesAsType();
 

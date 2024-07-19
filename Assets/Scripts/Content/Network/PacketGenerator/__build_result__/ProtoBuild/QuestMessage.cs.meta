@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+<<<<<<< HEAD
+guid: 70143c54277cb0c439c65131e8600e90
+=======
+<<<<<<<< HEAD:Assets/Scripts/Content/Network/PacketGenerator/__build_result__/ProtoBuild/ItemMessage.cs.meta
+guid: d82857be468b2e042ac666337168e1ff
+========
+guid: a7c588825a6948344bf279064f88497a
+>>>>>>>> feature/quest:Assets/Scripts/Content/Network/PacketGenerator/__build_result__/ProtoBuild/QuestMessage.cs.meta
+>>>>>>> feature/quest
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

@@ -27,13 +27,13 @@ public class NetworkManager : SubClass<GameManager>
     protected override void _Init()
     {
         _metrics.Init();
-        _metrics.AddPacketPair(PacketHandler.PacketType.PKT_C_DELETE_CHARACTER, PacketHandler.PacketType.PKT_S_DELETE_CHARACTER);
+        //_metrics.AddPacketPair(PacketHandler.PacketType.PKT_C_DELETE_CHARACTER, PacketHandler.PacketType.PKT_S_DELETE_CHARACTER);
         _metrics.AddUnityWatcher(
             // entry
-            () => { GameManager.UI.OpenPopup(GameManager.UI.BlockAll); },
+            () => { GameManager.UI.BlockAll.gameObject.SetActive(true); },
             // callback
             (signal) => {
-                GameManager.UI.ClosePopup(GameManager.UI.BlockAll);
+                GameManager.UI.BlockAll.gameObject.SetActive(false);
 
                 if (signal.signalType == TimeoutSignal.SignalType.TIMEOUT)
                 {

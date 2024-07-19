@@ -1,48 +1,122 @@
 syntax = "proto3";
+import "UnitMessage.proto";
 
-message EQUIP_ITEM {
-    int32 item_id = 1;
-    string item_name = 2;
-    string item_class = 3;
-    string item_type = 4;
-    string item_grade = 5;
-    string item_detailtype = 6;
-    int32 item_level = 7; 
-    int32 item_attack = 8;
-    int32 item_defense = 9;
-    int32 item_speed = 10;
-    int32 item_attackspeed = 11;
-    int32 item_hp = 12;
-    int32 item_mp = 13;
-    int32 item_exp = 14;
-    int32 item_maxhp = 15;
-    int32 item_maxmp = 16;
-    int32 item_maxcount = 17;
+message ITEM_DATA {
+    int32 id = 1;
+    int32 attributes = 2;
+    int64 selling_price = 3;
+    int32 max_count = 4;
+    
+    enum ITEM_TYPES
+    {
+        EQUIPMENT = 0;
+        CONSUMPTION = 1;
+        ETC = 2; 
+    }
+    enum ITEM_GRADES
+    {
+        NORMAL = 0;
+        RARE = 1;
+        EPIC = 2;
+        UNIQUE = 3;
+        LEGENDARY = 4;
+    }
 }
 
-message CONSUME_ITEM {
-    int32 item_id = 1;
-    string item_name = 2;
-    string item_class = 3;
-    string item_type = 4;
-    string item_grade = 5;
-    string item_detailtype = 6;
-    int32 item_level = 7; 
-    int32 item_attack = 8;
-    int32 item_defense = 9;
-    int32 item_speed = 10;
-    int32 item_attackspeed = 11;
-    int32 item_hp = 12;
-    int32 item_mp = 13;
-    int32 item_exp = 14;
-    int32 item_maxhp = 15;
-    int32 item_maxmp = 16;
-    int32 item_maxcount = 17;
+message STATE_ITEM_DATA {
+    ITEM_DATA item_data = 1;
+    int32 level = 2; 
+    int32 attack_boost = 3;
+    int32 defense_boost = 4;
+    int32 speed_boost = 5;
+    int32 attack_speed_boost = 6;
+    int32 exp_boost = 7;
+    int32 hp_recovery = 8;
+    int32 mp_recovery = 9;
+    int32 maxHp_boost = 10;
+    int32 maxMp_boost = 11;
+    bool duration_bool = 12;
+    float duration = 13;
+}
+
+message CONSUMPTION_ITEM_DATA {
+  
+    STATE_ITEM_DATA stateitem_data = 1;
+
+    enum CONSUMPTION_DETAIL_TYPE
+    {
+        POTION = 0;
+        BOX = 1;
+    }
+}
+
+message EQUIPMENT_ITEM_DATA {
+    STATE_ITEM_DATA stateitem_data = 1;
+    int32 max_reinforcement = 2;
+   
+    enum EQUIPMENT_DETAIL_TYPE
+    {
+        WEAPON = 0;
+        HEAD = 1;
+        BODY = 2;
+        HAND = 3;
+        FOOT = 4;
+    }
+    enum ITEM_CLASS
+    {
+        Warrior = 0;
+        Wizard = 1;
+        Archer = 2;
+    }
+}
+
+message DYNAMIC_ITEM_DATA {
+    int32 count = 1;
+    int32 slot_num = 2;
+}
+
+message REINFORCEMENT_ITEM_DATA{
+    int32 attack_boost = 1;
+    int32 defense_boost = 2;
+    int32 speed_boost = 3;
+    int32 attack_speed_boost = 4;
+    int32 maxHp_boost = 5;
+    int32 maxMp_boost = 6;
+    int32 current_reinforcement = 7;
 }
 
 message ETC_ITEM {
-    int32 item_id = 1;
-    string item_name = 2; 
-    string item_type = 3;
-    int32 item_maxcount = 4;
+    int64 unique_id = 1;
+    ITEM_DATA item_data = 2;
+    DYNAMIC_ITEM_DATA dyn_item_data = 3;
+}
+
+message CONSUMPTION_ITEM {
+    int64 unique_id = 1;
+    CONSUMPTION_ITEM_DATA consume_item_data = 2;
+    DYNAMIC_ITEM_DATA dyn_item_data = 3;
+}
+
+message EQUIPMENT_ITEM {
+    int64 unique_id = 1;
+    EQUIPMENT_ITEM_DATA equip_item_data = 2;
+    DYNAMIC_ITEM_DATA dyn_item_data = 3;
+    REINFORCEMENT_ITEM_DATA reinforce_item_data = 4;
+}
+
+message ITEM_DATA_INFO {
+    oneof item_data_info {
+        ETC_ITEM etc_item = 2;
+        CONSUMPTION_ITEM consume_item = 3;
+        EQUIPMENT_ITEM equip_item = 4;
+    }
+}
+
+message ITEM_DATA_INFO_WITH_POS {
+    oneof item_data_info {
+        ETC_ITEM etc_item = 1;
+        CONSUMPTION_ITEM consume_item = 2;
+        EQUIPMENT_ITEM equip_item = 3;
+    }
+    VECTOR3 pos = 4;
 }

@@ -100,6 +100,10 @@ public abstract class CharacterState : SubMono<PlayerController>
         }));
         state.Add((int)Enum_CharacterState.Attack, new State(() => 
         {
+            if (_board._playerMovement._moveTowardsNpcCoroutine != null)
+            {
+                _board._playerMovement.StopNpcMoveCoroutine();
+            }
             _board._playerStat.EffectDamage();
             _board._playerMovement.IsKinematic(true);
             _board._animationController.ChangeMoveAnimation(0);
@@ -189,6 +193,11 @@ public abstract class CharacterState : SubMono<PlayerController>
     {
         //print($"현재상태 {(Enum_CharacterState)newState}");
         stateMachine.ChangeState(state[newState]);
+    }
+
+    public void UseSkill(bool use)
+    {
+        skillUseCheck = use;
     }
 
     public void Alive()

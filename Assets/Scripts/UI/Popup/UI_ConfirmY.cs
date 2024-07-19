@@ -30,17 +30,21 @@ public class UI_ConfirmY : UI_Entity
         ExistUser,
         SignUpSuccess,
         LoginFail,
-        ExistNickName
+        NoSpecialCharacters,
+        LimitNickNameLength,
+        ExistNickName,
+        CharacterDeleteFail,
+        CharacterDeleteSuccess
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!_init || !_useBlocker) return;
 
         GameManager.UI.UseBlocker(true);
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
         GameManager.UI.UseBlocker(false);
     }
@@ -57,7 +61,14 @@ public class UI_ConfirmY : UI_Entity
         _mainText = _entities[(int)Enum_UI_Confirm.MainText].GetComponent<TMP_Text>();
 
         _entities[(int)Enum_UI_Confirm.Accept].ClickAction = (PointerEventData data) => {
-            GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
+            if (confirmType == Enum_ConfirmTypes.SignUpSuccess)
+            {
+                GameManager.UI.ClosePopup(GameManager.UI.SignUp);
+            }
+            else
+            {
+                GameManager.UI.ClosePopup(GameManager.UI.ConfirmY);
+            }
         };
 
         gameObject.SetActive(false);
@@ -85,11 +96,29 @@ public class UI_ConfirmY : UI_Entity
             case Enum_ConfirmTypes.LoginFail:
                 _mainText.text = $"로그인에 실패했습니다. 잠시 후에 다시 시도하십시오.";
                 break;
+            case Enum_ConfirmTypes.NoSpecialCharacters:
+                _mainText.text = $"특수문자는 사용이 불가합니다.";
+                break;
+            case Enum_ConfirmTypes.LimitNickNameLength:
+                _mainText.text = $"2자 이상 12자 이하로 입력하십시오.";
+                break;
             case Enum_ConfirmTypes.ExistNickName:
                 _mainText.text = $"존재하는 닉네임 입니다!";
+                break;
+            case Enum_ConfirmTypes.CharacterDeleteFail:
+                _mainText.text = $"캐릭터 삭제에 실패하였습니다.";
+                break;
+            case Enum_ConfirmTypes.CharacterDeleteSuccess:
+                _mainText.text = $"캐릭터가 삭제 되였습니다.";
                 break;
             default:
                 break;
         }
+    }
+
+    public override void EnterAction()
+    {
+        base.EnterAction();
+        _entities[(int)Enum_UI_Confirm.Accept].ClickAction?.Invoke(null);
     }
 }

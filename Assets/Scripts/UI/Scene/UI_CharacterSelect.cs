@@ -9,14 +9,14 @@ public class UI_CharacterSelect : UI_Entity
 {
     GameObject panel;
     int _totalSlot = 4;
-    UI_Slot[] characterSlots;
 
     enum Enum_UI_CharSelect
     {
-        Setting,
         Panel,
         Start,
-        Delete
+        Delete,
+        Settings,
+        GoBack
     }
 
     protected override Type GetUINamesAsType()
@@ -29,16 +29,34 @@ public class UI_CharacterSelect : UI_Entity
         base.Init();
 
         panel = _entities[(int)Enum_UI_CharSelect.Panel].gameObject;
-
-        characterSlots = new UI_Slot[_totalSlot];
         _DrawCharacterSlot();
 
-        _entities[(int)Enum_UI_CharSelect.Setting].ClickAction = (PointerEventData data) => {
+        _entities[(int)Enum_UI_CharSelect.Settings].ClickAction = (PointerEventData data) => {
             GameManager.UI.OpenOrClose(GameManager.UI.Settings);
         };
 
         _entities[(int)Enum_UI_CharSelect.Start].ClickAction = (PointerEventData data) => {
-            UI_Loading.LoadScene("StatePattern");
+#if SERVER
+            if (GameManager.Data.CurrentCharacter.BaseInfo == null) return;
+
+            C_INGAME load_ingame_pkt = new C_INGAME();
+            load_ingame_pkt.CharacterId = GameManager.Data.CurrentCharacter.BaseInfo.CharacterId;
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(load_ingame_pkt));
+
+            UI_Loading.LoadScene("InGame");
+#elif DEBUG_MODE
+            GameManager.Data.SelectedSlotNum = 0;
+
+            C_INGAME load_ingame_pkt = new C_INGAME();
+            load_ingame_pkt.CharacterId = GameManager.Data.CurrentCharacter.BaseInfo.CharacterId;
+            GameManager.Network.Send(PacketHandler.Instance.SerializePacket(load_ingame_pkt));
+
+            UI_Loading.LoadScene("InGame");
+#elif CLIENT_TEST_TITLE
+            if (GameManager.Data.CurrentCharacter == null) return;
+
+            UI_Loading.LoadScene("InGame");
+#endif
         };
 
         // 캐릭터 삭제
@@ -46,6 +64,14 @@ public class UI_CharacterSelect : UI_Entity
             GameManager.UI.ConfirmYN.ChangeText(UI_ConfirmYN.Enum_ConfirmTypes.AskDeleteCharacter);
             GameManager.UI.OpenPopup(GameManager.UI.ConfirmYN);
         };
+
+        _entities[(int)Enum_UI_CharSelect.GoBack].ClickAction = (PointerEventData data) => {
+            GameManager.Scene.LoadPreviousScene();
+        };
+
+#if DEBUG
+        _entities[(int)Enum_UI_CharSelect.Start]?.ClickAction(null);
+#endif
     }
 
     void _DrawCharacterSlot()
@@ -53,10 +79,7 @@ public class UI_CharacterSelect : UI_Entity
         for (int i = 0; i < _totalSlot; i++)
         {
             GameObject slot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/CharacterSlot", panel.transform);
-            characterSlots[i] = slot.GetComponent<UI_Slot>();
-            characterSlots[i].Index = i;
+            slot.GetComponent<UI_CharacterSlot>().Index = i;
         }
-
-        characterSlots[0].gameObject.GetComponent<Toggle>().isOn = true;
     }
 }

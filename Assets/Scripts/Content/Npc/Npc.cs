@@ -4,53 +4,89 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum Enum_NpcType
+{
+    Quest,
+    Shop
+    // TODO : 제작 Npc 등등
+}
+
 public class Npc : MonoBehaviour
 {
+    string npcName;
     [SerializeField]
     int npcID;
+
+    public string NpcName
+    {
+        get { return npcName; }
+        set { npcName = value; }
+    }
     public int NpcID
     {
         get { return npcID; }
         set { npcID = value; }
     }
-    [SerializeField]
-    string npcName;
-    List<Quest> assignedQuests = new List<Quest>();
+    public Enum_NpcType npcType { get; set; }
+    public string DefaultText { get; set; }
 
-    List<Quest> accessibleQuests = new List<Quest>();
-    public List<Quest> AccessibleQuests
+    [SerializeField]
+    QuestMarkers questMarker;
+
+    /// <summary>
+    /// NPC가 퀘스트 진행 상황 변화에 맞게 퀘스트 아이콘 업데이트할 수 있도록 함
+    /// </summary>
+    public void DetectQuestProgress(Quest quest)
     {
-        get
+        quest.OnQuestProgressChanged += UpdateQuestIcon;
+    }
+
+    /// <summary>
+    /// NPC와 상호작용 시작. 대화 팝업이 생성되고, NPC 타입에 따라 퀘스트 팝업이나 상점 팝업 열림.
+    /// </summary>
+    public void StartInteract()
+    {
+        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
+        switch (npcType)
         {
-            accessibleQuests.Clear();
-            foreach (var quest in assignedQuests)
-            {
-                if (quest.progress != Enum_QuestProgress.UnAvailable && quest.progress != Enum_QuestProgress.Completed)
+            case Enum_NpcType.Quest:
+                if (GameManager.UI.QuestAccessible.CheckAccessibleQuests(npcID))
                 {
-                    accessibleQuests.Add(quest);
+                    GameManager.UI.OpenPopup(GameManager.UI.QuestAccessible);
                 }
-            }
-            return accessibleQuests;
+                break;
+            case Enum_NpcType.Shop:
+                GameManager.UI.Shop.shopPurchase.DrawSellingItems(npcID); // 수정 필요
+                GameManager.UI.OpenPopup(GameManager.UI.Shop);
+                break;
+            default:
+#if UNITY_EDITOR
+                Debug.Assert(false);
+#endif
+                break;
         }
     }
 
-    public void AssignQuest(Quest quest)
-    {
-        assignedQuests.Add(quest);
-        quest.OnQuestProgressChanged += UpdateQuestIcon;
-    }
-    
-    // 퀘스트 상태에 따라 아이콘 업데이트
+    /// <summary>
+    /// 퀘스트 상태에 따라 아이콘 업데이트
+    /// </summary>
     public void UpdateQuestIcon()
     {
-        int progressCount = assignedQuests.Select(quest => quest.progress switch
+        if (GameManager.Quest.questsByNpcID.TryGetValue(npcID, out var quests))
         {
-            Enum_QuestProgress.Available => 3,
-            Enum_QuestProgress.CanComplete => 2,
-            Enum_QuestProgress.Ongoing => 1,
-            _ => 0
-        }).Max();
+            int progressCount = GameManager.Quest.questsByNpcID[npcID].Select(quest => quest.progress switch
+            {
+                Enum_QuestProgress.CanComplete => 3,
+                Enum_QuestProgress.Available => 2,
+                Enum_QuestProgress.Ongoing => 1,
+                _ => 0
+            }).Max();
 
-        GetComponentInChildren<QuestMarkers>().ProgressCount = progressCount;
+            questMarker.ProgressCount = progressCount;
+        }
+        else
+        {
+            return; // 키가 존재하지 않음
+        }
     }
 }

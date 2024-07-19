@@ -56,7 +56,7 @@ public class UI_PlayerInfo : UI_Entity
         return typeof(Enum_UI_PlayerInfo);
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
         if (!_init) return;
 
@@ -66,9 +66,9 @@ public class UI_PlayerInfo : UI_Entity
         }
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
-        GameManager.UI.PointerOnUI(false);
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
     }
 
     protected override void Init()
@@ -96,12 +96,12 @@ public class UI_PlayerInfo : UI_Entity
             // UI위에 커서 있을 시 캐릭터 행동 제약
             _subUI.PointerEnterAction = (PointerEventData data) =>
             {
-                GameManager.UI.PointerOnUI(true);
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, true);
             };
 
             _subUI.PointerExitAction = (PointerEventData data) =>
             {
-                GameManager.UI.PointerOnUI(false);
+                GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockMouseClick, false);
             };
         }
 
@@ -161,7 +161,7 @@ public class UI_PlayerInfo : UI_Entity
 
         _infoBoard.transform.GetChild(1).GetChild(0).GetComponent<TMP_Text>().text = "직업";
         _job = _infoBoard.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>();
-        string strJob = Enum.GetName(typeof(Enum_Class), character.BaseInfo.Job);
+        string strJob = Enum.GetName(typeof(Enum_Class), character.BaseInfo.CharacterClass);
         _job.text = $"{strJob}";
 
         _infoBoard.transform.GetChild(2).GetChild(0).GetComponent<TMP_Text>().text = "성별";
@@ -173,7 +173,7 @@ public class UI_PlayerInfo : UI_Entity
         _levelText = _infoBoard.transform.GetChild(3).GetChild(1).GetComponent<TMP_Text>();
         _levelText.text = $"{character.Stat.Level}";
 
-        _infoBoard.transform.GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = "경험치/최대 경험치";
+        _infoBoard.transform.GetChild(4).GetChild(0).GetComponent<TMP_Text>().text = "경험치";
         _expText = _infoBoard.transform.GetChild(4).GetChild(1).GetComponent<TMP_Text>();
         _expText.text = $"{character.Stat.Exp}/{character.Stat.MaxEXP}";
 

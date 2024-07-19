@@ -118,7 +118,7 @@ public class UI_ShopBasketSlot : UI_Entity
 
         if (shopPurchase.shopBasketItems[index].itemType == Enum_ItemType.Equipment) // 장비아이템 설명
         {
-            StateItemData itemData = ItemParsing.itemDatas[shopPurchase.shopBasketItems[index].id] as StateItemData;
+            StateItemData itemData = GameManager.Data.itemDatas[shopPurchase.shopBasketItems[index].id] as StateItemData;
             if (itemData != null)
             {
                 int[] stats = { itemData.level, itemData.attack, itemData.defense, itemData.speed, itemData.attackSpeed, itemData.maxHp, itemData.maxMp };

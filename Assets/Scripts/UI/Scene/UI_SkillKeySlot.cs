@@ -66,17 +66,17 @@ public class UI_SkillKeySlot : UI_Entity
         {
             if (data.pointerDrag != null)
             {
-                print("발생함");
+              //  print("발생함");
             }
             else
             {
-                print("발생 안함");
+                //print("발생 안함");
             }
        
             // 엑티브 스킬이랑 패시브 스킬이면
             if (data.pointerDrag.gameObject.tag == "ActiveSkill" || data.pointerDrag.gameObject.tag == "PassiveSkill")
             {
-                print(data.pointerDrag.gameObject.name);
+               // print(data.pointerDrag.gameObject.name);
                 // 아까 닿았던 스킬 정보를 가져오고
                 skill = data.pointerDrag.transform.parent.GetComponent<UI_SkillUISlot>().SkillReturn();
                 coolTimeCheck.CoolTimeChanage(skill);
@@ -165,7 +165,7 @@ public class UI_SkillKeySlot : UI_Entity
         if (skill == null)
         {
             playerState.ChangeState((int)Enum_CharacterState.Idle);
-            print("스킬이 없습니다.");
+            //print("스킬이 없습니다.");
             return;
         }
         else

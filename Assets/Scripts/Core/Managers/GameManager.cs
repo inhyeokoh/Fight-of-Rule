@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     {
         get
         {
-            //필요시 부활시켜서 다시 사용.
-            /*if(_Intance == null)
+/*            //필요시 부활시켜서 다시 사용.
+            if (_Instance == null)
             {
                 GameObject go = new GameObject("@@Manager");
                 go.AddComponent<GameManager>();
@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     }
 
     List<SubClass<GameManager>> _managers;
-
+        
 
     /*==================
      *     Pool
@@ -57,6 +57,11 @@ public class GameManager : MonoBehaviour
     ThreadManager _threadPool = new ThreadManager();
     public static ThreadManager ThreadPool { get {  return Instance._threadPool; } }
 
+    /// <summary>
+    /// Test
+    /// </summary>
+    PoolManagerBeta _poolBeta = new PoolManagerBeta();
+    public static PoolManagerBeta PoolBeta { get { return Instance._poolBeta; } }
 
     SoundManager _sound = new SoundManager();
     public static SoundManager Sound { get { return Instance._sound; } }
@@ -88,14 +93,15 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public static DataManager Data { get { return Instance._dataManager; } }
 
+
     /*==================
-    *    SceneManager
+    *    SceneControlManager
     =================*/
-    SceneManager2 _sceneManager = new SceneManager2();
+    SceneControlManager _sceneControlManager = new SceneControlManager();
     /// <summary>
-    /// Change Scene
+    /// Control progress when changing scenes
     /// </summary>
-    public static SceneManager2 Scene { get { return Instance._sceneManager; } }
+    public static SceneControlManager Scene { get { return Instance._sceneControlManager; } }
 
     /*==================
     *    InventoryManager
@@ -127,13 +133,14 @@ public class GameManager : MonoBehaviour
         _managers = new List<SubClass<GameManager>>()
         {
             _pool,
+            _poolBeta,
             _resources,
             _threadPool,
             _sound,
             _networkManager,
             _uiManager,
             _dataManager,
-            _sceneManager,
+            _sceneControlManager,
             _invenManager,
             _questManager
         };

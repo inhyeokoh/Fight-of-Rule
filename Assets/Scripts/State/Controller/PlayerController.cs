@@ -10,15 +10,12 @@ public enum Enum_Class
     Warrior,
     Wizard,
     Archer,
-    Default
 }
 
 //현재 플레이어의 메인보드 역할을 하는 클래스
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance = null;
-
-    public ItemData item;
 
     public List<SubMono<PlayerController>> _controller;
 
@@ -57,12 +54,15 @@ public class PlayerController : MonoBehaviour
 
     public Enum_Class _class;
 
-    float dialogDist = 5f;
-    Coroutine _moveTowardsNpcCoroutine;
+    float dialogDist = 3f;
+    
+    C_CHARACTER_MOVE character_move = new C_CHARACTER_MOVE();
+    VECTOR3 character_current_pos = new VECTOR3();
+    VECTOR3 character_target_pos = new VECTOR3();
 
     private void Awake()
     {
-        _class = Enum_Class.Warrior;
+        _class = Enum_Class.Wizard;
 
         if (instance == null)
         {
@@ -124,11 +124,11 @@ public class PlayerController : MonoBehaviour
                     _levelSystem = clone.GetComponent<LevelSystem>();
                     break;
                 }
-        }
+        }        
 
         camera = Camera.main;
 
-        _controller = new List<SubMono<PlayerController>>
+        /*_controller = new List<SubMono<PlayerController>>
         {
             _playerStat,
             _playerState,
@@ -151,12 +151,35 @@ public class PlayerController : MonoBehaviour
             _controller[i].Init();
         }
 
-        _playerState.StateAdd();
+        _playerState.StateAdd();*/
+
+        
     }
 
     private void Start()
     {
-        
+        _controller = new List<SubMono<PlayerController>>
+        {
+            _playerStat,
+            _playerState,
+            _playerExternalStat,
+            _playerEquipment,
+            _playerMovement,
+            _playerCapability,
+            _eventHandler,
+            _animationController,
+            _effector,
+            _interaction,
+            _levelSystem
+        };
+
+        for (int i = 0; i < _controller.Count; i++)
+        {
+            _controller[i].Mount(this);
+            _controller[i].Init();
+        }
+        SkillManager.Skill.PlayerData();
+        _playerState.StateAdd();
     }
 
     // 현재 상태패턴 그리고 장비 상태패턴 호출
@@ -205,36 +228,38 @@ public class PlayerController : MonoBehaviour
 
     //플레이어의 입출력부분을 담당하는 메서드들인데 이걸 입출력 클래스를 하나 만들어서 옮겨야 될거같음
 
-    public void OnMove(InputAction.CallbackContext context)
+    public void Move(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
             // 기존 코루틴이 실행 중이면 중지
-            if (_moveTowardsNpcCoroutine != null)
+            if (_playerMovement._moveTowardsNpcCoroutine != null)
             {
-                StopCoroutine(_moveTowardsNpcCoroutine);
-                _moveTowardsNpcCoroutine = null;
+                _playerMovement.StopNpcMoveCoroutine();
+                _playerMovement._moveTowardsNpcCoroutine = null;
             }
 
             Ray rayR = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
             RaycastHit hit;
 
-            if (Physics.Raycast(rayR, out hit, 100, 1 << 15))
+            if (Physics.Raycast(rayR, out hit, 200, 1 << 15))
             {
                 GameObject hitObject = hit.collider.gameObject;
                 if (hitObject.CompareTag("Npc"))
                 {
-                    float distanceToNpc = Vector3.Distance(hitObject.transform.position, _playerMovement.transform.position);
-                    // NPC와의 거리가 일정거리 이내일 때 대화 상자
+                    float distanceToNpc = Vector3.Distance(hitObject.transform.position, _playerMovement.playerTransform.position);
+                    // NPC와의 거리가 일정거리 이내일 때 NPC와 상호작용
                     if (distanceToNpc < dialogDist)
                     {
-                        GameManager.UI.Dialog.HandOverNpcID(hitObject.GetComponent<Npc>().NpcID);
-                        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
+                        Npc npc = hitObject.GetComponent<Npc>();
+                        _interaction.InteractingNpcID = npc.NpcID;
+                        _playerMovement.TargetPosition = _playerMovement.playerTransform.position;
+                        npc.StartInteract();
                     }
                     else
                     {
-                        // NPC 방향으로 이동 후, 일정거리 도달 시 대화장자
-                        _moveTowardsNpcCoroutine = StartCoroutine(MoveTowardsNpc(hitObject, dialogDist));
+                        // NPC 방향으로 이동 후, 일정거리 도달 시 NPC와 상호작용
+                        _playerMovement.StartNpcMoveCoroutne(hitObject, dialogDist);
                     }
                 }
             }
@@ -249,7 +274,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (Physics.Raycast(ray, out hit, 100, 1 << 6))
                     {                  
-                        test.position = hit.point;
+                      //  test.position = hit.point;
                         _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                         hit.point.z);
                         return;
@@ -257,9 +282,22 @@ public class PlayerController : MonoBehaviour
                 }
                 if (Physics.Raycast(ray, out hit, 100, 1 << 6))
                 {
-                    test.position = hit.point;
-                    _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
+                  //  test.position = hit.point;
+                    _playerMovement.TargetPosition = new Vector3(hit.point.x,/* _playerMovement.playerTransform.position.y,*/hit.point.y,
                     hit.point.z);
+
+                    character_current_pos.X = Utils.Scaling(_playerMovement.playerTransform.position.x);
+                    character_current_pos.Y = Utils.Scaling(_playerMovement.playerTransform.position.y);
+                    character_current_pos.Z = Utils.Scaling(_playerMovement.playerTransform.position.z);
+
+                    character_target_pos.X = Utils.Scaling(hit.point.x);
+                    character_target_pos.Y = Utils.Scaling(hit.point.y);
+                    character_target_pos.Z = Utils.Scaling(hit.point.z);
+
+                    character_move.CurrentPos = character_current_pos;
+                    character_move.TargetPos = character_target_pos;
+
+                    GameManager.Network.Send(PacketHandler.Instance.SerializePacket(character_move));
 
                     _playerState.ChangeState((int)Enum_CharacterState.Move);
 
@@ -268,32 +306,10 @@ public class PlayerController : MonoBehaviour
 
         }     
     }
-
-    IEnumerator MoveTowardsNpc(GameObject hitObject, float dialogDist)
-    {
-        Vector3 npcPosition = hitObject.transform.position;
-        // NPC와의 방향 벡터 계산
-        Vector3 direction = (npcPosition - _playerMovement.transform.position).normalized;
-        // NPC로부터 dialogDist만큼 떨어진 지점 계산
-        Vector3 targetPosition = npcPosition - direction * dialogDist;
-
-        while (Vector3.Distance(_playerMovement.transform.position, targetPosition) > 0.1f)
-        {
-            _playerMovement.TargetPosition = new Vector3(targetPosition.x, _playerMovement.playerTransform.position.y, targetPosition.z);
-            _playerState.ChangeState((int)Enum_CharacterState.Move);
-
-            // 플레이어가 목표 지점에 도달할 때까지 이동
-            yield return null;
-        }
-
-        GameManager.UI.Dialog.HandOverNpcID(hitObject.GetComponent<Npc>().NpcID);
-        GameManager.UI.OpenPopup(GameManager.UI.Dialog);
-    }
-
-    public void OnAvoid(InputAction.CallbackContext context)
+    public void Avoid(InputAction.CallbackContext context)
     {
 
-        if (context.action.phase == InputActionPhase.Started)
+        if (context.action.phase == InputActionPhase.Performed)
         {
             if (_playerState.CharacterStates == Enum_CharacterState.Fall ||
           _playerState.CharacterStates == Enum_CharacterState.Dead)
@@ -312,7 +328,7 @@ public class PlayerController : MonoBehaviour
             }
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {
-                test.position = hit.point;
+               // test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 _playerState.ChangeState((int)Enum_CharacterState.Avoid);
@@ -326,11 +342,9 @@ public class PlayerController : MonoBehaviour
         {
             _playerStat.EXP += 2000000;      
         }
-
-
     }
 
-    public void OnClick(InputAction.CallbackContext context)
+    public void Click(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
@@ -346,7 +360,7 @@ public class PlayerController : MonoBehaviour
 
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {               
-                test.position = hit.point;
+                //test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 _playerState.ChangeState((int)Enum_CharacterState.Attack);
@@ -355,7 +369,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnSkillQ(InputAction.CallbackContext context)
+    public void Skill1(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -372,7 +386,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {              
-                test.position = hit.point;
+                //test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);                              
                 ketSlots[0].Use(_playerState, _playerStat);
@@ -380,7 +394,7 @@ public class PlayerController : MonoBehaviour
         }           
     }
 
-    public void OnSkillW(InputAction.CallbackContext context)
+    public void Skill2(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -397,14 +411,14 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {
-                test.position = hit.point;
+              //  test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);              
                 ketSlots[1].Use(_playerState, _playerStat);
             }          
         }
     }
-    public void OnSkillE(InputAction.CallbackContext context)
+    public void Skill3(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -421,14 +435,14 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {              
-                test.position = hit.point;
+               // test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 ketSlots[2].Use(_playerState, _playerStat);
             }    
         }
     }
-    public void OnSkillR(InputAction.CallbackContext context)
+    public void Skill4(InputAction.CallbackContext context)
     {
         if (_playerState.CharacterStates == Enum_CharacterState.Avoid ||
             _playerState.CharacterStates == Enum_CharacterState.Hit ||
@@ -445,7 +459,7 @@ public class PlayerController : MonoBehaviour
         {
             if (Physics.Raycast(ray.origin, ray.direction, out RaycastHit hit, 100, 1 << 6))
             {               
-                test.position = hit.point;
+              //  test.position = hit.point;
                 _playerMovement.TargetPosition = new Vector3(hit.point.x, _playerMovement.playerTransform.position.y,
                hit.point.z);
                 ketSlots[3].Use(_playerState, _playerStat);
@@ -453,7 +467,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void OnDeadCheck(InputAction.CallbackContext context)
+   /* public void DeadCheck(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
@@ -461,16 +475,14 @@ public class PlayerController : MonoBehaviour
         }       
     }
 
-    public void OnAliveCheck(InputAction.CallbackContext context)
+    public void AliveCheck(InputAction.CallbackContext context)
     {
         if (context.action.phase == InputActionPhase.Started)
         {
             print("눌렀음");
             _playerState.ChangeState((int)Enum_CharacterState.Idle);
         }
-    }
-
-
+    }*/
 
     // 이벤트들에 정보들을 받기위한 메서드들
     public void DistributeState(int Event)
@@ -504,5 +516,6 @@ public class PlayerController : MonoBehaviour
     {
         _effector.EffectBurstStop();
     }
+
 
 }

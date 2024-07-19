@@ -6,22 +6,27 @@ using UnityEngine.EventSystems;
 using TMPro;
 using UnityEngine.UI;
 
+public struct ShopItem
+{
+    public int itemID;
+    public int itemPrice;
+    public Sprite iconSprite;
+}
+
 public class UI_ShopPurchase : UI_Entity
 {
     GameObject shopSlots;
     GameObject goldPanel;
     GameObject basket;
-    UI_Shop shopUI;
 
     public ItemData[] shopItems;
-    public int shopItemCount;
-    public int shopTotalCount; // 물품 담을 수 있는 칸 수
+    public ShopItem[] shopItemList;
+    public int shopTotalCount = 8; // 물품 담을 수 있는 칸 수
     public ItemData[] shopBasketItems;
-    public int shopBasketCount;
+    public int shopBasketCount = 6;
 
     long _totalPurchaseGold;
     public long AfterPurchaseGold { get; private set; }
-
     enum Enum_UI_ShopPurchase
     {
         ShopSlots,
@@ -41,10 +46,10 @@ public class UI_ShopPurchase : UI_Entity
         _UpdateSlotUIs();
     }
 
-    private void OnDisable()
+/*    private void OnDisable()
     {
         GameManager.UI.PointerOnUI(false);
-    }
+    }*/
 
     protected override void Init()
     {
@@ -52,7 +57,6 @@ public class UI_ShopPurchase : UI_Entity
         shopSlots = _entities[(int)Enum_UI_ShopPurchase.ShopSlots].gameObject;
         goldPanel = _entities[(int)Enum_UI_ShopPurchase.GoldPanel].gameObject;
         basket = _entities[(int)Enum_UI_ShopPurchase.Basket].gameObject;
-        shopUI = transform.GetComponentInParent<UI_Shop>();
         shopTotalCount = 8;
         shopBasketCount = 6;
         shopBasketItems = new ItemData[shopBasketCount];
@@ -86,21 +90,10 @@ public class UI_ShopPurchase : UI_Entity
 
     void _DrawSlots()
     {
-        var item = CSVReader.Read("Data/SheetsToCsv/bin/Debug/TableFiles/ShopTable");
-        shopItemCount = item.Count;
-        shopItems = new ItemData[shopItemCount];
-
         for (int i = 0; i < shopTotalCount; i++)
         {
             GameObject _shopSlot = GameManager.Resources.Instantiate("Prefabs/UI/Scene/ShopSlot", shopSlots.transform);
             _shopSlot.GetComponent<UI_ShopSlot>().Index = i;
-
-            if (i < shopItemCount)
-            {
-                // id에 해당하는 아이템 참조
-                int id = int.Parse(item[i]["id"]);
-                shopItems[i] = GameManager.Data.itemDatas[id];
-            }
         }
 
         for (int i = 0; i < shopBasketCount; i++)
@@ -110,16 +103,31 @@ public class UI_ShopPurchase : UI_Entity
         }
     }
 
+
+    public void DrawSellingItems(int npcID)
+    {
+        shopItemList = GameManager.Data.shopDict[npcID];
+        shopItems = new ItemData[shopItemList.Length];
+
+        for (int i = 0; i < shopItemList.Length; i++)
+        {
+            // id에 해당하는 아이템 참조
+            int id = shopItemList[i].itemID;
+            shopItems[i] = GameManager.Data.itemDatas[id];
+        }
+    }
+
     // 골드 계산 갱신
     public void UpdateGoldPanel()
     {
         _totalPurchaseGold = 0;
-        foreach (var item in shopBasketItems)
+        for (int i = 0; i < shopBasketItems.Length; i++)
         {
-            if (item == null) continue;
+            if (shopBasketItems[i] == null) continue;
 
-            _totalPurchaseGold += item.purchaseprice * item.count;
+            _totalPurchaseGold += shopItemList[i].itemPrice * shopBasketItems[i].count;
         }
+
         goldPanel.transform.GetChild(0).GetChild(1).GetComponent<TMP_Text>().text = _totalPurchaseGold.ToString();
         AfterPurchaseGold = GameManager.Inven.Gold - _totalPurchaseGold;
         goldPanel.transform.GetChild(1).GetChild(1).GetComponent<TMP_Text>().text = AfterPurchaseGold.ToString();

@@ -2,31 +2,24 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine.UI;
 
 public class UI_Dialog : UI_Entity
 {
-    List<Quest> accessibleQuests;
+    bool _init;
+    VCamSwitcher vCamSwitcher;
 
+    #region 대화창
+    TMP_Text mainText;
     GameObject nextButton;
     GameObject acceptButton;
-    GameObject questPanel;
-    GameObject canComplete;
-    GameObject available;
-    GameObject ongoing;
-    TMP_Text mainText;
-    string defaultText = "오늘은 무슨 일이 생기려나...";
-
-    ToggleGroup toggleGroup;
-    Quest selectedQuest;
     int dialogCount;
-        
+    #endregion
+
+    Quest selectedQuest;
+
     enum Enum_UI_Dialog
     {
-        Panel,
-        QuestPanel,
+        DialogPanel,
         MainText,
         Next,
         Accept,
@@ -38,41 +31,35 @@ public class UI_Dialog : UI_Entity
         return typeof(Enum_UI_Dialog);
     }
 
-    private void OnEnable()
+    public override void PopupOnEnable()
     {
-        if (GameManager.UI.init)
-        {
-            // UI 위에서 아닌 팝업 OnEnable시 제어
-            GameManager.UI.PointerOnUI(true);
-            nextButton.SetActive(false);
-            acceptButton.SetActive(false);
-            _ShowQuests();
-            mainText.text = defaultText;
-            dialogCount = 0;
-        }
+        if (PlayerController.instance._interaction.InteractingNpcID == -1) return;
+
+        GameManager.UI.CloseAllPopups(this);
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, true);
+        nextButton.SetActive(false);
+        acceptButton.SetActive(false);
+        vCamSwitcher?.SwitchToVCam2();
+
+        mainText.text = GameManager.Data.npcDict[PlayerController.instance._interaction.InteractingNpcID].DefaultText;
     }
 
-    private void OnDisable()
+    public override void PopupOnDisable()
     {
-        canComplete.gameObject.SetActive(false);
-        available.gameObject.SetActive(false);
-        ongoing.gameObject.SetActive(false);
-        GameManager.UI.PointerOnUI(false);
+        if (PlayerController.instance._interaction.InteractingNpcID == -1) return;
+
+        GameManager.UI.ReOpenPopups();
+        GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
+        vCamSwitcher?.SwitchToVCam1();
     }
 
     protected override void Init()
     {
         base.Init();
 
-        questPanel = _entities[(int)Enum_UI_Dialog.QuestPanel].gameObject;
+        vCamSwitcher = GameObject.FindWithTag("vCamSwitcher").GetComponent<VCamSwitcher>();
         nextButton = _entities[(int)Enum_UI_Dialog.Next].gameObject;
         acceptButton = _entities[(int)Enum_UI_Dialog.Accept].gameObject;
-        GameObject questList = _entities[(int)Enum_UI_Dialog.QuestPanel].transform.GetChild(0).gameObject;
-        toggleGroup = questList.GetComponent<ToggleGroup>();
-        canComplete = questList.transform.GetChild(0).gameObject;
-        available = questList.transform.GetChild(1).gameObject;
-        ongoing = questList.transform.GetChild(2).gameObject;
-
         mainText = _entities[(int)Enum_UI_Dialog.MainText].GetComponent<TMP_Text>();
 
         _entities[(int)Enum_UI_Dialog.Next].ClickAction = (PointerEventData data) => {
@@ -91,70 +78,49 @@ public class UI_Dialog : UI_Entity
                     GameManager.UI.ClosePopup(GameManager.UI.Dialog);
                     break;
                 default:
+#if UNITY_EDITOR
+                    Debug.Assert(false);
+#endif
                     break;
             }
         };
 
         _entities[(int)Enum_UI_Dialog.Cancel].ClickAction = (PointerEventData data) => {
+            switch (GameManager.Data.npcDict[PlayerController.instance._interaction.InteractingNpcID].npcType)
+            {
+                case Enum_NpcType.Quest:
+                    if (selectedQuest == null || selectedQuest.progress == Enum_QuestProgress.Available)
+                    {
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
+                    }
+                    else if (selectedQuest.progress == Enum_QuestProgress.CanComplete)
+                    {
+                        // 나가기는 퀘스트 완료 보상 안 받음
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
+                        GameManager.UI.ClosePopup(GameManager.UI.QuestComplete);
+                    }
+                    break;
+                case Enum_NpcType.Shop:
+                    GameManager.UI.ClosePopup(GameManager.UI.Shop);
+                    break;
+                default:
+#if UNITY_EDITOR
+                    Debug.Assert(false);
+#endif
+                    break;
+            }
             GameManager.UI.ClosePopup(GameManager.UI.Dialog);
         };
 
         gameObject.SetActive(false);
     }
 
-    public void HandOverNpcID(int npcID)
+    public void StartDialog()
     {
-        accessibleQuests = GameManager.Data.npcDict[npcID].AccessibleQuests ?? null;
-    }
-
-    void _ShowQuests()
-    {
-        if (accessibleQuests == null)
-        {
-            questPanel.SetActive(false);
-            return;
-        }
-
-        questPanel.SetActive(true);
-        foreach (var quest in accessibleQuests)
-        {
-            GameObject toggle;
-            switch (quest.progress)
-            {
-                case Enum_QuestProgress.Available:
-                    available.gameObject.SetActive(true);
-                    toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", available.transform.GetChild(1).transform);
-                    toggle.GetComponent<Toggle>().group = toggleGroup;
-                    toggle.transform.GetChild(0).GetComponent<TMP_Text>().text = quest.questData.title;
-                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => selectedQuest = quest);
-                    break;
-                case Enum_QuestProgress.Ongoing:
-                    ongoing.gameObject.SetActive(true);
-                    toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", ongoing.transform.GetChild(1).transform);
-                    toggle.GetComponent<Toggle>().group = toggleGroup;
-                    toggle.transform.GetChild(0).GetComponent<TMP_Text>().text = quest.questData.title;
-                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => selectedQuest = quest);
-                    break;
-                case Enum_QuestProgress.CanComplete:
-                    canComplete.gameObject.SetActive(true);
-                    toggle = GameManager.Resources.Instantiate("Prefabs/UI/Scene/QuestNameToggle", canComplete.transform.GetChild(1).transform);
-                    toggle.GetComponent<Toggle>().group = toggleGroup;
-                    toggle.transform.GetChild(0).GetComponent<TMP_Text>().text = quest.questData.title;
-                    toggle.GetComponent<Toggle>().onValueChanged.AddListener((value) => selectedQuest = quest);
-                    break;
-                default:
-                    break;
-            }
-        }
-        toggleGroup.ActiveToggles().FirstOrDefault();
-    }
-    
-    // 퀘스트 선택 후 다음 버튼 눌렀을 때 호출하는 메서드
-    public void ContinueWithSelectedQuest()
-    {
-        questPanel.SetActive(false);
+        GameManager.UI.ClosePopup(GameManager.UI.QuestAccessible);
         nextButton.SetActive(true);
-
+        selectedQuest = GameManager.Quest.CurrentSelectedQuest;
+        dialogCount = 0;
         _ContinueDialog();
     }
 
@@ -162,28 +128,30 @@ public class UI_Dialog : UI_Entity
     {
         switch (selectedQuest.progress)
         {
-
             case Enum_QuestProgress.Available:
-                mainText.text = selectedQuest.questData.desc[dialogCount++];
-                if (dialogCount == selectedQuest.questData.desc.Length)
+                mainText.text = selectedQuest.questData.conversationText[dialogCount++];
+                if (dialogCount == selectedQuest.questData.conversationText.Length)
                 {
                     nextButton.SetActive(false);
                     acceptButton.SetActive(true);
                 }
                 break;
             case Enum_QuestProgress.Ongoing:
-                mainText.text = "아직인가요?";
+                mainText.text = selectedQuest.questData.ongoingText;
                 nextButton.SetActive(false);
                 break;
             case Enum_QuestProgress.CanComplete:
-                mainText.text = selectedQuest.questData.congratulation[dialogCount++];
-                if (dialogCount == selectedQuest.questData.congratulation.Length)
+                mainText.text = selectedQuest.questData.completeText[dialogCount++];
+                if (dialogCount == selectedQuest.questData.completeText.Length)
                 {
                     nextButton.SetActive(false);
-                    acceptButton.SetActive(true);
+                    GameManager.UI.OpenPopup(GameManager.UI.QuestComplete);
                 }
                 break;
             default:
+#if UNITY_EDITOR
+                Debug.Assert(false);
+#endif
                 break;
         }
     }
