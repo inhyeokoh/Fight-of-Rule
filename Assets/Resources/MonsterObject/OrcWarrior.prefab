@@ -1476,7 +1476,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -145594051209164800, guid: e7f9fdddb61d33349816128cd729425e, type: 3}
+  m_Mesh: {fileID: -145594051209164800, guid: 6edb5536ca8724a43a11ae5086f26b40, type: 3}
   m_Bones:
   - {fileID: 3599184763494051349}
   - {fileID: 3862442159265668486}
@@ -3384,7 +3384,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8568482129018721339}
   m_Enabled: 1
-  m_Avatar: {fileID: 9000000, guid: e7f9fdddb61d33349816128cd729425e, type: 3}
+  m_Avatar: {fileID: 9000000, guid: 6edb5536ca8724a43a11ae5086f26b40, type: 3}
   m_Controller: {fileID: 9100000, guid: 2a397578d0569c64882fd29ba93a39ef, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
@@ -3468,13 +3468,9 @@ MonoBehaviour:
     monster_speed: 0
     monster_detectdistance: 0
     monster_attackdistance: 0
-    monster_stateitem: 
-    moinster_etcitem: 
-    monster_mingold: 0
-    monster_maxgold: 0
   monsterItemDropDB:
     monster_id: 0
-    monster_itemdrop: []
+    monster_itemdrop: 
     monster_itempercent: []
     monster_mingold: 0
     monster_maxgold: 0
@@ -3530,9 +3526,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minGold: 0
   maxGold: 0
-  ItemName: []
+  ItemID: 
   items: []
-  itemObject: []
+  getItems: []
 --- !u!114 &9052954012294434449
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3585,6 +3581,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 0
+  exp: 0
 --- !u!195 &6530393427523975275
 NavMeshAgent:
   m_ObjectHideFlags: 0

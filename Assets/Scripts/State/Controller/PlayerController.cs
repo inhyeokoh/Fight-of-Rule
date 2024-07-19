@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -62,7 +63,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+
+#if SERVER || DEBUG_MODE || CLIENT_TEST_TITLE
+        _class = (Enum_Class)GameManager.Data.CurrentCharacter.BaseInfo.CharacterClass;
+#elif CLIENT_TEST_PROPIM || CLIENT_TEST_HYEOK
         _class = Enum_Class.Wizard;
+#endif
 
         if (instance == null)
         {
