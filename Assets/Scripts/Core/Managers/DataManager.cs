@@ -24,26 +24,26 @@ public class DataManager : SubClass<GameManager>
     public List<ItemData> dropTestItems;
     public List<Vector3> dropTestItemsPos;
     // 어딘가엔 들고 있어야함
-    /*    public long CharId { get; set; }
-        string charName;
-        public string CharName
-        {
-            get { return charName; }
-            set { charName = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
-        }
-        int job;
-        public int Job
-        {
-            get { return job; }
-            set { job = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
-        }
-        bool gender;
-        public bool Gender
-        {
-            get { return gender; }
-            set { gender = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
-        }
-        Vector3 pos;*/
+    public long CharId { get; set; }
+    string _nickName;
+    public string NickName
+    {
+        get { return _nickName; }
+        set { _nickName = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+    }
+/*    int job;
+    public int Job
+    {
+        get { return job; }
+        set { job = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+    }
+    bool gender;
+    public bool Gender
+    {
+        get { return gender; }
+        set { gender = value; GameManager.UI.PlayerInfo.UpdateStatus(); }
+    }
+    Vector3 pos;*/
 
     /// <summary>
     /// 아이템 데이터
@@ -149,6 +149,7 @@ public class DataManager : SubClass<GameManager>
         volOptions.EffectVol = 0.5f;
         volOptions.VoiceVol = 0.5f;
 #endif
+        _nickName = $"{CurrentCharacter.BaseInfo.Nickname.ToString(System.Text.Encoding.Unicode)}";
     }
 
     void DBDataLoad()

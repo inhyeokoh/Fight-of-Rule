@@ -46,10 +46,20 @@ public class UI_InventoryItemSlot : UI_ItemSlot
             {
                 if (CheckSlotDrop(data)) // 플레이어 정보창 장비 슬롯에 드롭한 경우
                 {
-                    _otherIndex = data.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<UI_EquipItemSlot>().Index;
-                    GameManager.Inven.InvenToEquipSlot(Index, _otherIndex);
+                    Transform parentTr = data.pointerCurrentRaycast.gameObject.transform.parent;
+                    if (parentTr.GetComponent<UI_EquipItemSlot>() != null)
+                    {
+                        _otherIndex = parentTr.GetComponent<UI_EquipItemSlot>().Index;
+                        GameManager.Inven.InvenToEquipSlot(Index, _otherIndex);
+                    }
+                    else if (parentTr.GetComponent<UI_TradeItemSlot>() != null)
+                    {
+                        _otherIndex = parentTr.GetComponent<UI_TradeItemSlot>().Index;
+                        GameManager.Inven.InvenToTradeSlot(Index, _otherIndex);
+
+                    }
                 }
-                else
+                else // 필드에 버리는 경우
                 {
                     if (_invenItems[Index].count == 1)
                     {
@@ -124,10 +134,5 @@ public class UI_InventoryItemSlot : UI_ItemSlot
     {
         _invenItems = GameManager.Inven.items;
         return _invenItems[Index];
-    }
-
-    protected override bool CheckItemNull()
-    {
-        return GameManager.Inven.items[Index] == null;
     }
 }

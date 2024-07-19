@@ -7,20 +7,8 @@ using UnityEngine.UI;
 
 public class UI_PersonalTrade : UI_Entity
 {
-    public List<ItemData> tradeItems;
-
-    Vector2 _descrUISize;
-    TMP_Text goldText;
-    public Rect panelRect;
-
-    #region 아이템 드래그 이미지, 설명 패널
-    public Image dragImg;
-    public GameObject descrPanel;
-    public TMP_Text descrPanelItemNameText;
-    public Image descrPanelItemImage;
-    public TMP_Text descrPanelDescrText;
-    public int? highlightedSlotIndex = null;
-    #endregion
+    public UI_TradeContents othersTradeContents;
+    public UI_TradeContents myTradeContents;
 
     #region 개인거래 UI 드래그
     Vector2 _UIPos;
@@ -28,13 +16,14 @@ public class UI_PersonalTrade : UI_Entity
     Vector2 _offset;
     #endregion
 
+    public string tradePartnerName;
+
     enum Enum_UI_PersonalTrade
     {
         Panel,
         Interact,
         Trade,
-        Others,
-        Mine,
+        TradeContents,
         Tip,
         Close
     }
@@ -52,13 +41,17 @@ public class UI_PersonalTrade : UI_Entity
     public override void PopupOnDisable()
     {
         GameManager.UI.BlockPlayerActions(UIManager.Enum_ControlInputAction.BlockPlayerInput, false);
+
+        othersTradeContents.ResetContents();
+        myTradeContents.ResetContents();
     }
 
     protected override void Init()
     {
         base.Init();
         #region 초기설정 및 캐싱
-        
+        myTradeContents = _entities[(int)Enum_UI_PersonalTrade.TradeContents].transform.GetChild(0).GetComponent<UI_TradeContents>();
+        othersTradeContents = _entities[(int)Enum_UI_PersonalTrade.TradeContents].transform.GetChild(0).GetComponent<UI_TradeContents>();
         #endregion
 
         // 개인 거래창 드래그
@@ -78,11 +71,9 @@ public class UI_PersonalTrade : UI_Entity
             // TODO tradeItems, gold 패킷 만들어서 서버로 전달
         };
 
-        _entities[(int)Enum_UI_PersonalTrade.Close].DragAction = (PointerEventData data) =>
+        _entities[(int)Enum_UI_PersonalTrade.Close].ClickAction = (PointerEventData data) =>
         {
             GameManager.UI.ClosePopup(this);
         };
-
-        gameObject.SetActive(false);
     }
 }

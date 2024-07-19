@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -66,7 +65,7 @@ public class UI_EquipItemSlot : UI_ItemSlot
 
             highlightImg.color = new Color(highlightImg.color.r, highlightImg.color.g, highlightImg.color.b, 0.4f);
             _playerInfo.highlightedSlot = this;
-
+            GameManager.UI.itemToolTip.ShowItemInfo(item);
         };
 
         // 커서가 나갔을때 아이템 설명 내리기 + 하이라이트 효과 끄기
@@ -84,7 +83,7 @@ public class UI_EquipItemSlot : UI_ItemSlot
         {
             if (CheckItemNull()) return;
 
-            if (data.button == PointerEventData.InputButton.Right && GameManager.Inven.equips[Index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
+            if (data.button == PointerEventData.InputButton.Right && GameManager.Inven.equipItems[Index].itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
             {
                 GameManager.Inven.UnEquipItem(Index);
             }
@@ -93,12 +92,7 @@ public class UI_EquipItemSlot : UI_ItemSlot
 
     protected override ItemData GetItem()
     {
-        _equipItems = GameManager.Inven.equips;
+        _equipItems = GameManager.Inven.equipItems;
         return _equipItems[Index];
-    }
-
-    protected override bool CheckItemNull()
-    {
-        return GameManager.Inven.equips[Index] == null;
     }
 }

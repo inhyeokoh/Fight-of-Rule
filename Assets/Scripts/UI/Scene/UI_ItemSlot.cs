@@ -37,32 +37,6 @@ public abstract class UI_ItemSlot : UI_Entity
         highlightImg = _entities[(int)Enum_UI_ItemSlot.HighlightImg].GetComponent<Image>();
         _amountText = _iconImg.transform.GetChild(0).gameObject;
         ItemRender();               
-
-        // 아이템 우클릭 (장비 장착, 아이템 판매)
-        _entities[(int)Enum_UI_ItemSlot.IconImg].ClickAction = (PointerEventData data) =>
-        {
-            if (CheckItemNull()) return;
-
-            if (data.button == PointerEventData.InputButton.Right)
-            {
-                if (GameManager.UI.Shop.gameObject.activeSelf) // 상점 진입한 상태에서 우클릭한 경우, 아이템을 상점 판매탭 물품으로 이동
-                {
-                    GameManager.UI.Shop.panel_U_Buttons[1].isOn = true; // 판매탭 활성화
-                    GameManager.Inven.InvenToShop(Index);
-                }
-                else
-                {
-                    if (item.itemType == Enum_ItemType.Equipment) // 장비에 우클릭 한 경우
-                    {
-                        GameManager.Inven.EquipItem(Index);
-                    }
-                    else if (item.itemType == Enum_ItemType.Consumption)
-                    {
-                        GameManager.Inven.ConsumeItem(Index);
-                    }
-                }
-            }
-        };
     }
 
     protected abstract ItemData GetItem();
@@ -107,7 +81,10 @@ public abstract class UI_ItemSlot : UI_Entity
         _iconImg.color = new Color32(50, 50, 50, 255);
     }
 
-    protected abstract bool CheckItemNull();
+    protected bool CheckItemNull()
+    {
+        return item == null;
+    }
 
     /// <summary>
     /// 드래그 이후 드롭 시, 슬롯에 벗어나지 않았는지 확인
